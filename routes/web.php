@@ -51,6 +51,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\UpdateUserLanguageController;
 use App\Http\Middleware\ResolveDomainContext;
 use App\Http\Middleware\SetActiveAcademicPeriod;
 use App\Http\Middleware\SetActiveSchool;
@@ -96,6 +97,8 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/invitations/{token}', ['App\Http\Controllers\AccountInvitationController', 'show'])->name('invitations.show');
     Route::post('/invitations/{token}', ['App\Http\Controllers\AccountInvitationController', 'accept'])->name('invitations.accept');
 });
+
+Route::middleware('auth')->post('user/language', UpdateUserLanguageController::class)->name('user.language.update');
 
 Route::middleware('auth', 'verified', 'App\Http\Middleware\EnsureAccountIsActive', 'App\Http\Middleware\EnsurePasswordChange', 'App\Http\Middleware\PreventGraduatedStudent')->prefix('dashboard')->namespace('App\Http\Controllers')->group(function () {
     // Families use portal authorization, not a staff working-school membership.

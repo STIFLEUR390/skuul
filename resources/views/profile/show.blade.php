@@ -13,6 +13,24 @@
             @livewire('profile.update-profile-information-form')
         @endif
 
+        <x-partials.action-section>
+            <x-slot name="title">{{ __('Language') }}</x-slot>
+            <x-slot name="description">{{ __('Choose the language this account reads the interface in. It applies to you only.') }}</x-slot>
+            <x-slot name="content">
+                <form method="POST" action="{{ route('user.language.update') }}" class="flex flex-col gap-3 sm:flex-row sm:items-end">
+                    @csrf
+                    <label for="locale" class="sr-only">{{ __('Language') }}</label>
+                    <select id="locale" name="locale" class="h-11 w-full rounded-md border border-input bg-background px-3 text-sm sm:max-w-xs">
+                        @foreach (config('app.supported_locales', []) as $localeCode => $localeName)
+                            <option value="{{ $localeCode }}" @selected((auth()->user()->locale ?? config('app.locale')) === $localeCode)>{{ $localeName }}</option>
+                        @endforeach
+                    </select>
+                    <april:button type="submit" class="h-11 select-none">{{ __('Save') }}</april:button>
+                </form>
+                <x-field-error name="locale" class="mt-1" />
+            </x-slot>
+        </x-partials.action-section>
+
         @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
             <div id="update-password">
                 @livewire('profile.update-password-form')

@@ -21,10 +21,16 @@ class SetApplicationLocale
         $locale = (string) config('app.locale');
 
         try {
-            $installedLocale = Installation::withoutGlobalScopes()->value('locale');
+            $userLocale = $request->user()?->locale;
 
-            if (is_string($installedLocale) && $installedLocale !== '') {
-                $locale = $installedLocale;
+            if (is_string($userLocale) && $userLocale !== '') {
+                $locale = $userLocale;
+            } else {
+                $installedLocale = Installation::withoutGlobalScopes()->value('locale');
+
+                if (is_string($installedLocale) && $installedLocale !== '') {
+                    $locale = $installedLocale;
+                }
             }
         } catch (Throwable) {
             // The installer must still render before the application schema exists.
