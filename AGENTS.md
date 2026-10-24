@@ -189,3 +189,28 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - To filter on a particular test name: `vendor/bin/sail artisan test --compact --filter=testName` (recommended after making a change to a related file).
 
 </laravel-boost-guidelines>
+
+<!-- Sections ci-dessous maintenues à la main, hors périmètre des guidelines Boost. -->
+
+=== i18n / traduction (Lingo.dev) ===
+
+# Traduction des chaînes
+
+- Toute chaîne d'interface passe par `__('English sentence')` : clé et valeur sont le texte anglais, pas une clé technique (`__('auth.login')`).
+- Le catalogue source est `lang/en.json`. Une chaîne ajoutée dans le code doit y être ajoutée aussi, sinon elle n'est jamais traduite : le CLI ne lit que les fichiers de langue.
+- Ne jamais mettre dans `lang/en.json` de clé contenant `$`, `{{` ou `}}` (interpolation Blade : la clé réelle change à l'exécution), et ne jamais concaténer du texte dans `__()`.
+- Traduire avec le CLI local en mode BYOK, jamais avec le `lingo` global (1.18+, qui délègue à un moteur hébergé et ignore le proxy) :
+
+```bash
+OPENAI_API_KEY=dummy bunx lingo.dev@0.138.10 i18n --no-interactive
+```
+
+- Configuration dans `i18n.json` : source `en`, cible `fr`, bucket `json` sur `lang/[locale].json`, provider `openai` avec `baseUrl` `http://localhost:10100/v1` et modèle `opencode-go/deepseek-v4.1-flash`. `i18n.lock` et les `lang/<locale>.json` se committent.
+- Ajouter une langue : `locale.targets` dans `i18n.json` + `supported_locales` dans `config/app.php`, puis relancer la commande.
+- Pièges complets (commandes, schéma, réécriture de `i18n.json`) : `.ai-memory/i18n.md`.
+
+=== environnement local ===
+
+# Cette machine
+
+- Artisan, composer et les tests passent par lerd : `lerd artisan migrate`, `lerd artisan test --compact tests/Feature/XxxTest.php`. Les commandes Sail des sections ci-dessus restent valables pour un environnement Docker classique, mais `phpunit.xml` et `.env.testing` de ce dépôt pointent sur `lerd-mysql` (base `testing`).
