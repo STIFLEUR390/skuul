@@ -154,6 +154,6 @@ class InstallationController extends Controller
 
         return redirect()
             ->route('login')
-            ->with('success', 'Skuul is installed. Sign in with the System Administrator account.');
+            ->with('success', 'Kola is installed. Sign in with the System Administrator account.');
     }
 }

@@ -49,6 +49,7 @@ class CreateCourseOffering
         ?int $plannedPeriodsPerWeek = null,
         ?int $capacity = null,
         ?User $actor = null,
+        float $coefficient = 1.0,
     ): CourseOffering {
         $academicCycleSectionIds = array_values(array_unique(array_map('intval', $academicCycleSectionIds)));
         $studentRecordIds = array_values(array_unique(array_map('intval', $studentRecordIds)));
@@ -68,7 +69,7 @@ class CreateCourseOffering
 
         $this->failIfRecordsDoNotFit($subject, $academicYear, $academicPeriod, $academicLevel, $rosterMode, $cycleSections, $academicCycleSectionIds, $studentRecords, $studentRecordIds);
 
-        return DB::transaction(function () use ($subject, $academicYear, $academicPeriod, $academicLevel, $rosterMode, $cycleSections, $studentRecords, $plannedPeriodsPerWeek, $capacity, $actor): CourseOffering {
+        return DB::transaction(function () use ($subject, $academicYear, $academicPeriod, $academicLevel, $rosterMode, $cycleSections, $studentRecords, $plannedPeriodsPerWeek, $capacity, $actor, $coefficient): CourseOffering {
             $courseOffering = CourseOffering::create([
                 'school_id' => $subject->school_id,
                 'academic_year_id' => $academicYear->id,
@@ -78,6 +79,7 @@ class CreateCourseOffering
                 'roster_mode' => $rosterMode,
                 'planned_periods_per_week' => $plannedPeriodsPerWeek,
                 'capacity' => $capacity,
+                'coefficient' => $coefficient,
             ]);
 
             $courseOffering->cycleSections()->sync($cycleSections->modelKeys());
@@ -121,6 +123,7 @@ class CreateCourseOffering
         ?int $plannedPeriodsPerWeek = null,
         ?int $capacity = null,
         ?User $actor = null,
+        float $coefficient = 1.0,
     ): Collection {
         $periods = $academicYear->topLevelPeriods()
             ->ordered()
@@ -132,7 +135,7 @@ class CreateCourseOffering
             throw new InvalidValueException('Add at least one term or semester to the academic year before creating this subject.');
         }
 
-        return DB::transaction(function () use ($subject, $academicYear, $academicLevel, $periods, $academicCycleSectionIds, $rosterMode, $studentRecordIds, $plannedPeriodsPerWeek, $capacity, $actor): Collection {
+        return DB::transaction(function () use ($subject, $academicYear, $academicLevel, $periods, $academicCycleSectionIds, $rosterMode, $studentRecordIds, $plannedPeriodsPerWeek, $capacity, $actor, $coefficient): Collection {
             return $periods->map(fn (AcademicPeriod $period): CourseOffering => $this->create(
                 $subject,
                 $academicYear,
@@ -144,6 +147,7 @@ class CreateCourseOffering
                 $plannedPeriodsPerWeek,
                 $capacity,
                 $actor,
+                $coefficient,
             ))->values();
         });
     }

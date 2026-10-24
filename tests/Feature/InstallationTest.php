@@ -67,7 +67,7 @@ class InstallationTest extends TestCase
 
         $response = $this->get(route('install.index'))
             ->assertOk()
-            ->assertSee('Install Skuul')
+            ->assertSee('Install Kola')
             ->assertSee('System Administrator')
             ->assertSee('Email is optional')
             ->assertDontSee('id="campus_address_line_2"', false)

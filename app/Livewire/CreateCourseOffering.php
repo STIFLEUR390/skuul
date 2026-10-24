@@ -49,6 +49,8 @@ class CreateCourseOffering extends Component
 
     public ?int $capacity = null;
 
+    public ?float $coefficient = 1.0;
+
     public bool $setup = false;
 
     public function mount(?int $academicYearId = null, bool $setup = false): void
@@ -97,6 +99,7 @@ class CreateCourseOffering extends Component
             'subjectId' => ['required', 'integer', Rule::exists('subjects', 'id')->where('school_id', current_school_id())],
             'plannedPeriodsPerWeek' => ['nullable', 'integer', 'min:1', 'max:80'],
             'capacity' => ['nullable', 'integer', 'min:1', 'max:5000'],
+            'coefficient' => ['required', 'numeric', 'min:0.5', 'max:20'],
         ], [
             'academicCycleSectionIds.required' => 'Choose at least one '.strtolower(school_term('section', 'section')).'.',
             'studentRecordIds.required' => 'Choose at least one learner.',
@@ -111,11 +114,11 @@ class CreateCourseOffering extends Component
 
         try {
             if ($rosterMode === RosterMode::HomeSection && count($sectionIds) > 1) {
-                $created = $createCourseOfferingsForSections->create($subject, $academicYear, $this->academicPeriodId, $academicLevel, $sectionIds, $this->plannedPeriodsPerWeek, $this->capacity, auth()->user())->count();
+                $created = $createCourseOfferingsForSections->create($subject, $academicYear, $this->academicPeriodId, $academicLevel, $sectionIds, $this->plannedPeriodsPerWeek, $this->capacity, auth()->user(), (float) $this->coefficient)->count();
             } elseif ($this->academicPeriodId === 'all') {
-                $created = $createCourseOffering->createForAcademicYear($subject, $academicYear, $academicLevel, $sectionIds, $rosterMode, $learnerIds, $this->plannedPeriodsPerWeek, $this->capacity, auth()->user())->count();
+                $created = $createCourseOffering->createForAcademicYear($subject, $academicYear, $academicLevel, $sectionIds, $rosterMode, $learnerIds, $this->plannedPeriodsPerWeek, $this->capacity, auth()->user(), (float) $this->coefficient)->count();
             } else {
-                $createCourseOffering->create($subject, $academicYear, AcademicPeriod::inSchool()->findOrFail((int) $this->academicPeriodId), $academicLevel, $sectionIds, $rosterMode, $learnerIds, $this->plannedPeriodsPerWeek, $this->capacity, auth()->user());
+                $createCourseOffering->create($subject, $academicYear, AcademicPeriod::inSchool()->findOrFail((int) $this->academicPeriodId), $academicLevel, $sectionIds, $rosterMode, $learnerIds, $this->plannedPeriodsPerWeek, $this->capacity, auth()->user(), (float) $this->coefficient);
                 $created = 1;
             }
         } catch (InvalidValueException $exception) {

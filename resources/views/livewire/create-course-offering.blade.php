@@ -134,6 +134,11 @@
                 <input type="number" id="capacity" wire:model="capacity" min="1" max="5000" placeholder="{{ __('No limit') }}" class="{{ $controlClasses }}" {{ field_error_bindings('capacity') }}>
                 <x-field-error name="capacity" />
             </div>
+            <div class="flex flex-col gap-2">
+                <label for="coefficient" class="text-sm font-medium">{{ __('Coefficient') }}</label>
+                <input type="number" id="coefficient" wire:model="coefficient" min="0.5" max="20" step="0.5" class="{{ $controlClasses }}" {{ field_error_bindings('coefficient') }}>
+                <x-field-error name="coefficient" />
+            </div>
         </div>
 
         <div class="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">

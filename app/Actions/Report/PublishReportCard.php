@@ -80,8 +80,14 @@ class PublishReportCard
     /** @param Collection<int, ResultSnapshot> $results @return array<string, mixed> */
     private function payload(StudentRecord $studentRecord, AcademicPeriod $academicPeriod, Collection $results): array
     {
-        $percentages = $results->pluck('percentage')->filter(fn (?float $percentage): bool => $percentage !== null);
+        // A subject counts by its coefficient, the way the report card prints it.
+        $reported = $results->filter(fn (ResultSnapshot $result): bool => $result->percentage !== null);
+        $coefficientOf = fn (ResultSnapshot $result): float => max((float) $result->courseOffering->coefficient, 0.0);
+        $totalCoefficients = round($reported->sum($coefficientOf), 2);
+        $average = $totalCoefficients > 0
+            ? round($reported->sum(fn (ResultSnapshot $result): float => $result->percentage * $coefficientOf($result)) / $totalCoefficients, 2)
+            : null;
 
-        return ['student' => ['id' => $studentRecord->id, 'admission_number' => $studentRecord->admission_number], 'academic_period' => ['id' => $academicPeriod->id, 'name' => $academicPeriod->label ?? $academicPeriod->name], 'results' => $results->map(fn (ResultSnapshot $result): array => ['course_offering_id' => $result->course_offering_id, 'source_result_snapshot_id' => $result->id, 'source_revision' => $result->revision, 'subject' => ['name' => $result->courseOffering->subject->name, 'short_name' => $result->courseOffering->subject->short_name], 'percentage' => $result->percentage, 'result' => $result->payload])->all(), 'summary' => ['subjects_reported' => $results->count(), 'average_percentage' => $percentages->isEmpty() ? null : round((float) $percentages->avg(), 2)]];
+        return ['student' => ['id' => $studentRecord->id, 'admission_number' => $studentRecord->admission_number], 'academic_period' => ['id' => $academicPeriod->id, 'name' => $academicPeriod->label ?? $academicPeriod->name], 'results' => $results->map(fn (ResultSnapshot $result): array => ['course_offering_id' => $result->course_offering_id, 'source_result_snapshot_id' => $result->id, 'source_revision' => $result->revision, 'subject' => ['name' => $result->courseOffering->subject->name, 'short_name' => $result->courseOffering->subject->short_name], 'percentage' => $result->percentage, 'coefficient' => $coefficientOf($result), 'out_of_20' => $result->percentage === null ? null : round($result->percentage / 5, 2), 'result' => $result->payload])->all(), 'summary' => ['subjects_reported' => $results->count(), 'total_coefficients' => $totalCoefficients, 'average_percentage' => $average, 'average_out_of_20' => $average === null ? null : round($average / 5, 2)]];
     }
 }

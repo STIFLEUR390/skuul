@@ -25,7 +25,7 @@ class DemoSchool
     /** A sister campus, so moves and record sharing have somewhere to go. */
     public School $sisterCampus;
 
-    /** The district administrator who installed Skuul. */
+    /** The district administrator who installed Kola. */
     public User $platformAdmin;
 
     /** The principal, who runs the main campus. */

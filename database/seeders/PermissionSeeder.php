@@ -50,6 +50,8 @@ class PermissionSeeder extends Seeder
         'create expense',
         'read cash deposit',
         'create cash deposit',
+        'read cash session',
+        'manage cash session',
         'read budget',
         'read financial period',
     ];
@@ -718,6 +720,14 @@ class PermissionSeeder extends Seeder
             'name' => 'create cash deposit',
         ]);
 
+        Permission::firstOrCreate([
+            'name' => 'read cash session',
+        ]);
+
+        Permission::firstOrCreate([
+            'name' => 'manage cash session',
+        ]);
+
         // header permissions (for controlling the menu headers)
         Permission::firstOrCreate([
             'name' => 'header-administrate',
@@ -946,6 +956,8 @@ class PermissionSeeder extends Seeder
             'manage financial period',
             'read cash deposit',
             'create cash deposit',
+            'read cash session',
+            'manage cash session',
             'read budget',
             'manage budget',
             'read boarding',

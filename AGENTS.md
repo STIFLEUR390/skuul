@@ -1,3 +1,22 @@
+# Comment travailler dans ce dépôt
+
+Le bloc Boost ci-dessous est généré et parle de Sail : sur cette machine Sail n'est pas utilisé, les commandes `vendor/bin/sail ...` y sont périmées (y compris dans `.ai/rules`). Ce qui marche vraiment :
+
+```bash
+lerd artisan test --compact tests/Feature/XxxTest.php   # PHPUnit, pas Pest
+lerd artisan migrate / lerd composer require ... / lerd tinker
+vendor/bin/pint --dirty --format agent                  # style, avant de conclure
+vendor/bin/phpstan analyse --memory-limit=2G --no-progress
+```
+
+- Un fichier de `tests/Feature` met **2 à 4 minutes** (schéma complet + `RefreshDatabase`). Regrouper plusieurs fichiers dans un seul `lerd artisan test --compact a.php b.php` plutôt que de relancer par édition.
+- Avant d'écrire : `.ai-memory/index.md` (pièges du projet), puis `.ai/rules/index.md` et les règles dont les globs couvrent le chemin visé. Elles sont plus précises que ce fichier.
+- Montants : `App\Casts\Money` stocke des **entiers en unité mineure** (Brick), devise `XAF`, affichage par `money_text()`. Ne jamais traiter une colonne montant comme un float, ni formater à la main.
+- `StudentPayment` et `CashDeposit` sont append-only (`booted()` lève une exception sur update/delete) : on corrige par contre-écriture (`ReversePayment`), jamais par modification.
+- Toute nouvelle permission exige **une migration** en plus du seeder (voir `.ai/rules/migrations.md`) ; `PermissionSeeder` la déclare à trois endroits (liste, `firstOrCreate`, attribution aux rôles).
+- Architecture : la logique métier vit dans `app/Actions/**` (transactionnelle), les écrans sont des composants **Livewire 4** + vues Blade avec les composants `april:*`, pas d'API-first. Le multi-tenant est porté par `school_id`, le trait `App\Traits\InSchool` et `current_school_id()`.
+- Traduction : toute chaîne d'interface passe par `__('English sentence')` et `lang/en.json` (section i18n en fin de fichier), jamais une clé technique.
+
 <laravel-boost-guidelines>
 === foundation rules ===
 

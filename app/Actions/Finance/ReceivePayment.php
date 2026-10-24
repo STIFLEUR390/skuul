@@ -5,7 +5,9 @@ namespace App\Actions\Finance;
 use App\Actions\Audit\RecordAuditEvent;
 use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
+use App\Models\CashSession;
 use App\Models\PaymentAllocation;
+use App\Models\School;
 use App\Models\StudentPayment;
 use App\Models\StudentRecord;
 use App\Models\User;
@@ -102,6 +104,8 @@ class ReceivePayment
                 'school_id' => $schoolId,
                 'student_record_id' => $enrollment->id,
                 'financial_period_id' => $transaction->financial_period_id,
+                'cash_session_id' => $method === 'cash' ? $this->openCashSessionId($schoolId, $actor) : null,
+                'receipt_number' => $this->nextReceiptNumber($schoolId),
                 'amount' => BrickMoney::ofMinor($amount, config('app.currency')),
                 'method' => $method,
                 'reference' => $reference,
@@ -189,5 +193,38 @@ class ReceivePayment
         if ($recorded !== null) {
             throw new InvalidValueException("A payment with reference {$recorded->reference} was already recorded on {$recorded->received_on->translatedFormat('j M Y')}. Reverse that one first if it was wrong.");
         }
+    }
+
+    /**
+     * Number the receipt of the payment, in sequence for the school.
+     *
+     * The school row is locked, so two cashiers taking money at the same
+     * moment cannot print the same receipt number.
+     */
+    private function nextReceiptNumber(int $schoolId): int
+    {
+        School::query()->whereKey($schoolId)->lockForUpdate()->first();
+
+        return (int) StudentPayment::query()
+            ->where('school_id', $schoolId)
+            ->max('receipt_number') + 1;
+    }
+
+    /**
+     * The till of the cashier taking the money, when it is open.
+     */
+    private function openCashSessionId(int $schoolId, ?User $actor): ?int
+    {
+        $cashierId = $actor?->getKey() ?? auth()->id();
+
+        if ($cashierId === null) {
+            return null;
+        }
+
+        return CashSession::query()
+            ->where('school_id', $schoolId)
+            ->where('opened_by', $cashierId)
+            ->whereNull('closed_at')
+            ->value('id');
     }
 }

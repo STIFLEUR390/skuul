@@ -107,7 +107,7 @@ class SchoolSetupChecklist
             $this->item(
                 key: 'instructional_model',
                 title: 'Teaching approach',
-                description: 'Tell Skuul whether learners stay together or move between subject classes.',
+                description: 'Tell Kola whether learners stay together or move between subject classes.',
                 reason: $academicYear === null
                     ? 'Choose a current school year first, then select the teaching approach for it.'
                     : ($teachingApproachSettled ? '' : 'No teaching approach has been chosen for the current school year.'),

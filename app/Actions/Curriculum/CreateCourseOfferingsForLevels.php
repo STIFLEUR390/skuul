@@ -44,6 +44,7 @@ class CreateCourseOfferingsForLevels
                     : [];
                 $plannedPeriodsPerWeek = $configuration['planned_periods_per_week'] ?? null;
                 $capacity = $configuration['capacity'] ?? null;
+                $coefficient = (float) ($configuration['coefficient'] ?? 1.0);
 
                 if ($academicPeriodId === 'all') {
                     if ($rosterMode === RosterMode::HomeSection && count($sectionIds) > 1) {
@@ -56,6 +57,7 @@ class CreateCourseOfferingsForLevels
                             $plannedPeriodsPerWeek,
                             $capacity,
                             $actor,
+                            $coefficient,
                         ));
 
                         continue;
@@ -71,6 +73,7 @@ class CreateCourseOfferingsForLevels
                         $plannedPeriodsPerWeek,
                         $capacity,
                         $actor,
+                        $coefficient,
                     ));
 
                     continue;
@@ -86,6 +89,7 @@ class CreateCourseOfferingsForLevels
                         $plannedPeriodsPerWeek,
                         $capacity,
                         $actor,
+                        $coefficient,
                     ));
 
                     continue;
@@ -102,6 +106,7 @@ class CreateCourseOfferingsForLevels
                     $plannedPeriodsPerWeek,
                     $capacity,
                     $actor,
+                    $coefficient,
                 ));
             }
 

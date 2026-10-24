@@ -28,6 +28,11 @@ enum AcademicPeriodType: string
     case Quarter = 'quarter';
 
     /**
+     * A sequence. Two of them make a Cameroonian trimester.
+     */
+    case Sequence = 'sequence';
+
+    /**
      * A stretch of days set aside for examinations.
      */
     case ExamWindow = 'exam_window';
@@ -54,6 +59,7 @@ enum AcademicPeriodType: string
             self::Semester => 'Semester',
             self::Trimester => 'Trimester',
             self::Quarter => 'Quarter',
+            self::Sequence => 'Sequence',
             self::ExamWindow => 'Exam window',
             self::Holiday => 'Holiday',
             self::ReportingPeriod => 'Reporting period',
@@ -95,7 +101,7 @@ enum AcademicPeriodType: string
      */
     public static function subPeriodTypes(): array
     {
-        return [self::ExamWindow, self::Holiday, self::ReportingPeriod];
+        return [self::Sequence, self::ExamWindow, self::Holiday, self::ReportingPeriod];
     }
 
     /**

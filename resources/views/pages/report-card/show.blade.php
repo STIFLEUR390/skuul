@@ -16,6 +16,7 @@
 
 @php
     $results = $reportCardSnapshot->payload['results'] ?? [];
+    $summary = $reportCardSnapshot->payload['summary'] ?? [];
     $latestRevision = $revisions->max('revision');
     $isSuperseded = $reportCardSnapshot->revision < $latestRevision;
 @endphp
@@ -40,9 +41,9 @@
                     <div class="rounded-lg border p-4">
                         <dt class="text-sm text-muted-foreground">{{ __('Overall') }}</dt>
                         <dd class="text-2xl font-semibold">
-                            {{ $reportCardSnapshot->average_percentage === null ? '—' : \Illuminate\Support\Number::format($reportCardSnapshot->average_percentage, 2).'%' }}
+                            {{ $summary['average_out_of_20'] === null ? '—' : \Illuminate\Support\Number::format($summary['average_out_of_20'], 2).'/20' }}
                         </dd>
-                        <p class="mt-1 text-xs text-muted-foreground">{{ __('Average across the subjects below') }}</p>
+                        <p class="mt-1 text-xs text-muted-foreground">{{ __('Weighted by coefficient across the subjects below') }}</p>
                     </div>
                     <div class="rounded-lg border p-4">
                         <dt class="text-sm text-muted-foreground">{{ school_term('period', 'Period') }}</dt>
@@ -82,7 +83,8 @@
                         <slot:header>
                             <april:data-table-row>
                                 <april:data-table-head>{{ __('Subject') }}</april:data-table-head>
-                                <april:data-table-head>{{ __('Result') }}</april:data-table-head>
+                                <april:data-table-head>{{ __('Coefficient') }}</april:data-table-head>
+                                <april:data-table-head>{{ __('Mark /20') }}</april:data-table-head>
                                 <april:data-table-head>{{ __('Source revision') }}</april:data-table-head>
                             </april:data-table-row>
                         </slot:header>
@@ -90,8 +92,9 @@
                             @foreach ($results as $result)
                                 <april:data-table-row>
                                     <april:data-table-cell class="font-medium">{{ $result['subject']['name'] }}</april:data-table-cell>
+                                    <april:data-table-cell class="text-muted-foreground">{{ \Illuminate\Support\Number::format($result['coefficient'] ?? 1, 2) }}</april:data-table-cell>
                                     <april:data-table-cell>
-                                        {{ $result['percentage'] === null ? '—' : \Illuminate\Support\Number::format($result['percentage'], 2).'%' }}
+                                        {{ ($result['out_of_20'] ?? null) === null ? '—' : \Illuminate\Support\Number::format($result['out_of_20'], 2) }}
                                     </april:data-table-cell>
                                     <april:data-table-cell class="text-muted-foreground">Revision {{ $result['source_revision'] }}</april:data-table-cell>
                                 </april:data-table-row>
@@ -128,7 +131,7 @@
                             </div>
                             <div class="flex items-center gap-3">
                                 <span class="text-sm text-muted-foreground">
-                                    {{ $revision->average_percentage === null ? '—' : \Illuminate\Support\Number::format($revision->average_percentage, 2).'%' }}
+                                    {{ ($revision->payload['summary']['average_out_of_20'] ?? null) === null ? '—' : \Illuminate\Support\Number::format($revision->payload['summary']['average_out_of_20'], 2).'/20' }}
                                 </span>
                                 @unless ($revision->is($reportCardSnapshot))
                                     <april:button-link href="{{ route('report-cards.show', $revision) }}" variant="outline" size="sm" aria-label="Open revision {{ $revision->revision }}">{{ __('Open') }}</april:button-link>

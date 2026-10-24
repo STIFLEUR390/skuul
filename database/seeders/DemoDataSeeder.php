@@ -31,7 +31,7 @@ class DemoDataSeeder extends Seeder
     public function seedFor(School $school, User $admin): void
     {
         $notice = Notice::firstOrCreate(
-            ['school_id' => $school->id, 'title' => 'Welcome to Skuul'],
+            ['school_id' => $school->id, 'title' => 'Welcome to Kola'],
             [
                 'content' => 'This sample notice shows where school announcements will appear.',
                 'start_date' => now()->toDateString(),

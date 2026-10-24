@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset(config('app.favicon')) }}">
         <title>
-            @yield('title', config('app.name', 'Skuul'))
+            @yield('title', config('app.name', 'Kola'))
         </title>
 
         <x-partials.theme-script />

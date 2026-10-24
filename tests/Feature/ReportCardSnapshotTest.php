@@ -164,8 +164,30 @@ class ReportCardSnapshotTest extends TestCase
         return [$student, $period];
     }
 
-    private function offering(int $schoolId, int $academicYearId, int $academicPeriodId): CourseOffering
+    public function test_a_subject_counts_by_its_coefficient_on_the_report_card(): void
     {
-        return CourseOffering::factory()->create(['school_id' => $schoolId, 'academic_year_id' => $academicYearId, 'academic_period_id' => $academicPeriodId, 'academic_level_id' => AcademicLevel::factory()->create(['school_id' => $schoolId])->id, 'subject_id' => Subject::factory()->create(['school_id' => $schoolId])->id]);
+        $school = $this->workingSchool();
+        $actor = $this->memberOf($school);
+        $academicYear = AcademicYear::factory()->create(['school_id' => $school->id]);
+        $academicPeriod = AcademicPeriod::factory()->create(['school_id' => $school->id, 'academic_year_id' => $academicYear->id, 'status' => AcademicPeriodStatus::Closing]);
+        $student = StudentRecord::factory()->create(['school_id' => $school->id]);
+        $heavy = $this->offering($school->id, $academicYear->id, $academicPeriod->id, 4.0);
+        $light = $this->offering($school->id, $academicYear->id, $academicPeriod->id, 1.0);
+        ResultSnapshot::create(['school_id' => $school->id, 'student_record_id' => $student->id, 'course_offering_id' => $heavy->id, 'revision' => 1, 'percentage' => 50, 'payload' => ['percentage' => 50], 'published_at' => now()]);
+        ResultSnapshot::create(['school_id' => $school->id, 'student_record_id' => $student->id, 'course_offering_id' => $light->id, 'revision' => 1, 'percentage' => 100, 'payload' => ['percentage' => 100], 'published_at' => now()]);
+
+        $reportCard = app(PublishReportCard::class)->publish($student, $academicPeriod, $actor);
+
+        // (50 × 4 + 100 × 1) ÷ 5, printed the way a Cameroonian card prints it.
+        $this->assertSame(60.0, $reportCard->average_percentage);
+        $this->assertEquals(12.0, $reportCard->payload['summary']['average_out_of_20']);
+        $this->assertEquals(5.0, $reportCard->payload['summary']['total_coefficients']);
+        $this->assertEquals([4.0, 1.0], array_column($reportCard->payload['results'], 'coefficient'));
+        $this->assertEquals([10.0, 20.0], array_column($reportCard->payload['results'], 'out_of_20'));
+    }
+
+    private function offering(int $schoolId, int $academicYearId, int $academicPeriodId, float $coefficient = 1.0): CourseOffering
+    {
+        return CourseOffering::factory()->create(['school_id' => $schoolId, 'academic_year_id' => $academicYearId, 'academic_period_id' => $academicPeriodId, 'academic_level_id' => AcademicLevel::factory()->create(['school_id' => $schoolId])->id, 'subject_id' => Subject::factory()->create(['school_id' => $schoolId])->id, 'coefficient' => $coefficient]);
     }
 }

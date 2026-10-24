@@ -337,6 +337,10 @@ checksums:
     Case%20summary: cc30957a9efb32e88668dc64c16c0bff
     Cash%20deposit%20recorded.: 428bdbd7556333045a9fb15d9012efe4
     Cash%20deposits: dcfab70956ff4e7797315bb6c2d429e2
+    Cash%20received: af3a4b569437adc5200bda76e650fe41
+    Cash%20session: fcbd7332d882a9579ffa147a062733d1
+    Cash%20sessions: df8c8b1e0aa281e39471ed694ffef493
+    Cash%20taken: 125ce4870914d415ee370040b35038a6
     Catalogue: fc37cf1611d4e6fd0fd278e7418e3abc
     Categories: fd4e44f3b1b2bba9ca45f3aef963d042
     Category: 1b0340cd175aa5a2be745a0d54908466
@@ -439,6 +443,7 @@ checksums:
     Click%20a%20date%20to%20create%20a%20one-time%20slot%2C%20or%20use%20the%20button%20above%20for%20a%20recurring%20slot.: 91f0f601acefcdee09214ead4b933778
     Close: 2c2e22f8424a1031de89063bd0022e16
     Closed: 180560eb657a20f3d4edc44d5f7e7c2a
+    Closed%20sessions: 78ba1366d6f2af4b1ed988d308bc76ee
     Close%20with%20this%20work%20still%20open: 2913f48e04004df30d0b83a8f3ffa1c6
     Code: 343bc5386149b97cece2b093c39034b2
     Comes%20back%20on: 5f6f0d87bf818fbf7caa4052c8ad706e
@@ -474,7 +479,10 @@ checksums:
     Copy%20topics: eb62b69a4cef9190d16ffeebcb54a104
     Copy%20topics%20from: 568d7d33420576a16ef3524d2cc77f56
     Core%20details%20and%20the%20academic%20workspace%20this%20school%20is%20currently%20using.: 36011aa1f494c816331f39592d98e6b0
+    Count%20and%20close: 3204ddaafe358f01fd3a3edc72eb836f
+    Count%20and%20close%20the%20till: af5f5b8f3c6dbd6e70c86616c39c3944
     Count%20credits%20as%20well: a2ce0e6cb4c497fc0d24e3703fad01b2
+    Counted%20in%20the%20till: e48d21b01e20a0fb113e583b58863780
     Country: 73581fc33a1e83e6a56db73558e7b5c6
     Country%20*: 67d0f9426202d22628d147bee2d501da
     Country%20and%20state%20data: 833e50118b81137b9412bd3fa9620e2a
@@ -670,6 +678,7 @@ checksums:
     Excellent: 16372294108f169683263c353c4071dc
     Excuse: cbd6ef73051404bcc0190521e6957a09
     Excused: 1812dd025d736276f17a92d2bdd835d3
+    Expected%20in%20the%20till: d2047c0b0ff409fa42748009f3966878
     Expense%20recorded.: a79671ffdfee09a90a4beda05e684fa0
     Expenses: 1746536359bb638c45a12980ab3aac3a
     Expires: c7be2eba0aa8a35d1b057bde5229508d
@@ -715,6 +724,8 @@ checksums:
     First%20campus%20name: eae49277b482b2d4d6db5b105245918b
     First%20term%20timetable: 01e145981750af0ddf506aac015eed84
     Flat%203: 6f5f191c47ed9528e066ef994af4595f
+    Float: 719232491ef32a44489eef3f3cd31aba
+    Float%20in%20the%20till: 176402515ee5dee17dba519c39fa46fe
     Floor: 7d4eae0ae41d3a072febcf4c2c80ecc3
     For: 8b0967e702b1f00fe68d4aa62712d4e4
     Forgot%20Password: 582bbe27bacf16dd5823a028197138c9
@@ -807,7 +818,7 @@ checksums:
     In%20progress: 7b7abca427be23829be8e8c8cb433519
     Inside: 280011960576464790cea5254bbae580
     Install%20countries%20and%20states: f50a994564044fd635f5fb1caead57b0
-    Install%20Skuul: 6783526877f17e3334f3036f874080b8
+    Install%20Kola: 43d891e379c209b1243271ec718d4eca
     In%20the%20cash%20box: 60b559b4e5482725bf514c1e931c6c00
     In%20the%20queue: e49fd314fa716280530cc39894c3c46d
     In%20use: dd2b5c1ff570890984378446b7c4d54b
@@ -850,6 +861,8 @@ checksums:
     Kind%20of%20leave: cd19e0bbc0f565adaf7775dac1a4938c
     Kind%20of%20request: b720ae981e103a406ce3b9bd93a3c5b8
     Kinds%20of%20record: 99542f01d5e4b5a2030ed9a234667907
+    Kola%20installs%20countries%20and%20states.%20Cities%20are%20loaded%20when%20a%20country%20is%20selected%2C%20so%20the%20installer%20does%20not%20need%20to%20import%20the%20full%20city%20catalog.: 4880562e5e0fcca7200ec46d3191ed52
+    Kola%20needs%20an%20encryption%20key.%20This%20generates%20it%20once%20and%20never%20replaces%20an%20existing%20key.: ca9e6a5661baa0def3259c6ac8da8069
     Lagos: eb136da83a99332d2f306300708fffbe
     lagos.example.school: 2523c11fa54f681288771d33f01c4993
     Language: 277fd1a41cc237a437cd1d5e4a80463b
@@ -1035,6 +1048,8 @@ checksums:
     No%20campus%20is%20waiting%20on%20a%20decision%20from%20you.: d970c6dae005e208c674382b815f1f7f
     No%20cases%20yet: 7671489c2d894885e0e9402e1d9371f4
     No%20cash%20deposits%20yet: ac1d1407ac267d0f9dc159b634c47f83
+    No%20cash%20sessions%20yet: 6aed6cf84b2f7c21c5b048e2700fb324
+    No%20cash%20taken%20yet.: 580af9a2b0fd2e50d0d8f472cb2082da
     No%20category: 11dea3d5a2f2d5ea314368b51129becb
     No%20changes: 17709e3e2fbd133ddb8b3291d13de7f6
     No%20changes.: 938d958d051c2ecba6463a378ecb0ab0
@@ -1212,6 +1227,7 @@ checksums:
     Open%20a%20support%20plan: 56b6f1ece2574531c9768d1ff4a5e495
     Open%20calendar: 5b80916075eb6396c28fe36895c58943
     Open%20campus: 05567abe6ed8f84c88ea18919513b65d
+    Opened: 84ccae3d7f4584f2eefe083d6e5e0a75
     Open%20gradebook: 54585f293c50686604ba5c80a30e8db5
     Open%20group: f30ce084b1860b16964aee853597236d
     Open%20notice%20email%20settings: ca4f3683d64664a40788cc9eb5a7677f
@@ -1228,6 +1244,7 @@ checksums:
     open%20theme%20selection: 00a261be9908c632fcb45cdb639f70b3
     Open%20the%20plan: 7c1237db3c0dc00c236f29aedb059be7
     Open%20the%20programme: c2409e66c65ae709ab7a3209b13fbcdb
+    Open%20the%20till: a73c7d2cf0828b4c9e09b1dd90ae8565
     Open%20time%20slot: 8656d7547b7b5f680379b2e4c959f053
     Optional: 396fb9a0472daf401c392bdc3e248943
     Optional%3A%20compare%20a%20named%20set%20of%20learners%20instead.: a1cffa4ce1dcfc272c019744c92db33f
@@ -1513,6 +1530,7 @@ checksums:
     Saving%E2%80%A6: ee98ff32f9a585a9108c8cd961d6077e
     Say%20first%20what%20people%20need%20to%20know.: 1aa9ef7bbe74906a979bcc4b86c43e15
     Say%20no: 494918e0dde9fab62d3f796d2f549f4a
+    Say%20what%20explains%20a%20gap: c8f4613b5539170237e9612d56596824
     Scan%20a%20copy: 04f4e9da5280fe5fead3a3afbbfa0423
     Scan%20or%20type%20the%20barcode.: e161ec714b2a37ba529656e5c98659cc
     Scan%20the%20copy%20again.: 8c22c781e309b429a680af8f92333df1
@@ -1632,8 +1650,6 @@ checksums:
     Signature%20and%20school%20stamp: 4d0dba2b96ce759f76a20a35fe753dc4
     Sign%20in: cb8757c7450e17de1e226e82fb0fa4a2
     Skip%20to%20content: b06c206dbd7f20dd2740bf79d2a41d6d
-    Skuul%20installs%20countries%20and%20states.%20Cities%20are%20loaded%20when%20a%20country%20is%20selected%2C%20so%20the%20installer%20does%20not%20need%20to%20import%20the%20full%20city%20catalog.: 319c610d00ea7b37c139c1dc7c202719
-    Skuul%20needs%20an%20encryption%20key.%20This%20generates%20it%20once%20and%20never%20replaces%20an%20existing%20key.: 455eb0b9ca28dd0b3e4f2b5d1b1effa2
     Somebody%20else%20changed%20this%20while%20you%20worked.%20It%20now%20says%3A%20%22: 1e7db9c37320573568704123c638c764
     Somebody%20with%20no%20hours%20listed%20is%20free%20all%20week.: a74e81f3c85977215dc0941e638b4be5
     Someone%20completed%20this%20roll%20while%20you%20worked%20on%20it.%20Nothing%20was%20saved.: 909bbfaad93caa155a214292f307656b
@@ -1866,7 +1882,7 @@ checksums:
     This%20person%20holds%20more%20at%20this%20school%20than%20you%20do%2C%20so%20only%20they%20can%20change%20their%20email.: 7063ac0ff7311e2c979b213464d69c5c
     This%20report%20has%20nothing%20to%20show.: af718b56fd690c8be5fc8a7911bcc5cd
     This%20school%20has%20asked%20for%20nothing: b078d60468077926fa432f1de57810f2
-    This%20sets%20the%20default%20language%20for%20the%20Skuul%20interface%20after%20installation.%20You%20can%20leave%20English%20selected.: 49a2171e71c3979366a8bd8f66f45063
+    This%20sets%20the%20default%20language%20for%20the%20Kola%20interface%20after%20installation.%20You%20can%20leave%20English%20selected.: c64373d7b3891727333611343a4fcfa2
     This%20timetable%20was%20published%2C%20so%20it%20can%20no%20longer%20be%20edited.: d3a78e4165f96e28c5332e5823f39423
     This%20week: f5a7432a765c6e2b7b8e76b85ee6bb59
     Three-term%20calendar: cbc3e4a2b8ab79568bcdc1452deadd5b

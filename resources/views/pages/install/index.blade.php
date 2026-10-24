@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Install Skuul')
+@section('title', 'Install Kola')
 
 @section('body')
     <div class="min-h-screen bg-muted/30 px-4 py-10 sm:px-6">
@@ -8,7 +8,7 @@
             <div class="mb-8 text-center">
                 <img src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') }} logo" class="mx-auto mb-4 h-16 w-16 rounded-2xl border bg-background object-cover shadow-lg">
                 <p class="text-sm font-semibold uppercase text-muted-foreground">{{ config('app.name') }}</p>
-                <h1 class="mt-3 text-3xl font-semibold tracking-tight">{{ __('Install Skuul') }}</h1>
+                <h1 class="mt-3 text-3xl font-semibold tracking-tight">{{ __('Install Kola') }}</h1>
                 <p class="mx-auto mt-2 max-w-xl text-muted-foreground">{{ __('Create the first System Administrator account, organization, and campus.') }}</p>
             </div>
 
@@ -72,7 +72,7 @@
                         <section aria-labelledby="key-heading" class="space-y-4 border-t border-border/70 pt-8">
                             <div>
                                 <h2 id="key-heading" class="text-lg font-semibold">{{ __('Application key') }}</h2>
-                                <p class="mt-1 text-sm text-muted-foreground">{{ __('Skuul needs an encryption key. This generates it once and never replaces an existing key.') }}</p>
+                                <p class="mt-1 text-sm text-muted-foreground">{{ __('Kola needs an encryption key. This generates it once and never replaces an existing key.') }}</p>
                             </div>
                             <form method="POST" action="{{ route('install.key') }}">
                                 <button type="submit" class="rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90">
@@ -137,7 +137,7 @@
                         <section aria-labelledby="world-data-heading" class="space-y-4 border-t border-border/70 pt-8">
                             <div>
                                 <h2 id="world-data-heading" class="text-lg font-semibold">{{ __('Country and state data') }}</h2>
-                                <p class="mt-1 text-sm text-muted-foreground">{{ __('Skuul installs countries and states. Cities are loaded when a country is selected, so the installer does not need to import the full city catalog.') }}</p>
+                                <p class="mt-1 text-sm text-muted-foreground">{{ __('Kola installs countries and states. Cities are loaded when a country is selected, so the installer does not need to import the full city catalog.') }}</p>
                             </div>
 
                             <form method="POST" action="{{ route('install.world.setup') }}">
@@ -177,7 +177,7 @@
                                                 <option value="{{ $localeCode }}" @selected(old('locale', config('app.locale')) === $localeCode)>{{ $localeName }}</option>
                                             @endforeach
                                         </select>
-                                        <p class="mt-1 text-sm text-muted-foreground">{{ __('This sets the default language for the Skuul interface after installation. You can leave English selected.') }}</p>
+                                        <p class="mt-1 text-sm text-muted-foreground">{{ __('This sets the default language for the Kola interface after installation. You can leave English selected.') }}</p>
                                         <x-field-error name="locale" class="mt-1" />
                                     </div>
                                     <div>
@@ -252,7 +252,7 @@
                             </section>
 
                             <button type="submit" class="w-full rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90">
-                                {{ __('Install Skuul') }}
+                                {{ __('Install Kola') }}
                             </button>
                         </form>
                     @else

@@ -11,6 +11,7 @@ use App\Http\Controllers\BoardingRollController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CalendarTemplateController;
 use App\Http\Controllers\CashDepositController;
+use App\Http\Controllers\CashSessionController;
 use App\Http\Controllers\CourseOfferingController;
 use App\Http\Controllers\CustomTimetableItemController;
 use App\Http\Controllers\DormitoryController;
@@ -290,6 +291,7 @@ Route::middleware('auth', 'verified', 'App\Http\Middleware\EnsureAccountIsActive
             Route::resource('fees/fee-categories', FeeCategoryController::class)->except(['store', 'update', 'destroy']);
             Route::resource('fees/expenses', ExpenseController::class)->only(['index', 'create']);
             Route::resource('fees/cash-deposits', CashDepositController::class)->only(['index', 'create']);
+            Route::get('fees/cash-sessions', [CashSessionController::class, 'index'])->name('cash-sessions.index');
             Route::get('fees/accounts/{student_record}', [StudentAccountController::class, 'show'])->name('student-accounts.show');
             Route::get('fees/payments/{student_payment}/receipt', [StudentPaymentController::class, 'print'])->name('student-payments.receipt');
             Route::get('fees/fee-invoices/{fee_invoice}/pay', [FeeInvoiceController::class, 'payView'])->name('fee-invoices.pay');

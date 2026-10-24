@@ -4,14 +4,14 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
     'logo' => env('LOGO_PATH') ?: 'img/logo/logo.png',
     'favicon' => env('FAVICON_PATH') ?: 'img/logo/logo.png',
-    'currency' => env('APP_CURRENCY', 'NGN'),
+    'currency' => env('APP_CURRENCY', 'XAF'),
 
     'env' => env('APP_ENV', 'production'),
     'debug' => (bool) env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http://localhost'),
     'asset_url' => env('ASSET_URL'),
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'Africa/Douala'),
     'locale' => env('APP_LOCALE', 'fr'),
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
     'faker_locale' => env('APP_FAKER_LOCALE', 'fr_FR'),

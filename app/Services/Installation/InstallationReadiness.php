@@ -46,7 +46,7 @@ class InstallationReadiness
                 $databaseEmpty,
                 'No application records will be overwritten.',
                 'This database already contains application data. Use a fresh database for installation.',
-                'Use a fresh database, or let Skuul detect the existing minimum setup.',
+                'Use a fresh database, or let Kola detect the existing minimum setup.',
             ),
             'minimum_state' => $this->check(
                 'Minimum application state',

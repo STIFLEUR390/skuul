@@ -38,6 +38,7 @@ class CourseOffering extends Model
         'roster_mode',
         'planned_periods_per_week',
         'capacity',
+        'coefficient',
     ];
 
     /**
@@ -46,6 +47,7 @@ class CourseOffering extends Model
     protected $attributes = [
         'status' => CourseOfferingStatus::Draft->value,
         'roster_mode' => RosterMode::HomeSection->value,
+        'coefficient' => 1,
     ];
 
     /**
@@ -56,6 +58,7 @@ class CourseOffering extends Model
         'roster_mode' => RosterMode::class,
         'planned_periods_per_week' => 'integer',
         'capacity' => 'integer',
+        'coefficient' => 'float',
     ];
 
     /**

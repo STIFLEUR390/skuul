@@ -73,6 +73,7 @@ class RollForwardCourseOfferings
                     'roster_mode' => $sourceOffering->roster_mode,
                     'planned_periods_per_week' => $sourceOffering->planned_periods_per_week,
                     'capacity' => $sourceOffering->capacity,
+                    'coefficient' => $sourceOffering->coefficient,
                 ]);
                 $copy->cycleSections()->sync($item['section_ids']);
                 $created->push($copy);

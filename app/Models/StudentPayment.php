@@ -41,6 +41,8 @@ class StudentPayment extends Model
         'school_id',
         'student_record_id',
         'financial_period_id',
+        'cash_session_id',
+        'receipt_number',
         'amount',
         'method',
         'reference',
@@ -57,6 +59,7 @@ class StudentPayment extends Model
     protected $casts = [
         'amount' => Money::class,
         'received_on' => 'date:Y-m-d',
+        'receipt_number' => 'integer',
         'created_at' => 'datetime',
     ];
 
@@ -115,6 +118,12 @@ class StudentPayment extends Model
     public function financialPeriod(): BelongsTo
     {
         return $this->belongsTo(FinancialPeriod::class);
+    }
+
+    /** @return BelongsTo<CashSession, $this> */
+    public function cashSession(): BelongsTo
+    {
+        return $this->belongsTo(CashSession::class);
     }
 
     /**

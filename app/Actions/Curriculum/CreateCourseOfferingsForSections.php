@@ -31,8 +31,9 @@ class CreateCourseOfferingsForSections
         ?int $plannedPeriodsPerWeek = null,
         ?int $capacity = null,
         ?User $actor = null,
+        float $coefficient = 1.0,
     ): Collection {
-        return DB::transaction(function () use ($subject, $academicYear, $academicPeriodId, $academicLevel, $academicCycleSectionIds, $plannedPeriodsPerWeek, $capacity, $actor): Collection {
+        return DB::transaction(function () use ($subject, $academicYear, $academicPeriodId, $academicLevel, $academicCycleSectionIds, $plannedPeriodsPerWeek, $capacity, $actor, $coefficient): Collection {
             /** @var Collection<int, CourseOffering> $created */
             $created = new Collection;
 
@@ -48,6 +49,7 @@ class CreateCourseOfferingsForSections
                         $plannedPeriodsPerWeek,
                         $capacity,
                         $actor,
+                        $coefficient,
                     ));
 
                     continue;
@@ -64,6 +66,7 @@ class CreateCourseOfferingsForSections
                     $plannedPeriodsPerWeek,
                     $capacity,
                     $actor,
+                    $coefficient,
                 ));
             }
 
