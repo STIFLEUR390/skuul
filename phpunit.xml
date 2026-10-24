@@ -11,6 +11,8 @@
   <coverage/>
   <php>
     <env name="APP_ENV" value="testing" force="true"/>
+    <env name="APP_LOCALE" value="en" force="true"/>
+    <env name="APP_FALLBACK_LOCALE" value="en" force="true"/>
     <env name="APP_KEY" value="base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" force="true"/>
     <env name="DEMO_MODE" value="false" force="true"/>
     <env name="BCRYPT_ROUNDS" value="4" force="true"/>
@@ -22,6 +24,8 @@
     <env name="SESSION_DRIVER" value="array" force="true"/>
     <env name="TELESCOPE_ENABLED" value="false" force="true"/>
     <server name="APP_ENV" value="testing"/>
+    <server name="APP_LOCALE" value="en"/>
+    <server name="APP_FALLBACK_LOCALE" value="en"/>
     <server name="APP_KEY" value="base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="/>
     <server name="DEMO_MODE" value="false"/>
     <server name="BCRYPT_ROUNDS" value="4"/>
