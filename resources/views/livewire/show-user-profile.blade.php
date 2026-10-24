@@ -24,7 +24,7 @@
             'Email address' => $showsContactDetails ? $user->email : false,
             'Phone number' => $showsContactDetails ? $user->phone : false,
             'Gender' => $user->gender,
-            'Date of birth' => $user->birthday === null ? null : \Illuminate\Support\Carbon::parse($user->birthday)->format('j M Y'),
+            'Date of birth' => $user->birthday === null ? null : \Illuminate\Support\Carbon::parse($user->birthday)->translatedFormat('j M Y'),
             'Nationality' => $user->nationality,
             'Address' => $showsContactDetails ? collect([$user->address, $user->address_line_2, $user->city, $user->state, $user->postal_code, $user->country])->filter()->implode(', ') : false,
         ], fn ($value): bool => $value !== false) as $label => $value)

@@ -42,7 +42,7 @@ class ListAcademicYearsTable extends DataTableComponent
             $row = $academicYear->toArray();
             $row['name'] = $academicYear->name;
             $row['date_label'] = $academicYear->starts_on !== null && $academicYear->ends_on !== null
-                ? $academicYear->starts_on->format('M j, Y').' – '.$academicYear->ends_on->format('M j, Y')
+                ? $academicYear->starts_on->translatedFormat('M j, Y').' – '.$academicYear->ends_on->translatedFormat('M j, Y')
                 : 'Not scheduled';
             $periods = $academicYear->topLevelPeriods;
             $types = $periods->pluck('type')->unique();

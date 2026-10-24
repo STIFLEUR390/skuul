@@ -55,18 +55,18 @@
                 @if ($showCampuses && $canOpenOrganization)
                     <a id="organization-campuses" href="{{ route('organizations.show', $organization) }}" class="group flex min-h-11 select-none flex-col-reverse justify-end">
                         <dt class="truncate text-sm text-muted-foreground group-hover:text-foreground">{{ __('Campuses') }}</dt>
-                        <dd class="text-2xl font-semibold tabular-nums">{{ number_format($organizationSchools) }}</dd>
+                        <dd class="text-2xl font-semibold tabular-nums">{{ \Illuminate\Support\Number::format($organizationSchools) }}</dd>
                     </a>
                 @elseif ($showCampuses)
                     <div id="organization-campuses" class="flex min-h-11 select-none flex-col-reverse justify-end">
                         <dt class="truncate text-sm text-muted-foreground">{{ __('Campuses') }}</dt>
-                        <dd class="text-2xl font-semibold tabular-nums">{{ number_format($organizationSchools) }}</dd>
+                        <dd class="text-2xl font-semibold tabular-nums">{{ \Illuminate\Support\Number::format($organizationSchools) }}</dd>
                     </div>
                 @endif
                 @foreach ($visibleSnapshotStats as $stat)
                     <a href="{{ $stat['href'] }}" class="group flex min-h-11 select-none flex-col-reverse justify-end">
                         <dt class="truncate text-sm text-muted-foreground group-hover:text-foreground">{{ $stat['label'] }}</dt>
-                        <dd class="text-2xl font-semibold tabular-nums">{{ number_format($stat['value']) }}</dd>
+                        <dd class="text-2xl font-semibold tabular-nums">{{ \Illuminate\Support\Number::format($stat['value']) }}</dd>
                     </a>
                 @endforeach
             </dl>
@@ -99,7 +99,7 @@
                             </div>
                             <div class="flex flex-col-reverse">
                                 <dt class="text-sm text-muted-foreground">{{ __('Registered') }}</dt>
-                                <dd class="text-2xl font-semibold tabular-nums">{{ number_format($todayAttendance['registered']) }}<span class="text-sm font-normal text-muted-foreground"> / {{ number_format($students) }}</span></dd>
+                                <dd class="text-2xl font-semibold tabular-nums">{{ \Illuminate\Support\Number::format($todayAttendance['registered']) }}<span class="text-sm font-normal text-muted-foreground"> / {{ \Illuminate\Support\Number::format($students) }}</span></dd>
                             </div>
                             <div class="flex flex-col-reverse">
                                 <dt class="text-sm text-muted-foreground">{{ __('Absent · late') }}</dt>

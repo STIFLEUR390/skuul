@@ -224,16 +224,16 @@ class ManageTimetable extends Component
         $date = Carbon::parse($this->calendarDate);
 
         return match ($this->calendarView) {
-            'day' => $date->format('l, j F Y'),
-            'month' => $date->format('F Y'),
-            default => $date->copy()->startOfWeek(Carbon::MONDAY)->format('j M').' – '.$date->copy()->endOfWeek(Carbon::SUNDAY)->format('j M Y'),
+            'day' => $date->translatedFormat('l, j F Y'),
+            'month' => $date->translatedFormat('F Y'),
+            default => $date->copy()->startOfWeek(Carbon::MONDAY)->translatedFormat('j M').' – '.$date->copy()->endOfWeek(Carbon::SUNDAY)->translatedFormat('j M Y'),
         };
     }
 
     public function slotRuleLabel(TimetableTimeSlot $slot): string
     {
         if ($slot->recurrence === 'one_time') {
-            return 'One date · '.($slot->occurs_on?->format('j M Y') ?? 'date missing');
+            return 'One date · '.($slot->occurs_on?->translatedFormat('j M Y') ?? 'date missing');
         }
 
         $unit = $slot->recurrence === 'monthly' ? 'month' : 'week';
@@ -248,16 +248,16 @@ class ManageTimetable extends Component
                 ->implode(', ');
             $frequency .= ' on '.$days;
         } elseif ($slot->starts_on !== null) {
-            $frequency .= ' on the '.$slot->starts_on->format('jS');
+            $frequency .= ' on the '.$slot->starts_on->translatedFormat('jS');
         }
 
-        return $frequency.' from '.($slot->starts_on?->format('j M Y') ?? 'the term start');
+        return $frequency.' from '.($slot->starts_on?->translatedFormat('j M Y') ?? 'the term start');
     }
 
     public function slotDraftRuleLabel(): string
     {
         if ($this->slotRecurrence === 'one_time') {
-            return 'One date'.($this->slotOccursOn === null ? '' : ' · '.Carbon::parse($this->slotOccursOn)->format('j M Y'));
+            return 'One date'.($this->slotOccursOn === null ? '' : ' · '.Carbon::parse($this->slotOccursOn)->translatedFormat('j M Y'));
         }
 
         $unit = $this->slotRecurrence === 'monthly' ? 'month' : 'week';
@@ -272,10 +272,10 @@ class ManageTimetable extends Component
                 ->implode(', ');
             $frequency .= ' on '.($days ?: 'selected weekdays');
         } elseif ($this->slotStartsOn !== '') {
-            $frequency .= ' on the '.Carbon::parse($this->slotStartsOn)->format('jS');
+            $frequency .= ' on the '.Carbon::parse($this->slotStartsOn)->translatedFormat('jS');
         }
 
-        return $frequency.' from '.($this->slotStartsOn === '' ? 'the start date' : Carbon::parse($this->slotStartsOn)->format('j M Y'));
+        return $frequency.' from '.($this->slotStartsOn === '' ? 'the start date' : Carbon::parse($this->slotStartsOn)->translatedFormat('j M Y'));
     }
 
     /**

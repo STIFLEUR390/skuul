@@ -151,7 +151,7 @@
                             <p class="truncate text-sm font-medium">{{ $requirement->description }}</p>
                             <p class="truncate text-xs text-muted-foreground">
                                 {{ $requirement->is_negated ? 'Must not be met (NOT)' : ($requirement->is_required ? 'Must be met' : 'Optional') }}
-                                · {{ $requirement->subject?->name ?? '—' }} · pass at {{ rtrim(rtrim(number_format((float) $requirement->pass_mark, 2), '0'), '.') }}%
+                                · {{ $requirement->subject?->name ?? '—' }} · pass at {{ \Illuminate\Support\Number::format((float) $requirement->pass_mark, null, 2) }}%
                                 · {{ $requirement->credits }} {{ Str::plural('credit', $requirement->credits) }}
                             </p>
                         </div>
@@ -251,7 +251,7 @@
                                 <div class="min-w-0 flex-1">
                                     <p class="truncate text-sm font-medium">{{ $line['description'] }}</p>
                                     <p class="text-xs text-muted-foreground">
-                                        {{ $stateLabels[$line['state']] ?? $line['state'] }} · {{ $line['percentage'] === null ? '—' : number_format($line['percentage'], 2).'%' }}
+                                        {{ $stateLabels[$line['state']] ?? $line['state'] }} · {{ $line['percentage'] === null ? '—' : \Illuminate\Support\Number::format($line['percentage'], 2).'%' }}
                                         @if ($exemption !== null)
                                             · {{ $exemption->reason }}
                                         @endif

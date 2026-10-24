@@ -204,7 +204,7 @@ class FacilityBoard extends Component
         }
 
         $this->stopBooking();
-        $this->notify("{$facility->name} is booked for {$booking->starts_at->format('j M, H:i')}.");
+        $this->notify("{$facility->name} is booked for {$booking->starts_at->translatedFormat('j M, H:i')}.");
     }
 
     public function startGivingUp(int $bookingId): void

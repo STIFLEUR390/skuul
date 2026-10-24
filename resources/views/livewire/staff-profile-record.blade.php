@@ -86,8 +86,8 @@
                 </div>
                 <div>
                     <dt class="text-muted-foreground">{{ __('Joined') }}</dt>
-                    <dd class="font-medium">{{ $profile->joined_on?->format('j M Y') ?? '—' }}</dd>
-                    <dd class="text-xs text-muted-foreground">{{ $profile->left_on === null ? 'Still here' : 'Left '.$profile->left_on->format('j M Y') }}</dd>
+                    <dd class="font-medium">{{ $profile->joined_on?->translatedFormat('j M Y') ?? '—' }}</dd>
+                    <dd class="text-xs text-muted-foreground">{{ $profile->left_on === null ? 'Still here' : 'Left '.$profile->left_on->translatedFormat('j M Y') }}</dd>
                 </div>
             </dl>
             <p class="text-xs text-muted-foreground">{{ $profile->user?->email ?? '—' }}</p>
@@ -105,16 +105,16 @@
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $credential->name }}</p>
                             <p class="truncate text-xs text-muted-foreground">
-                                {{ $credential->type }} · {{ $credential->issuer ?? '—' }} · issued {{ $credential->issued_on?->format('j M Y') ?? '—' }}
+                                {{ $credential->type }} · {{ $credential->issuer ?? '—' }} · issued {{ $credential->issued_on?->translatedFormat('j M Y') ?? '—' }}
                             </p>
                         </div>
                         <span @class(['whitespace-nowrap text-xs', 'text-destructive font-medium' => $credential->hasExpired(), 'text-muted-foreground' => !$credential->hasExpired()])>
                             @if ($credential->expires_on === null)
                                 Never runs out
                             @elseif ($credential->hasExpired())
-                                Ran out {{ $credential->expires_on->format('j M Y') }}
+                                Ran out {{ $credential->expires_on->translatedFormat('j M Y') }}
                             @else
-                                Runs out {{ $credential->expires_on->format('j M Y') }}
+                                Runs out {{ $credential->expires_on->translatedFormat('j M Y') }}
                             @endif
                         </span>
                         @if ($canWrite)
@@ -232,7 +232,7 @@
                 @foreach ($profile->leaveRequests as $leave)
                     <li wire:key="leave-{{ $leave->id }}" class="flex items-center gap-3 py-2">
                         <div class="min-w-0 flex-1">
-                            <p class="text-sm font-medium">{{ $leave->starts_on->format('j M Y') }} to {{ $leave->ends_on->format('j M Y') }}</p>
+                            <p class="text-sm font-medium">{{ $leave->starts_on->translatedFormat('j M Y') }} to {{ $leave->ends_on->translatedFormat('j M Y') }}</p>
                             <p class="truncate text-xs text-muted-foreground">{{ $leave->type->label() }} · {{ $leave->days() }} {{ Str::plural('day', $leave->days()) }} · {{ $leave->reason ?? '—' }}</p>
                         </div>
                         <span class="whitespace-nowrap text-xs text-muted-foreground">{{ $leave->status->label() }}</span>

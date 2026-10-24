@@ -33,8 +33,8 @@ class ListExamsTable extends DataTableComponent
         return $rows->map(function (Exam $exam): array {
             $row = $exam->toArray();
             $row['period_label'] = $exam->academicPeriod->label ?? $exam->academicPeriod->name ?? '—';
-            $row['start_date_label'] = $exam->start_date->format('M j, Y');
-            $row['stop_date_label'] = $exam->stop_date->format('M j, Y');
+            $row['start_date_label'] = $exam->start_date->translatedFormat('M j, Y');
+            $row['stop_date_label'] = $exam->stop_date->translatedFormat('M j, Y');
             $row['active_label'] = $exam->active ? 'Active' : 'Inactive';
             $row['edit_url'] = route('exams.edit', $exam);
 

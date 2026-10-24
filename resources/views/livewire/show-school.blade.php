@@ -82,7 +82,7 @@
                         <dd class="mt-1 text-lg font-semibold tracking-tight">{{ $school->academicYear?->name ?? 'Not selected' }}</dd>
                         @if ($school->academicYear?->starts_on && $school->academicYear?->ends_on)
                             <p class="mt-1 text-sm text-muted-foreground">
-                                {{ $school->academicYear->starts_on->format('M j, Y') }} – {{ $school->academicYear->ends_on->format('M j, Y') }}
+                                {{ $school->academicYear->starts_on->translatedFormat('M j, Y') }} – {{ $school->academicYear->ends_on->translatedFormat('M j, Y') }}
                             </p>
                         @endif
                     </div>
@@ -91,7 +91,7 @@
                         <dd class="mt-1 text-lg font-semibold tracking-tight">{{ $school->academicPeriod?->name ?? 'Not selected' }}</dd>
                         @if ($school->academicPeriod?->starts_on && $school->academicPeriod?->ends_on)
                             <p class="mt-1 text-sm text-muted-foreground">
-                                {{ $school->academicPeriod->starts_on->format('M j') }} – {{ $school->academicPeriod->ends_on->format('M j, Y') }}
+                                {{ $school->academicPeriod->starts_on->translatedFormat('M j') }} – {{ $school->academicPeriod->ends_on->translatedFormat('M j, Y') }}
                             </p>
                         @endif
                     </div>

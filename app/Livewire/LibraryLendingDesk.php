@@ -110,7 +110,7 @@ class LibraryLendingDesk extends Component
         }
 
         $this->clearScan();
-        $this->notify("{$copy->title?->title} is out to {$borrower->name} until {$loan->due_on->format('j M')}.");
+        $this->notify("{$copy->title?->title} is out to {$borrower->name} until {$loan->due_on->translatedFormat('j M')}.");
     }
 
     public function takeBack(int $loanId, ReturnLoan $returnLoan): void
@@ -148,7 +148,7 @@ class LibraryLendingDesk extends Component
             return;
         }
 
-        $this->notify('Due back '.$loan->due_on->format('j M Y').'.');
+        $this->notify('Due back '.$loan->due_on->translatedFormat('j M Y').'.');
     }
 
     public function lendSet(IssueTitleToSection $issueTitleToSection): void

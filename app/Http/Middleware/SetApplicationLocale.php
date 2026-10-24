@@ -3,8 +3,11 @@
 namespace App\Http\Middleware;
 
 use App\Models\Installation;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Number;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -32,6 +35,9 @@ class SetApplicationLocale
         }
 
         app()->setLocale($locale);
+        Carbon::setLocale($locale);
+        CarbonImmutable::setLocale($locale);
+        Number::useLocale($locale);
 
         return $next($request);
     }

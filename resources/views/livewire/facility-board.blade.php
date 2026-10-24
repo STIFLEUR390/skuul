@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-8">
     @php
         $controlClasses = 'mt-1 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
-        $when = fn ($booking) => $booking->starts_at->format('D j M, H:i').' to '.$booking->ends_at->format($booking->ends_at->isSameDay($booking->starts_at) ? 'H:i' : 'D j M, H:i');
+        $when = fn ($booking) => $booking->starts_at->translatedFormat('D j M, H:i').' to '.$booking->ends_at->format($booking->ends_at->isSameDay($booking->starts_at) ? 'H:i' : 'D j M, H:i');
     @endphp
 
     @if (($canBook && $bookable->isNotEmpty()) || $canManage)
@@ -107,7 +107,7 @@
                             @if ($mayGiveUp)
                                 <april:dropdown-menu>
                                     <slot:trigger>
-                                        <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More for the booking of {{ $booking->facility?->name }} at {{ $booking->starts_at->format('j M, H:i') }}">
+                                        <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More for the booking of {{ $booking->facility?->name }} at {{ $booking->starts_at->translatedFormat('j M, H:i') }}">
                                             <x-lucide-ellipsis class="size-4" />
                                         </april:button>
                                     </slot:trigger>

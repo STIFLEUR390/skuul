@@ -134,7 +134,7 @@
                                 <april:data-table-cell>{{ $card->academicYear?->name ?? 'Unknown year' }}</april:data-table-cell>
                                 <april:data-table-cell>{{ $card->academicPeriod->label ?? $card->academicPeriod->name }}</april:data-table-cell>
                                 <april:data-table-cell>
-                                    {{ $card->average_percentage === null ? '—' : number_format($card->average_percentage, 2).'%' }}
+                                    {{ $card->average_percentage === null ? '—' : \Illuminate\Support\Number::format($card->average_percentage, 2).'%' }}
                                 </april:data-table-cell>
                                 <april:data-table-cell>
                                     <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
@@ -142,7 +142,7 @@
                                     </span>
                                 </april:data-table-cell>
                                 <april:data-table-cell class="whitespace-nowrap text-muted-foreground">
-                                    {{ school_time($card->published_at)?->format('j M Y') }}
+                                    {{ school_time($card->published_at)?->translatedFormat('j M Y') }}
                                 </april:data-table-cell>
                                 <april:data-table-cell class="text-right">
                                     <april:button-link href="{{ route('report-cards.show', $card) }}" variant="outline" size="sm"

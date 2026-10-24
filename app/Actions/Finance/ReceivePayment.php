@@ -187,7 +187,7 @@ class ReceivePayment
             ->first();
 
         if ($recorded !== null) {
-            throw new InvalidValueException("A payment with reference {$recorded->reference} was already recorded on {$recorded->received_on->format('j M Y')}. Reverse that one first if it was wrong.");
+            throw new InvalidValueException("A payment with reference {$recorded->reference} was already recorded on {$recorded->received_on->translatedFormat('j M Y')}. Reverse that one first if it was wrong.");
         }
     }
 }

@@ -110,7 +110,7 @@
                                     </april:data-table-cell>
                                     <april:data-table-cell>{{ $request->holdingSchool?->name ?? 'Unknown school' }}</april:data-table-cell>
                                     <april:data-table-cell class="whitespace-nowrap text-muted-foreground">
-                                        {{ $request->expires_on?->format('j M Y') ?? 'No end date' }}
+                                        {{ $request->expires_on?->translatedFormat('j M Y') ?? 'No end date' }}
                                     </april:data-table-cell>
                                     <april:data-table-cell>
                                         <span class="inline-flex whitespace-nowrap items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">

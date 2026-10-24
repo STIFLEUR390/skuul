@@ -16,6 +16,7 @@ use App\Models\School;
 use App\Models\SchoolOperatingProfile;
 use App\Models\User;
 use App\Services\Authorization\SystemPermissionScope;
+use Carbon\Carbon;
 use Database\Seeders\RunInProductionSeeder;
 use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Number;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -259,6 +261,8 @@ class InstallationTest extends TestCase
         $this->get(route('login'))->assertOk();
 
         $this->assertSame('fr', app()->getLocale());
+        $this->assertSame('octobre', Carbon::parse('2026-10-24')->translatedFormat('F'));
+        $this->assertStringContainsString(',', Number::format(1234.5));
     }
 
     public function test_installer_saves_the_selected_school_terminology_pattern(): void

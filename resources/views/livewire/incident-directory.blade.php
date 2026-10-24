@@ -101,7 +101,7 @@
                                     </span>
                                 </april:data-table-cell>
                                 <april:data-table-cell class="whitespace-nowrap text-muted-foreground">
-                                    {{ $incident->occurred_at->format('j M Y') }}
+                                    {{ $incident->occurred_at->translatedFormat('j M Y') }}
                                     <span class="block text-xs">{{ $incident->occurred_at->format('H:i') }}</span>
                                 </april:data-table-cell>
                                 <april:data-table-cell class="text-muted-foreground">

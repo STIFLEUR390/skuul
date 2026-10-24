@@ -53,7 +53,7 @@
                                             <span class="text-sm text-muted-foreground">
                                                 {{ $requirement['is_negated'] ? 'Must not be met' : 'Must be met' }}
                                                 @if ($requirement['percentage'] !== null)
-                                                    · {{ number_format($requirement['percentage'], 2) }}%
+                                                    · {{ \Illuminate\Support\Number::format($requirement['percentage'], 2) }}%
                                                 @endif
                                             </span>
                                         </span>

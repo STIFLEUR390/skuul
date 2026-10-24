@@ -18,13 +18,13 @@
     @endif
 
     <april:card>
-        <slot:title>{{ $calendarMonth->format('F Y') }}</slot:title>
+        <slot:title>{{ $calendarMonth->translatedFormat('F Y') }}</slot:title>
         <slot:description>
             @if ($closures->isEmpty())
                 The school is open every day this month.
             @else
                 The school is shut on
-                {{ $closures->map(fn ($closure) => $closure->starts_at->format('j M'))->join(', ', ' and ') }}.
+                {{ $closures->map(fn ($closure) => $closure->starts_at->translatedFormat('j M'))->join(', ', ' and ') }}.
             @endif
         </slot:description>
         <slot:content>
@@ -34,13 +34,13 @@
                         <april:button type="button" variant="outline" size="sm" wire:click="previousMonth"
                             wire:loading.attr="disabled" aria-label="{{ __('Previous month') }}">
                             <x-lucide-chevron-left class="mr-1 size-4" />
-                            {{ $calendarMonth->copy()->subMonthNoOverflow()->format('M') }}
+                            {{ $calendarMonth->copy()->subMonthNoOverflow()->translatedFormat('M') }}
                         </april:button>
                         <april:button type="button" variant="outline" size="sm" wire:click="showCurrentMonth"
                             wire:loading.attr="disabled">{{ __('Today') }}</april:button>
                         <april:button type="button" variant="outline" size="sm" wire:click="nextMonth"
                             wire:loading.attr="disabled" aria-label="{{ __('Next month') }}">
-                            {{ $calendarMonth->copy()->addMonthNoOverflow()->format('M') }}
+                            {{ $calendarMonth->copy()->addMonthNoOverflow()->translatedFormat('M') }}
                             <x-lucide-chevron-right class="ml-1 size-4" />
                         </april:button>
                     </div>
@@ -92,7 +92,7 @@
                                     @can('create', App\Models\CalendarEvent::class)
                                         <a href="{{ route('calendar-events.create', ['day' => $day->toDateString()]) }}"
                                             class="-m-1 flex size-6 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-muted hover:text-foreground"
-                                            aria-label="Add a day on {{ $day->format('j F Y') }}">
+                                            aria-label="Add a day on {{ $day->translatedFormat('j F Y') }}">
                                             <x-lucide-plus class="size-3" />
                                         </a>
                                     @endcan
@@ -150,9 +150,9 @@
                         @foreach ($events as $event)
                             <april:data-table-row>
                                 <april:data-table-cell class="whitespace-nowrap font-medium">
-                                    {{ $event->starts_at->format('j M') }}
+                                    {{ $event->starts_at->translatedFormat('j M') }}
                                     @if ($event->ends_at->toDateString() !== $event->starts_at->toDateString())
-                                        to {{ $event->ends_at->format('j M') }}
+                                        to {{ $event->ends_at->translatedFormat('j M') }}
                                     @endif
                                     <span class="block text-xs text-muted-foreground">
                                         {{ $event->is_all_day ? 'All day' : $event->starts_at->format('H:i').' to '.$event->ends_at->format('H:i') }}

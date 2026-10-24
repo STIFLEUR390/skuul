@@ -22,25 +22,25 @@
     @if ($type === 'report-card')
         <p><strong>{{ __('Academic year:') }}</strong> {{ $document->academicYear?->name ?? 'Unknown year' }}</p>
         <p><strong>{{ __('Period:') }}</strong> {{ $document->academicPeriod->label ?? $document->academicPeriod->name }}</p>
-        <p><strong>{{ __('Revision:') }}</strong> {{ $document->revision }} · <strong>{{ __('Published:') }}</strong> {{ school_time($document->published_at)?->format('j M Y') }}</p>
-        <p><strong>{{ __('Average:') }}</strong> {{ $document->average_percentage === null ? '—' : number_format($document->average_percentage, 2).'%' }}</p>
+        <p><strong>{{ __('Revision:') }}</strong> {{ $document->revision }} · <strong>{{ __('Published:') }}</strong> {{ school_time($document->published_at)?->translatedFormat('j M Y') }}</p>
+        <p><strong>{{ __('Average:') }}</strong> {{ $document->average_percentage === null ? '—' : \Illuminate\Support\Number::format($document->average_percentage, 2).'%' }}</p>
         <table>
             <thead><tr><th>{{ __('Subject') }}</th><th>{{ __('Percentage') }}</th></tr></thead>
             <tbody>
                 @forelse ($document->payload['results'] ?? [] as $result)
-                    <tr><td>{{ $result['subject']['name'] }}</td><td>{{ $result['percentage'] === null ? '—' : number_format($result['percentage'], 2).'%' }}</td></tr>
+                    <tr><td>{{ $result['subject']['name'] }}</td><td>{{ $result['percentage'] === null ? '—' : \Illuminate\Support\Number::format($result['percentage'], 2).'%' }}</td></tr>
                 @empty
                     <tr><td colspan="2" class="muted">{{ __('No subject was marked in this period.') }}</td></tr>
                 @endforelse
             </tbody>
         </table>
     @else
-        <p><strong>{{ __('Revision:') }}</strong> {{ $document->revision }} · <strong>{{ __('Issued:') }}</strong> {{ school_time($document->issued_at)?->format('j M Y') }}</p>
+        <p><strong>{{ __('Revision:') }}</strong> {{ $document->revision }} · <strong>{{ __('Issued:') }}</strong> {{ school_time($document->issued_at)?->translatedFormat('j M Y') }}</p>
         <table>
             <thead><tr><th>{{ __('Period') }}</th><th>{{ __('Subject') }}</th><th>{{ __('Percentage') }}</th></tr></thead>
             <tbody>
                 @forelse ($document->payload['results'] ?? [] as $result)
-                    <tr><td>{{ $result['academic_year'] }} · {{ $result['academic_period'] }}</td><td>{{ $result['subject'] }}</td><td>{{ $result['percentage'] === null ? '—' : number_format($result['percentage'], 2).'%' }}</td></tr>
+                    <tr><td>{{ $result['academic_year'] }} · {{ $result['academic_period'] }}</td><td>{{ $result['subject'] }}</td><td>{{ $result['percentage'] === null ? '—' : \Illuminate\Support\Number::format($result['percentage'], 2).'%' }}</td></tr>
                 @empty
                     <tr><td colspan="3" class="muted">{{ __('No subject has been marked yet.') }}</td></tr>
                 @endforelse

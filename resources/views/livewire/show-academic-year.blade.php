@@ -2,7 +2,7 @@
     @php
         $dateRange = static fn ($startsOn, $endsOn): string => $startsOn === null && $endsOn === null
             ? 'No dates'
-            : ($startsOn?->format('M j, Y') ?? '—').' – '.($endsOn?->format('M j, Y') ?? '—');
+            : ($startsOn?->translatedFormat('M j, Y') ?? '—').' – '.($endsOn?->translatedFormat('M j, Y') ?? '—');
         $currentStepIndex = collect($lifecycleSteps)->search(fn (array $step): bool => $step['status'] === $academicYear->status);
     @endphp
 

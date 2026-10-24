@@ -16,7 +16,7 @@
                     <a href="{{ route('fee-invoices.show', $feeInvoice->id) }}" class="flex min-h-11 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3 text-sm hover:bg-muted/50">
                         <span class="min-w-0">
                             <span class="font-medium">{{ $feeInvoice->name }}</span>
-                            <span class="block text-muted-foreground">Due {{ $feeInvoice->due_date->format('j M Y') }}</span>
+                            <span class="block text-muted-foreground">Due {{ $feeInvoice->due_date->translatedFormat('j M Y') }}</span>
                         </span>
                         <span class="text-right">
                             <span class="font-medium tabular-nums">{{ $feeInvoice->paid }} / {{ $feeInvoice->amount }}</span>

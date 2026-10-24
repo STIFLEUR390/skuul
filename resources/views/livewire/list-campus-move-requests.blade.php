@@ -24,7 +24,7 @@
                             </p>
                             <p class="text-sm text-muted-foreground">
                                 Asked by {{ $request->requestedBy?->name ?? 'Somebody who left' }}
-                                · effective {{ $request->effective_on?->format('j M Y') }}
+                                · effective {{ $request->effective_on?->translatedFormat('j M Y') }}
                             </p>
                             @if ($request->reason)
                                 <p class="mt-2 text-sm">“{{ $request->reason }}”</p>
@@ -74,7 +74,7 @@
                                 @if ($request->academicCycleSection)
                                     · {{ $request->academicCycleSection->academicLevel?->name }} · {{ $request->academicCycleSection->label ?? $request->academicCycleSection->name }}
                                 @endif
-                                · effective {{ $request->effective_on?->format('j M Y') }}
+                                · effective {{ $request->effective_on?->translatedFormat('j M Y') }}
                             </p>
                             @if ($request->reason)
                                 <p class="mt-2 text-sm">“{{ $request->reason }}”</p>

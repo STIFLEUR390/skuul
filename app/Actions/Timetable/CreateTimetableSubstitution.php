@@ -154,7 +154,7 @@ class CreateTimetableSubstitution
             ->value('left_on');
 
         if ($lastDay !== null) {
-            throw new InvalidValueException("$replacementTeacher->name leaves this school on ".Carbon::parse($lastDay)->format('j M Y').', before that day.');
+            throw new InvalidValueException("$replacementTeacher->name leaves this school on ".Carbon::parse($lastDay)->translatedFormat('j M Y').', before that day.');
         }
     }
 
@@ -204,14 +204,14 @@ class CreateTimetableSubstitution
             throw new InvalidValueException('The selected date is outside the dates this timetable is in use.');
         }
 
-        if (strcasecmp($weekday->name, $date->format('l')) !== 0) {
+        if (strcasecmp($weekday->name, $date->translatedFormat('l')) !== 0) {
             throw new InvalidValueException('The selected date does not fall on the scheduled weekday.');
         }
 
         $closure = $this->calendar->closureOn($schoolId, $timetable->academic_cycle_section_id, $date);
 
         if ($closure !== null) {
-            throw new InvalidValueException("The school is shut on {$date->format('j M Y')} for {$closure->title}, so the lesson needs no cover.");
+            throw new InvalidValueException("The school is shut on {$date->translatedFormat('j M Y')} for {$closure->title}, so the lesson needs no cover.");
         }
 
         if (!$replacementTeacher->belongsToSchool($schoolId) || !$replacementTeacher->hasRole(Role::Teacher->value)) {

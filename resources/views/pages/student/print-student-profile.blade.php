@@ -35,7 +35,7 @@
                     <th>{{ __('Gender') }}</th><td>{{ $student->gender ? ucfirst($student->gender) : $dash }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('Date of birth') }}</th><td>{{ $student->birthday ? \Illuminate\Support\Carbon::parse($student->birthday)->format('j M Y') : $dash }}</td>
+                    <th>{{ __('Date of birth') }}</th><td>{{ $student->birthday ? \Illuminate\Support\Carbon::parse($student->birthday)->translatedFormat('j M Y') : $dash }}</td>
                     <th>{{ __('Nationality') }}</th><td>{{ $student->nationality ? ucfirst($student->nationality) : $dash }}</td>
                 </tr>
                 @if ($showsContactDetails)
@@ -59,7 +59,7 @@
                 <table class="facts">
                     <tr>
                         <th>{{ __('Admission number') }}</th><td>{{ $studentRecord->admission_number ?: $dash }}</td>
-                        <th>{{ __('Admitted') }}</th><td>{{ $studentRecord->admission_date?->format('j M Y') ?? $dash }}</td>
+                        <th>{{ __('Admitted') }}</th><td>{{ $studentRecord->admission_date?->translatedFormat('j M Y') ?? $dash }}</td>
                     </tr>
                     <tr>
                         <th>{{ school_term('class_level', 'Class') }}</th><td>{{ $section?->academicLevel?->name ?? $dash }}</td>
@@ -110,7 +110,7 @@
                                     <td>{{ $placement->academicYear?->name ?? $dash }}@if ($placement->academicPeriod) · {{ $placement->academicPeriod->name }}@endif</td>
                                     <td>{{ $placement->academicCycleSection?->academicLevel?->name ?? $dash }}</td>
                                     <td>{{ $placement->academicCycleSection?->label ?? $placement->academicCycleSection?->name ?? $dash }}</td>
-                                    <td class="nowrap">{{ $placement->effective_on?->format('j M Y') ?? $dash }}</td>
+                                    <td class="nowrap">{{ $placement->effective_on?->translatedFormat('j M Y') ?? $dash }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -131,7 +131,7 @@
                                     <td class="nowrap">{{ $change->from_status->label() }} → {{ $change->to_status->label() }}</td>
                                     <td>{{ $change->reason ?: $dash }}</td>
                                     <td>{{ $change->changedBy?->name ?? $dash }}</td>
-                                    <td class="nowrap">{{ $change->effective_on?->format('j M Y') ?? $dash }}</td>
+                                    <td class="nowrap">{{ $change->effective_on?->translatedFormat('j M Y') ?? $dash }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -145,7 +145,7 @@
                 <span></span>
                 {{ __('Signature and school stamp') }}
             </div>
-            <p class="muted">Printed {{ school_now()->format('j M Y, H:i') }} by {{ auth()->user()->name }}</p>
+            <p class="muted">Printed {{ school_now()->translatedFormat('j M Y, H:i') }} by {{ auth()->user()->name }}</p>
         </footer>
     </div>
 @endsection

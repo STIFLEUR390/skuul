@@ -38,7 +38,7 @@
         <april:card>
             <slot:title>{{ __('What this file will do') }}</slot:title>
             <slot:description>
-                {{ $batch->typeTitle() }} · started {{ school_time($batch->created_at)?->format('j M Y') }}
+                {{ $batch->typeTitle() }} · started {{ school_time($batch->created_at)?->translatedFormat('j M Y') }}
                 by {{ $batch->createdBy?->name ?? 'an unknown person' }}
             </slot:description>
             <slot:content>

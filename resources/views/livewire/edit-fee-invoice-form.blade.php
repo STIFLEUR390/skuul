@@ -16,7 +16,7 @@
             @if ($section !== null)
                 <span>· {{ $section->academicLevel?->name }} {{ $section->label ?? $section->name }}</span>
             @endif
-            <span>· Issued {{ $feeInvoice->issue_date->format('j M Y') }}</span>
+            <span>· Issued {{ $feeInvoice->issue_date->translatedFormat('j M Y') }}</span>
         </p>
 
         <form wire:submit="saveDetails" class="flex flex-col gap-3" aria-label="{{ __('Due date and note') }}">

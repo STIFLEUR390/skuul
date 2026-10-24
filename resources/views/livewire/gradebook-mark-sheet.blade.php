@@ -26,7 +26,7 @@
                 <dl class="grid grid-cols-2 gap-4 border-y py-3 text-sm sm:grid-cols-3">
                     <div>
                         <dt class="text-muted-foreground">{{ __('Marked out of') }}</dt>
-                        <dd class="font-medium">{{ $item->gradingScale?->name ?? ($item->max_points === null ? '—' : rtrim(rtrim(number_format($item->max_points, 2), '0'), '.')) }}</dd>
+                        <dd class="font-medium">{{ $item->gradingScale?->name ?? ($item->max_points === null ? '—' : \Illuminate\Support\Number::format($item->max_points, null, 2)) }}</dd>
                     </div>
                     <div>
                         <dt class="text-muted-foreground">{{ __('Category') }}</dt>
@@ -34,7 +34,7 @@
                     </div>
                     <div>
                         <dt class="text-muted-foreground">{{ __('Due') }}</dt>
-                        <dd class="font-medium">{{ $item->due_on?->format('j M Y') ?? '—' }}</dd>
+                        <dd class="font-medium">{{ $item->due_on?->translatedFormat('j M Y') ?? '—' }}</dd>
                     </div>
                 </dl>
 
@@ -128,17 +128,17 @@
                                 <p class="truncate text-sm font-medium">{{ $learnerName($student) }}</p>
                                 <p class="text-xs text-muted-foreground">
                                     @if ($isWaiting)
-                                        Revision {{ $latest->revision }} waiting for approval{{ $latest->percentage === null ? '' : ' · '.number_format($latest->percentage, 2).'%' }}
+                                        Revision {{ $latest->revision }} waiting for approval{{ $latest->percentage === null ? '' : ' · '.\Illuminate\Support\Number::format($latest->percentage, 2).'%' }}
                                     @elseif ($isSentBack)
                                         <span class="text-destructive">Revision {{ $latest->revision }} sent back{{ $latest->approval_reason ? ': '.$latest->approval_reason : '' }}</span>
                                     @elseif ($official !== null)
-                                        Revision {{ $official->revision }} · approved {{ ($official->approved_at ?? $official->published_at)?->format('j M Y') }}
+                                        Revision {{ $official->revision }} · approved {{ ($official->approved_at ?? $official->published_at)?->translatedFormat('j M Y') }}
                                     @else
                                         Not sent yet
                                     @endif
                                 </p>
                             </div>
-                            <p class="text-sm font-semibold tabular-nums">{{ $official?->percentage === null ? '—' : number_format($official->percentage, 2).'%' }}</p>
+                            <p class="text-sm font-semibold tabular-nums">{{ $official?->percentage === null ? '—' : \Illuminate\Support\Number::format($official->percentage, 2).'%' }}</p>
 
                             @if ($isWaiting && $canApprove && $latest->published_by !== auth()->id())
                                 <april:button type="button" variant="outline" class="h-11 select-none" wire:click="approveResult({{ $latest->id }})" wire:loading.attr="disabled" wire:target="approveResult">{{ __('Approve') }}</april:button>

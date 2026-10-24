@@ -63,9 +63,9 @@
                             <p class="text-xs text-muted-foreground">
                                 For {{ $reservation->borrower?->name ?? '—' }} · <span class="font-mono">{{ $reservation->copy?->barcode ?? '—' }}</span> ·
                                 @if ($reservation->holds_until?->isBefore($today))
-                                    <span class="font-medium text-destructive">hold ran out {{ $reservation->holds_until->format('j M') }}</span>
+                                    <span class="font-medium text-destructive">hold ran out {{ $reservation->holds_until->translatedFormat('j M') }}</span>
                                 @else
-                                    kept until {{ $reservation->holds_until?->format('j M') ?? '—' }}
+                                    kept until {{ $reservation->holds_until?->translatedFormat('j M') ?? '—' }}
                                 @endif
                             </p>
                         </div>
@@ -99,7 +99,7 @@
                         <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium tabular-nums" aria-label="Place {{ $places[$reservation->library_title_id] }}">{{ $places[$reservation->library_title_id] }}</span>
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $reservation->title?->title ?? '—' }}</p>
-                            <p class="text-xs text-muted-foreground">{{ $reservation->borrower?->name ?? '—' }} · since {{ $reservation->reserved_on?->format('j M') ?? '—' }}</p>
+                            <p class="text-xs text-muted-foreground">{{ $reservation->borrower?->name ?? '—' }} · since {{ $reservation->reserved_on?->translatedFormat('j M') ?? '—' }}</p>
                         </div>
                         @if ($canManage)
                             <april:dropdown-menu>

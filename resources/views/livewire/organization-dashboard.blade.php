@@ -19,28 +19,28 @@
                     {{ __('Campuses') }}
                     <span class="flex size-9 items-center justify-center rounded-md bg-muted text-foreground"><x-lucide-school class="size-4" /></span>
                 </slot:title>
-                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ number_format($campusCount) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('Campuses in this organization') }}</p></slot:content>
+                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ \Illuminate\Support\Number::format($campusCount) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('Campuses in this organization') }}</p></slot:content>
             </april:card>
             <april:card>
                 <slot:title class="flex items-center justify-between gap-3 text-base">
                     {{ __('Active students') }}
                     <span class="flex size-9 items-center justify-center rounded-md bg-muted text-foreground"><x-lucide-users class="size-4" /></span>
                 </slot:title>
-                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ number_format($activeStudents) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('Current enrollment total') }}</p></slot:content>
+                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ \Illuminate\Support\Number::format($activeStudents) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('Current enrollment total') }}</p></slot:content>
             </april:card>
             <april:card>
                 <slot:title class="flex items-center justify-between gap-3 text-base">
                     {{ __('Campus access') }}
                     <span class="flex size-9 items-center justify-center rounded-md bg-muted text-foreground"><x-lucide-briefcase-business class="size-4" /></span>
                 </slot:title>
-                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ number_format($campusAccessHolders) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('People who can work in a campus') }}</p></slot:content>
+                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ \Illuminate\Support\Number::format($campusAccessHolders) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('People who can work in a campus') }}</p></slot:content>
             </april:card>
             <april:card>
                 <slot:title class="flex items-center justify-between gap-3 text-base">
                     {{ __('Academic setup') }}
                     <span class="flex size-9 items-center justify-center rounded-md bg-muted text-foreground"><x-lucide-calendar-range class="size-4" /></span>
                 </slot:title>
-                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ number_format($campusesMissingAcademicSetup) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('Campuses needing setup') }}</p></slot:content>
+                <slot:content><p class="text-3xl font-semibold tracking-tight">{{ \Illuminate\Support\Number::format($campusesMissingAcademicSetup) }}</p><p class="mt-1 text-sm text-muted-foreground">{{ __('Campuses needing setup') }}</p></slot:content>
             </april:card>
         </section>
 
@@ -55,8 +55,8 @@
                             <p class="font-semibold">{{ $campus->name }}</p>
                             <p class="mt-1 text-sm text-muted-foreground">{{ __('Campus operational summary') }}</p>
                         </div>
-                        <div><p class="text-xs font-medium uppercase text-muted-foreground">{{ __('Students') }}</p><p class="mt-1 font-semibold">{{ number_format($campus->active_students_count) }} active</p></div>
-                        <div><p class="text-xs font-medium uppercase text-muted-foreground">{{ __('Campus access') }}</p><p class="mt-1 font-semibold">{{ number_format($campus->campus_access_count) }} people</p></div>
+                        <div><p class="text-xs font-medium uppercase text-muted-foreground">{{ __('Students') }}</p><p class="mt-1 font-semibold">{{ \Illuminate\Support\Number::format($campus->active_students_count) }} active</p></div>
+                        <div><p class="text-xs font-medium uppercase text-muted-foreground">{{ __('Campus access') }}</p><p class="mt-1 font-semibold">{{ \Illuminate\Support\Number::format($campus->campus_access_count) }} people</p></div>
                         <div><p class="text-xs font-medium uppercase text-muted-foreground">{{ __('Academic year') }}</p><p class="mt-1 font-semibold">{{ $campus->academicYear?->name ?? 'Not set' }}</p><p class="text-sm text-muted-foreground">{{ $this->academicPeriodStatus($campus->academicYear?->status) }}</p></div>
                         <div><p class="text-xs font-medium uppercase text-muted-foreground">{{ school_term('period', 'Academic period') }}</p><p class="mt-1 font-semibold">{{ $campus->academicPeriod?->name ?? 'Not set' }}</p><p class="text-sm text-muted-foreground">{{ $this->academicPeriodStatus($campus->academicPeriod?->status) }}</p></div>
                         <div class="flex items-center justify-between gap-3 lg:flex-col lg:items-end">

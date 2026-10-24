@@ -26,7 +26,7 @@
                             <span class="block hidden sm:inline">{{ $weekday['name'] }}</span>
                             <span class="block sm:hidden">{{ $weekday['short'] }}</span>
                             @if ($weekday['date'])
-                                <span class="mt-1 block text-[0.7rem] font-normal text-muted-foreground">{{ \Illuminate\Support\Carbon::parse($weekday['date'])->format('j M') }}</span>
+                                <span class="mt-1 block text-[0.7rem] font-normal text-muted-foreground">{{ \Illuminate\Support\Carbon::parse($weekday['date'])->translatedFormat('j M') }}</span>
                             @endif
                         </th>
                     @endforeach

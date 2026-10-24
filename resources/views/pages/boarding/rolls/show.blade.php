@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="mx-auto flex w-full max-w-4xl flex-col gap-6">
-    <p class="text-sm text-muted-foreground">{{ $roll->dormitory->name }} · {{ $roll->taken_on->format('l, j F Y') }}</p>
+    <p class="text-sm text-muted-foreground">{{ $roll->dormitory->name }} · {{ $roll->taken_on->translatedFormat('l, j F Y') }}</p>
 
     <livewire:boarding-roll-sheet :roll="$roll" />
 </div>

@@ -39,7 +39,7 @@ class FacilityAvailability
             $clashes[] = sprintf(
                 '%s is already booked from %s to %s for %s.',
                 $facility->name,
-                $booking->starts_at->format('j M, H:i'),
+                $booking->starts_at->translatedFormat('j M, H:i'),
                 $booking->ends_at->format($booking->ends_at->isSameDay($booking->starts_at) ? 'H:i' : 'j M, H:i'),
                 $booking->purpose,
             );
@@ -89,7 +89,7 @@ class FacilityAvailability
             }
 
             foreach ($this->daysBetween($from, $to) as $day) {
-                if ($this->weekdayNameOf($record) !== strtolower($day->format('l'))) {
+                if ($this->weekdayNameOf($record) !== strtolower($day->translatedFormat('l'))) {
                     continue;
                 }
 

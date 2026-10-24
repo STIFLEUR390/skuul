@@ -71,7 +71,7 @@
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $learnerName($place) }}</p>
                             <p class="truncate text-xs text-muted-foreground">
-                                {{ $place->status->label() }} · from {{ $place->starts_on?->format('j M Y') ?? '—' }}{{ $place->ends_on ? ' to '.$place->ends_on->format('j M Y') : '' }}
+                                {{ $place->status->label() }} · from {{ $place->starts_on?->translatedFormat('j M Y') ?? '—' }}{{ $place->ends_on ? ' to '.$place->ends_on->translatedFormat('j M Y') : '' }}
                                 · {{ $place->schedule ?? '—' }} · run by {{ $place->staff?->name ?? '—' }}
                             </p>
                         </div>

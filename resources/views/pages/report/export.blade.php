@@ -18,7 +18,7 @@
 </head>
 <body>
     <h1>{{ $title }}</h1>
-    <p class="built">Built {{ school_now()->format('j M Y, H:i') }} &middot; {{ trans_choice(':count row|:count rows', $rows->count(), ['count' => $rows->count()]) }}</p>
+    <p class="built">Built {{ school_now()->translatedFormat('j M Y, H:i') }} &middot; {{ trans_choice(':count row|:count rows', $rows->count(), ['count' => $rows->count()]) }}</p>
 
     @if ($rows->isEmpty())
         <p class="empty">{{ __('This report has nothing to show.') }}</p>

@@ -28,7 +28,7 @@
                                                 <span class="text-sm font-normal text-muted-foreground">
                                                     · {{ $row['share'] === null ? 'best result counts' : $row['share'].'%' }}
                                                     @if ($item->due_on)
-                                                        · due {{ $item->due_on->format('M j') }}{{ $row['week'] ? ' (week '.$row['week'].')' : '' }}
+                                                        · due {{ $item->due_on->translatedFormat('M j') }}{{ $row['week'] ? ' (week '.$row['week'].')' : '' }}
                                                     @endif
                                                 </span>
                                             </p>

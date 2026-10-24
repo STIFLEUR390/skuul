@@ -14,11 +14,14 @@ use App\Models\School;
 use App\Models\SchoolOperatingProfile;
 use App\Models\User;
 use App\Services\Installation\InstallationReadiness;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Database\Seeders\DemoDataSeeder;
 use Database\Seeders\RunInProductionSeeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 class InstallApplication
@@ -62,6 +65,9 @@ class InstallApplication
             ? $locale
             : (string) config('app.fallback_locale');
         app()->setLocale($locale);
+        Carbon::setLocale($locale);
+        CarbonImmutable::setLocale($locale);
+        Number::useLocale($locale);
 
         return DB::transaction(function () use ($data, $locale): Installation {
             if (Installation::withoutGlobalScopes()->lockForUpdate()->exists()) {

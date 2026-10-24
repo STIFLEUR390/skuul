@@ -57,7 +57,7 @@ class SchoolTrends
             $days = $totals->get($weekStart->toDateString(), collect());
 
             return [
-                'week' => $weekStart->format('M j'),
+                'week' => $weekStart->translatedFormat('M j'),
                 'recorded' => (int) $days->sum('recorded'),
                 'present' => (int) $days->sum('present'),
             ];
@@ -110,7 +110,7 @@ class SchoolTrends
             $key = $month->format('Y-m');
 
             return [
-                'month' => $month->format('M'),
+                'month' => $month->translatedFormat('M'),
                 'billed' => (int) ($billed[$key] ?? 0) / 100,
                 'collected' => (int) ($collected[$key] ?? 0) / 100,
             ];
@@ -182,7 +182,7 @@ class SchoolTrends
             $key = $firstMonth->addMonths($offset)->format('Y-m');
 
             return [
-                'month' => $firstMonth->addMonths($offset)->format('M'),
+                'month' => $firstMonth->addMonths($offset)->translatedFormat('M'),
                 'received' => (int) ($received[$key] ?? 0) / 100,
                 'spent' => round((float) ($spent[$key] ?? 0), 2),
             ];
@@ -213,7 +213,7 @@ class SchoolTrends
             $weekStart = $firstWeek->addWeeks($offset);
 
             return [
-                'week' => $weekStart->format('M j'),
+                'week' => $weekStart->translatedFormat('M j'),
                 'incidents' => $counts->get($weekStart->toDateString(), 0),
             ];
         })->all();

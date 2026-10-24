@@ -193,8 +193,8 @@ class DashboardDataCards extends Component
                 $present = $dayRecords->filter(fn (AttendanceRecord $record): bool => $record->status->countsAsPresent())->count();
 
                 return [
-                    'label' => $date->format('D'),
-                    'date' => $date->format('M j'),
+                    'label' => $date->translatedFormat('D'),
+                    'date' => $date->translatedFormat('M j'),
                     'rate' => $dayRecords->isEmpty() ? null : round(($present / $dayRecords->count()) * 100, 1),
                     'registered' => $dayRecords->count(),
                 ];
@@ -232,7 +232,7 @@ class DashboardDataCards extends Component
             ->map(fn (CalendarEvent $event): array => [
                 'title' => $event->title,
                 'type' => $event->type->label(),
-                'date' => $event->starts_at->format('D, M j'),
+                'date' => $event->starts_at->translatedFormat('D, M j'),
                 'time' => $event->is_all_day ? 'All day' : $event->starts_at->format('g:i A'),
             ])
             ->all();
@@ -256,7 +256,7 @@ class DashboardDataCards extends Component
             ->get(['id', 'title', 'stop_date'])
             ->map(fn (Notice $notice): array => [
                 'title' => $notice->title,
-                'until' => Carbon::parse($notice->stop_date)->format('M j'),
+                'until' => Carbon::parse($notice->stop_date)->translatedFormat('M j'),
                 'url' => route('notices.show', $notice),
             ])
             ->all();

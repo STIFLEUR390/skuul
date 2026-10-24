@@ -73,11 +73,11 @@
         <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-4">
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Issued') }}</dt>
-                <dd class="font-medium">{{ $feeInvoice->issue_date?->format('j M Y') ?? $dash }}</dd>
+                <dd class="font-medium">{{ $feeInvoice->issue_date?->translatedFormat('j M Y') ?? $dash }}</dd>
             </div>
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Due') }}</dt>
-                <dd @class(['font-medium', 'text-destructive' => $isOverdue])>{{ $feeInvoice->due_date?->format('j M Y') ?? $dash }}</dd>
+                <dd @class(['font-medium', 'text-destructive' => $isOverdue])>{{ $feeInvoice->due_date?->translatedFormat('j M Y') ?? $dash }}</dd>
             </div>
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Charged') }}</dt>
@@ -170,7 +170,7 @@
                                     @endif
                                 </p>
                                 <p class="text-muted-foreground">
-                                    {{ $row['payment']->received_on?->format('j M Y') }}
+                                    {{ $row['payment']->received_on?->translatedFormat('j M Y') }}
                                     @if ($row['payment']->reference)
                                         · {{ $row['payment']->reference }}
                                     @endif

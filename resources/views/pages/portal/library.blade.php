@@ -25,7 +25,7 @@
                                     </p>
                                 </div>
                                 <p class="text-sm {{ $loan->daysLate() > 0 ? 'text-destructive' : 'text-muted-foreground' }}">
-                                    Due {{ $loan->due_on?->format('j M Y') }}
+                                    Due {{ $loan->due_on?->translatedFormat('j M Y') }}
                                 </p>
                             </div>
                         @endforeach
@@ -49,7 +49,7 @@
                                     <p class="text-sm text-muted-foreground">{{ $reservation->status->label() }}</p>
                                 </div>
                                 @if ($reservation->holds_until)
-                                    <p class="text-sm text-muted-foreground">Collect by {{ $reservation->holds_until->format('j M Y') }}</p>
+                                    <p class="text-sm text-muted-foreground">Collect by {{ $reservation->holds_until->translatedFormat('j M Y') }}</p>
                                 @endif
                             </div>
                         @endforeach

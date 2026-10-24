@@ -24,15 +24,15 @@
             </div>
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Runs') }}</dt>
-                <dd @class(['font-medium', 'text-muted-foreground' => $plan->starts_on === null])>{{ $plan->starts_on?->format('j M Y') ?? '—' }}</dd>
+                <dd @class(['font-medium', 'text-muted-foreground' => $plan->starts_on === null])>{{ $plan->starts_on?->translatedFormat('j M Y') ?? '—' }}</dd>
                 @if ($plan->ends_on !== null)
-                    <dd class="text-sm text-muted-foreground">to {{ $plan->ends_on->format('j M Y') }}</dd>
+                    <dd class="text-sm text-muted-foreground">to {{ $plan->ends_on->translatedFormat('j M Y') }}</dd>
                 @endif
             </div>
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Review') }}</dt>
                 <dd @class(['font-medium', 'text-destructive' => $isDue, 'text-muted-foreground' => $plan->review_on === null])>
-                    {{ $plan->review_on?->format('j M Y') ?? '—' }}@if ($isDue) · due @endif
+                    {{ $plan->review_on?->translatedFormat('j M Y') ?? '—' }}@if ($isDue) · due @endif
                 </dd>
             </div>
             <div>
@@ -78,9 +78,9 @@
                             <p @class(['font-medium', 'text-muted-foreground line-through' => $action->completed_at !== null])>{{ $action->description }}</p>
                             <p class="text-xs text-muted-foreground">
                                 {{ $action->assignedTo?->name ?? 'Nobody yet' }}
-                                · {{ $action->due_on?->format('j M Y') ?? 'No date' }}
+                                · {{ $action->due_on?->translatedFormat('j M Y') ?? 'No date' }}
                                 @if ($action->completed_at !== null)
-                                    · Done {{ school_time($action->completed_at)?->format('j M Y') }}
+                                    · Done {{ school_time($action->completed_at)?->translatedFormat('j M Y') }}
                                 @endif
                             </p>
                         </div>
@@ -135,7 +135,7 @@
                     <li wire:key="note-{{ $note->id }}" class="py-3 text-sm">
                         <p class="flex flex-wrap items-center gap-x-2 text-muted-foreground">
                             <span class="font-medium text-foreground">{{ $note->writtenBy?->name ?? 'Unknown person' }}</span>
-                            <span>{{ school_time($note->created_at)?->format('j M Y') }}</span>
+                            <span>{{ school_time($note->created_at)?->translatedFormat('j M Y') }}</span>
                         </p>
                         <p class="mt-1 whitespace-pre-line">{{ $note->body }}</p>
                     </li>
@@ -161,13 +161,13 @@
         <ol class="flex flex-col gap-3 border-l pl-4 text-sm">
             <li>
                 <p class="font-medium">{{ __('Written') }}</p>
-                <p class="text-muted-foreground">{{ school_time($plan->created_at)?->format('j M Y') }} · {{ $plan->createdBy?->name ?? 'Unknown person' }}</p>
+                <p class="text-muted-foreground">{{ school_time($plan->created_at)?->translatedFormat('j M Y') }} · {{ $plan->createdBy?->name ?? 'Unknown person' }}</p>
             </li>
             @foreach ($plan->statusChanges as $change)
                 <li wire:key="change-{{ $change->id }}">
                     <p class="font-medium">{{ $change->from_status->label() }} → {{ $change->to_status->label() }}</p>
                     <p class="text-muted-foreground">
-                        {{ school_time($change->created_at)?->format('j M Y') }} · {{ $change->changedBy?->name ?? 'Unknown person' }}
+                        {{ school_time($change->created_at)?->translatedFormat('j M Y') }} · {{ $change->changedBy?->name ?? 'Unknown person' }}
                         @if (filled($change->reason))
                             · {{ $change->reason }}
                         @endif

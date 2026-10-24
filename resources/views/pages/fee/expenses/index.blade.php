@@ -20,7 +20,7 @@
                 <li class="flex items-center justify-between gap-4 py-3">
                     <div class="min-w-0 text-sm">
                         <p class="truncate font-medium">{{ $expense->description }}</p>
-                        <p class="truncate text-muted-foreground">{{ $expense->expense_date->format('j M Y') }} · {{ $expense->vendor ?: '—' }} · {{ $expense->account?->name ?? '—' }} · {{ str($expense->method)->replace('_', ' ')->ucfirst() }}</p>
+                        <p class="truncate text-muted-foreground">{{ $expense->expense_date->translatedFormat('j M Y') }} · {{ $expense->vendor ?: '—' }} · {{ $expense->account?->name ?? '—' }} · {{ str($expense->method)->replace('_', ' ')->ucfirst() }}</p>
                     </div>
                     <span class="shrink-0 text-sm font-medium tabular-nums">{{ money_text($expense->amount) }}</span>
                 </li>

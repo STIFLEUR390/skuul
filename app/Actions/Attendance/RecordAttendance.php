@@ -54,7 +54,7 @@ class RecordAttendance
         $closure = $this->calendar->closureOn($section->school_id, $section->id, $day);
 
         if ($closure !== null) {
-            throw new InvalidValueException("The school was shut on {$day->format('j M Y')} for {$closure->title}. That day has no register.");
+            throw new InvalidValueException("The school was shut on {$day->translatedFormat('j M Y')} for {$closure->title}. That day has no register.");
         }
 
         return DB::transaction(function () use ($enrollment, $status, $day, $kind, $subject, $actor, $reason, $source, $term, $section): AttendanceRecord {
@@ -72,7 +72,7 @@ class RecordAttendance
             if ($record->exists && $enrollment->school_id !== null && $record->school_id !== $enrollment->school_id) {
                 $record->loadMissing('school:id,name');
 
-                throw new InvalidValueException("{$day->format('j M Y')} is in the register of {$record->school?->name}. Only that campus can change it.");
+                throw new InvalidValueException("{$day->translatedFormat('j M Y')} is in the register of {$record->school?->name}. Only that campus can change it.");
             }
 
             $previous = $record->exists ? $record->status : null;
@@ -180,7 +180,7 @@ class RecordAttendance
         if ($term !== null && ($term->isClosed() || $term->academicYear?->isClosed())) {
             $closedTerm = $term->label ?? $term->name;
 
-            throw new ClosedPeriodException("You cannot take attendance for {$day->format('j M Y')}. {$closedTerm} is closed.");
+            throw new ClosedPeriodException("You cannot take attendance for {$day->translatedFormat('j M Y')}. {$closedTerm} is closed.");
         }
 
         $period = current_academic_period() ?? current_academic_year();
@@ -206,7 +206,7 @@ class RecordAttendance
         if ($enrollment->school_id !== null && $section->school_id !== $enrollment->school_id) {
             $section->loadMissing('school:id,name');
 
-            throw new InvalidValueException("{$enrollment->user?->name} was at {$section->school?->name} on {$day->format('j M Y')}. Only that campus can take its register.");
+            throw new InvalidValueException("{$enrollment->user?->name} was at {$section->school?->name} on {$day->translatedFormat('j M Y')}. Only that campus can take its register.");
         }
 
         return $section;

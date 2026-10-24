@@ -79,7 +79,7 @@
                     <li wire:key="cover-{{ $substitution->id }}" class="flex items-center gap-3 py-3">
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">
-                                {{ $substitution->substituted_on->format('D j M Y') }} · {{ $substitution->timeSlot?->start_time ?? '—' }}–{{ $substitution->timeSlot?->stop_time ?? '—' }}
+                                {{ $substitution->substituted_on->translatedFormat('D j M Y') }} · {{ $substitution->timeSlot?->start_time ?? '—' }}–{{ $substitution->timeSlot?->stop_time ?? '—' }}
                             </p>
                             <p class="truncate text-xs text-muted-foreground">
                                 {{ $substitution->replacementTeacher?->name ?? '—' }} covers · {{ $substitution->reason }} · approved by {{ $substitution->approvedBy?->name ?? '—' }}
@@ -88,7 +88,7 @@
                         @if ($canWithdraw && !$substitution->substituted_on->lt(school_today()))
                             <april:dropdown-menu>
                                 <slot:trigger>
-                                    <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More for the cover on {{ $substitution->substituted_on->format('j M') }}">
+                                    <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More for the cover on {{ $substitution->substituted_on->translatedFormat('j M') }}">
                                         <x-lucide-ellipsis class="size-4" />
                                     </april:button>
                                 </slot:trigger>

@@ -80,7 +80,7 @@
                         </div>
                         <div>
                             <dt class="text-xs font-medium text-muted-foreground">{{ __('Joined') }}</dt>
-                            <dd class="mt-1 text-sm">{{ $profile->joined_on?->format('j M Y') ?? 'No date' }}</dd>
+                            <dd class="mt-1 text-sm">{{ $profile->joined_on?->translatedFormat('j M Y') ?? 'No date' }}</dd>
                         </div>
                     </dl>
 

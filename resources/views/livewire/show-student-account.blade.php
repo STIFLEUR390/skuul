@@ -114,7 +114,7 @@
                                 <td class="py-3 pr-4 font-medium">
                                     <a href="{{ route('fee-invoices.show', $invoice->id) }}" class="hover:underline">{{ $invoice->name }}</a>
                                 </td>
-                                <td class="whitespace-nowrap py-3 pr-4 text-muted-foreground">{{ $invoice->due_date?->format('j M Y') ?? '—' }}</td>
+                                <td class="whitespace-nowrap py-3 pr-4 text-muted-foreground">{{ $invoice->due_date?->translatedFormat('j M Y') ?? '—' }}</td>
                                 <td class="whitespace-nowrap py-3 pr-4 text-right tabular-nums text-muted-foreground">{{ $invoice->amount->plus($invoice->fine)->minus($invoice->waiver)->formatToLocale($locale) }}</td>
                                 <td class="whitespace-nowrap py-3 pr-4 text-right tabular-nums text-muted-foreground">{{ $invoice->paid->formatToLocale($locale) }}</td>
                                 <td @class(['whitespace-nowrap py-3 pr-4 text-right tabular-nums', 'font-medium' => $invoice->balance->isPositive(), 'text-muted-foreground' => !$invoice->balance->isPositive()])>{{ $invoice->balance->formatToLocale($locale) }}</td>
@@ -216,7 +216,7 @@
                                     @endif
                                 </p>
                                 <p class="text-muted-foreground">
-                                    {{ $payment->received_on?->format('j M Y') }}
+                                    {{ $payment->received_on?->translatedFormat('j M Y') }}
                                     @if ($payment->reference)
                                         · {{ $payment->reference }}
                                     @endif
@@ -233,7 +233,7 @@
                             </div>
                             <april:dropdown-menu>
                                 <slot:trigger>
-                                    <april:button type="button" variant="ghost" size="icon" class="size-11 shrink-0 select-none" aria-label="Actions for the payment of {{ $payment->amount->formatToLocale($locale) }} on {{ $payment->received_on?->format('j M Y') }}">
+                                    <april:button type="button" variant="ghost" size="icon" class="size-11 shrink-0 select-none" aria-label="Actions for the payment of {{ $payment->amount->formatToLocale($locale) }} on {{ $payment->received_on?->translatedFormat('j M Y') }}">
                                         <x-lucide-ellipsis class="size-4" />
                                     </april:button>
                                 </slot:trigger>

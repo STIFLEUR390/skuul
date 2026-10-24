@@ -38,7 +38,7 @@
                     <april:button type="button" variant="outline" wire:click="moveDay(1)" :disabled="$isTodayOrLater">
                         {{ __('Next day') }} <x-lucide-chevron-right class="ml-1 size-4" />
                     </april:button>
-                    <span class="w-full text-sm text-muted-foreground sm:ml-auto sm:w-auto">{{ \Illuminate\Support\Carbon::parse($attendedOn)->format('l, j F Y') }}</span>
+                    <span class="w-full text-sm text-muted-foreground sm:ml-auto sm:w-auto">{{ \Illuminate\Support\Carbon::parse($attendedOn)->translatedFormat('l, j F Y') }}</span>
                 </div>
             @endif
         </slot:content>
@@ -67,7 +67,7 @@
             <slot:title>{{ $section->academicLevel?->name }} · {{ $section->label ?? $section->name }}</slot:title>
             <slot:content>
                 <x-empty-state icon="lucide-calendar-off" title="Shut for {{ $closure->title }}"
-                    description="The calendar closes the school on {{ \Illuminate\Support\Carbon::parse($attendedOn)->format('j F Y') }}, so that day has no register." />
+                    description="The calendar closes the school on {{ \Illuminate\Support\Carbon::parse($attendedOn)->translatedFormat('j F Y') }}, so that day has no register." />
             </slot:content>
         </april:card>
     @elseif ($students->isEmpty())
@@ -89,7 +89,7 @@
         <form wire:submit="save">
             <april:card>
                 <slot:title>{{ $section->academicLevel?->name }} · {{ $section->label ?? $section->name }}</slot:title>
-                <slot:description>{{ $students->count() }} {{ Str::plural('learner', $students->count()) }} · {{ \Illuminate\Support\Carbon::parse($attendedOn)->format('j F Y') }}</slot:description>
+                <slot:description>{{ $students->count() }} {{ Str::plural('learner', $students->count()) }} · {{ \Illuminate\Support\Carbon::parse($attendedOn)->translatedFormat('j F Y') }}</slot:description>
                 <slot:content>
                     <div class="flex flex-wrap items-center gap-2 border-b border-border pb-4" aria-live="polite" aria-label="{{ __('Attendance totals') }}">
                         <april:badge variant="secondary">{{ __('Present') }} <span class="ml-1 font-bold">{{ $counts->get('present', 0) }}</span></april:badge>

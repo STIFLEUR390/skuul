@@ -3,7 +3,7 @@
         @php
             $dateRange = static fn (?string $startsOn, ?string $endsOn): string => blank($startsOn) && blank($endsOn)
                 ? 'No dates'
-                : collect([$startsOn, $endsOn])->map(fn (?string $date): string => blank($date) ? '—' : \Illuminate\Support\Carbon::parse($date)->format('M j, Y'))->join(' – ');
+                : collect([$startsOn, $endsOn])->map(fn (?string $date): string => blank($date) ? '—' : \Illuminate\Support\Carbon::parse($date)->translatedFormat('M j, Y'))->join(' – ');
         @endphp
         <div class="space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-3">

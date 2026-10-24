@@ -175,7 +175,7 @@
                                         {{ $learner?->user?->name ?? 'Unnamed' }}
                                         <span class="block text-xs text-muted-foreground">{{ $learner?->admission_number }}</span>
                                     </april:data-table-cell>
-                                    <april:data-table-cell>{{ number_format($row['average'], 2) }}%</april:data-table-cell>
+                                    <april:data-table-cell>{{ \Illuminate\Support\Number::format($row['average'], 2) }}%</april:data-table-cell>
                                     <april:data-table-cell class="text-right text-muted-foreground">{{ $row['subjects'] }}</april:data-table-cell>
                                 </april:data-table-row>
                             @endforeach

@@ -23,7 +23,7 @@
             <p class="font-medium">{{ $sharingRequest->requestingSchool?->name ?? '—' }} asked {{ $holderName }}</p>
             <p class="text-sm text-muted-foreground">{{ $sharingRequest->purpose }}</p>
             @if ($sharingRequest->hasExpired())
-                <p class="text-sm text-destructive">Ran out on {{ $sharingRequest->expires_on->format('j M Y') }}</p>
+                <p class="text-sm text-destructive">Ran out on {{ $sharingRequest->expires_on->translatedFormat('j M Y') }}</p>
             @endif
         </div>
 
@@ -32,7 +32,7 @@
                 <dt class="text-sm text-muted-foreground">{{ __('State') }}</dt>
                 <dd class="font-medium">{{ $sharingRequest->status->label() }}</dd>
                 @if ($sharingRequest->decidedBy !== null)
-                    <dd class="text-xs text-muted-foreground">{{ $sharingRequest->decidedBy->name }} · {{ school_time($sharingRequest->decided_at)?->format('j M Y') }}</dd>
+                    <dd class="text-xs text-muted-foreground">{{ $sharingRequest->decidedBy->name }} · {{ school_time($sharingRequest->decided_at)?->translatedFormat('j M Y') }}</dd>
                 @endif
             </div>
             <div>
@@ -48,12 +48,12 @@
             </div>
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Asked on') }}</dt>
-                <dd class="font-medium">{{ school_time($sharingRequest->created_at)?->format('j M Y') }}</dd>
+                <dd class="font-medium">{{ school_time($sharingRequest->created_at)?->translatedFormat('j M Y') }}</dd>
                 <dd class="text-xs text-muted-foreground">{{ $sharingRequest->requestedBy?->name ?? '—' }}</dd>
             </div>
             <div>
                 <dt class="text-sm text-muted-foreground">{{ __('Runs out') }}</dt>
-                <dd class="font-medium">{{ $sharingRequest->expires_on?->format('j M Y') ?? '—' }}</dd>
+                <dd class="font-medium">{{ $sharingRequest->expires_on?->translatedFormat('j M Y') ?? '—' }}</dd>
             </div>
             <div class="col-span-2 sm:col-span-4">
                 <dt class="text-sm text-muted-foreground">{{ __('Asked for') }}</dt>
@@ -115,7 +115,7 @@
             <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-3">
                 <div>
                     <dt class="text-sm text-muted-foreground">{{ __('Built on') }}</dt>
-                    <dd class="font-medium">{{ school_time($package->created_at)?->format('j M Y') }}</dd>
+                    <dd class="font-medium">{{ school_time($package->created_at)?->translatedFormat('j M Y') }}</dd>
                 </div>
                 <div>
                     <dt class="text-sm text-muted-foreground">{{ __('Kinds of record') }}</dt>
@@ -123,7 +123,7 @@
                 </div>
                 <div>
                     <dt class="text-sm text-muted-foreground">{{ __('Taken in') }}</dt>
-                    <dd class="font-medium">{{ school_time($package->received_at)?->format('j M Y') ?? '—' }}</dd>
+                    <dd class="font-medium">{{ school_time($package->received_at)?->translatedFormat('j M Y') ?? '—' }}</dd>
                 </div>
             </dl>
             @if ($isRequester && !$package->wasReceived() && $sharingRequest->status === \App\Enums\DataSharingStatus::Revoked)

@@ -51,7 +51,7 @@
                                 <span class="text-muted-foreground">{{ __('Closed') }}</span>
                             @endif
                         </p>
-                        <p class="text-muted-foreground">{{ $period->starts_on->format('j M Y') }} – {{ $period->ends_on->format('j M Y') }}</p>
+                        <p class="text-muted-foreground">{{ $period->starts_on->translatedFormat('j M Y') }} – {{ $period->ends_on->translatedFormat('j M Y') }}</p>
                     </div>
                     @if ($canManage)
                         @if ($period->isClosed())

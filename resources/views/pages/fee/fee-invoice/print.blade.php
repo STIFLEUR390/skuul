@@ -30,9 +30,9 @@
                 <p class="eyebrow">{{ $isReceipt ? 'Receipt' : 'Invoice' }}</p>
                 <h2>{{ $feeInvoice->name }}</h2>
                 <p class="muted">
-                    Issued {{ $feeInvoice->issue_date?->format('j M Y') ?? $dash }}
+                    Issued {{ $feeInvoice->issue_date?->translatedFormat('j M Y') ?? $dash }}
                     @unless ($isReceipt)
-                        · Due {{ $feeInvoice->due_date?->format('j M Y') ?? $dash }}
+                        · Due {{ $feeInvoice->due_date?->translatedFormat('j M Y') ?? $dash }}
                     @endunless
                 </p>
             </div>
@@ -123,7 +123,7 @@
                     <tbody>
                         @foreach ($payments as $row)
                             <tr>
-                                <td class="nowrap">{{ $row['payment']->received_on?->format('j M Y') ?? $dash }}</td>
+                                <td class="nowrap">{{ $row['payment']->received_on?->translatedFormat('j M Y') ?? $dash }}</td>
                                 <td>#{{ $row['payment']->id }}</td>
                                 <td>{{ $row['payment']->methodLabel() }}</td>
                                 <td>{{ $row['payment']->reference ?: $dash }}</td>
@@ -147,7 +147,7 @@
                 <span></span>
                 {{ $isReceipt ? 'Received by' : 'Authorised by' }} · signature and school stamp
             </div>
-            <p class="muted">Printed {{ school_now()->format('j M Y, H:i') }} by {{ auth()->user()->name }}</p>
+            <p class="muted">Printed {{ school_now()->translatedFormat('j M Y, H:i') }} by {{ auth()->user()->name }}</p>
         </footer>
     </div>
 @endsection

@@ -19,7 +19,7 @@
             </april:button>
         @elseif ($batch->applied_at !== null)
             <span class="text-sm text-muted-foreground">
-                Written on {{ school_time($batch->applied_at)?->format('j M Y') }}. An import runs once.
+                Written on {{ school_time($batch->applied_at)?->translatedFormat('j M Y') }}. An import runs once.
             </span>
         @else
             <span class="text-sm text-muted-foreground">{{ __('This import is finished. Load the file again to run it.') }}</span>

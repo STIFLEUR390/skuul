@@ -333,7 +333,7 @@ class TimetableConflictChecker
                             '%s is booked for %s on %s from %s to %s.',
                             $booking->facility?->name,
                             $booking->purpose,
-                            $day->format('j M Y'),
+                            $day->translatedFormat('j M Y'),
                             $booking->starts_at->format('H:i'),
                             $booking->ends_at->format('H:i'),
                         );

@@ -243,7 +243,7 @@ class PortalSummary
             'latest_roll' => $latestRollEntry === null ? null : [
                 'type' => $latestRollEntry->roll->type->label(),
                 'status' => $latestRollEntry->status->label(),
-                'taken_on' => $latestRollEntry->roll->taken_on->format('j M Y'),
+                'taken_on' => $latestRollEntry->roll->taken_on->translatedFormat('j M Y'),
             ],
         ];
     }

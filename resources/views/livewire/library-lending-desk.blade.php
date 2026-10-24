@@ -41,7 +41,7 @@
                             <p class="text-xs text-muted-foreground">
                                 <span class="font-mono">{{ $copy->barcode }}</span> ·
                                 @if ($copyLoan !== null)
-                                    out to {{ $copyLoan->borrower?->name ?? '—' }}, due {{ $copyLoan->due_on->format('j M') }}
+                                    out to {{ $copyLoan->borrower?->name ?? '—' }}, due {{ $copyLoan->due_on->translatedFormat('j M') }}
                                 @else
                                     {{ $copy->status->label() }}
                                 @endif
@@ -147,7 +147,7 @@
                                     @if ($late > 0)
                                         <span class="font-medium text-destructive">{{ $late }} {{ Str::plural('day', $late) }} late</span>
                                     @else
-                                        due {{ $loan->due_on->format('j M') }}
+                                        due {{ $loan->due_on->translatedFormat('j M') }}
                                     @endif
                                 </p>
                             </div>
@@ -181,7 +181,7 @@
                     <li wire:key="back-{{ $loan->id }}" class="flex items-center gap-3 py-3">
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $loan->copy?->title?->title ?? '—' }}</p>
-                            <p class="text-xs text-muted-foreground">{{ $loan->borrower?->name ?? '—' }} · back {{ $loan->returned_on?->format('j M') }}</p>
+                            <p class="text-xs text-muted-foreground">{{ $loan->borrower?->name ?? '—' }} · back {{ $loan->returned_on?->translatedFormat('j M') }}</p>
                         </div>
                         @if ($loan->fine_charged > 0)
                             <p class="shrink-0 text-xs text-muted-foreground">Fine {{ $loan->fine()->formatToLocale(app()->getLocale()) }}</p>

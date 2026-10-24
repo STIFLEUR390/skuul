@@ -48,7 +48,7 @@
             <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-4">
                 @foreach ([
                     'Admission number' => $studentRecord->admission_number,
-                    'Admitted' => $studentRecord->admission_date?->format('j M Y'),
+                    'Admitted' => $studentRecord->admission_date?->translatedFormat('j M Y'),
                     school_term('class_level', 'Class') => $studentRecord->academicCycleSection?->academicLevel?->name,
                     school_term('section', 'Section') => $studentRecord->academicCycleSection?->label ?? $studentRecord->academicCycleSection?->name,
                 ] as $label => $value)
@@ -66,7 +66,7 @@
                         @if ($openCampusMoveRequest->academicCycleSection)
                             · {{ $openCampusMoveRequest->academicCycleSection->label ?? $openCampusMoveRequest->academicCycleSection->name }}
                         @endif
-                        · {{ $openCampusMoveRequest->effective_on?->format('j M Y') }}
+                        · {{ $openCampusMoveRequest->effective_on?->translatedFormat('j M Y') }}
                     </p>
                     @if ($canManageEnrollment)
                         <april:button type="button" variant="outline" class="h-11 w-full select-none sm:w-auto" wire:click="cancelCampusMove"
@@ -194,7 +194,7 @@
                             <li class="py-3 text-sm" wire:key="enrollment-status-change-{{ $change->id }}">
                                 <p class="flex flex-wrap items-baseline justify-between gap-x-4">
                                     <span class="font-medium">{{ $change->from_status->label() }} → {{ $change->to_status->label() }}</span>
-                                    <span class="text-muted-foreground">{{ $change->effective_on?->format('j M Y') }}</span>
+                                    <span class="text-muted-foreground">{{ $change->effective_on?->translatedFormat('j M Y') }}</span>
                                 </p>
                                 <p class="text-muted-foreground">
                                     {{ $change->changedBy?->name ?? 'Unknown person' }}@if (filled($change->reason)) · {{ $change->reason }}@endif
@@ -218,7 +218,7 @@
                                         {{ $placement->academicCycleSection?->academicLevel?->name ?? '—' }}
                                         · {{ $placement->academicCycleSection?->label ?? $placement->academicCycleSection?->name ?? '—' }}
                                     </span>
-                                    <span class="text-muted-foreground">{{ $placement->effective_on?->format('j M Y') }}</span>
+                                    <span class="text-muted-foreground">{{ $placement->effective_on?->translatedFormat('j M Y') }}</span>
                                 </p>
                                 <p class="text-muted-foreground">
                                     {{ $placement->academicYear?->name ?? '—' }}@if ($placement->academicPeriod) · {{ $placement->academicPeriod->name }}@endif

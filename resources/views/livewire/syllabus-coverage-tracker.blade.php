@@ -55,7 +55,7 @@
                                         {{ $record?->status->label() ?? 'Not yet taught' }}
                                     @endif
                                 </td>
-                                <td class="px-2 py-2 text-muted-foreground">{{ $record?->covered_on?->format('M j') ?? '—' }}</td>
+                                <td class="px-2 py-2 text-muted-foreground">{{ $record?->covered_on?->translatedFormat('M j') ?? '—' }}</td>
                                 <td class="px-2 py-2">
                                     @if ($canRecord && $record !== null)
                                         <input type="text" maxlength="1000" value="{{ $record->note }}" aria-label="Note on {{ $topic->title }}" placeholder="{{ __('Eg: carried over to week 6') }}"

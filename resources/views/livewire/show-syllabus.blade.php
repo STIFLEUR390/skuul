@@ -10,7 +10,7 @@
                 ])>{{ $syllabus->status->label() }}</span>
                 <span>Revision {{ $syllabus->revision }}</span>
                 @if ($syllabus->published_at)
-                    <span>· Published {{ $syllabus->published_at->format('M j, Y') }}{{ $syllabus->publishedBy ? ' by '.$syllabus->publishedBy->name : '' }}</span>
+                    <span>· Published {{ $syllabus->published_at->translatedFormat('M j, Y') }}{{ $syllabus->publishedBy ? ' by '.$syllabus->publishedBy->name : '' }}</span>
                 @endif
             </div>
 
@@ -35,7 +35,7 @@
 
             @if ($syllabus->status === \App\Enums\SyllabusStatus::Submitted)
                 <p class="mb-4 rounded-md border bg-muted/40 p-3 text-sm">
-                    Waiting for review{{ $syllabus->submittedBy ? ' · sent by '.$syllabus->submittedBy->name : '' }}{{ $syllabus->submitted_at ? ' on '.$syllabus->submitted_at->format('M j, Y') : '' }}.
+                    Waiting for review{{ $syllabus->submittedBy ? ' · sent by '.$syllabus->submittedBy->name : '' }}{{ $syllabus->submitted_at ? ' on '.$syllabus->submitted_at->translatedFormat('M j, Y') : '' }}.
                 </p>
             @elseif ($syllabus->status === \App\Enums\SyllabusStatus::Draft && $syllabus->review_note)
                 <p class="mb-4 rounded-md border border-destructive/40 bg-destructive/5 p-3 text-sm">

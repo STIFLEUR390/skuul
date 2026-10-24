@@ -366,7 +366,7 @@ class CreateTimetableForm extends Component
     public function eventDraftRuleLabel(): string
     {
         if ($this->newEvent['recurrence'] === 'one_time') {
-            return 'One date'.($this->newEvent['occurs_on'] === null ? '' : ' · '.Carbon::parse($this->newEvent['occurs_on'])->format('j M Y'));
+            return 'One date'.($this->newEvent['occurs_on'] === null ? '' : ' · '.Carbon::parse($this->newEvent['occurs_on'])->translatedFormat('j M Y'));
         }
 
         $unit = $this->newEvent['recurrence'] === 'monthly' ? 'month' : 'week';
@@ -378,10 +378,10 @@ class CreateTimetableForm extends Component
         if ($this->newEvent['recurrence'] === 'weekly') {
             $frequency .= ' on '.($weekdayNames ?: 'selected weekdays');
         } elseif ($this->newEvent['starts_on'] !== null) {
-            $frequency .= ' on the '.Carbon::parse($this->newEvent['starts_on'])->format('jS');
+            $frequency .= ' on the '.Carbon::parse($this->newEvent['starts_on'])->translatedFormat('jS');
         }
 
-        return $frequency.' from '.($this->newEvent['starts_on'] === null ? 'the start date' : Carbon::parse($this->newEvent['starts_on'])->format('j M Y'));
+        return $frequency.' from '.($this->newEvent['starts_on'] === null ? 'the start date' : Carbon::parse($this->newEvent['starts_on'])->translatedFormat('j M Y'));
     }
 
     public function removeEvent(int $index): void

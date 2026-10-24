@@ -60,11 +60,11 @@
                                 <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
                                     <div>
                                         <dt class="text-muted-foreground">{{ __('Issued') }}</dt>
-                                        <dd class="mt-1">{{ $invoice->issue_date?->format('j M Y') }}</dd>
+                                        <dd class="mt-1">{{ $invoice->issue_date?->translatedFormat('j M Y') }}</dd>
                                     </div>
                                     <div>
                                         <dt class="text-muted-foreground">{{ __('Due') }}</dt>
-                                        <dd class="mt-1">{{ $invoice->due_date?->format('j M Y') }}</dd>
+                                        <dd class="mt-1">{{ $invoice->due_date?->translatedFormat('j M Y') }}</dd>
                                     </div>
                                     <div class="col-span-2">
                                         <dt class="text-muted-foreground">{{ __('Total') }}</dt>
@@ -90,8 +90,8 @@
                                 @foreach ($invoices as $invoice)
                                     <tr class="border-b last:border-0">
                                         <td class="p-4 font-medium">{{ $invoice->name }}</td>
-                                        <td class="p-4 text-muted-foreground">{{ $invoice->issue_date?->format('j M Y') }}</td>
-                                        <td class="p-4 text-muted-foreground">{{ $invoice->due_date?->format('j M Y') }}</td>
+                                        <td class="p-4 text-muted-foreground">{{ $invoice->issue_date?->translatedFormat('j M Y') }}</td>
+                                        <td class="p-4 text-muted-foreground">{{ $invoice->due_date?->translatedFormat('j M Y') }}</td>
                                         <td class="p-4 text-right">{{ $invoice->amount->plus($invoice->fine)->minus($invoice->waiver)->formatToLocale(app()->getLocale()) }}</td>
                                         <td class="p-4 text-right">{{ $invoice->balance->formatToLocale(app()->getLocale()) }}</td>
                                     </tr>

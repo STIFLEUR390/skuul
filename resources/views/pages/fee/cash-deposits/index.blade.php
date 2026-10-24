@@ -19,7 +19,7 @@
             @foreach ($deposits as $deposit)
                 <li class="flex items-center justify-between gap-4 py-3">
                     <div class="min-w-0 text-sm">
-                        <p class="font-medium">{{ $deposit->deposit_date->format('j M Y') }}</p>
+                        <p class="font-medium">{{ $deposit->deposit_date->translatedFormat('j M Y') }}</p>
                         <p class="truncate text-muted-foreground">{{ $deposit->bank_reference ?: '—' }} · {{ $deposit->financialPeriod?->name ?? '—' }}</p>
                     </div>
                     <span class="shrink-0 text-sm font-medium tabular-nums">{{ money_text($deposit->amount) }}</span>

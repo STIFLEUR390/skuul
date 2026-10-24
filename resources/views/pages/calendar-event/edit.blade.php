@@ -20,7 +20,7 @@
                 <div>
                     <dt class="text-sm text-muted-foreground">{{ __('Date') }}</dt>
                     <dd class="font-medium">
-                        {{ $event->starts_at->format('j M Y') }}@if ($event->ends_at->toDateString() !== $event->starts_at->toDateString()) – {{ $event->ends_at->format('j M Y') }}@endif
+                        {{ $event->starts_at->translatedFormat('j M Y') }}@if ($event->ends_at->toDateString() !== $event->starts_at->toDateString()) – {{ $event->ends_at->translatedFormat('j M Y') }}@endif
                     </dd>
                 </div>
                 <div>

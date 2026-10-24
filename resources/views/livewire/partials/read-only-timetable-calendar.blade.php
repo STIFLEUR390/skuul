@@ -71,7 +71,7 @@
     @else
         <section class="rounded-lg border bg-background">
             <div class="border-b px-4 py-3">
-                <p class="font-semibold">{{ Illuminate\Support\Carbon::parse($calendarDate)->format('l, j F Y') }}</p>
+                <p class="font-semibold">{{ Illuminate\Support\Carbon::parse($calendarDate)->translatedFormat('l, j F Y') }}</p>
                 <p class="text-sm text-muted-foreground">{{ $this->dayEvents === [] ? 'No events scheduled.' : count($this->dayEvents).' event'.(count($this->dayEvents) === 1 ? '' : 's') }}</p>
             </div>
             <div class="divide-y">

@@ -279,7 +279,7 @@ class ManageStaffProfile
             ->get();
 
         foreach ($held as $leave) {
-            $this->manageStaffLeave->cancel($leave, $actor, 'The person left on '.$leftOn->format('j M Y').'.');
+            $this->manageStaffLeave->cancel($leave, $actor, 'The person left on '.$leftOn->translatedFormat('j M Y').'.');
         }
     }
 }

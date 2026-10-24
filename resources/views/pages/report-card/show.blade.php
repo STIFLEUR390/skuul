@@ -40,7 +40,7 @@
                     <div class="rounded-lg border p-4">
                         <dt class="text-sm text-muted-foreground">{{ __('Overall') }}</dt>
                         <dd class="text-2xl font-semibold">
-                            {{ $reportCardSnapshot->average_percentage === null ? '—' : number_format($reportCardSnapshot->average_percentage, 2).'%' }}
+                            {{ $reportCardSnapshot->average_percentage === null ? '—' : \Illuminate\Support\Number::format($reportCardSnapshot->average_percentage, 2).'%' }}
                         </dd>
                         <p class="mt-1 text-xs text-muted-foreground">{{ __('Average across the subjects below') }}</p>
                     </div>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="rounded-lg border p-4">
                         <dt class="text-sm text-muted-foreground">{{ __('Issued') }}</dt>
-                        <dd class="text-lg font-semibold">{{ school_time($reportCardSnapshot->published_at)?->format('j M Y') }}</dd>
+                        <dd class="text-lg font-semibold">{{ school_time($reportCardSnapshot->published_at)?->translatedFormat('j M Y') }}</dd>
                         <p class="mt-1 text-xs text-muted-foreground">
                             {{ $reportCardSnapshot->publishedBy?->name ? 'By '.$reportCardSnapshot->publishedBy->name : 'Publisher not recorded' }}
                         </p>
@@ -91,7 +91,7 @@
                                 <april:data-table-row>
                                     <april:data-table-cell class="font-medium">{{ $result['subject']['name'] }}</april:data-table-cell>
                                     <april:data-table-cell>
-                                        {{ $result['percentage'] === null ? '—' : number_format($result['percentage'], 2).'%' }}
+                                        {{ $result['percentage'] === null ? '—' : \Illuminate\Support\Number::format($result['percentage'], 2).'%' }}
                                     </april:data-table-cell>
                                     <april:data-table-cell class="text-muted-foreground">Revision {{ $result['source_revision'] }}</april:data-table-cell>
                                 </april:data-table-row>
@@ -117,7 +117,7 @@
                                     @endif
                                 </p>
                                 <p class="text-sm text-muted-foreground">
-                                    {{ school_time($revision->published_at)?->format('j M Y') }}
+                                    {{ school_time($revision->published_at)?->translatedFormat('j M Y') }}
                                     @if ($revision->publishedBy?->name)
                                         · {{ $revision->publishedBy->name }}
                                     @endif
@@ -128,7 +128,7 @@
                             </div>
                             <div class="flex items-center gap-3">
                                 <span class="text-sm text-muted-foreground">
-                                    {{ $revision->average_percentage === null ? '—' : number_format($revision->average_percentage, 2).'%' }}
+                                    {{ $revision->average_percentage === null ? '—' : \Illuminate\Support\Number::format($revision->average_percentage, 2).'%' }}
                                 </span>
                                 @unless ($revision->is($reportCardSnapshot))
                                     <april:button-link href="{{ route('report-cards.show', $revision) }}" variant="outline" size="sm" aria-label="Open revision {{ $revision->revision }}">{{ __('Open') }}</april:button-link>

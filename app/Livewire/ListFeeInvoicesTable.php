@@ -125,7 +125,7 @@ class ListFeeInvoicesTable extends DataTableComponent
             $row['section_name'] = $sectionName;
             $row['paid_label'] = $invoice->paid->formatToLocale(app()->getLocale());
             $row['balance_label'] = $invoice->balance->formatToLocale(app()->getLocale());
-            $row['due_date_label'] = $invoice->due_date->format('M j, Y');
+            $row['due_date_label'] = $invoice->due_date->translatedFormat('M j, Y');
             $row['view_url'] = route('fee-invoices.show', $invoice);
             $row['edit_url'] = route('fee-invoices.edit', $invoice);
             $row['pay_url'] = route('fee-invoices.pay', $invoice);

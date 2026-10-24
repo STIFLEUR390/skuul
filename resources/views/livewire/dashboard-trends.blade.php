@@ -116,8 +116,8 @@
                             <p class="text-sm text-muted-foreground">{{ current_academic_year()?->name }}</p>
                         </div>
                         <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
-                            <span class="text-3xl font-semibold tabular-nums">{{ number_format($enrolled) }}</span>
-                            <span class="text-sm tabular-nums text-muted-foreground">{{ $seats > 0 ? 'of '.number_format($seats).' seats' : 'students' }}</span>
+                            <span class="text-3xl font-semibold tabular-nums">{{ \Illuminate\Support\Number::format($enrolled) }}</span>
+                            <span class="text-sm tabular-nums text-muted-foreground">{{ $seats > 0 ? 'of '.\Illuminate\Support\Number::format($seats).' seats' : 'students' }}</span>
                         </p>
                         <ul class="mt-4 space-y-3">
                             @foreach ($enrolment as $level)

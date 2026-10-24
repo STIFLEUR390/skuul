@@ -75,7 +75,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 rounded-md border border-dashed bg-muted/20 p-3">
                         <div>
                             <p class="text-sm font-semibold">{{ __('Day slots') }}</p>
-                            <p class="text-sm text-muted-foreground">Add a one-time slot for {{ \Illuminate\Support\Carbon::parse($calendarDate)->format('j F Y') }}.</p>
+                            <p class="text-sm text-muted-foreground">Add a one-time slot for {{ \Illuminate\Support\Carbon::parse($calendarDate)->translatedFormat('j F Y') }}.</p>
                         </div>
                         <button type="button" wire:click="openTimeSlotDialog('{{ $calendarDate }}')" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">
                             <x-lucide-plus class="mr-2 size-4" />
@@ -89,7 +89,7 @@
                                 <span class="text-sm text-muted-foreground">{{ $event['time'] }}</span>
                             </button>
                         @empty
-                            <button type="button" wire:click="openTimeSlotDialog('{{ $calendarDate }}')" class="w-full rounded-md border border-dashed p-10 text-center text-sm text-muted-foreground hover:border-primary">No events on this date. Add a time slot for {{ \Illuminate\Support\Carbon::parse($calendarDate)->format('j F') }}.</button>
+                            <button type="button" wire:click="openTimeSlotDialog('{{ $calendarDate }}')" class="w-full rounded-md border border-dashed p-10 text-center text-sm text-muted-foreground hover:border-primary">No events on this date. Add a time slot for {{ \Illuminate\Support\Carbon::parse($calendarDate)->translatedFormat('j F') }}.</button>
                         @endforelse
                     </div>
                 @else

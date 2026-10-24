@@ -31,7 +31,7 @@
                         @if ($participation->starts_on || $participation->ends_on)
                             <div>
                                 <dt class="inline font-medium">{{ __('Dates:') }}</dt>
-                                <dd class="inline">{{ $participation->starts_on?->format('M j, Y') ?? 'Not set' }} – {{ $participation->ends_on?->format('M j, Y') ?? 'Not set' }}</dd>
+                                <dd class="inline">{{ $participation->starts_on?->translatedFormat('M j, Y') ?? 'Not set' }} – {{ $participation->ends_on?->translatedFormat('M j, Y') ?? 'Not set' }}</dd>
                             </div>
                         @endif
                     </dl>

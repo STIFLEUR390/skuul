@@ -164,8 +164,8 @@ class ShowAcademicYear extends DataTableComponent
         return $rows->map(function (Exam $exam): array {
             $row = $exam->toArray();
             $row['academic_period_name'] = $exam->academicPeriod->name;
-            $row['start_date_label'] = $exam->start_date->format('M j, Y');
-            $row['stop_date_label'] = $exam->stop_date->format('M j, Y');
+            $row['start_date_label'] = $exam->start_date->translatedFormat('M j, Y');
+            $row['stop_date_label'] = $exam->stop_date->translatedFormat('M j, Y');
             $row['edit_url'] = route('exams.edit', $exam);
 
             return $row;

@@ -3,8 +3,8 @@
         $controlClasses = 'h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
         $learnerName = fn ($leave) => $leave->studentRecord?->user?->name ?? $leave->studentRecord?->admission_number ?? '—';
         $nights = fn ($leave) => $leave->leaves_on->isSameDay($leave->returns_on)
-            ? $leave->leaves_on->format('j M')
-            : $leave->leaves_on->format('j M').' to '.$leave->returns_on->format('j M');
+            ? $leave->leaves_on->translatedFormat('j M')
+            : $leave->leaves_on->translatedFormat('j M').' to '.$leave->returns_on->translatedFormat('j M');
     @endphp
 
     @if ($canAsk)
@@ -72,7 +72,7 @@
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $learnerName($leave) }}</p>
                             <p class="text-xs text-muted-foreground">
-                                Due back {{ $leave->returns_on->format('j M') }} · {{ $leave->destination }}{{ $leave->contact ? ' · '.$leave->contact : '' }}
+                                Due back {{ $leave->returns_on->translatedFormat('j M') }} · {{ $leave->destination }}{{ $leave->contact ? ' · '.$leave->contact : '' }}
                             </p>
                         </div>
                         @if ($canDecide)
@@ -95,7 +95,7 @@
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $learnerName($leave) }}</p>
                             <p class="text-xs text-muted-foreground">
-                                Back {{ $leave->returns_on->format('j M') }} · {{ $leave->destination }}{{ $leave->contact ? ' · '.$leave->contact : '' }}
+                                Back {{ $leave->returns_on->translatedFormat('j M') }} · {{ $leave->destination }}{{ $leave->contact ? ' · '.$leave->contact : '' }}
                             </p>
                         </div>
                         @if ($canDecide)

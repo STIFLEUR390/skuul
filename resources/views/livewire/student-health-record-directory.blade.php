@@ -85,7 +85,7 @@
                                         <span class="text-sm text-muted-foreground">{{ __('Nothing held') }}</span>
                                     @else
                                         <span class="inline-flex whitespace-nowrap items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
-                                            Saved {{ school_time($learner->healthRecord->updated_at)?->format('j M Y') }}
+                                            Saved {{ school_time($learner->healthRecord->updated_at)?->translatedFormat('j M Y') }}
                                         </span>
                                     @endif
                                 </april:data-table-cell>

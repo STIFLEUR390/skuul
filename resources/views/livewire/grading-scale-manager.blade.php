@@ -111,7 +111,7 @@
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">{{ $scale->name }}</p>
                             <p class="truncate text-xs text-muted-foreground">
-                                {{ $scale->scale_type->label() }} · {{ $scale->options->map(fn ($option) => $option->points === null ? $option->label : $option->label.' '.rtrim(rtrim(number_format($option->points, 2), '0'), '.'))->join(', ') ?: '—' }}
+                                {{ $scale->scale_type->label() }} · {{ $scale->options->map(fn ($option) => $option->points === null ? $option->label : $option->label.' '.\Illuminate\Support\Number::format($option->points, null, 2))->join(', ') ?: '—' }}
                             </p>
                             <p class="text-xs text-muted-foreground">
                                 {{ $scale->grade_items_count }} {{ Str::plural('assessment', $scale->grade_items_count) }}{{ $scale->is_active ? '' : ' · not offered for new assessments' }}

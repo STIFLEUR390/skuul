@@ -201,8 +201,8 @@ class RollForwardAcademicYearSetup
         return sprintf(
             '%s (%s – %s)',
             $period->displayName,
-            $startsOn->format('M j, Y'),
-            $endsOn->format('M j, Y'),
+            $startsOn->translatedFormat('M j, Y'),
+            $endsOn->translatedFormat('M j, Y'),
         );
     }
 

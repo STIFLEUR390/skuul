@@ -94,11 +94,11 @@ class SaveExam
         }
 
         if ($period->starts_on !== null && $startsOn->lt($period->starts_on->copy()->startOfDay())) {
-            throw new InvalidValueException("The exam starts before {$period->displayName} starts on {$period->starts_on->format('j M Y')}.");
+            throw new InvalidValueException("The exam starts before {$period->displayName} starts on {$period->starts_on->translatedFormat('j M Y')}.");
         }
 
         if ($period->ends_on !== null && $stopsOn->gt($period->ends_on->copy()->startOfDay())) {
-            throw new InvalidValueException("The exam ends after {$period->displayName} ends on {$period->ends_on->format('j M Y')}.");
+            throw new InvalidValueException("The exam ends after {$period->displayName} ends on {$period->ends_on->translatedFormat('j M Y')}.");
         }
     }
 

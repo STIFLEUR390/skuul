@@ -201,9 +201,9 @@ class ShowTimetable extends Component
         $date = Carbon::parse($this->calendarDate);
 
         return match ($this->calendarView) {
-            'day' => $date->format('l, j F Y'),
-            'month' => $date->format('F Y'),
-            default => $date->copy()->startOfWeek(Carbon::MONDAY)->format('j M').' – '.$date->copy()->endOfWeek(Carbon::SUNDAY)->format('j M Y'),
+            'day' => $date->translatedFormat('l, j F Y'),
+            'month' => $date->translatedFormat('F Y'),
+            default => $date->copy()->startOfWeek(Carbon::MONDAY)->translatedFormat('j M').' – '.$date->copy()->endOfWeek(Carbon::SUNDAY)->translatedFormat('j M Y'),
         };
     }
 

@@ -97,7 +97,7 @@
                     <div class="min-w-0">
                         <h2 id="review-heading" class="text-lg font-semibold">Review {{ $academicYear->name }}</h2>
                         <dl class="mt-2 flex flex-wrap gap-x-8 gap-y-2 text-sm">
-                            <div><dt class="text-muted-foreground">{{ __('Dates') }}</dt><dd class="font-medium">{{ $academicYear->starts_on?->format('M j, Y') }} – {{ $academicYear->ends_on?->format('M j, Y') }}</dd></div>
+                            <div><dt class="text-muted-foreground">{{ __('Dates') }}</dt><dd class="font-medium">{{ $academicYear->starts_on?->translatedFormat('M j, Y') }} – {{ $academicYear->ends_on?->translatedFormat('M j, Y') }}</dd></div>
                             <div><dt class="text-muted-foreground">{{ __('Reporting periods') }}</dt><dd class="font-medium tabular-nums">{{ $academicYear->topLevelPeriods->count() }}</dd></div>
                         </dl>
                     </div>
