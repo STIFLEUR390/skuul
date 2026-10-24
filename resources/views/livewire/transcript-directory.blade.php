@@ -2,14 +2,14 @@
     <x-display-validation-errors />
     @can('create', App\Models\TranscriptSnapshot::class)
         <april:card>
-            <slot:title>Issue a transcript</slot:title>
+            <slot:title>{{ __('Issue a transcript') }}</slot:title>
             <slot:description>Lifetime record of a learner’s latest published results. Issued transcripts stay fixed; corrections create a new revision.</slot:description>
             <slot:content>
                 <form wire:submit="issueTranscript" class="grid gap-4 lg:grid-cols-4 lg:items-end">
                     <div class="flex min-w-0 flex-col gap-2">
-                        <april:label for="transcript-student">Learner</april:label>
+                        <april:label for="transcript-student">{{ __('Learner') }}</april:label>
                         <april:native-select id="transcript-student" wire:model="student_record_id" required class="w-full min-w-0">
-                            <option value="">Choose a learner</option>
+                            <option value="">{{ __('Choose a learner') }}</option>
                             @foreach ($students as $student)
                                 <option value="{{ $student->id }}">
                                     {{ $student->user?->name ?? 'Unnamed' }} · {{ $student->admission_number }}
@@ -20,15 +20,15 @@
                     </div>
 
                     <div class="flex flex-col gap-2 lg:col-span-2">
-                        <april:label for="transcript-reason">Reason for a revision</april:label>
-                        <april:input id="transcript-reason" wire:model="reason" placeholder="Only needed when reissuing" />
+                        <april:label for="transcript-reason">{{ __('Reason for a revision') }}</april:label>
+                        <april:input id="transcript-reason" wire:model="reason" placeholder="{{ __('Only needed when reissuing') }}" />
                         <x-field-error name="reason" />
                     </div>
 
                     <april:button type="submit" wire:loading.attr="disabled">
                         <x-lucide-scroll-text class="mr-2 size-4" />
-                        <span wire:loading.remove>Issue transcript</span>
-                        <span wire:loading>Issuing…</span>
+                        <span wire:loading.remove>{{ __('Issue transcript') }}</span>
+                        <span wire:loading>{{ __('Issuing…') }}</span>
                     </april:button>
                 </form>
             </slot:content>
@@ -36,14 +36,14 @@
     @endcan
 
     <april:card>
-        <slot:title>Find a transcript</slot:title>
-        <slot:description>Narrow the list to one learner.</slot:description>
+        <slot:title>{{ __('Find a transcript') }}</slot:title>
+        <slot:description>{{ __('Narrow the list to one learner.') }}</slot:description>
         <slot:content>
             <div class="grid gap-4 lg:grid-cols-[minmax(0,2fr)_auto] lg:items-end">
                 <div class="flex min-w-0 flex-col gap-2">
-                    <april:label for="filter-student">Learner</april:label>
+                    <april:label for="filter-student">{{ __('Learner') }}</april:label>
                     <select id="filter-student" wire:model.live="studentRecordId" class="h-10 w-full min-w-0 rounded-md border border-input bg-background px-3 text-sm">
-                        <option value="">Every learner</option>
+                        <option value="">{{ __('Every learner') }}</option>
                         @foreach ($students as $student)
                             <option value="{{ $student->id }}">{{ $student->user?->name ?? 'Unnamed' }} · {{ $student->admission_number }}</option>
                         @endforeach
@@ -52,36 +52,36 @@
 
                 @if ($selectedStudent !== null)
                     <div>
-                        <april:button type="button" variant="outline" wire:click="clearFilter">Clear filter</april:button>
+                        <april:button type="button" variant="outline" wire:click="clearFilter">{{ __('Clear filter') }}</april:button>
                     </div>
                 @endif
             </div>
-            <p wire:loading class="mt-3 text-sm text-muted-foreground" role="status">Updating transcripts…</p>
+            <p wire:loading class="mt-3 text-sm text-muted-foreground" role="status">{{ __('Updating transcripts…') }}</p>
         </slot:content>
     </april:card>
 
     <april:card>
-        <slot:title>Issued transcripts</slot:title>
-        <slot:description>Open a row to read the subjects the transcript carries.</slot:description>
+        <slot:title>{{ __('Issued transcripts') }}</slot:title>
+        <slot:description>{{ __('Open a row to read the subjects the transcript carries.') }}</slot:description>
         <slot:content>
             @if ($transcripts->isEmpty())
                 @if ($selectedStudent !== null)
-                    <x-empty-state icon="lucide-search-x" title="Nothing matches this filter" description="No transcript has been issued for that learner.">
-                        <april:button type="button" variant="outline" wire:click="clearFilter">Show every transcript</april:button>
+                    <x-empty-state icon="lucide-search-x" title="{{ __('Nothing matches this filter') }}" description="No transcript has been issued for that learner.">
+                        <april:button type="button" variant="outline" wire:click="clearFilter">{{ __('Show every transcript') }}</april:button>
                     </x-empty-state>
                 @else
-                    <x-empty-state icon="lucide-scroll-text" title="No transcripts yet" description="Issue one above once a learner has at least one published subject result." />
+                    <x-empty-state icon="lucide-scroll-text" title="{{ __('No transcripts yet') }}" description="Issue one above once a learner has at least one published subject result." />
                 @endif
             @else
                 <div x-data="{ open: null }" class="overflow-x-auto">
                     <table class="w-full min-w-[42rem] text-left text-sm">
                         <thead class="border-b border-border text-muted-foreground">
                             <tr>
-                                <th scope="col" class="px-3 py-2">Learner</th>
-                                <th scope="col" class="px-3 py-2">Revision</th>
-                                <th scope="col" class="px-3 py-2">Subjects</th>
-                                <th scope="col" class="px-3 py-2">Issued</th>
-                                <th scope="col" class="px-3 py-2 text-right">Actions</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Learner') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Revision') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Subjects') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Issued') }}</th>
+                                <th scope="col" class="px-3 py-2 text-right">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-border">
@@ -100,7 +100,7 @@
                                     <td class="whitespace-nowrap px-3 py-3 text-muted-foreground">{{ school_time($transcript->issued_at)?->format('j M Y') }}</td>
                                     <td class="px-3 py-3 text-right">
                                         <button type="button" class="inline-flex h-9 items-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent" x-on:click="open = (open === {{ $transcript->id }} ? null : {{ $transcript->id }})" x-bind:aria-expanded="open === {{ $transcript->id }}" aria-controls="transcript-details-{{ $transcript->id }}">
-                                            <span x-text="open === {{ $transcript->id }} ? 'Hide subjects' : 'Read subjects'">Read subjects</span>
+                                            <span x-text="open === {{ $transcript->id }} ? 'Hide subjects' : 'Read subjects'">{{ __('Read subjects') }}</span>
                                         </button>
                                     </td>
                                 </tr>

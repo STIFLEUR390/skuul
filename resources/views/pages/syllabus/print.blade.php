@@ -8,10 +8,10 @@
     @php($courseOffering = $syllabus->courseOffering)
     <h2 class="scheme-title">Scheme of work: {{ $syllabus->name }}</h2>
     <dl class="scheme-details">
-        <div><dt>Subject</dt><dd>{{ $courseOffering->subject->name }}</dd></div>
-        <div><dt>Class</dt><dd>{{ $courseOffering->academicLevel->name }}</dd></div>
+        <div><dt>{{ __('Subject') }}</dt><dd>{{ $courseOffering->subject->name }}</dd></div>
+        <div><dt>{{ __('Class') }}</dt><dd>{{ $courseOffering->academicLevel->name }}</dd></div>
         <div><dt>{{ school_term('period', 'Academic period') }}</dt><dd>{{ $courseOffering->academicPeriod->academicYear?->name }} · {{ $courseOffering->academicPeriod->label ?? $courseOffering->academicPeriod->name }}</dd></div>
-        <div><dt>Revision</dt><dd>{{ $syllabus->revision }} · {{ $syllabus->status->label() }}@if ($syllabus->published_at) on {{ $syllabus->published_at->toFormattedDateString() }}@endif</dd></div>
+        <div><dt>{{ __('Revision') }}</dt><dd>{{ $syllabus->revision }} · {{ $syllabus->status->label() }}@if ($syllabus->published_at) on {{ $syllabus->published_at->toFormattedDateString() }}@endif</dd></div>
     </dl>
 
     @if ($syllabus->description)
@@ -19,16 +19,16 @@
     @endif
 
     @if ($syllabus->topics->isEmpty())
-        <p>No weekly topics are planned in this syllabus yet.</p>
+        <p>{{ __('No weekly topics are planned in this syllabus yet.') }}</p>
     @else
         <table>
             <thead>
                 <tr>
-                    <th scope="col">Week</th>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Objectives</th>
-                    <th scope="col">Content</th>
-                    <th scope="col">Resources</th>
+                    <th scope="col">{{ __('Week') }}</th>
+                    <th scope="col">{{ __('Topic') }}</th>
+                    <th scope="col">{{ __('Objectives') }}</th>
+                    <th scope="col">{{ __('Content') }}</th>
+                    <th scope="col">{{ __('Resources') }}</th>
                 </tr>
             </thead>
             <tbody>

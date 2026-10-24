@@ -47,7 +47,7 @@
                     <p class="mb-1 font-medium leading-none tracking-tight" x-text="notification.title"></p>
                     <div class="text-sm" x-text="notification.message"></div>
                 </div>
-                <button type="button" class="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" aria-label="Dismiss notification" x-on:click="remove(notification.id)">
+                <button type="button" class="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" aria-label="{{ __('Dismiss notification') }}" x-on:click="remove(notification.id)">
                     <x-lucide-x class="size-4" />
                 </button>
             </div>
@@ -61,9 +61,9 @@
                         <x-lucide-ban class="size-4 rounded-full bg-background" />
                     </span>
                 </slot:icon>
-                <slot:title>No Internet</slot:title>
+                <slot:title>{{ __('No Internet') }}</slot:title>
                 <slot:description @offline.window="showAlert = true" @online.window="showAlert = false">
-                    Your device has gone offline
+                    {{ __('Your device has gone offline') }}
                 </slot:description>
             </april:alert>
         </div>

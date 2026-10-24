@@ -1,33 +1,32 @@
 <div class="space-y-6">
     <april:card>
-        <slot:title>Who works here</slot:title>
+        <slot:title>{{ __('Who works here') }}</slot:title>
         <slot:description>
-            An employment record belongs to one school. A person who works in two schools holds two records,
-            so leave in one school never hides them in the other.
+            {{ __('An employment record belongs to one school. A person who works in two schools holds two records, so leave in one school never hides them in the other.') }}
         </slot:description>
         <slot:content class="space-y-6">
             <dl class="grid gap-4 sm:grid-cols-2">
                 <div class="rounded-lg border p-4">
-                    <dt class="text-sm text-muted-foreground">Working now</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Working now') }}</dt>
                     <dd class="text-2xl font-semibold">{{ $employedCount }}</dd>
                 </div>
                 <div class="rounded-lg border p-4">
-                    <dt class="text-sm text-muted-foreground">Away today</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Away today') }}</dt>
                     <dd class="text-2xl font-semibold">{{ $awayCount }}</dd>
-                    <p class="mt-1 text-xs text-muted-foreground">Leave the school agreed to</p>
+                    <p class="mt-1 text-xs text-muted-foreground">{{ __('Leave the school agreed to') }}</p>
                 </div>
             </dl>
 
             <div class="grid gap-4 border-t pt-6 lg:grid-cols-4 lg:items-end">
                 <div class="flex flex-col gap-2">
-                    <april:label for="staff-search">Find a person</april:label>
-                    <april:input id="staff-search" type="search" wire:model.live.debounce.400ms="search" placeholder="Name, job, or department" />
+                    <april:label for="staff-search">{{ __('Find a person') }}</april:label>
+                    <april:input id="staff-search" type="search" wire:model.live.debounce.400ms="search" placeholder="{{ __('Name, job, or department') }}" />
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <april:label for="staff-filter-status">State</april:label>
+                    <april:label for="staff-filter-status">{{ __('State') }}</april:label>
                     <april:native-select id="staff-filter-status" wire:model.live="status">
-                        <option value="">Every state</option>
+                        <option value="">{{ __('Every state') }}</option>
                         @foreach ($statuses as $staffStatus)
                             <option value="{{ $staffStatus->value }}">{{ $staffStatus->label() }}</option>
                         @endforeach
@@ -36,22 +35,22 @@
 
                 <label class="flex items-center gap-2 text-sm">
                     <input type="checkbox" wire:model.live="awayOnly" class="size-4 rounded border-input text-primary-foreground focus:ring-2 focus:ring-ring">
-                    Only the people away today
+                    {{ __('Only the people away today') }}
                 </label>
 
                 @if ($search !== '' || $selectedStatus !== null || $awayOnly)
                     <div>
-                        <april:button type="button" variant="outline" wire:click="clearFilters">Clear filters</april:button>
+                        <april:button type="button" variant="outline" wire:click="clearFilters">{{ __('Clear filters') }}</april:button>
                     </div>
                 @endif
             </div>
-            <p wire:loading class="text-sm text-muted-foreground" role="status">Updating staff list…</p>
+            <p wire:loading class="text-sm text-muted-foreground" role="status">{{ __('Updating staff list…') }}</p>
         </slot:content>
     </april:card>
 
     <april:card>
-        <slot:title>Employment records</slot:title>
-        <slot:description>Open a record to read the job, the qualifications, the working hours, and the leave.</slot:description>
+        <slot:title>{{ __('Employment records') }}</slot:title>
+        <slot:description>{{ __('Open a record to read the job, the qualifications, the working hours, and the leave.') }}</slot:description>
         <slot:content class="space-y-4">
             @forelse ($profiles as $profile)
                 <article class="rounded-lg border p-4" wire:key="staff-profile-{{ $profile->id }}">
@@ -68,19 +67,19 @@
 
                     <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         <div>
-                            <dt class="text-xs font-medium text-muted-foreground">Job</dt>
+                            <dt class="text-xs font-medium text-muted-foreground">{{ __('Job') }}</dt>
                             <dd class="mt-1 text-sm">{{ $profile->job_title ?? '—' }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs font-medium text-muted-foreground">Department</dt>
+                            <dt class="text-xs font-medium text-muted-foreground">{{ __('Department') }}</dt>
                             <dd class="mt-1 text-sm">{{ $profile->department ?? 'No department' }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs font-medium text-muted-foreground">Employment type</dt>
+                            <dt class="text-xs font-medium text-muted-foreground">{{ __('Employment type') }}</dt>
                             <dd class="mt-1 text-sm">{{ $profile->employment_type->label() }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs font-medium text-muted-foreground">Joined</dt>
+                            <dt class="text-xs font-medium text-muted-foreground">{{ __('Joined') }}</dt>
                             <dd class="mt-1 text-sm">{{ $profile->joined_on?->format('j M Y') ?? 'No date' }}</dd>
                         </div>
                     </dl>
@@ -88,19 +87,19 @@
                     <div class="mt-4">
                         <april:button-link href="{{ route('staff-profiles.show', $profile) }}" variant="outline" size="sm"
                             aria-label="Open the profile of {{ $profile->user?->name ?? $profile->staff_number ?? 'this member of staff' }}">
-                            <x-lucide-eye class="mr-1 size-4" /> Open profile
+                            <x-lucide-eye class="mr-1 size-4" /> {{ __('Open profile') }}
                         </april:button-link>
                     </div>
                 </article>
             @empty
                 @if ($search !== '' || $selectedStatus !== null || $awayOnly)
-                    <x-empty-state icon="lucide-search-x" title="Nothing matches this search" description="No employment record of this school matches.">
-                        <april:button type="button" variant="outline" wire:click="clearFilters">Show every record</april:button>
+                    <x-empty-state icon="lucide-search-x" title="{{ __('Nothing matches this search') }}" description="No employment record of this school matches.">
+                        <april:button type="button" variant="outline" wire:click="clearFilters">{{ __('Show every record') }}</april:button>
                     </x-empty-state>
                 @else
-                    <x-empty-state icon="lucide-briefcase" title="No employment records yet" description="Add a record for each person who works here, or import them from a file.">
+                    <x-empty-state icon="lucide-briefcase" title="{{ __('No employment records yet') }}" description="Add a record for each person who works here, or import them from a file.">
                         @can('create', App\Models\StaffProfile::class)
-                            <april:button-link href="{{ route('staff-profiles.create') }}">Add the first record</april:button-link>
+                            <april:button-link href="{{ route('staff-profiles.create') }}">{{ __('Add the first record') }}</april:button-link>
                         @endcan
                     </x-empty-state>
                 @endif

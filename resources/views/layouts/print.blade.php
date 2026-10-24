@@ -81,8 +81,8 @@
 </head>
 <body>
     <div class="print-toolbar" data-print-toolbar>
-        <a href="@yield('back_url', route('dashboard'))" data-back-link>Back</a>
-        <button type="button" data-print-button>Print</button>
+        <a href="@yield('back_url', route('dashboard'))" data-back-link>{{ __('Back') }}</a>
+        <button type="button" data-print-button>{{ __('Print') }}</button>
     </div>
 
     <div class="print-document">

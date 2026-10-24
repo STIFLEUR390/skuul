@@ -8,14 +8,14 @@
 @section('page_heading', 'Expenses')
 
 @section('page_actions')
-    <x-resource-create-action :href="route('expenses.create')" ability="create" :arguments="[\App\Models\Expense::class]">Record expense</x-resource-create-action>
+    <x-resource-create-action :href="route('expenses.create')" ability="create" :arguments="[\App\Models\Expense::class]">{{ __('Record expense') }}</x-resource-create-action>
 @endsection
 
 @section('content')
     @if ($expenses->isEmpty())
-        <p class="py-8 text-sm text-muted-foreground">No expenses yet</p>
+        <p class="py-8 text-sm text-muted-foreground">{{ __('No expenses yet') }}</p>
     @else
-        <ul class="divide-y border-y" aria-label="Expenses">
+        <ul class="divide-y border-y" aria-label="{{ __('Expenses') }}">
             @foreach ($expenses as $expense)
                 <li class="flex items-center justify-between gap-4 py-3">
                     <div class="min-w-0 text-sm">

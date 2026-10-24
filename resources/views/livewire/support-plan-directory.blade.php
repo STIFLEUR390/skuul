@@ -4,14 +4,14 @@
             <slot:icon><x-lucide-calendar-clock class="size-4" /></slot:icon>
             <slot:title>{{ $dueCount }} {{ Str::plural('plan', $dueCount) }} {{ $dueCount === 1 ? 'is' : 'are' }} due for review</slot:title>
             <slot:description>
-                A plan says when somebody should look at it again. That day has passed.
-                <a class="underline" href="{{ route('support-plans.index', ['due' => 1]) }}">Show them</a>.
+                {{ __('A plan says when somebody should look at it again. That day has passed.') }}
+                <a class="underline" href="{{ route('support-plans.index', ['due' => 1]) }}">{{ __('Show them') }}</a>.
             </slot:description>
         </april:alert>
     @endif
 
     <april:card>
-        <slot:title>Help agreed for one child</slot:title>
+        <slot:title>{{ __('Help agreed for one child') }}</slot:title>
         <slot:description>
             {{ $openCount }} {{ Str::plural('plan', $openCount) }} {{ $openCount === 1 ? 'is' : 'are' }} still running.
             A health or counselling plan is readable only by the people who run it, so this list may be shorter than the school's.
@@ -19,9 +19,9 @@
         <slot:content>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-end">
                 <div class="flex flex-col gap-2">
-                    <april:label for="filter-status">State</april:label>
+                    <april:label for="filter-status">{{ __('State') }}</april:label>
                     <april:native-select id="filter-status" wire:model.live="status">
-                        <option value="">Every state</option>
+                        <option value="">{{ __('Every state') }}</option>
                         @foreach ($statuses as $availableStatus)
                             <option value="{{ $availableStatus->value }}">{{ $availableStatus->label() }}</option>
                         @endforeach
@@ -29,9 +29,9 @@
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <april:label for="filter-category">Kind of help</april:label>
+                    <april:label for="filter-category">{{ __('Kind of help') }}</april:label>
                     <april:native-select id="filter-category" wire:model.live="category">
-                        <option value="">Every kind</option>
+                        <option value="">{{ __('Every kind') }}</option>
                         @foreach ($categories as $availableCategory)
                             <option value="{{ $availableCategory->value }}">{{ $availableCategory->label() }}</option>
                         @endforeach
@@ -41,36 +41,36 @@
                 <label class="flex min-h-10 items-center gap-2 text-sm">
                     <input type="checkbox" wire:model.live="dueOnly"
                         class="size-4 rounded border-input text-primary-foreground focus:ring-2 focus:ring-ring">
-                    Only the plans due for review
+                    {{ __('Only the plans due for review') }}
                 </label>
 
                 @if ($selectedStatus !== null || $selectedCategory !== null || $dueOnly)
                     <april:button type="button" variant="outline" wire:click="clearFilters" wire:loading.attr="disabled">
                         <x-lucide-x class="mr-2 size-4" />
-                        Clear filters
+                        {{ __('Clear filters') }}
                     </april:button>
                 @endif
             </div>
 
-            <p wire:loading class="mt-4 text-sm text-muted-foreground" role="status">Updating plans…</p>
+            <p wire:loading class="mt-4 text-sm text-muted-foreground" role="status">{{ __('Updating plans…') }}</p>
         </slot:content>
     </april:card>
 
     <april:card>
-        <slot:title>Plans</slot:title>
-        <slot:description>Open a plan to read its steps, its notes, and how it moved.</slot:description>
+        <slot:title>{{ __('Plans') }}</slot:title>
+        <slot:description>{{ __('Open a plan to read its steps, its notes, and how it moved.') }}</slot:description>
         <slot:content>
             @if ($plans->isEmpty())
                 @if ($selectedStatus !== null || $selectedCategory !== null || $dueOnly)
-                    <x-empty-state icon="lucide-search-x" title="Nothing matches this filter"
+                    <x-empty-state icon="lucide-search-x" title="{{ __('Nothing matches this filter') }}"
                         description="No plan you may read is in that state.">
-                        <april:button type="button" variant="outline" wire:click="clearFilters">Show every plan</april:button>
+                        <april:button type="button" variant="outline" wire:click="clearFilters">{{ __('Show every plan') }}</april:button>
                     </x-empty-state>
                 @else
-                    <x-empty-state icon="lucide-heart-handshake" title="No support plans yet"
+                    <x-empty-state icon="lucide-heart-handshake" title="{{ __('No support plans yet') }}"
                         description="A plan names one child, what the school agreed to do, and when somebody should look at it again.">
                         @can('create', App\Models\SupportPlan::class)
-                            <april:button-link href="{{ route('support-plans.create') }}">Open the first plan</april:button-link>
+                            <april:button-link href="{{ route('support-plans.create') }}">{{ __('Open the first plan') }}</april:button-link>
                         @endcan
                     </x-empty-state>
                 @endif
@@ -78,12 +78,12 @@
                 <april:data-table>
                     <slot:header>
                         <april:data-table-row>
-                            <april:data-table-head>Plan</april:data-table-head>
-                            <april:data-table-head>Learner</april:data-table-head>
-                            <april:data-table-head>Kind</april:data-table-head>
-                            <april:data-table-head>State</april:data-table-head>
-                            <april:data-table-head>Review</april:data-table-head>
-                            <april:data-table-head class="text-right">Actions</april:data-table-head>
+                            <april:data-table-head>{{ __('Plan') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Learner') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Kind') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('State') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Review') }}</april:data-table-head>
+                            <april:data-table-head class="text-right">{{ __('Actions') }}</april:data-table-head>
                         </april:data-table-row>
                     </slot:header>
                     <slot:body>
@@ -107,7 +107,7 @@
                                     @if ($plan->is_confidential)
                                         <span class="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                                             <x-lucide-lock class="size-3" />
-                                            Confidential
+                                            {{ __('Confidential') }}
                                         </span>
                                     @endif
                                 </april:data-table-cell>
@@ -123,7 +123,7 @@
                                     <april:button-link href="{{ route('support-plans.show', $plan) }}" variant="outline" size="sm"
                                         aria-label="Open {{ $plan->title }}">
                                         <x-lucide-eye class="mr-1 size-4" />
-                                        Open
+                                        {{ __('Open') }}
                                     </april:button-link>
                                 </april:data-table-cell>
                             </april:data-table-row>

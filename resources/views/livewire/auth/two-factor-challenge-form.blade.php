@@ -1,24 +1,24 @@
 <div x-data="{ recovery: false, submitting: false }" class="space-y-6">
     <div class="space-y-2 text-sm leading-6 text-muted-foreground">
-        <p x-show="! recovery">Enter the authentication code from your authenticator application.</p>
-        <p x-show="recovery" x-cloak>Enter one of your emergency recovery codes.</p>
+        <p x-show="! recovery">{{ __('Enter the authentication code from your authenticator application.') }}</p>
+        <p x-show="recovery" x-cloak>{{ __('Enter one of your emergency recovery codes.') }}</p>
     </div>
 
     <form action="{{ route('two-factor.login') }}" method="POST" class="grid gap-5" x-on:submit="submitting = true">
         @csrf
 
         <div x-show="! recovery">
-            <april:input-group name="code" id="code" label="Authentication code" inputmode="numeric" autocomplete="one-time-code" autofocus x-ref="authenticationCode" />
+            <april:input-group name="code" id="code" label="{{ __('Authentication code') }}" inputmode="numeric" autocomplete="one-time-code" autofocus x-ref="authenticationCode" />
         </div>
 
         <div x-show="recovery" x-cloak>
-            <april:input-group name="recovery_code" id="recovery-code" label="Recovery code" autocomplete="one-time-code" x-ref="recoveryCode" />
+            <april:input-group name="recovery_code" id="recovery-code" label="{{ __('Recovery code') }}" autocomplete="one-time-code" x-ref="recoveryCode" />
         </div>
 
         <div class="flex flex-col gap-3">
             <april:button type="submit" class="w-full justify-center" x-bind:disabled="submitting" x-bind:aria-busy="submitting">
-                <span x-show="! submitting">Log in</span>
-                <span x-show="submitting" x-cloak>Working...</span>
+                <span x-show="! submitting">{{ __('Log in') }}</span>
+                <span x-show="submitting" x-cloak>{{ __('Working...') }}</span>
             </april:button>
 
             <april:button
@@ -28,7 +28,7 @@
                 x-show="! recovery"
                 x-on:click="recovery = true; $nextTick(() => $refs.recoveryCode.focus())"
             >
-                Use a recovery code
+                {{ __('Use a recovery code') }}
             </april:button>
 
             <april:button
@@ -39,7 +39,7 @@
                 x-cloak
                 x-on:click="recovery = false; $nextTick(() => $refs.authenticationCode.focus())"
             >
-                Use an authentication code
+                {{ __('Use an authentication code') }}
             </april:button>
         </div>
     </form>

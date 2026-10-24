@@ -25,13 +25,13 @@
             <x-field-error name="destinationAcademicCycleSectionId" class="mt-1" />
         </div>
         <div class="flex items-end">
-            <april:button type="submit" variant="outline" class="h-11 w-full select-none md:w-auto" wire:loading.attr="disabled" wire:target="loadStudents">Review learners</april:button>
+            <april:button type="submit" variant="outline" class="h-11 w-full select-none md:w-auto" wire:loading.attr="disabled" wire:target="loadStudents">{{ __('Review learners') }}</april:button>
         </div>
     </form>
 
     @if ($students !== [])
         <form wire:submit="promote" class="space-y-4">
-            <h2 class="text-base font-semibold">Learners to move</h2>
+            <h2 class="text-base font-semibold">{{ __('Learners to move') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($students as $student)
                     <li wire:key="promotion-student-{{ $student['id'] }}">
@@ -44,8 +44,8 @@
                 @endforeach
             </ul>
             <x-field-error name="selectedStudentIds" />
-            <p class="text-sm text-muted-foreground">Each move stays in the learner's placement history.</p>
-            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="promote" wire:confirm="Move the selected learners now?">Move selected learners</april:button>
+            <p class="text-sm text-muted-foreground">{{ __("Each move stays in the learner's placement history.") }}</p>
+            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="promote" wire:confirm="Move the selected learners now?">{{ __('Move selected learners') }}</april:button>
         </form>
     @endif
 </div>

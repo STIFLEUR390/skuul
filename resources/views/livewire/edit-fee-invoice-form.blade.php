@@ -7,7 +7,7 @@
         $moneyInput = $controlClasses.' text-right tabular-nums';
     @endphp
 
-    <section aria-label="Invoice details" class="flex flex-col gap-6">
+    <section aria-label="{{ __('Invoice details') }}" class="flex flex-col gap-6">
         <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
             <span class="font-medium text-foreground">{{ $feeInvoice->user?->name ?? $dash }}</span>
             @if ($feeInvoice->studentRecord?->admission_number)
@@ -19,21 +19,21 @@
             <span>· Issued {{ $feeInvoice->issue_date->format('j M Y') }}</span>
         </p>
 
-        <form wire:submit="saveDetails" class="flex flex-col gap-3" aria-label="Due date and note">
+        <form wire:submit="saveDetails" class="flex flex-col gap-3" aria-label="{{ __('Due date and note') }}">
             <div class="grid gap-3 sm:grid-cols-[12rem_1fr]">
                 <div>
-                    <label for="due-date" class="text-sm text-muted-foreground">Due</label>
+                    <label for="due-date" class="text-sm text-muted-foreground">{{ __('Due') }}</label>
                     <input type="date" id="due-date" wire:model="dueDate" min="{{ $feeInvoice->issue_date->format('Y-m-d') }}" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('dueDate') }}>
                 </div>
                 <div>
-                    <label for="note" class="text-sm text-muted-foreground">Note</label>
+                    <label for="note" class="text-sm text-muted-foreground">{{ __('Note') }}</label>
                     <input id="note" wire:model="note" maxlength="10000" placeholder="Note (optional)" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('note') }}>
                 </div>
             </div>
             <x-field-error name="dueDate" />
             <x-field-error name="note" />
             <div class="flex sm:justify-end">
-                <april:button type="submit" :variant="$isAdding || $editingLineId !== null ? 'outline' : 'default'" class="h-11 w-full select-none sm:w-auto" wire:loading.attr="disabled" wire:target="saveDetails">Save</april:button>
+                <april:button type="submit" :variant="$isAdding || $editingLineId !== null ? 'outline' : 'default'" class="h-11 w-full select-none sm:w-auto" wire:loading.attr="disabled" wire:target="saveDetails">{{ __('Save') }}</april:button>
             </div>
         </form>
     </section>
@@ -43,18 +43,18 @@
             <h2 id="fees-heading" class="text-base font-semibold">
                 Fees
                 @if ($isPosted)
-                    <span class="inline-flex items-center gap-1 font-normal text-muted-foreground"><x-lucide-lock class="size-3.5" aria-hidden="true" /> Posted</span>
+                    <span class="inline-flex items-center gap-1 font-normal text-muted-foreground"><x-lucide-lock class="size-3.5" aria-hidden="true" /> {{ __('Posted') }}</span>
                 @endif
             </h2>
             @if (!$isPosted && $canAddLines && !$isAdding)
-                <april:button type="button" variant="outline" class="h-11 select-none" wire:click="$set('isAdding', true)">Add fee</april:button>
+                <april:button type="button" variant="outline" class="h-11 select-none" wire:click="$set('isAdding', true)">{{ __('Add fee') }}</april:button>
             @endif
         </div>
 
         <x-field-error name="lines" />
 
         @if ($feeInvoice->feeInvoiceRecords->isEmpty())
-            <p class="text-sm text-muted-foreground">No fees</p>
+            <p class="text-sm text-muted-foreground">{{ __('No fees') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($feeInvoice->feeInvoiceRecords as $record)
@@ -84,11 +84,11 @@
                                         </slot:trigger>
                                         <slot:content align="end">
                                             @if ($canEditLine)
-                                                <april:dropdown-menu-item wire:click="startEditingLine({{ $record->id }})"><x-lucide-pencil class="mr-2 size-4" />Change</april:dropdown-menu-item>
+                                                <april:dropdown-menu-item wire:click="startEditingLine({{ $record->id }})"><x-lucide-pencil class="mr-2 size-4" />{{ __('Change') }}</april:dropdown-menu-item>
                                             @endif
                                             @if ($canRemoveLine)
                                                 <april:dropdown-menu-item class="text-destructive" wire:click="removeLine({{ $record->id }})" wire:confirm="Remove {{ $record->fee?->name }}? The invoice will ask for {{ $record->payable->formatToLocale($locale) }} less.">
-                                                    <x-lucide-trash-2 class="mr-2 size-4" />Remove
+                                                    <x-lucide-trash-2 class="mr-2 size-4" />{{ __('Remove') }}
                                                 </april:dropdown-menu-item>
                                             @endif
                                         </slot:content>
@@ -101,15 +101,15 @@
                             <form wire:submit="saveLine" class="flex flex-col gap-3" aria-label="Change {{ $record->fee?->name }}">
                                 <div class="grid grid-cols-3 gap-3">
                                     <div>
-                                        <label for="line-amount" class="text-xs text-muted-foreground">Amount</label>
+                                        <label for="line-amount" class="text-xs text-muted-foreground">{{ __('Amount') }}</label>
                                         <input type="number" id="line-amount" min="1" step="1" wire:model="lineAmount" class="{{ $moneyInput }} mt-1" {{ field_error_bindings('lineAmount') }}>
                                     </div>
                                     <div>
-                                        <label for="line-waiver" class="text-xs text-muted-foreground">Waiver</label>
+                                        <label for="line-waiver" class="text-xs text-muted-foreground">{{ __('Waiver') }}</label>
                                         <input type="number" id="line-waiver" min="0" step="1" wire:model="lineWaiver" class="{{ $moneyInput }} mt-1" {{ field_error_bindings('lineWaiver') }}>
                                     </div>
                                     <div>
-                                        <label for="line-fine" class="text-xs text-muted-foreground">Fine</label>
+                                        <label for="line-fine" class="text-xs text-muted-foreground">{{ __('Fine') }}</label>
                                         <input type="number" id="line-fine" min="0" step="1" wire:model="lineFine" class="{{ $moneyInput }} mt-1" {{ field_error_bindings('lineFine') }}>
                                     </div>
                                 </div>
@@ -117,8 +117,8 @@
                                 <x-field-error name="lineWaiver" />
                                 <x-field-error name="lineFine" />
                                 <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancel">Cancel</april:button>
-                                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="saveLine">Save fee</april:button>
+                                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancel">{{ __('Cancel') }}</april:button>
+                                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="saveLine">{{ __('Save fee') }}</april:button>
                                 </div>
                             </form>
                         @endif
@@ -128,10 +128,10 @@
         @endif
 
         @if (!$isPosted && $canAddLines && $isAdding)
-            <form wire:submit="addLine" class="flex flex-col gap-3 pt-2" aria-label="Add a fee">
+            <form wire:submit="addLine" class="flex flex-col gap-3 pt-2" aria-label="{{ __('Add a fee') }}">
                 <div class="grid gap-3 sm:grid-cols-2">
                     <div>
-                        <label for="fee-category" class="mb-1.5 block text-sm font-medium">Fee category</label>
+                        <label for="fee-category" class="mb-1.5 block text-sm font-medium">{{ __('Fee category') }}</label>
                         <select id="fee-category" wire:model.live="feeCategoryId" class="{{ $controlClasses }}">
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -139,7 +139,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="fee" class="mb-1.5 block text-sm font-medium">Fee</label>
+                        <label for="fee" class="mb-1.5 block text-sm font-medium">{{ __('Fee') }}</label>
                         <select id="fee" wire:model="feeId" class="{{ $controlClasses }}" {{ field_error_bindings('feeId') }}>
                             <option value="">{{ $fees->isEmpty() ? 'No fees left in this category' : 'Choose a fee' }}</option>
                             @foreach ($fees as $fee)
@@ -150,15 +150,15 @@
                 </div>
                 <div class="grid grid-cols-3 gap-3">
                     <div>
-                        <label for="new-amount" class="mb-1.5 block text-sm font-medium">Amount</label>
+                        <label for="new-amount" class="mb-1.5 block text-sm font-medium">{{ __('Amount') }}</label>
                         <input type="number" id="new-amount" min="1" step="1" wire:model="newAmount" placeholder="0" class="{{ $moneyInput }}" {{ field_error_bindings('newAmount') }}>
                     </div>
                     <div>
-                        <label for="new-waiver" class="mb-1.5 block text-sm font-medium">Waiver</label>
+                        <label for="new-waiver" class="mb-1.5 block text-sm font-medium">{{ __('Waiver') }}</label>
                         <input type="number" id="new-waiver" min="0" step="1" wire:model="newWaiver" placeholder="0" class="{{ $moneyInput }}" {{ field_error_bindings('newWaiver') }}>
                     </div>
                     <div>
-                        <label for="new-fine" class="mb-1.5 block text-sm font-medium">Fine</label>
+                        <label for="new-fine" class="mb-1.5 block text-sm font-medium">{{ __('Fine') }}</label>
                         <input type="number" id="new-fine" min="0" step="1" wire:model="newFine" placeholder="0" class="{{ $moneyInput }}" {{ field_error_bindings('newFine') }}>
                     </div>
                 </div>
@@ -167,8 +167,8 @@
                 <x-field-error name="newWaiver" />
                 <x-field-error name="newFine" />
                 <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancel">Cancel</april:button>
-                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="addLine">Add fee</april:button>
+                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancel">{{ __('Cancel') }}</april:button>
+                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="addLine">{{ __('Add fee') }}</april:button>
                 </div>
             </form>
         @endif

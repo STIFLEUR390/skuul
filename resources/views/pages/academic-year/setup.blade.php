@@ -33,11 +33,11 @@
             @livewire('academic-calendar-form', ['academicYear' => $academicYear, 'setupWizard' => true])
         @elseif ($currentStep === \App\Enums\AcademicYearSetupStep::Teaching)
             <april:card>
-                <slot:title>Choose the teaching approach</slot:title>
-                <slot:description>Set the default grouping for subjects.</slot:description>
-                <slot:footer><x-help-tooltip label="Teaching approach help">This sets the default grouping for subjects in {{ $academicYear->name }}. A subject can still use an exception later.</x-help-tooltip></slot:footer>
+                <slot:title>{{ __('Choose the teaching approach') }}</slot:title>
+                <slot:description>{{ __('Set the default grouping for subjects.') }}</slot:description>
+                <slot:footer><x-help-tooltip label="{{ __('Teaching approach help') }}">This sets the default grouping for subjects in {{ $academicYear->name }}. A subject can still use an exception later.</x-help-tooltip></slot:footer>
                 <slot:content>
-                    <april:button-link href="{{ route('academic-years.instructional-model.edit', [$academicYear, 'setup' => 1]) }}">Set teaching approach</april:button-link>
+                    <april:button-link href="{{ route('academic-years.instructional-model.edit', [$academicYear, 'setup' => 1]) }}">{{ __('Set teaching approach') }}</april:button-link>
                 </slot:content>
             </april:card>
         @elseif ($currentStep === \App\Enums\AcademicYearSetupStep::Structure)
@@ -61,7 +61,7 @@
                     <div class="flex flex-wrap items-center gap-2">
                         <april:dropdown-menu>
                             <slot:trigger>
-                                <april:button type="button" variant="ghost" size="icon" class="size-10 text-muted-foreground" aria-label="More structure actions">
+                                <april:button type="button" variant="ghost" size="icon" class="size-10 text-muted-foreground" aria-label="{{ __('More structure actions') }}">
                                     <x-lucide-ellipsis class="size-4" />
                                 </april:button>
                             </slot:trigger>
@@ -97,8 +97,8 @@
                     <div class="min-w-0">
                         <h2 id="review-heading" class="text-lg font-semibold">Review {{ $academicYear->name }}</h2>
                         <dl class="mt-2 flex flex-wrap gap-x-8 gap-y-2 text-sm">
-                            <div><dt class="text-muted-foreground">Dates</dt><dd class="font-medium">{{ $academicYear->starts_on?->format('M j, Y') }} – {{ $academicYear->ends_on?->format('M j, Y') }}</dd></div>
-                            <div><dt class="text-muted-foreground">Reporting periods</dt><dd class="font-medium tabular-nums">{{ $academicYear->topLevelPeriods->count() }}</dd></div>
+                            <div><dt class="text-muted-foreground">{{ __('Dates') }}</dt><dd class="font-medium">{{ $academicYear->starts_on?->format('M j, Y') }} – {{ $academicYear->ends_on?->format('M j, Y') }}</dd></div>
+                            <div><dt class="text-muted-foreground">{{ __('Reporting periods') }}</dt><dd class="font-medium tabular-nums">{{ $academicYear->topLevelPeriods->count() }}</dd></div>
                         </dl>
                     </div>
                     @livewire('publish-academic-year', ['academicYear' => $academicYear])
@@ -111,13 +111,13 @@
         <div class="flex flex-wrap items-center justify-between gap-2 border-t pt-4">
             @if (($previous = $currentStep->previous()) !== null)
                 <april:button-link href="{{ route('academic-years.setup', [$academicYear, $previous->value]) }}" variant="ghost">
-                    <x-lucide-arrow-left class="mr-1.5 size-4" />Back
+                    <x-lucide-arrow-left class="mr-1.5 size-4" />{{ __('Back') }}
                 </april:button-link>
             @else
                 <span></span>
             @endif
             <div class="flex flex-wrap items-center gap-2">
-                <april:button-link href="{{ route('academic-years.show', $academicYear) }}" variant="ghost">Save and finish later</april:button-link>
+                <april:button-link href="{{ route('academic-years.show', $academicYear) }}" variant="ghost">{{ __('Save and finish later') }}</april:button-link>
                 @if ($currentStepComplete && $nextStep !== null)
                     <april:button-link href="{{ route('academic-years.setup', [$academicYear, $nextStep->value]) }}">
                         Continue to {{ strtolower($nextStep->label()) }}

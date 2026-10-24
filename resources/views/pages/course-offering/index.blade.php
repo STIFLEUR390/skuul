@@ -16,15 +16,15 @@
         @can('viewAny', \App\Models\CourseOffering::class)
             <april:dropdown-menu>
                 <slot:trigger>
-                    <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More actions">
+                    <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="{{ __('More actions') }}">
                         <x-lucide-ellipsis class="size-4" />
                     </april:button>
                 </slot:trigger>
                 <slot:content align="end" class="w-60">
-                    <april:dropdown-menu-item href="{{ route('course-offerings.bulk-create') }}"><x-lucide-list-checks class="mr-2 size-4" />Subject setup</april:dropdown-menu-item>
+                    <april:dropdown-menu-item href="{{ route('course-offerings.bulk-create') }}"><x-lucide-list-checks class="mr-2 size-4" />{{ __('Subject setup') }}</april:dropdown-menu-item>
                     @can('create', \App\Models\CourseOffering::class)
-                        <april:dropdown-menu-item href="{{ route('course-offerings.bulk-create.form') }}"><x-lucide-layers class="mr-2 size-4" />Set up across levels</april:dropdown-menu-item>
-                        <april:dropdown-menu-item href="{{ route('course-offerings.roll-forward.show') }}"><x-lucide-copy class="mr-2 size-4" />Roll over subjects</april:dropdown-menu-item>
+                        <april:dropdown-menu-item href="{{ route('course-offerings.bulk-create.form') }}"><x-lucide-layers class="mr-2 size-4" />{{ __('Set up across levels') }}</april:dropdown-menu-item>
+                        <april:dropdown-menu-item href="{{ route('course-offerings.roll-forward.show') }}"><x-lucide-copy class="mr-2 size-4" />{{ __('Roll over subjects') }}</april:dropdown-menu-item>
                     @endcan
                 </slot:content>
             </april:dropdown-menu>

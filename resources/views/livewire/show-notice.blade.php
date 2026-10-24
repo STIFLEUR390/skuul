@@ -8,7 +8,7 @@
             @if ($audience !== null)
                 <span>For {{ $audience }}</span>
                 @if ($notice->send_email)
-                    <span>Also sent by email</span>
+                    <span>{{ __('Also sent by email') }}</span>
                 @endif
             @endif
         </div>
@@ -30,8 +30,8 @@
                 wire:loading.attr="disabled"
                 class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
             >
-                <span wire:loading.remove wire:target="publishNotice">Publish notice</span>
-                <span wire:loading wire:target="publishNotice">Publishing…</span>
+                <span wire:loading.remove wire:target="publishNotice">{{ __('Publish notice') }}</span>
+                <span wire:loading wire:target="publishNotice">{{ __('Publishing…') }}</span>
             </button>
         @endif
         <x-field-error name="notice" class="mt-3" />

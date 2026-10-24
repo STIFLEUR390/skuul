@@ -4,7 +4,7 @@
     @endphp
 
     <section class="flex flex-col gap-2" aria-labelledby="notice-email-heading">
-        <h2 id="notice-email-heading" class="text-base font-semibold">Email me a copy of notices</h2>
+        <h2 id="notice-email-heading" class="text-base font-semibold">{{ __('Email me a copy of notices') }}</h2>
         <ul class="divide-y border-y">
             @foreach ($schools as $school)
                 @php($isOn = $emailEnabled[$school->id] ?? true)
@@ -22,6 +22,6 @@
     </section>
 
     <p class="text-sm text-muted-foreground">
-        Account and safety messages, such as a password reset, are always sent. You cannot turn those off here.
+        {{ __('Account and safety messages, such as a password reset, are always sent. You cannot turn those off here.') }}
     </p>
 </div>

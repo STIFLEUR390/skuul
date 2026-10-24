@@ -1,11 +1,11 @@
 <april:card>
-    <slot:title>Teachers</slot:title>
-    <slot:description>Search and manage the teachers who belong to this school.</slot:description>
+    <slot:title>{{ __('Teachers') }}</slot:title>
+    <slot:description>{{ __('Search and manage the teachers who belong to this school.') }}</slot:description>
     <slot:content>
         <div class="space-y-6">
             <x-display-validation-errors />
 
-            <div wire:loading class="text-sm text-muted-foreground">Updating teachers...</div>
+            <div wire:loading class="text-sm text-muted-foreground">{{ __('Updating teachers...') }}</div>
 
             <div wire:key="{{ $id }}-{{ $this->tableRevision }}">
                 <april:data-table
@@ -20,8 +20,8 @@
                 >
                     <slot:empty>
                         <div class="space-y-1">
-                            <p class="font-medium text-foreground">No teachers yet</p>
-                            <p>Add the first teacher for this school.</p>
+                            <p class="font-medium text-foreground">{{ __('No teachers yet') }}</p>
+                            <p>{{ __('Add the first teacher for this school.') }}</p>
                         </div>
                     </slot:empty>
 

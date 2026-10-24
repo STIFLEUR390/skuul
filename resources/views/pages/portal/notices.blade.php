@@ -11,13 +11,13 @@
                 <div class="flex flex-col gap-3">
                     <div class="rich-text max-w-none text-sm text-slate-700 dark:text-slate-200">{!! $recipient->notice->safe_content !!}</div>
                     @if($recipient->notice->hasManagedAttachment())
-                        <april:button-link href="{{ route('notices.attachments.download', $recipient->notice) }}" variant="secondary" class="w-fit gap-2"><x-lucide-download class="size-4" />Download attachment</april:button-link>
+                        <april:button-link href="{{ route('notices.attachments.download', $recipient->notice) }}" variant="secondary" class="w-fit gap-2"><x-lucide-download class="size-4" />{{ __('Download attachment') }}</april:button-link>
                     @endif
                 </div>
             </slot:content>
         </april:card>
     @empty
-        <april:card><slot:title>No notices yet</slot:title><slot:description>Messages the school sends will appear here.</slot:description></april:card>
+        <april:card><slot:title>{{ __('No notices yet') }}</slot:title><slot:description>{{ __('Messages the school sends will appear here.') }}</slot:description></april:card>
     @endforelse
 </div>
 @endsection

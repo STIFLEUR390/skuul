@@ -1,4 +1,4 @@
-<form wire:submit="save" class="flex flex-col gap-6" aria-label="How this campus lends">
+<form wire:submit="save" class="flex flex-col gap-6" aria-label="{{ __('How this campus lends') }}">
     @php
         $controlClasses = 'mt-1 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
         $fields = [
@@ -23,22 +23,22 @@
         @endforeach
 
         <div>
-            <label for="rules-finePerDay" class="text-sm text-muted-foreground">What one late day costs</label>
+            <label for="rules-finePerDay" class="text-sm text-muted-foreground">{{ __('What one late day costs') }}</label>
             <input id="rules-finePerDay" type="number" inputmode="decimal" step="0.01" min="0" required wire:model="finePerDay" class="{{ $controlClasses }}" {{ field_error_bindings('finePerDay') }}>
             <x-field-error name="finePerDay" class="mt-1" />
-            <p class="mt-1 text-xs text-muted-foreground">Zero means no fines. A fine goes on the learner's fee account, so one balance shows what a family owes.</p>
+            <p class="mt-1 text-xs text-muted-foreground">{{ __("Zero means no fines. A fine goes on the learner's fee account, so one balance shows what a family owes.") }}</p>
         </div>
 
         <div>
-            <label for="rules-fineCap" class="text-sm text-muted-foreground">Most a late loan can cost</label>
-            <input id="rules-fineCap" type="number" inputmode="decimal" step="0.01" min="0.01" wire:model="fineCap" placeholder="No limit" class="{{ $controlClasses }}" {{ field_error_bindings('fineCap') }}>
+            <label for="rules-fineCap" class="text-sm text-muted-foreground">{{ __('Most a late loan can cost') }}</label>
+            <input id="rules-fineCap" type="number" inputmode="decimal" step="0.01" min="0.01" wire:model="fineCap" placeholder="{{ __('No limit') }}" class="{{ $controlClasses }}" {{ field_error_bindings('fineCap') }}>
             <x-field-error name="fineCap" class="mt-1" />
-            <p class="mt-1 text-xs text-muted-foreground">Leave it empty for no limit. A book lost for a term then costs no more than this.</p>
+            <p class="mt-1 text-xs text-muted-foreground">{{ __('Leave it empty for no limit. A book lost for a term then costs no more than this.') }}</p>
         </div>
     </div>
 
     <div class="flex flex-col-reverse gap-3 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
-        <a href="{{ route('library-copies.index') }}" class="inline-flex h-11 select-none items-center justify-center rounded-md px-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Back to the library</a>
-        <april:button type="submit" class="h-11 w-full select-none sm:w-auto" wire:loading.attr="disabled" wire:target="save">Save the rules</april:button>
+        <a href="{{ route('library-copies.index') }}" class="inline-flex h-11 select-none items-center justify-center rounded-md px-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">{{ __('Back to the library') }}</a>
+        <april:button type="submit" class="h-11 w-full select-none sm:w-auto" wire:loading.attr="disabled" wire:target="save">{{ __('Save the rules') }}</april:button>
     </div>
 </form>

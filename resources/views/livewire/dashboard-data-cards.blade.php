@@ -24,42 +24,42 @@
                     {{ $setupChecklist['required_remaining'] > 0 ? 'Finish setting up your school' : 'School setup is complete' }}
                 </h2>
                 <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-                    <span class="h-1.5 w-32 overflow-hidden rounded-full bg-muted" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="{{ $setupChecklist['total'] }}" aria-valuenow="{{ $setupChecklist['completed'] }}">
+                    <span class="h-1.5 w-32 overflow-hidden rounded-full bg-muted" role="progressbar" aria-label="{{ __('Setup progress') }}" aria-valuemin="0" aria-valuemax="{{ $setupChecklist['total'] }}" aria-valuenow="{{ $setupChecklist['completed'] }}">
                         <span class="block h-full rounded-full bg-foreground/60" style="width: {{ $setupPercent }}%"></span>
                     </span>
                     <span class="tabular-nums">{{ $setupChecklist['completed'] }} of {{ $setupChecklist['total'] }}</span>
                     @if ($setupChecklist['required_remaining'] > 0)
                         <span>· {{ $setupChecklist['required_remaining'] }} required left</span>
                     @endif
-                    <a href="{{ route('schools.settings') }}" class="font-medium text-foreground underline-offset-4 hover:underline">All setup steps</a>
+                    <a href="{{ route('schools.settings') }}" class="font-medium text-foreground underline-offset-4 hover:underline">{{ __('All setup steps') }}</a>
                 </div>
             </div>
 
             @if ($setupChecklist['required_remaining'] > 0 && $setupChecklist['next'] !== null)
                 <div class="flex flex-wrap items-center gap-3">
-                    <p class="text-sm"><span class="text-muted-foreground">Next:</span> <span class="font-medium">{{ $setupChecklist['next']['title'] }}</span></p>
+                    <p class="text-sm"><span class="text-muted-foreground">{{ __('Next:') }}</span> <span class="font-medium">{{ $setupChecklist['next']['title'] }}</span></p>
                     <april:button-link href="{{ $setupChecklist['next']['url'] }}">
                         {{ $setupChecklist['next']['action'] }}
                         <x-lucide-arrow-right class="ml-1.5 size-4" />
                     </april:button-link>
                 </div>
             @else
-                <april:button type="button" class="h-11 shrink-0 select-none" wire:click="acknowledgeSetup" wire:loading.attr="disabled" wire:target="acknowledgeSetup">Continue to dashboard</april:button>
+                <april:button type="button" class="h-11 shrink-0 select-none" wire:click="acknowledgeSetup" wire:loading.attr="disabled" wire:target="acknowledgeSetup">{{ __('Continue to dashboard') }}</april:button>
             @endif
         </section>
     @endif
 
     @if ($visibleSnapshotStats->isNotEmpty() || $showCampuses)
-        <section aria-label="School snapshot">
+        <section aria-label="{{ __('School snapshot') }}">
             <dl class="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 xl:grid-cols-7">
                 @if ($showCampuses && $canOpenOrganization)
                     <a id="organization-campuses" href="{{ route('organizations.show', $organization) }}" class="group flex min-h-11 select-none flex-col-reverse justify-end">
-                        <dt class="truncate text-sm text-muted-foreground group-hover:text-foreground">Campuses</dt>
+                        <dt class="truncate text-sm text-muted-foreground group-hover:text-foreground">{{ __('Campuses') }}</dt>
                         <dd class="text-2xl font-semibold tabular-nums">{{ number_format($organizationSchools) }}</dd>
                     </a>
                 @elseif ($showCampuses)
                     <div id="organization-campuses" class="flex min-h-11 select-none flex-col-reverse justify-end">
-                        <dt class="truncate text-sm text-muted-foreground">Campuses</dt>
+                        <dt class="truncate text-sm text-muted-foreground">{{ __('Campuses') }}</dt>
                         <dd class="text-2xl font-semibold tabular-nums">{{ number_format($organizationSchools) }}</dd>
                     </div>
                 @endif
@@ -82,34 +82,34 @@
             @if ($canReadAttendance)
                 <section class="min-w-0" aria-labelledby="today-overview">
                     <div class="flex min-h-10 flex-wrap items-center justify-between gap-2 border-b pb-2">
-                        <h2 id="today-overview" class="font-semibold">Attendance today</h2>
+                        <h2 id="today-overview" class="font-semibold">{{ __('Attendance today') }}</h2>
                         <april:button-link href="{{ route('attendance.register') }}" variant="outline" size="sm">
                             <x-lucide-clipboard-check class="mr-2 size-4" />
-                            Take attendance
+                            {{ __('Take attendance') }}
                         </april:button-link>
                     </div>
 
                     @if ($todayAttendance['registered'] === 0)
-                        <p class="py-4 text-sm text-muted-foreground">No register taken yet.</p>
+                        <p class="py-4 text-sm text-muted-foreground">{{ __('No register taken yet.') }}</p>
                     @else
                         <dl class="grid grid-cols-3 gap-4 py-4">
                             <div class="flex flex-col-reverse">
-                                <dt class="text-sm text-muted-foreground">Present</dt>
+                                <dt class="text-sm text-muted-foreground">{{ __('Present') }}</dt>
                                 <dd class="text-2xl font-semibold tabular-nums">{{ $todayAttendance['rate'] }}%</dd>
                             </div>
                             <div class="flex flex-col-reverse">
-                                <dt class="text-sm text-muted-foreground">Registered</dt>
+                                <dt class="text-sm text-muted-foreground">{{ __('Registered') }}</dt>
                                 <dd class="text-2xl font-semibold tabular-nums">{{ number_format($todayAttendance['registered']) }}<span class="text-sm font-normal text-muted-foreground"> / {{ number_format($students) }}</span></dd>
                             </div>
                             <div class="flex flex-col-reverse">
-                                <dt class="text-sm text-muted-foreground">Absent · late</dt>
+                                <dt class="text-sm text-muted-foreground">{{ __('Absent · late') }}</dt>
                                 <dd class="text-2xl font-semibold tabular-nums">{{ $todayAttendance['absent'] }}<span class="text-muted-foreground"> · </span>{{ $todayAttendance['late'] }}</dd>
                             </div>
                         </dl>
                     @endif
 
                     @if (collect($attendanceTrend)->contains(fn (array $day): bool => $day['rate'] !== null))
-                        <div class="flex h-28 items-end gap-2" aria-label="Attendance rate over the last seven days" role="img">
+                        <div class="flex h-28 items-end gap-2" aria-label="{{ __('Attendance rate over the last seven days') }}" role="img">
                             @foreach ($attendanceTrend as $day)
                                 <div class="flex min-w-0 flex-1 flex-col items-center gap-1.5" title="{{ $day['label'] }}: {{ $day['rate'] === null ? 'no register' : $day['rate'].'%' }}">
                                     <div class="flex h-20 w-full items-end">
@@ -131,13 +131,13 @@
                 @endphp
                 <section class="min-w-0" aria-labelledby="upcoming-overview">
                     <div class="flex min-h-10 flex-wrap items-center justify-between gap-2 border-b pb-2">
-                        <h2 id="upcoming-overview" class="font-semibold">Next 7 days</h2>
+                        <h2 id="upcoming-overview" class="font-semibold">{{ __('Next 7 days') }}</h2>
                         <a href="{{ route('calendar-events.index') }}" class="inline-flex min-h-10 select-none items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-                            Calendar <x-lucide-arrow-up-right class="size-4" />
+                            {{ __('Calendar') }} <x-lucide-arrow-up-right class="size-4" />
                         </a>
                     </div>
                     @if ($calendarRows->isEmpty())
-                        <p class="py-4 text-sm text-muted-foreground">Nothing scheduled.</p>
+                        <p class="py-4 text-sm text-muted-foreground">{{ __('Nothing scheduled.') }}</p>
                     @else
                         <ul class="divide-y">
                             @foreach ($calendarRows as $event)
@@ -163,13 +163,13 @@
     @if ($notices !== null)
         <section class="min-w-0" aria-labelledby="notices-overview">
             <div class="flex min-h-10 flex-wrap items-center justify-between gap-2 border-b pb-2">
-                <h2 id="notices-overview" class="font-semibold">Notices</h2>
+                <h2 id="notices-overview" class="font-semibold">{{ __('Notices') }}</h2>
                 <a href="{{ route('notices.index') }}" class="inline-flex min-h-10 select-none items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-                    All notices <x-lucide-arrow-up-right class="size-4" />
+                    {{ __('All notices') }} <x-lucide-arrow-up-right class="size-4" />
                 </a>
             </div>
             @if ($notices === [])
-                <p class="py-4 text-sm text-muted-foreground">No current notices.</p>
+                <p class="py-4 text-sm text-muted-foreground">{{ __('No current notices.') }}</p>
             @else
                 <ul class="divide-y">
                     @foreach ($notices as $notice)

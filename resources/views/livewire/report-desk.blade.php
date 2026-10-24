@@ -5,14 +5,14 @@
 
     @if ($canRequest)
         <section class="flex flex-col gap-3" aria-labelledby="ask-heading">
-            <h2 id="ask-heading" class="text-base font-semibold">Ask for a report</h2>
-            <p class="text-sm text-muted-foreground">A worker builds it, so the screen never waits. Every request and download goes in the audit log.</p>
-            <form wire:submit="build" class="flex flex-col gap-3" aria-label="Ask for a report">
+            <h2 id="ask-heading" class="text-base font-semibold">{{ __('Ask for a report') }}</h2>
+            <p class="text-sm text-muted-foreground">{{ __('A worker builds it, so the screen never waits. Every request and download goes in the audit log.') }}</p>
+            <form wire:submit="build" class="flex flex-col gap-3" aria-label="{{ __('Ask for a report') }}">
                 <div class="grid gap-3 sm:grid-cols-3">
                     <div>
-                        <label for="type" class="text-sm text-muted-foreground">Report</label>
+                        <label for="type" class="text-sm text-muted-foreground">{{ __('Report') }}</label>
                         <select id="type" wire:model="type" required class="{{ $controlClasses }}" {{ field_error_bindings('type') }}>
-                            <option value="">Choose a report</option>
+                            <option value="">{{ __('Choose a report') }}</option>
                             @foreach ($reports as $key => $title)
                                 <option value="{{ $key }}">{{ $title }}</option>
                             @endforeach
@@ -20,7 +20,7 @@
                         <x-field-error name="type" class="mt-1" />
                     </div>
                     <div>
-                        <label for="format" class="text-sm text-muted-foreground">Shape</label>
+                        <label for="format" class="text-sm text-muted-foreground">{{ __('Shape') }}</label>
                         <select id="format" wire:model="format" class="{{ $controlClasses }}" {{ field_error_bindings('format') }}>
                             @foreach ($formats as $key => $label)
                                 <option value="{{ $key }}">{{ $label }}</option>
@@ -29,9 +29,9 @@
                         <x-field-error name="format" class="mt-1" />
                     </div>
                     <div>
-                        <label for="financial_period_id" class="text-sm text-muted-foreground">Financial period</label>
+                        <label for="financial_period_id" class="text-sm text-muted-foreground">{{ __('Financial period') }}</label>
                         <select id="financial_period_id" wire:model="financialPeriodId" class="{{ $controlClasses }}" {{ field_error_bindings('financialPeriodId') }}>
-                            <option value="">Current open period</option>
+                            <option value="">{{ __('Current open period') }}</option>
                             @foreach ($financialPeriods as $financialPeriod)
                                 <option value="{{ $financialPeriod->id }}">{{ $financialPeriod->name }}{{ $financialPeriod->isClosed() ? ' · Closed' : '' }}</option>
                             @endforeach
@@ -41,7 +41,7 @@
                 </div>
                 <div class="flex justify-end">
                     <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="build">
-                        <x-lucide-play class="mr-2 size-4" />Build it
+                        <x-lucide-play class="mr-2 size-4" />{{ __('Build it') }}
                     </april:button>
                 </div>
             </form>
@@ -49,10 +49,10 @@
     @endif
 
     <section class="flex flex-col gap-3" aria-labelledby="runs-heading">
-        <h2 id="runs-heading" class="text-base font-semibold">What has been asked for</h2>
+        <h2 id="runs-heading" class="text-base font-semibold">{{ __('What has been asked for') }}</h2>
 
         @if ($runs->isEmpty())
-            <p class="text-sm text-muted-foreground">Nobody has asked for a report yet.</p>
+            <p class="text-sm text-muted-foreground">{{ __('Nobody has asked for a report yet.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($runs as $run)
@@ -68,7 +68,7 @@
                         </div>
                         @if ($run->isReady())
                             <april:button-link href="{{ route('reports.download', $run->id) }}" variant="outline" class="h-11 shrink-0 select-none" aria-label="Download number {{ $run->id }}">
-                                <x-lucide-download class="size-4 sm:mr-2" /><span class="hidden sm:inline">Download</span>
+                                <x-lucide-download class="size-4 sm:mr-2" /><span class="hidden sm:inline">{{ __('Download') }}</span>
                             </april:button-link>
                         @endif
                     </li>

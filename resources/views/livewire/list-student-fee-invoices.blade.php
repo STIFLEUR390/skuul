@@ -1,7 +1,7 @@
 <section aria-labelledby="fee-invoices-heading" class="flex flex-col gap-3">
-    <h2 id="fee-invoices-heading" class="text-base font-semibold">Fee invoices</h2>
+    <h2 id="fee-invoices-heading" class="text-base font-semibold">{{ __('Fee invoices') }}</h2>
     @if ($feeInvoices->isEmpty())
-        <p class="text-sm text-muted-foreground">No invoices</p>
+        <p class="text-sm text-muted-foreground">{{ __('No invoices') }}</p>
     @else
         <ul class="divide-y border-y">
             @foreach ($feeInvoices as $feeInvoice)

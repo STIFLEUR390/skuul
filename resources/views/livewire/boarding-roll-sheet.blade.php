@@ -6,7 +6,7 @@
 
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-            <h2 id="roll-heading" class="text-base font-semibold">Boarders</h2>
+            <h2 id="roll-heading" class="text-base font-semibold">{{ __('Boarders') }}</h2>
             <span @class([
                 'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold',
                 'bg-muted text-muted-foreground' => $roll->isComplete(),
@@ -73,10 +73,10 @@
             <div class="sticky bottom-0 z-10 flex flex-wrap items-center justify-end gap-3 border-t bg-background py-3">
                 @if ($changed !== [])
                     <p class="mr-auto text-sm text-muted-foreground" aria-live="polite">{{ count($changed) }} not saved</p>
-                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="discard">Put back</april:button>
-                    <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Save</april:button>
+                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="discard">{{ __('Put back') }}</april:button>
+                    <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Save') }}</april:button>
                 @endif
-                <april:button type="button" class="h-11 select-none" wire:click="complete" wire:confirm="Complete the roll? Answers cannot change after this." wire:loading.attr="disabled" wire:target="complete,save">Complete roll</april:button>
+                <april:button type="button" class="h-11 select-none" wire:click="complete" wire:confirm="Complete the roll? Answers cannot change after this." wire:loading.attr="disabled" wire:target="complete,save">{{ __('Complete roll') }}</april:button>
             </div>
         @endif
     </form>

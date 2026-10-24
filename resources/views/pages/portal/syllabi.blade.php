@@ -42,7 +42,7 @@
                                     <span class="text-muted-foreground">{{ $topic->week ? 'Week '.$topic->week : 'Unscheduled' }} ·</span>
                                     <span class="font-medium">{{ $topic->title }}</span>
                                     @if ($state['currentWeek'] !== null && $topic->week === $state['currentWeek'])
-                                        <span class="text-xs font-medium text-primary-foreground">This week</span>
+                                        <span class="text-xs font-medium text-primary-foreground">{{ __('This week') }}</span>
                                     @endif
                                     @if ($topic->objectives)
                                         <span class="block text-muted-foreground">{{ $topic->objectives }}</span>
@@ -57,7 +57,7 @@
         @empty
             <april:card>
                 <slot:content>
-                    <p class="text-sm text-muted-foreground">No syllabus is published yet for these courses.</p>
+                    <p class="text-sm text-muted-foreground">{{ __('No syllabus is published yet for these courses.') }}</p>
                 </slot:content>
             </april:card>
         @endforelse

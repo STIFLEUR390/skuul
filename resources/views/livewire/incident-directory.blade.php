@@ -1,6 +1,6 @@
 <div class="space-y-6">
     <april:card>
-        <slot:title>Behaviour records and safeguarding concerns</slot:title>
+        <slot:title>{{ __('Behaviour records and safeguarding concerns') }}</slot:title>
         <slot:description>
             {{ $openCount }} {{ Str::plural('case', $openCount) }} still {{ $openCount === 1 ? 'needs' : 'need' }} work.
             A safeguarding case is readable only by the people who handle it, so this list may be shorter than the school's.
@@ -8,9 +8,9 @@
         <slot:content>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(10rem,1fr)_minmax(10rem,1fr)_auto_auto] lg:items-end">
                 <div class="flex flex-col gap-2">
-                    <april:label for="filter-status">State</april:label>
+                    <april:label for="filter-status">{{ __('State') }}</april:label>
                     <april:native-select id="filter-status" wire:model.live="status">
-                        <option value="">Every state</option>
+                        <option value="">{{ __('Every state') }}</option>
                         @foreach ($statuses as $availableStatus)
                             <option value="{{ $availableStatus->value }}">{{ $availableStatus->label() }}</option>
                         @endforeach
@@ -18,9 +18,9 @@
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <april:label for="filter-category">Kind</april:label>
+                    <april:label for="filter-category">{{ __('Kind') }}</april:label>
                     <april:native-select id="filter-category" wire:model.live="category">
-                        <option value="">Every kind</option>
+                        <option value="">{{ __('Every kind') }}</option>
                         @foreach ($categories as $availableCategory)
                             <option value="{{ $availableCategory->value }}">{{ $availableCategory->label() }}</option>
                         @endforeach
@@ -30,35 +30,35 @@
                 <label class="flex min-h-10 items-center gap-2 text-sm">
                     <input type="checkbox" wire:model.live="openOnly"
                         class="size-4 rounded border-input text-primary-foreground focus:ring-2 focus:ring-ring">
-                    Only cases that need work
+                    {{ __('Only cases that need work') }}
                 </label>
 
                 @if ($selectedStatus !== null || $selectedCategory !== null || $openOnly)
                     <april:button type="button" variant="outline" wire:click="clearFilters" wire:loading.attr="disabled">
                         <x-lucide-x class="mr-2 size-4" />
-                        Clear filters
+                        {{ __('Clear filters') }}
                     </april:button>
                 @endif
             </div>
-            <p wire:loading class="mt-4 text-sm text-muted-foreground" role="status">Updating cases…</p>
+            <p wire:loading class="mt-4 text-sm text-muted-foreground" role="status">{{ __('Updating cases…') }}</p>
         </slot:content>
     </april:card>
 
     <april:card>
-        <slot:title>Recorded cases</slot:title>
-        <slot:description>The newest case is first. Open a case to read it and to move it on.</slot:description>
+        <slot:title>{{ __('Recorded cases') }}</slot:title>
+        <slot:description>{{ __('The newest case is first. Open a case to read it and to move it on.') }}</slot:description>
         <slot:content>
             @if ($incidents->isEmpty())
                 @if ($selectedStatus !== null || $selectedCategory !== null || $openOnly)
-                    <x-empty-state icon="lucide-search-x" title="Nothing matches this filter"
+                    <x-empty-state icon="lucide-search-x" title="{{ __('Nothing matches this filter') }}"
                         description="No case you may read is in that state.">
-                        <april:button type="button" variant="outline" wire:click="clearFilters">Show every case</april:button>
+                        <april:button type="button" variant="outline" wire:click="clearFilters">{{ __('Show every case') }}</april:button>
                     </x-empty-state>
                 @else
-                    <x-empty-state icon="lucide-shield-alert" title="No cases yet"
+                    <x-empty-state icon="lucide-shield-alert" title="{{ __('No cases yet') }}"
                         description="A case records what happened, who was involved, and what the school did about it.">
                         @can('create', App\Models\Incident::class)
-                            <april:button-link href="{{ route('incidents.create') }}">Record the first case</april:button-link>
+                            <april:button-link href="{{ route('incidents.create') }}">{{ __('Record the first case') }}</april:button-link>
                         @endcan
                     </x-empty-state>
                 @endif
@@ -66,12 +66,12 @@
                 <april:data-table>
                     <slot:header>
                         <april:data-table-row>
-                            <april:data-table-head>Case</april:data-table-head>
-                            <april:data-table-head>Kind</april:data-table-head>
-                            <april:data-table-head>State</april:data-table-head>
-                            <april:data-table-head>Happened</april:data-table-head>
-                            <april:data-table-head>Handled by</april:data-table-head>
-                            <april:data-table-head class="text-right">Actions</april:data-table-head>
+                            <april:data-table-head>{{ __('Case') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Kind') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('State') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Happened') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Handled by') }}</april:data-table-head>
+                            <april:data-table-head class="text-right">{{ __('Actions') }}</april:data-table-head>
                         </april:data-table-row>
                     </slot:header>
                     <slot:body>
@@ -91,7 +91,7 @@
                                     @if ($incident->is_restricted)
                                         <span class="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                                             <x-lucide-lock class="size-3" />
-                                            Restricted
+                                            {{ __('Restricted') }}
                                         </span>
                                     @endif
                                 </april:data-table-cell>
@@ -111,7 +111,7 @@
                                     <april:button-link href="{{ route('incidents.show', $incident) }}" variant="outline" size="sm"
                                         aria-label="Open incident {{ $incident->reference }}">
                                         <x-lucide-eye class="mr-1 size-4" />
-                                        Open
+                                        {{ __('Open') }}
                                     </april:button-link>
                                 </april:data-table-cell>
                             </april:data-table-row>

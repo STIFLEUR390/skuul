@@ -7,7 +7,7 @@
             {{ $attributes }}>
         <april:alert dismissOnTimeout="true">
             <slot:icon><x-lucide-check class="size-4" /></slot:icon>
-            <slot:title>Success</slot:title>
+            <slot:title>{{ __('Success') }}</slot:title>
             <slot:description>{{ $slot->isEmpty() ? 'Saved.' : $slot }}</slot:description>
         </april:alert>
     </div>

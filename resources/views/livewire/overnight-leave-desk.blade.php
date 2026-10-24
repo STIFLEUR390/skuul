@@ -10,11 +10,11 @@
     @if ($canAsk)
         <div>
             @if ($isAsking)
-                <form wire:submit="ask" class="flex flex-col gap-3 border-y py-4" aria-label="Ask for a night away">
+                <form wire:submit="ask" class="flex flex-col gap-3 border-y py-4" aria-label="{{ __('Ask for a night away') }}">
                     <div>
-                        <label for="leave-learner" class="text-sm text-muted-foreground">Boarder</label>
+                        <label for="leave-learner" class="text-sm text-muted-foreground">{{ __('Boarder') }}</label>
                         <select id="leave-learner" wire:model="learnerId" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('learnerId') }}>
-                            <option value="">Choose a boarder</option>
+                            <option value="">{{ __('Choose a boarder') }}</option>
                             @foreach ($boarders as $boarder)
                                 <option value="{{ $boarder->id }}">{{ $boarder->user?->name ?? $boarder->admission_number }} · {{ $boarder->admission_number ?? '—' }}</option>
                             @endforeach
@@ -23,11 +23,11 @@
                     </div>
                     <div class="grid gap-3 sm:grid-cols-2">
                         <div>
-                            <label for="leave-from" class="text-sm text-muted-foreground">Leaves on</label>
+                            <label for="leave-from" class="text-sm text-muted-foreground">{{ __('Leaves on') }}</label>
                             <input id="leave-from" type="date" wire:model="leavesOn" required class="{{ $controlClasses }} mt-1" {{ field_error_bindings('leavesOn') }}>
                         </div>
                         <div>
-                            <label for="leave-to" class="text-sm text-muted-foreground">Comes back on</label>
+                            <label for="leave-to" class="text-sm text-muted-foreground">{{ __('Comes back on') }}</label>
                             <input id="leave-to" type="date" wire:model="returnsOn" required class="{{ $controlClasses }} mt-1" {{ field_error_bindings('returnsOn') }}>
                         </div>
                     </div>
@@ -35,8 +35,8 @@
                     <x-field-error name="returnsOn" />
                     <div class="grid gap-3 sm:grid-cols-2">
                         <div>
-                            <label for="leave-destination" class="sr-only">Where they are going</label>
-                            <input id="leave-destination" wire:model="destination" required maxlength="150" placeholder="Where they are going" class="{{ $controlClasses }}" {{ field_error_bindings('destination') }}>
+                            <label for="leave-destination" class="sr-only">{{ __('Where they are going') }}</label>
+                            <input id="leave-destination" wire:model="destination" required maxlength="150" placeholder="{{ __('Where they are going') }}" class="{{ $controlClasses }}" {{ field_error_bindings('destination') }}>
                             <x-field-error name="destination" class="mt-1" />
                         </div>
                         <div>
@@ -51,13 +51,13 @@
                         <x-field-error name="reason" class="mt-1" />
                     </div>
                     <div class="flex justify-end gap-2">
-                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopAsking">Cancel</april:button>
-                        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="ask">Ask for the night away</april:button>
+                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopAsking">{{ __('Cancel') }}</april:button>
+                        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="ask">{{ __('Ask for the night away') }}</april:button>
                     </div>
                 </form>
             @else
                 <april:button type="button" variant="outline" class="h-11 select-none" wire:click="startAsking">
-                    <x-lucide-plus class="mr-2 size-4" aria-hidden="true" />Ask for a night away
+                    <x-lucide-plus class="mr-2 size-4" aria-hidden="true" />{{ __('Ask for a night away') }}
                 </april:button>
             @endif
         </div>
@@ -65,7 +65,7 @@
 
     @if ($overdue->isNotEmpty())
         <section class="flex flex-col gap-2" aria-labelledby="overdue-heading">
-            <h2 id="overdue-heading" class="text-base font-semibold text-destructive">Not back yet</h2>
+            <h2 id="overdue-heading" class="text-base font-semibold text-destructive">{{ __('Not back yet') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($overdue as $leave)
                     <li wire:key="overdue-{{ $leave->id }}" class="flex items-center gap-3 py-3">
@@ -76,7 +76,7 @@
                             </p>
                         </div>
                         @if ($canDecide)
-                            <april:button type="button" variant="outline" class="h-11 shrink-0 select-none" wire:click="markReturned({{ $leave->id }})" wire:loading.attr="disabled" wire:target="markReturned">Back in</april:button>
+                            <april:button type="button" variant="outline" class="h-11 shrink-0 select-none" wire:click="markReturned({{ $leave->id }})" wire:loading.attr="disabled" wire:target="markReturned">{{ __('Back in') }}</april:button>
                         @endif
                     </li>
                 @endforeach
@@ -85,9 +85,9 @@
     @endif
 
     <section class="flex flex-col gap-2" aria-labelledby="tonight-heading">
-        <h2 id="tonight-heading" class="text-base font-semibold">Out tonight</h2>
+        <h2 id="tonight-heading" class="text-base font-semibold">{{ __('Out tonight') }}</h2>
         @if ($tonight->isEmpty())
-            <p class="text-sm text-muted-foreground">Everybody is in the house</p>
+            <p class="text-sm text-muted-foreground">{{ __('Everybody is in the house') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($tonight as $leave)
@@ -99,7 +99,7 @@
                             </p>
                         </div>
                         @if ($canDecide)
-                            <april:button type="button" variant="outline" class="h-11 shrink-0 select-none" wire:click="markReturned({{ $leave->id }})" wire:loading.attr="disabled" wire:target="markReturned">Back in</april:button>
+                            <april:button type="button" variant="outline" class="h-11 shrink-0 select-none" wire:click="markReturned({{ $leave->id }})" wire:loading.attr="disabled" wire:target="markReturned">{{ __('Back in') }}</april:button>
                         @endif
                     </li>
                 @endforeach
@@ -108,9 +108,9 @@
     </section>
 
     <section class="flex flex-col gap-2" aria-labelledby="waiting-heading">
-        <h2 id="waiting-heading" class="text-base font-semibold">Waiting for a decision</h2>
+        <h2 id="waiting-heading" class="text-base font-semibold">{{ __('Waiting for a decision') }}</h2>
         @if ($waiting->isEmpty())
-            <p class="text-sm text-muted-foreground">Nothing is waiting</p>
+            <p class="text-sm text-muted-foreground">{{ __('Nothing is waiting') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($waiting as $leave)
@@ -120,11 +120,11 @@
                                 <p class="truncate text-sm font-medium">{{ $learnerName($leave) }}</p>
                                 <p class="text-xs text-muted-foreground">{{ $nights($leave) }} · {{ $leave->destination }}{{ $leave->reason ? ' · '.$leave->reason : '' }}</p>
                                 @if ($leave->returns_on->isBefore($today))
-                                    <p class="text-xs text-destructive">These nights have passed</p>
+                                    <p class="text-xs text-destructive">{{ __('These nights have passed') }}</p>
                                 @endif
                             </div>
                             @if ($canDecide && !$leave->returns_on->isBefore($today))
-                                <april:button type="button" class="h-11 shrink-0 select-none" wire:click="approve({{ $leave->id }})" wire:loading.attr="disabled" wire:target="approve">Approve</april:button>
+                                <april:button type="button" class="h-11 shrink-0 select-none" wire:click="approve({{ $leave->id }})" wire:loading.attr="disabled" wire:target="approve">{{ __('Approve') }}</april:button>
                             @endif
                             @if ($canDecide || $canAsk)
                                 <april:dropdown-menu>
@@ -135,9 +135,9 @@
                                     </slot:trigger>
                                     <slot:content align="end">
                                         @if ($canDecide)
-                                            <april:dropdown-menu-item wire:click="startRefusing({{ $leave->id }})"><x-lucide-x class="mr-2 size-4" />Refuse</april:dropdown-menu-item>
+                                            <april:dropdown-menu-item wire:click="startRefusing({{ $leave->id }})"><x-lucide-x class="mr-2 size-4" />{{ __('Refuse') }}</april:dropdown-menu-item>
                                         @endif
-                                        <april:dropdown-menu-item wire:click="cancel({{ $leave->id }})" wire:confirm="Call off the night away for {{ $learnerName($leave) }}?"><x-lucide-undo-2 class="mr-2 size-4" />Call off</april:dropdown-menu-item>
+                                        <april:dropdown-menu-item wire:click="cancel({{ $leave->id }})" wire:confirm="Call off the night away for {{ $learnerName($leave) }}?"><x-lucide-undo-2 class="mr-2 size-4" />{{ __('Call off') }}</april:dropdown-menu-item>
                                     </slot:content>
                                 </april:dropdown-menu>
                             @endif
@@ -147,12 +147,12 @@
                             <form wire:submit="refuse" class="flex flex-col gap-2 sm:flex-row sm:items-start" aria-label="Refuse the night away for {{ $learnerName($leave) }}">
                                 <div class="flex-1">
                                     <label for="refuse-note-{{ $leave->id }}" class="sr-only">Why the night away for {{ $learnerName($leave) }} is refused</label>
-                                    <input id="refuse-note-{{ $leave->id }}" wire:model="refuseNote" maxlength="1000" required placeholder="Why, so the house can tell the family" class="{{ $controlClasses }}" {{ field_error_bindings('refuseNote') }}>
+                                    <input id="refuse-note-{{ $leave->id }}" wire:model="refuseNote" maxlength="1000" required placeholder="{{ __('Why, so the house can tell the family') }}" class="{{ $controlClasses }}" {{ field_error_bindings('refuseNote') }}>
                                     <x-field-error name="refuseNote" class="mt-1" />
                                 </div>
                                 <div class="flex gap-2">
-                                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopRefusing">Cancel</april:button>
-                                    <april:button type="submit" variant="destructive" class="h-11 select-none" wire:loading.attr="disabled" wire:target="refuse">Refuse</april:button>
+                                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopRefusing">{{ __('Cancel') }}</april:button>
+                                    <april:button type="submit" variant="destructive" class="h-11 select-none" wire:loading.attr="disabled" wire:target="refuse">{{ __('Refuse') }}</april:button>
                                 </div>
                             </form>
                         @endif
@@ -164,7 +164,7 @@
 
     @if ($upcoming->isNotEmpty())
         <section class="flex flex-col gap-2" aria-labelledby="upcoming-heading">
-            <h2 id="upcoming-heading" class="text-base font-semibold">Coming up</h2>
+            <h2 id="upcoming-heading" class="text-base font-semibold">{{ __('Coming up') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($upcoming as $leave)
                     <li wire:key="upcoming-{{ $leave->id }}" class="flex items-center gap-3 py-3">
@@ -180,7 +180,7 @@
                                     </april:button>
                                 </slot:trigger>
                                 <slot:content align="end">
-                                    <april:dropdown-menu-item wire:click="cancel({{ $leave->id }})" wire:confirm="Call off the night away for {{ $learnerName($leave) }}?"><x-lucide-undo-2 class="mr-2 size-4" />Call off</april:dropdown-menu-item>
+                                    <april:dropdown-menu-item wire:click="cancel({{ $leave->id }})" wire:confirm="Call off the night away for {{ $learnerName($leave) }}?"><x-lucide-undo-2 class="mr-2 size-4" />{{ __('Call off') }}</april:dropdown-menu-item>
                                 </slot:content>
                             </april:dropdown-menu>
                         @endif
@@ -192,7 +192,7 @@
 
     @if ($recent->isNotEmpty())
         <section class="flex flex-col gap-2" aria-labelledby="recent-heading">
-            <h2 id="recent-heading" class="text-base font-semibold">Recently closed</h2>
+            <h2 id="recent-heading" class="text-base font-semibold">{{ __('Recently closed') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($recent as $leave)
                     <li wire:key="recent-{{ $leave->id }}" class="flex items-start gap-3 py-3">

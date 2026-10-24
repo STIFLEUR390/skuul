@@ -11,18 +11,18 @@
                     Write {{ $batch->valid_count }} {{ Str::plural('row', $batch->valid_count) }}
                 </april:button>
             @else
-                <span class="text-sm text-muted-foreground">No row passed the check, so there is nothing to write.</span>
+                <span class="text-sm text-muted-foreground">{{ __('No row passed the check, so there is nothing to write.') }}</span>
             @endif
 
             <april:button type="button" variant="outline" wire:click="cancel" wire:confirm="Drop this import? Nothing in it will be written." class="h-11 select-none" wire:loading.attr="disabled" wire:target="apply,cancel">
-                Drop this import
+                {{ __('Drop this import') }}
             </april:button>
         @elseif ($batch->applied_at !== null)
             <span class="text-sm text-muted-foreground">
                 Written on {{ school_time($batch->applied_at)?->format('j M Y') }}. An import runs once.
             </span>
         @else
-            <span class="text-sm text-muted-foreground">This import is finished. Load the file again to run it.</span>
+            <span class="text-sm text-muted-foreground">{{ __('This import is finished. Load the file again to run it.') }}</span>
         @endif
     @endcan
 </div>

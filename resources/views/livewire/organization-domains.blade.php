@@ -4,13 +4,13 @@
     @endphp
 
     <p class="text-sm text-muted-foreground">
-        An address that names a campus opens on that campus, so nobody picks one from a list. Membership still decides what a person sees, and an address does nothing until it is proved.
+        {{ __('An address that names a campus opens on that campus, so nobody picks one from a list. Membership still decides what a person sees, and an address does nothing until it is proved.') }}
     </p>
 
     <section class="flex flex-col gap-2" aria-labelledby="domains-heading">
-        <h2 id="domains-heading" class="text-base font-semibold">Addresses</h2>
+        <h2 id="domains-heading" class="text-base font-semibold">{{ __('Addresses') }}</h2>
         @if ($domains->isEmpty())
-            <p class="text-sm text-muted-foreground">No address yet. Everybody signs in at the shared address and picks a campus.</p>
+            <p class="text-sm text-muted-foreground">{{ __('No address yet. Everybody signs in at the shared address and picks a campus.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($domains as $domain)
@@ -24,7 +24,7 @@
                                 </p>
                             </div>
                             @unless ($domain->isVerified())
-                                <april:button type="button" class="h-11 select-none" wire:click="verify({{ $domain->id }})" wire:loading.attr="disabled" wire:target="verify({{ $domain->id }})">Prove it</april:button>
+                                <april:button type="button" class="h-11 select-none" wire:click="verify({{ $domain->id }})" wire:loading.attr="disabled" wire:target="verify({{ $domain->id }})">{{ __('Prove it') }}</april:button>
                             @endunless
                             <april:dropdown-menu>
                                 <slot:trigger>
@@ -33,17 +33,17 @@
                                     </april:button>
                                 </slot:trigger>
                                 <slot:content align="end">
-                                    <april:dropdown-menu-item wire:click="giveUp({{ $domain->id }})" wire:confirm="Give up {{ $domain->host }}? Nobody reaches the school at this address afterwards."><x-lucide-trash-2 class="mr-2 size-4" />Give it up</april:dropdown-menu-item>
+                                    <april:dropdown-menu-item wire:click="giveUp({{ $domain->id }})" wire:confirm="Give up {{ $domain->host }}? Nobody reaches the school at this address afterwards."><x-lucide-trash-2 class="mr-2 size-4" />{{ __('Give it up') }}</april:dropdown-menu-item>
                                 </slot:content>
                             </april:dropdown-menu>
                         </div>
                         @unless ($domain->isVerified())
                             <dl class="grid gap-1 text-sm sm:grid-cols-[4rem_1fr]">
-                                <dt class="text-muted-foreground">Type</dt>
+                                <dt class="text-muted-foreground">{{ __('Type') }}</dt>
                                 <dd>TXT</dd>
-                                <dt class="text-muted-foreground">Name</dt>
+                                <dt class="text-muted-foreground">{{ __('Name') }}</dt>
                                 <dd class="select-all break-all font-mono text-xs">{{ $domain->verificationRecord() }}</dd>
-                                <dt class="text-muted-foreground">Value</dt>
+                                <dt class="text-muted-foreground">{{ __('Value') }}</dt>
                                 <dd class="select-all break-all font-mono text-xs">{{ $domain->verification_token }}</dd>
                             </dl>
                         @endunless
@@ -53,18 +53,18 @@
         @endif
     </section>
 
-    <form wire:submit="claim" class="flex flex-col gap-3" aria-label="Claim an address">
-        <h2 class="text-base font-semibold">Claim an address</h2>
+    <form wire:submit="claim" class="flex flex-col gap-3" aria-label="{{ __('Claim an address') }}">
+        <h2 class="text-base font-semibold">{{ __('Claim an address') }}</h2>
         <div class="grid gap-3 sm:grid-cols-2">
             <div>
-                <label for="domain-host" class="text-sm text-muted-foreground">Address</label>
-                <input id="domain-host" wire:model="host" required maxlength="253" autocomplete="off" inputmode="url" placeholder="lagos.example.school" class="{{ $controlClasses }}" {{ field_error_bindings('host') }}>
+                <label for="domain-host" class="text-sm text-muted-foreground">{{ __('Address') }}</label>
+                <input id="domain-host" wire:model="host" required maxlength="253" autocomplete="off" inputmode="url" placeholder="{{ __('lagos.example.school') }}" class="{{ $controlClasses }}" {{ field_error_bindings('host') }}>
                 <x-field-error name="host" class="mt-1" />
             </div>
             <div>
-                <label for="domain-school" class="text-sm text-muted-foreground">Opens</label>
+                <label for="domain-school" class="text-sm text-muted-foreground">{{ __('Opens') }}</label>
                 <select id="domain-school" wire:model="schoolId" class="{{ $controlClasses }}" {{ field_error_bindings('schoolId') }}>
-                    <option value="">The organization, no campus</option>
+                    <option value="">{{ __('The organization, no campus') }}</option>
                     @foreach ($campuses as $campus)
                         <option value="{{ $campus->id }}">{{ $campus->name }}</option>
                     @endforeach
@@ -74,10 +74,10 @@
         </div>
         <label class="flex min-h-11 select-none items-center gap-3 text-sm">
             <input type="checkbox" wire:model="isPrimary" class="size-4 rounded border-input">
-            The main address
+            {{ __('The main address') }}
         </label>
         <div class="flex justify-end">
-            <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="claim">Claim it</april:button>
+            <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="claim">{{ __('Claim it') }}</april:button>
         </div>
     </form>
 </div>

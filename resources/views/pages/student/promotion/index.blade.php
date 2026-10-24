@@ -14,7 +14,7 @@
 @section('page_heading',  __('Manage Promotions'))
 
 @section('page_actions')
-    <x-resource-create-action :href="route('students.promote')" ability="promote" :arguments="[\App\Models\Promotion::class]">Promote learners</x-resource-create-action>
+    <x-resource-create-action :href="route('students.promote')" ability="promote" :arguments="[\App\Models\Promotion::class]">{{ __('Promote learners') }}</x-resource-create-action>
 @endsection
 
 @section('content', )

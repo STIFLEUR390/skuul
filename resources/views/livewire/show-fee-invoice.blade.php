@@ -13,7 +13,7 @@
         };
     @endphp
 
-    <section aria-label="Invoice summary" class="flex flex-col gap-6">
+    <section aria-label="{{ __('Invoice summary') }}" class="flex flex-col gap-6">
         <div class="flex items-start justify-between gap-4">
             <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
                 @if ($canViewAccount && $feeInvoice->studentRecord !== null)
@@ -38,10 +38,10 @@
             <div class="flex shrink-0 items-center gap-2">
                 @if ($isSettled)
                     <april:button-link href="{{ route('fee-invoices.print', $feeInvoice) }}" class="hidden h-11 select-none sm:inline-flex">
-                        <x-lucide-printer class="mr-2 size-4" />Print receipt
+                        <x-lucide-printer class="mr-2 size-4" />{{ __('Print receipt') }}
                     </april:button-link>
                 @elseif ($canTakeMoney && $hasLines && $feeInvoice->studentRecord !== null)
-                    <april:button-link href="{{ route('fee-invoices.pay', $feeInvoice) }}" class="hidden h-11 select-none sm:inline-flex">Take payment</april:button-link>
+                    <april:button-link href="{{ route('fee-invoices.pay', $feeInvoice) }}" class="hidden h-11 select-none sm:inline-flex">{{ __('Take payment') }}</april:button-link>
                 @endif
                 <april:dropdown-menu>
                     <slot:trigger>
@@ -52,17 +52,17 @@
                     <slot:content>
                         @unless ($isSettled)
                             <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('fee-invoices.print', $feeInvoice) }}'">
-                                <x-lucide-printer class="mr-2 size-4" />Print invoice
+                                <x-lucide-printer class="mr-2 size-4" />{{ __('Print invoice') }}
                             </april:dropdown-menu-item>
                         @endunless
                         @if ($canTakeMoney)
                             <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('fee-invoices.edit', $feeInvoice) }}'">
-                                <x-lucide-pencil class="mr-2 size-4" />Edit
+                                <x-lucide-pencil class="mr-2 size-4" />{{ __('Edit') }}
                             </april:dropdown-menu-item>
                         @endif
                         @if ($canViewAccount && $feeInvoice->studentRecord !== null)
                             <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('student-accounts.show', $feeInvoice->studentRecord) }}'">
-                                <x-lucide-wallet class="mr-2 size-4" />Student account
+                                <x-lucide-wallet class="mr-2 size-4" />{{ __('Student account') }}
                             </april:dropdown-menu-item>
                         @endif
                     </slot:content>
@@ -72,19 +72,19 @@
 
         <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-4">
             <div>
-                <dt class="text-sm text-muted-foreground">Issued</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Issued') }}</dt>
                 <dd class="font-medium">{{ $feeInvoice->issue_date?->format('j M Y') ?? $dash }}</dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Due</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Due') }}</dt>
                 <dd @class(['font-medium', 'text-destructive' => $isOverdue])>{{ $feeInvoice->due_date?->format('j M Y') ?? $dash }}</dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Charged</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Charged') }}</dt>
                 <dd class="font-medium tabular-nums">{{ $charged->formatToLocale($locale) }}</dd>
             </div>
             <div class="col-span-2 sm:col-span-1">
-                <dt class="text-sm text-muted-foreground">Owed</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Owed') }}</dt>
                 <dd @class(['text-2xl font-semibold tabular-nums tracking-tight', 'text-muted-foreground' => !$feeInvoice->balance->isPositive()]) id="invoice-owed">{{ $feeInvoice->balance->formatToLocale($locale) }}</dd>
             </div>
         </dl>
@@ -95,28 +95,28 @@
 
         @if ($isSettled)
             <april:button-link href="{{ route('fee-invoices.print', $feeInvoice) }}" class="h-11 w-full select-none sm:hidden">
-                <x-lucide-printer class="mr-2 size-4" />Print receipt
+                <x-lucide-printer class="mr-2 size-4" />{{ __('Print receipt') }}
             </april:button-link>
         @elseif ($canTakeMoney && $hasLines && $feeInvoice->studentRecord !== null)
-            <april:button-link href="{{ route('fee-invoices.pay', $feeInvoice) }}" class="h-11 w-full select-none sm:hidden">Take payment</april:button-link>
+            <april:button-link href="{{ route('fee-invoices.pay', $feeInvoice) }}" class="h-11 w-full select-none sm:hidden">{{ __('Take payment') }}</april:button-link>
         @endif
     </section>
 
     <section aria-labelledby="fees-heading" class="flex flex-col gap-3">
-        <h2 id="fees-heading" class="text-base font-semibold">Fees</h2>
+        <h2 id="fees-heading" class="text-base font-semibold">{{ __('Fees') }}</h2>
         @if (!$hasLines)
-            <p class="text-sm text-muted-foreground">No fees are on this invoice yet.</p>
+            <p class="text-sm text-muted-foreground">{{ __('No fees are on this invoice yet.') }}</p>
         @else
             <div class="relative overflow-x-auto border-y">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b text-left text-muted-foreground">
-                            <th class="py-3 pr-4 font-medium">Fee</th>
-                            <th class="py-3 pr-4 text-right font-medium">Amount</th>
-                            <th class="py-3 pr-4 text-right font-medium">Waiver</th>
-                            <th class="py-3 pr-4 text-right font-medium">Fine</th>
-                            <th class="py-3 pr-4 text-right font-medium">Paid</th>
-                            <th class="py-3 text-right font-medium">Owed</th>
+                            <th class="py-3 pr-4 font-medium">{{ __('Fee') }}</th>
+                            <th class="py-3 pr-4 text-right font-medium">{{ __('Amount') }}</th>
+                            <th class="py-3 pr-4 text-right font-medium">{{ __('Waiver') }}</th>
+                            <th class="py-3 pr-4 text-right font-medium">{{ __('Fine') }}</th>
+                            <th class="py-3 pr-4 text-right font-medium">{{ __('Paid') }}</th>
+                            <th class="py-3 text-right font-medium">{{ __('Owed') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
@@ -133,7 +133,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="border-t font-medium">
-                            <td class="py-3 pr-4">Total</td>
+                            <td class="py-3 pr-4">{{ __('Total') }}</td>
                             <td class="whitespace-nowrap py-3 pr-4 text-right tabular-nums">{{ $feeInvoice->amount->formatToLocale($locale) }}</td>
                             <td class="whitespace-nowrap py-3 pr-4 text-right tabular-nums">{{ $feeInvoice->waiver->formatToLocale($locale) }}</td>
                             <td class="whitespace-nowrap py-3 pr-4 text-right tabular-nums">{{ $feeInvoice->fine->formatToLocale($locale) }}</td>
@@ -148,9 +148,9 @@
 
     @if ($hasLines)
         <section aria-labelledby="payments-heading" class="flex flex-col gap-3">
-            <h2 id="payments-heading" class="text-base font-semibold">Payments</h2>
+            <h2 id="payments-heading" class="text-base font-semibold">{{ __('Payments') }}</h2>
             @if ($payments->isEmpty())
-                <p class="text-sm text-muted-foreground">No payments</p>
+                <p class="text-sm text-muted-foreground">{{ __('No payments') }}</p>
             @else
                 <ul class="divide-y border-y">
                     @foreach ($payments as $row)
@@ -163,10 +163,10 @@
                                     @endif
                                     <span class="text-muted-foreground">{{ $row['payment']->methodLabel() }}</span>
                                     @if ($row['payment']->isReversal())
-                                        <span class="text-destructive">Reversal</span>
+                                        <span class="text-destructive">{{ __('Reversal') }}</span>
                                     @endif
                                     @if ($row['payment']->isReversed())
-                                        <span class="text-muted-foreground">Taken back</span>
+                                        <span class="text-muted-foreground">{{ __('Taken back') }}</span>
                                     @endif
                                 </p>
                                 <p class="text-muted-foreground">
@@ -176,7 +176,7 @@
                                     @endif
                                 </p>
                             </div>
-                            <april:button-link href="{{ route('student-payments.receipt', $row['payment']) }}" variant="ghost" class="h-11 shrink-0 select-none">Receipt</april:button-link>
+                            <april:button-link href="{{ route('student-payments.receipt', $row['payment']) }}" variant="ghost" class="h-11 shrink-0 select-none">{{ __('Receipt') }}</april:button-link>
                         </li>
                     @endforeach
                 </ul>

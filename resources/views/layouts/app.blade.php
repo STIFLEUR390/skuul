@@ -21,7 +21,7 @@
     {{-- Show the skip link on focus so keyboard users can locate it. --}}
     <a href="#main"
         class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring">
-        Skip to content
+        {{ __('Skip to content') }}
     </a>
     <div class="min-h-screen bg-background text-foreground">
         <april:sidebar-layout :default-open="sidebar_open()">

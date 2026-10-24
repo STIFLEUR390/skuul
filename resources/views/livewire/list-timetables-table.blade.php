@@ -1,6 +1,6 @@
 <div>
     <april:card>
-        <slot:title>Timetables</slot:title>
+        <slot:title>{{ __('Timetables') }}</slot:title>
         <slot:description>
             A timetable repeats weekly during one {{ strtolower(school_term('period', 'period')) }}. It can belong to {{ with_indefinite_article(strtolower(school_term('section', 'section'))) }} or be schoolwide.
             The published one is what the school teaches; a change goes out as the next revision.
@@ -10,10 +10,10 @@
                 @unless ($isStudent)
                     <div class="grid max-w-xl gap-4 sm:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <april:label for="timetable-scope">Schedule for</april:label>
+                            <april:label for="timetable-scope">{{ __('Schedule for') }}</april:label>
                             <select id="timetable-scope" wire:model.live="scope" class="h-10 rounded-md border border-input bg-background px-3 text-sm">
-                                <option value="section">A section</option>
-                                <option value="schoolwide">Schoolwide</option>
+                                <option value="section">{{ __('A section') }}</option>
+                                <option value="schoolwide">{{ __('Schoolwide') }}</option>
                             </select>
                         </div>
                         @if ($scope === 'section')
@@ -35,19 +35,19 @@
                     <x-empty-state icon="lucide-users" title="No {{ strtolower(school_term('section', 'section')) }} selected"
                         description="Set up an active {{ strtolower(school_term('section', 'section')) }} for the current {{ strtolower(school_term('academic_year', 'school year')) }} before creating a timetable." />
                 @elseif ($timetables === [] && $isStudent)
-                    <x-empty-state icon="lucide-calendar-clock" title="No timetable yet"
+                    <x-empty-state icon="lucide-calendar-clock" title="{{ __('No timetable yet') }}"
                         description="Your school has not published a timetable for this {{ strtolower(school_term('period', 'period')) }}." />
                 @elseif ($timetables === [])
-                    <x-empty-state icon="lucide-calendar-clock" title="No timetable yet"
+                    <x-empty-state icon="lucide-calendar-clock" title="{{ __('No timetable yet') }}"
                         description="Create a draft for this {{ strtolower(school_term('section', 'section')) }}, place its lessons, then publish it when it is ready." />
                 @else
                     <april:data-table>
                         <slot:header>
                             <april:data-table-row>
-                                <april:data-table-head>Timetable</april:data-table-head>
-                                <april:data-table-head>State</april:data-table-head>
-                                <april:data-table-head>Published</april:data-table-head>
-                                <april:data-table-head class="text-right">Actions</april:data-table-head>
+                                <april:data-table-head>{{ __('Timetable') }}</april:data-table-head>
+                                <april:data-table-head>{{ __('State') }}</april:data-table-head>
+                                <april:data-table-head>{{ __('Published') }}</april:data-table-head>
+                                <april:data-table-head class="text-right">{{ __('Actions') }}</april:data-table-head>
                             </april:data-table-row>
                         </slot:header>
                         <slot:body>
@@ -72,12 +72,12 @@
                                             @if ($timetable['can_manage'])
                                                 <april:button-link href="{{ route('timetables.manage', $timetable['id']) }}" variant="outline" size="sm" aria-label="Build {{ $timetable['name'] }}">
                                                     <x-lucide-pencil-ruler class="mr-1 size-4" />
-                                                    Build
+                                                    {{ __('Build') }}
                                                 </april:button-link>
                                             @endif
                                             <april:button-link href="{{ route('timetables.show', $timetable['id']) }}" variant="outline" size="sm" aria-label="Open {{ $timetable['name'] }}">
                                                 <x-lucide-eye class="mr-1 size-4" />
-                                                Open
+                                                {{ __('Open') }}
                                             </april:button-link>
                                         </div>
                                     </april:data-table-cell>

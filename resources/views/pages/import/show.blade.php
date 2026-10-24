@@ -10,7 +10,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('imports.index') }}" variant="outline">
         <x-lucide-arrow-left class="mr-2 size-4" />
-        Back to imports
+        {{ __('Back to imports') }}
     </april:button-link>
 @endsection
 
@@ -27,7 +27,7 @@
     <div class="space-y-6">
         @if ($batch->status->canBeApplied() && $batch->valid_count > 0)
             <april:alert>
-                <slot:title>Nothing is written yet</slot:title>
+                <slot:title>{{ __('Nothing is written yet') }}</slot:title>
                 <slot:description>
                     {{ $batch->valid_count }} {{ Str::plural('row', $batch->valid_count) }} passed the check. Read them
                     below, then write the import. Rows with errors are left alone.
@@ -36,7 +36,7 @@
         @endif
 
         <april:card>
-            <slot:title>What this file will do</slot:title>
+            <slot:title>{{ __('What this file will do') }}</slot:title>
             <slot:description>
                 {{ $batch->typeTitle() }} · started {{ school_time($batch->created_at)?->format('j M Y') }}
                 by {{ $batch->createdBy?->name ?? 'an unknown person' }}
@@ -59,8 +59,8 @@
         </april:card>
 
         <april:card>
-            <slot:title>Rows</slot:title>
-            <slot:description>Every line the file held, and what the application found wrong with it.</slot:description>
+            <slot:title>{{ __('Rows') }}</slot:title>
+            <slot:description>{{ __('Every line the file held, and what the application found wrong with it.') }}</slot:description>
             <slot:content>
                 @livewire('import-row-directory', ['batch' => $batch])
             </slot:content>

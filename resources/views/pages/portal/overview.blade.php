@@ -11,7 +11,7 @@
 <div class="mx-auto flex w-full max-w-4xl flex-col gap-6">
     <div class="flex flex-col gap-1">
         <p class="text-sm text-muted-foreground">
-            Choose a campus to view the school records and services available to your family.
+            {{ __('Choose a campus to view the school records and services available to your family.') }}
         </p>
     </div>
 
@@ -39,7 +39,7 @@
 
                         @if ($areasOf[$enrollment->id] === [])
                             <p class="text-sm text-muted-foreground">
-                                This campus has closed the family pages. Ask the school office for anything you need.
+                                {{ __('This campus has closed the family pages. Ask the school office for anything you need.') }}
                             </p>
                         @else
                             <div class="flex flex-wrap gap-2">

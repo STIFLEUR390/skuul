@@ -27,18 +27,18 @@
 @section('page_actions')
     <div class="flex items-center gap-2">
         @if ($canEdit)
-            <april:button-link href="{{ route('academic-cycle-sections.edit', $academicCycleSection) }}" variant="outline" class="h-11 select-none">Edit</april:button-link>
+            <april:button-link href="{{ route('academic-cycle-sections.edit', $academicCycleSection) }}" variant="outline" class="h-11 select-none">{{ __('Edit') }}</april:button-link>
         @endif
         @if ($canCreateSection)
             <april:dropdown-menu>
                 <slot:trigger>
-                    <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More actions">
+                    <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="{{ __('More actions') }}">
                         <x-lucide-ellipsis class="size-4" />
                     </april:button>
                 </slot:trigger>
                 <slot:content align="end" class="w-60">
-                    <april:dropdown-menu-item href="{{ route('academic-cycle-sections.create', ['academic_year_id' => $academicCycleSection->academic_year_id, 'academic_level_id' => $academicCycleSection->academic_level_id]) }}"><x-lucide-plus class="mr-2 size-4" />Add another</april:dropdown-menu-item>
-                    <april:dropdown-menu-item href="{{ route('academic-cycle-sections.roll-forward.show', ['source_academic_year_id' => $academicCycleSection->academic_year_id]) }}"><x-lucide-copy class="mr-2 size-4" />Roll into another year</april:dropdown-menu-item>
+                    <april:dropdown-menu-item href="{{ route('academic-cycle-sections.create', ['academic_year_id' => $academicCycleSection->academic_year_id, 'academic_level_id' => $academicCycleSection->academic_level_id]) }}"><x-lucide-plus class="mr-2 size-4" />{{ __('Add another') }}</april:dropdown-menu-item>
+                    <april:dropdown-menu-item href="{{ route('academic-cycle-sections.roll-forward.show', ['source_academic_year_id' => $academicCycleSection->academic_year_id]) }}"><x-lucide-copy class="mr-2 size-4" />{{ __('Roll into another year') }}</april:dropdown-menu-item>
                 </slot:content>
             </april:dropdown-menu>
         @endif

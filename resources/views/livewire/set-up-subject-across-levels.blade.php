@@ -5,7 +5,7 @@
         $sectionsTerm = strtolower(school_terms('section', 'sections'));
     @endphp
 
-    <form wire:submit="save" class="flex flex-col gap-8" aria-label="Set up a subject across classes">
+    <form wire:submit="save" class="flex flex-col gap-8" aria-label="{{ __('Set up a subject across classes') }}">
         <div class="grid gap-3 sm:grid-cols-2">
             <div>
                 <label for="subject" class="sr-only">{{ school_term('course', 'Subject') }}</label>
@@ -31,7 +31,7 @@
         </div>
 
         <fieldset class="flex flex-col gap-4">
-            <legend class="mb-3 text-base font-semibold">Who takes it</legend>
+            <legend class="mb-3 text-base font-semibold">{{ __('Who takes it') }}</legend>
             @if ($classes->isNotEmpty())
                 <div class="flex flex-wrap gap-2" role="group" aria-label="{{ school_terms('class_level', 'Classes') }}">
                     @foreach ($classes as $level)
@@ -43,12 +43,12 @@
                 </div>
             @endif
             @if ($groups->isNotEmpty())
-                <div class="flex flex-wrap gap-2" role="group" aria-label="Groups">
+                <div class="flex flex-wrap gap-2" role="group" aria-label="{{ __('Groups') }}">
                     @foreach ($groups as $level)
                         <label wire:key="level-{{ $level->id }}" class="{{ $chipClasses }}">
                             <input type="checkbox" value="{{ $level->id }}" wire:model.live="levelIds" class="size-4 rounded border-input">
                             {{ $level->name }}
-                            <x-lucide-users class="size-4 text-muted-foreground" aria-label="Whole group" />
+                            <x-lucide-users class="size-4 text-muted-foreground" aria-label="{{ __('Whole group') }}" />
                         </label>
                     @endforeach
                 </div>
@@ -61,7 +61,7 @@
         </fieldset>
 
         @if ($chosenLevels->isNotEmpty())
-            <ul class="divide-y border-y" aria-label="Settings for each choice">
+            <ul class="divide-y border-y" aria-label="{{ __('Settings for each choice') }}">
                 @foreach ($chosenLevels as $level)
                     @php
                         $mode = $configurations[$level->id]['roster_mode'] ?? \App\Enums\RosterMode::HomeSection->value;
@@ -72,7 +72,7 @@
                         <div class="flex flex-wrap items-center justify-between gap-3">
                             <h3 class="font-medium">{{ $level->name }}</h3>
                             @if ($level->is_group)
-                                <p class="text-sm text-muted-foreground">Everyone in the group</p>
+                                <p class="text-sm text-muted-foreground">{{ __('Everyone in the group') }}</p>
                             @else
                                 <div class="w-full sm:w-64">
                                     <label for="roster-mode-{{ $level->id }}" class="sr-only">Who attends in {{ $level->name }}</label>
@@ -103,11 +103,11 @@
                         <div class="grid grid-cols-2 gap-3 sm:w-96">
                             <div>
                                 <label for="planned-periods-{{ $level->id }}" class="sr-only">Periods a week in {{ $level->name }}</label>
-                                <input type="number" id="planned-periods-{{ $level->id }}" min="1" max="80" placeholder="Periods a week" wire:model="configurations.{{ $level->id }}.planned_periods_per_week" class="{{ $controlClasses }}" {{ field_error_bindings('configurations.'.$level->id.'.planned_periods_per_week') }}>
+                                <input type="number" id="planned-periods-{{ $level->id }}" min="1" max="80" placeholder="{{ __('Periods a week') }}" wire:model="configurations.{{ $level->id }}.planned_periods_per_week" class="{{ $controlClasses }}" {{ field_error_bindings('configurations.'.$level->id.'.planned_periods_per_week') }}>
                             </div>
                             <div>
                                 <label for="capacity-{{ $level->id }}" class="sr-only">Capacity in {{ $level->name }}</label>
-                                <input type="number" id="capacity-{{ $level->id }}" min="1" max="5000" placeholder="Capacity" wire:model="configurations.{{ $level->id }}.capacity" class="{{ $controlClasses }}" {{ field_error_bindings('configurations.'.$level->id.'.capacity') }}>
+                                <input type="number" id="capacity-{{ $level->id }}" min="1" max="5000" placeholder="{{ __('Capacity') }}" wire:model="configurations.{{ $level->id }}.capacity" class="{{ $controlClasses }}" {{ field_error_bindings('configurations.'.$level->id.'.capacity') }}>
                             </div>
                         </div>
                         <x-field-error name="configurations.{{ $level->id }}.roster_mode" />
@@ -120,8 +120,8 @@
         @endif
 
         <div class="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
-            <april:button-link href="{{ $setup ? route('course-offerings.bulk-create', ['academic_year_id' => $academicYear->id, 'setup' => 1]) : route('course-offerings.index') }}" variant="ghost" class="h-11 select-none">Cancel</april:button-link>
-            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Add subject</april:button>
+            <april:button-link href="{{ $setup ? route('course-offerings.bulk-create', ['academic_year_id' => $academicYear->id, 'setup' => 1]) : route('course-offerings.index') }}" variant="ghost" class="h-11 select-none">{{ __('Cancel') }}</april:button-link>
+            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Add subject') }}</april:button>
         </div>
     </form>
 </div>

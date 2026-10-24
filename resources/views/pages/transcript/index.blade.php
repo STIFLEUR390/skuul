@@ -10,7 +10,7 @@
     <div class="space-y-6">
         @if ($errors->has('transcript'))
             <april:alert variant="destructive">
-                <slot:title>The transcript was not issued</slot:title>
+                <slot:title>{{ __('The transcript was not issued') }}</slot:title>
                 <slot:description>{{ $errors->first('transcript') }}</slot:description>
             </april:alert>
         @endif

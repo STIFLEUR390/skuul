@@ -8,14 +8,14 @@
 @section('page_heading', 'Cash deposits')
 
 @section('page_actions')
-    <april:button-link href="{{ route('cash-deposits.create') }}">Record cash deposit</april:button-link>
+    <april:button-link href="{{ route('cash-deposits.create') }}">{{ __('Record cash deposit') }}</april:button-link>
 @endsection
 
 @section('content')
     @if ($deposits->isEmpty())
-        <p class="py-8 text-sm text-muted-foreground">No cash deposits yet</p>
+        <p class="py-8 text-sm text-muted-foreground">{{ __('No cash deposits yet') }}</p>
     @else
-        <ul class="divide-y border-y" aria-label="Cash deposits">
+        <ul class="divide-y border-y" aria-label="{{ __('Cash deposits') }}">
             @foreach ($deposits as $deposit)
                 <li class="flex items-center justify-between gap-4 py-3">
                     <div class="min-w-0 text-sm">

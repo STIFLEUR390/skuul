@@ -21,7 +21,7 @@
                         </label>
                         @if ($feature === \App\Enums\Feature::Portal && $isOn)
                             <fieldset class="mb-3 ml-4 border-l pl-4">
-                                <legend class="mb-1 text-sm font-medium">Family pages</legend>
+                                <legend class="mb-1 text-sm font-medium">{{ __('Family pages') }}</legend>
                                 <ul class="divide-y">
                                     @foreach ($areas as $area)
                                         @php($isShown = $portalAreas[$area->value] ?? true)

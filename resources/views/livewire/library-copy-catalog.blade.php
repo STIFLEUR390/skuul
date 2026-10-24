@@ -1,22 +1,22 @@
 <div class="space-y-4" wire:loading.class="opacity-60" wire:target="search,clearSearch,gotoPage,previousPage,nextPage">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div class="min-w-0 flex-1 space-y-1.5">
-            <label for="library-search" class="text-sm font-medium">Search copies</label>
+            <label for="library-search" class="text-sm font-medium">{{ __('Search copies') }}</label>
             <input id="library-search" type="search" wire:model.live.debounce.300ms="search"
-                placeholder="Title, author, ISBN, or barcode"
+                placeholder="{{ __('Title, author, ISBN, or barcode') }}"
                 class="h-10 w-full rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         </div>
         @if ($search !== '')
-            <april:button type="button" variant="outline" wire:click="clearSearch" wire:loading.attr="disabled">Clear search</april:button>
+            <april:button type="button" variant="outline" wire:click="clearSearch" wire:loading.attr="disabled">{{ __('Clear search') }}</april:button>
         @endif
     </div>
 
-    <p wire:loading class="text-sm text-muted-foreground" role="status" aria-live="polite">Updating copies…</p>
+    <p wire:loading class="text-sm text-muted-foreground" role="status" aria-live="polite">{{ __('Updating copies…') }}</p>
 
     <section aria-labelledby="library-copies-heading" class="overflow-hidden rounded-xl border border-sidebar-border/70 bg-card text-card-foreground shadow-sm">
         <div class="flex flex-col gap-1.5 border-b p-4 sm:p-6">
-            <h3 id="library-copies-heading" class="text-lg font-semibold leading-none tracking-tight">Copies</h3>
-            <p class="text-sm text-muted-foreground">Where each copy is, and who has it.</p>
+            <h3 id="library-copies-heading" class="text-lg font-semibold leading-none tracking-tight">{{ __('Copies') }}</h3>
+            <p class="text-sm text-muted-foreground">{{ __('Where each copy is, and who has it.') }}</p>
         </div>
 
         @if ($copies->isEmpty())
@@ -26,7 +26,7 @@
                 </span>
                 <p class="text-sm font-medium">{{ $search === '' ? 'Nothing on the shelf yet.' : 'Nothing matches that search.' }}</p>
                 @if ($search !== '')
-                    <april:button type="button" variant="outline" wire:click="clearSearch">Show all copies</april:button>
+                    <april:button type="button" variant="outline" wire:click="clearSearch">{{ __('Show all copies') }}</april:button>
                 @endif
             </div>
         @else
@@ -40,26 +40,26 @@
                                 <p class="mt-1 break-words font-mono text-xs text-muted-foreground">{{ $copy->barcode }}</p>
                             </div>
                             @if ($loan !== null)
-                                <span class="shrink-0 text-xs text-muted-foreground">On loan</span>
+                                <span class="shrink-0 text-xs text-muted-foreground">{{ __('On loan') }}</span>
                             @endif
                         </div>
                         <dl class="mt-4 grid gap-3 border-t pt-4 text-sm">
                             <div>
-                                <dt class="text-muted-foreground">Author</dt>
+                                <dt class="text-muted-foreground">{{ __('Author') }}</dt>
                                 <dd class="mt-1 break-words font-medium">{{ $copy->title?->authors }}</dd>
                             </div>
                             <div>
-                                <dt class="text-muted-foreground">Where it is</dt>
+                                <dt class="text-muted-foreground">{{ __('Where it is') }}</dt>
                                 <dd class="mt-1 break-words font-medium">{{ $loan !== null ? 'Out on loan' : $copy->status->label() }}</dd>
                             </div>
                             <div>
-                                <dt class="text-muted-foreground">Who has it</dt>
+                                <dt class="text-muted-foreground">{{ __('Who has it') }}</dt>
                                 <dd class="mt-1 break-words font-medium">{{ $loan !== null ? $loan->borrower?->name.' · due '.$loan->due_on?->format('j M') : '—' }}</dd>
                             </div>
                         </dl>
                         @if ($canManage && $loan === null && $copy->status->isHeld())
                             <div class="mt-4 border-t pt-4">
-                                <april:button type="button" variant="ghost" class="h-11 w-full select-none" wire:click="withdraw({{ $copy->id }})" wire:confirm="Withdraw this copy from the shelves?" wire:loading.attr="disabled" wire:target="withdraw">Withdraw</april:button>
+                                <april:button type="button" variant="ghost" class="h-11 w-full select-none" wire:click="withdraw({{ $copy->id }})" wire:confirm="Withdraw this copy from the shelves?" wire:loading.attr="disabled" wire:target="withdraw">{{ __('Withdraw') }}</april:button>
                             </div>
                         @endif
                     </article>
@@ -70,12 +70,12 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b text-left text-xs uppercase tracking-wider text-muted-foreground">
-                            <th class="p-4 font-medium">Barcode</th>
-                            <th class="p-4 font-medium">Title</th>
-                            <th class="p-4 font-medium">Author</th>
-                            <th class="p-4 font-medium">Where it is</th>
-                            <th class="p-4 font-medium">Who has it</th>
-                            <th class="p-4 font-medium"><span class="sr-only">Actions</span></th>
+                            <th class="p-4 font-medium">{{ __('Barcode') }}</th>
+                            <th class="p-4 font-medium">{{ __('Title') }}</th>
+                            <th class="p-4 font-medium">{{ __('Author') }}</th>
+                            <th class="p-4 font-medium">{{ __('Where it is') }}</th>
+                            <th class="p-4 font-medium">{{ __('Who has it') }}</th>
+                            <th class="p-4 font-medium"><span class="sr-only">{{ __('Actions') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,7 +95,7 @@
                                 </td>
                                 <td class="p-4 text-right">
                                     @if ($canManage && $loan === null && $copy->status->isHeld())
-                                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="withdraw({{ $copy->id }})" wire:confirm="Withdraw this copy from the shelves?" wire:loading.attr="disabled" wire:target="withdraw">Withdraw</april:button>
+                                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="withdraw({{ $copy->id }})" wire:confirm="Withdraw this copy from the shelves?" wire:loading.attr="disabled" wire:target="withdraw">{{ __('Withdraw') }}</april:button>
                                     @endif
                                 </td>
                             </tr>

@@ -2,13 +2,13 @@
     <div class="flex flex-wrap items-end justify-between gap-3">
         <h2 id="house-checks-heading" class="text-base font-semibold">{{ $day->format('l, j F Y') }}</h2>
         <div class="w-full sm:w-48">
-            <label for="roll-date" class="sr-only">Day</label>
+            <label for="roll-date" class="sr-only">{{ __('Day') }}</label>
             <input id="roll-date" type="date" wire:model.live="date" value="{{ $day->toDateString() }}" max="{{ school_today()->toDateString() }}" class="h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         </div>
     </div>
 
     @if ($houses->isEmpty())
-        <p class="text-sm text-muted-foreground">No open boarding houses</p>
+        <p class="text-sm text-muted-foreground">{{ __('No open boarding houses') }}</p>
     @else
         <ul class="divide-y border-y">
             @foreach ($houses as $house)
@@ -28,12 +28,12 @@
                                 @elseif ($canManage && !$isFuture)
                                     <button type="button" wire:click="start({{ $house->id }}, '{{ $type->value }}')" wire:loading.attr="disabled" wire:target="start" aria-label="Start the {{ strtolower($type->label()) }} for {{ $house->name }}" class="flex min-h-11 w-full select-none flex-col justify-center rounded-md border border-dashed px-3 py-2 text-left hover:bg-muted">
                                         <span class="text-sm font-medium">{{ $type->label() }}</span>
-                                        <span class="text-xs text-muted-foreground">Start</span>
+                                        <span class="text-xs text-muted-foreground">{{ __('Start') }}</span>
                                     </button>
                                 @else
                                     <div class="flex min-h-11 flex-col justify-center rounded-md border border-dashed px-3 py-2">
                                         <span class="text-sm">{{ $type->label() }}</span>
-                                        <span class="text-xs text-muted-foreground">Not started</span>
+                                        <span class="text-xs text-muted-foreground">{{ __('Not started') }}</span>
                                     </div>
                                 @endif
                             </li>

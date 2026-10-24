@@ -1,13 +1,13 @@
 <div>
     <april:card>
-        <slot:title>Assessment plan</slot:title>
-        <slot:description>How the course is assessed, from the gradebook, and the topics each assessment tests.</slot:description>
+        <slot:title>{{ __('Assessment plan') }}</slot:title>
+        <slot:description>{{ __('How the course is assessed, from the gradebook, and the topics each assessment tests.') }}</slot:description>
         <slot:content>
             @if ($plan === [])
                 <p class="text-sm text-muted-foreground">
                     No assessments are set up for this course yet.
                     @if ($canOpenGradebook)
-                        <a class="font-medium underline" href="{{ route('course-offerings.gradebook.show', $syllabus->courseOffering) }}">Open the gradebook</a> to add them.
+                        <a class="font-medium underline" href="{{ route('course-offerings.gradebook.show', $syllabus->courseOffering) }}">{{ __('Open the gradebook') }}</a> to add them.
                     @endif
                 </p>
             @else
@@ -33,7 +33,7 @@
                                                 </span>
                                             </p>
                                             @if ($canTag && $editingItemId !== $item->id)
-                                                <april:button type="button" size="sm" variant="outline" wire:click="edit({{ $item->id }})">Choose topics<span class="sr-only"> for {{ $item->name }}</span></april:button>
+                                                <april:button type="button" size="sm" variant="outline" wire:click="edit({{ $item->id }})">{{ __('Choose topics') }}<span class="sr-only"> for {{ $item->name }}</span></april:button>
                                             @endif
                                         </div>
 
@@ -51,8 +51,8 @@
                                                     </div>
                                                 </fieldset>
                                                 <div class="flex gap-2">
-                                                    <april:button type="submit" size="sm">Save topics</april:button>
-                                                    <april:button type="button" size="sm" variant="outline" wire:click="cancel">Cancel</april:button>
+                                                    <april:button type="submit" size="sm">{{ __('Save topics') }}</april:button>
+                                                    <april:button type="button" size="sm" variant="outline" wire:click="cancel">{{ __('Cancel') }}</april:button>
                                                 </div>
                                             </form>
                                         @elseif ($item->syllabusTopics->isNotEmpty())
@@ -71,7 +71,7 @@
 
                 @if ($untested->isNotEmpty() && $canTag)
                     <p class="mt-4 text-sm" id="untested-topics">
-                        <span class="font-medium">Not tested by any assessment:</span>
+                        <span class="font-medium">{{ __('Not tested by any assessment:') }}</span>
                         {{ $untested->pluck('title')->join(', ') }}
                     </p>
                 @endif

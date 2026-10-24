@@ -18,7 +18,7 @@
         ];
     @endphp
 
-    <section aria-label="Request" class="flex flex-col gap-6">
+    <section aria-label="{{ __('Request') }}" class="flex flex-col gap-6">
         <div class="flex flex-col gap-1">
             <p class="font-medium">{{ $sharingRequest->requestingSchool?->name ?? '—' }} asked {{ $holderName }}</p>
             <p class="text-sm text-muted-foreground">{{ $sharingRequest->purpose }}</p>
@@ -29,14 +29,14 @@
 
         <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-4">
             <div>
-                <dt class="text-sm text-muted-foreground">State</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('State') }}</dt>
                 <dd class="font-medium">{{ $sharingRequest->status->label() }}</dd>
                 @if ($sharingRequest->decidedBy !== null)
                     <dd class="text-xs text-muted-foreground">{{ $sharingRequest->decidedBy->name }} · {{ school_time($sharingRequest->decided_at)?->format('j M Y') }}</dd>
                 @endif
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Learner</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Learner') }}</dt>
                 @if ($isHolder)
                     <dd class="font-medium" id="sharing-learner">
                         {{ $sharingRequest->studentRecord?->user?->name ?? 'Unnamed' }}
@@ -47,16 +47,16 @@
                 @endif
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Asked on</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Asked on') }}</dt>
                 <dd class="font-medium">{{ school_time($sharingRequest->created_at)?->format('j M Y') }}</dd>
                 <dd class="text-xs text-muted-foreground">{{ $sharingRequest->requestedBy?->name ?? '—' }}</dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Runs out</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Runs out') }}</dt>
                 <dd class="font-medium">{{ $sharingRequest->expires_on?->format('j M Y') ?? '—' }}</dd>
             </div>
             <div class="col-span-2 sm:col-span-4">
-                <dt class="text-sm text-muted-foreground">Asked for</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Asked for') }}</dt>
                 <dd class="font-medium">{{ $categories !== '' ? $categories : '—' }}</dd>
             </div>
             @if (filled($sharingRequest->decision_note))
@@ -71,7 +71,7 @@
             <div class="flex flex-col gap-3">
                 @if ($decisions !== [])
                     <div class="max-w-md">
-                        <label for="decision-note" class="sr-only">Note</label>
+                        <label for="decision-note" class="sr-only">{{ __('Note') }}</label>
                         <input id="decision-note" wire:model="note" maxlength="500" placeholder="Note (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('note') }}>
                         <x-field-error name="note" class="mt-1" />
                     </div>
@@ -79,19 +79,19 @@
                 <div class="flex flex-wrap items-center gap-2">
                     @if ($canFulfil)
                         <april:button type="button" class="h-11 select-none" wire:click="fulfil" wire:loading.attr="disabled" wire:target="fulfil">
-                            <x-lucide-package class="mr-2 size-4" />Hand the records over
+                            <x-lucide-package class="mr-2 size-4" />{{ __('Hand the records over') }}
                         </april:button>
                     @endif
                     @if ($canApprove)
-                        <april:button type="button" class="h-11 select-none" wire:click="decide('{{ DataSharingStatus::Approved->value }}')" wire:loading.attr="disabled" wire:target="decide">Approve</april:button>
+                        <april:button type="button" class="h-11 select-none" wire:click="decide('{{ DataSharingStatus::Approved->value }}')" wire:loading.attr="disabled" wire:target="decide">{{ __('Approve') }}</april:button>
                     @endif
                     @if ($canDecline)
-                        <april:button type="button" variant="outline" class="h-11 select-none" wire:click="decide('{{ DataSharingStatus::Declined->value }}')" wire:confirm="Decline this request?" wire:loading.attr="disabled" wire:target="decide">Decline</april:button>
+                        <april:button type="button" variant="outline" class="h-11 select-none" wire:click="decide('{{ DataSharingStatus::Declined->value }}')" wire:confirm="Decline this request?" wire:loading.attr="disabled" wire:target="decide">{{ __('Decline') }}</april:button>
                     @endif
                     @if ($menuDecisions !== [])
                         <april:dropdown-menu>
                             <slot:trigger>
-                                <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="More answers">
+                                <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="{{ __('More answers') }}">
                                     <x-lucide-ellipsis class="size-4" />
                                 </april:button>
                             </slot:trigger>
@@ -108,30 +108,30 @@
     </section>
 
     <section aria-labelledby="records-heading" class="flex flex-col gap-4">
-        <h2 id="records-heading" class="text-base font-semibold">Records</h2>
+        <h2 id="records-heading" class="text-base font-semibold">{{ __('Records') }}</h2>
         @if ($package === null)
-            <p class="text-sm text-muted-foreground">Nothing has been handed over</p>
+            <p class="text-sm text-muted-foreground">{{ __('Nothing has been handed over') }}</p>
         @else
             <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-3">
                 <div>
-                    <dt class="text-sm text-muted-foreground">Built on</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Built on') }}</dt>
                     <dd class="font-medium">{{ school_time($package->created_at)?->format('j M Y') }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-muted-foreground">Kinds of record</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Kinds of record') }}</dt>
                     <dd class="font-medium tabular-nums">{{ count($package->categories) }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-muted-foreground">Taken in</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Taken in') }}</dt>
                     <dd class="font-medium">{{ school_time($package->received_at)?->format('j M Y') ?? '—' }}</dd>
                 </div>
             </dl>
             @if ($isRequester && !$package->wasReceived() && $sharingRequest->status === \App\Enums\DataSharingStatus::Revoked)
-                <p class="text-sm text-muted-foreground">The other school took this permission back before the records were taken in.</p>
+                <p class="text-sm text-muted-foreground">{{ __('The other school took this permission back before the records were taken in.') }}</p>
             @elseif ($isRequester && !$package->wasReceived())
                 <div>
                     <april:button type="button" class="h-11 select-none" wire:click="receive" wire:loading.attr="disabled" wire:target="receive">
-                        <x-lucide-download class="mr-2 size-4" />Take the records in
+                        <x-lucide-download class="mr-2 size-4" />{{ __('Take the records in') }}
                     </april:button>
                 </div>
             @endif
@@ -146,7 +146,7 @@
         <section wire:key="package-section-{{ $index }}" aria-labelledby="package-section-{{ $index }}" class="flex flex-col gap-4">
             <h3 id="package-section-{{ $index }}" class="text-base font-semibold">{{ $section['label'] }}</h3>
             @if ($section['fields'] === [] && $section['tables'] === [])
-                <p class="text-sm text-muted-foreground">Nothing on record</p>
+                <p class="text-sm text-muted-foreground">{{ __('Nothing on record') }}</p>
             @endif
             @if ($section['fields'] !== [])
                 <dl class="grid grid-cols-1 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-3">

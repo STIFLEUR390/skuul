@@ -1,21 +1,21 @@
-<form wire:submit="save" class="flex max-w-2xl flex-col gap-4" aria-label="Write a graduation plan">
+<form wire:submit="save" class="flex max-w-2xl flex-col gap-4" aria-label="{{ __('Write a graduation plan') }}">
     @php
         $controlClasses = 'mt-1 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
     @endphp
 
-    <h2 class="text-base font-semibold">Start with the basics</h2>
-    <p class="text-sm text-muted-foreground">Name the plan, then add the classes and subjects after you save. Every item is required by default.</p>
+    <h2 class="text-base font-semibold">{{ __('Start with the basics') }}</h2>
+    <p class="text-sm text-muted-foreground">{{ __('Name the plan, then add the classes and subjects after you save. Every item is required by default.') }}</p>
 
     <div class="grid gap-4 sm:grid-cols-2">
         <div>
-            <label for="name" class="text-sm text-muted-foreground">Name</label>
-            <input id="name" wire:model="name" required maxlength="100" placeholder="Senior school diploma" class="{{ $controlClasses }}" {{ field_error_bindings('name') }}>
+            <label for="name" class="text-sm text-muted-foreground">{{ __('Name') }}</label>
+            <input id="name" wire:model="name" required maxlength="100" placeholder="{{ __('Senior school diploma') }}" class="{{ $controlClasses }}" {{ field_error_bindings('name') }}>
             <x-field-error name="name" class="mt-1" />
         </div>
         <div>
-            <label for="cohort_id" class="text-sm text-muted-foreground">Who it is for</label>
+            <label for="cohort_id" class="text-sm text-muted-foreground">{{ __('Who it is for') }}</label>
             <select id="cohort_id" wire:model="cohortId" class="{{ $controlClasses }}" {{ field_error_bindings('cohortId') }}>
-                <option value="">Every learner</option>
+                <option value="">{{ __('Every learner') }}</option>
                 @foreach ($cohorts as $cohort)
                     <option value="{{ $cohort->id }}">{{ $cohort->name }}</option>
                 @endforeach
@@ -39,6 +39,6 @@
     ])
 
     <div class="flex justify-end">
-        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Write the plan</april:button>
+        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Write the plan') }}</april:button>
     </div>
 </form>

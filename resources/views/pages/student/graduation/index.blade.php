@@ -13,7 +13,7 @@
 @section('page_heading',  __('Manage Graduations'))
 
 @section('page_actions')
-    <x-resource-create-action :href="route('students.graduate')" ability="graduate" :arguments="[\App\Models\Graduation::class]">Graduate learners</x-resource-create-action>
+    <x-resource-create-action :href="route('students.graduate')" ability="graduate" :arguments="[\App\Models\Graduation::class]">{{ __('Graduate learners') }}</x-resource-create-action>
 @endsection
 
 @section('content', )

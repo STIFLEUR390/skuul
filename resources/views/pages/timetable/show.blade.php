@@ -13,7 +13,7 @@
         <livewire:timetable-status-control :timetable="$timetable" />
         <april:button variant="outline" type="button" onclick="window.location='{{ route('timetables.print', $timetable->id) }}'">
             <x-lucide-printer class="mr-2 size-4" />
-            Open print view
+            {{ __('Open print view') }}
         </april:button>
     </div>
     @livewire('timetable-cover-panel', ['timetable' => $timetable])

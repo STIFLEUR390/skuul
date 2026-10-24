@@ -17,13 +17,13 @@
                     <april:dropdown-menu-item wire:click="sendInvitation"><x-lucide-send class="mr-2 size-4" />{{ $status === \App\Enums\AccountStatus::Invited ? 'Resend invitation' : 'Send invitation' }}</april:dropdown-menu-item>
                 @endif
                 @if ($hasPendingInvitation)
-                    <april:dropdown-menu-item wire:click="revokeInvitation" wire:confirm="Revoke the invitation for {{ $user->name }}? They can be invited again later."><x-lucide-ban class="mr-2 size-4" />Revoke invitation</april:dropdown-menu-item>
+                    <april:dropdown-menu-item wire:click="revokeInvitation" wire:confirm="Revoke the invitation for {{ $user->name }}? They can be invited again later."><x-lucide-ban class="mr-2 size-4" />{{ __('Revoke invitation') }}</april:dropdown-menu-item>
                 @endif
                 @if ($isBlocked)
-                    <april:dropdown-menu-item wire:click="reinstate"><x-lucide-lock-open class="mr-2 size-4" />Reinstate account</april:dropdown-menu-item>
+                    <april:dropdown-menu-item wire:click="reinstate"><x-lucide-lock-open class="mr-2 size-4" />{{ __('Reinstate account') }}</april:dropdown-menu-item>
                 @else
-                    <april:dropdown-menu-item wire:click="suspend" wire:confirm="Suspend {{ $user->name }}? They are signed out and cannot sign in until reinstated."><x-lucide-lock class="mr-2 size-4" />Suspend account</april:dropdown-menu-item>
-                    <april:dropdown-menu-item class="text-destructive" wire:click="archive" wire:confirm="Archive {{ $user->name }}? They cannot sign in until reinstated."><x-lucide-archive class="mr-2 size-4" />Archive account</april:dropdown-menu-item>
+                    <april:dropdown-menu-item wire:click="suspend" wire:confirm="Suspend {{ $user->name }}? They are signed out and cannot sign in until reinstated."><x-lucide-lock class="mr-2 size-4" />{{ __('Suspend account') }}</april:dropdown-menu-item>
+                    <april:dropdown-menu-item class="text-destructive" wire:click="archive" wire:confirm="Archive {{ $user->name }}? They cannot sign in until reinstated."><x-lucide-archive class="mr-2 size-4" />{{ __('Archive account') }}</april:dropdown-menu-item>
                 @endif
             </slot:content>
         </april:dropdown-menu>

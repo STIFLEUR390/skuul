@@ -5,22 +5,22 @@
 
     @if (!$isShelving)
         <april:button type="button" variant="outline" class="h-11 select-none" wire:click="start">
-            <x-lucide-plus class="mr-2 size-4" aria-hidden="true" />Put a book on the shelf
+            <x-lucide-plus class="mr-2 size-4" aria-hidden="true" />{{ __('Put a book on the shelf') }}
         </april:button>
     @else
-        <form wire:submit="save" class="flex flex-col gap-4 border-y py-4" aria-label="Put a book on the shelf">
+        <form wire:submit="save" class="flex flex-col gap-4 border-y py-4" aria-label="{{ __('Put a book on the shelf') }}">
             @if ($picked !== null)
                 <div class="flex items-center gap-3">
                     <div class="min-w-0 flex-1">
                         <p class="truncate text-sm font-medium">{{ $picked->title }}</p>
                         <p class="truncate text-xs text-muted-foreground">{{ $picked->authors ?? '—' }}</p>
                     </div>
-                    <april:button type="button" variant="ghost" class="h-11 shrink-0 select-none" wire:click="forgetTitle">Change</april:button>
+                    <april:button type="button" variant="ghost" class="h-11 shrink-0 select-none" wire:click="forgetTitle">{{ __('Change') }}</april:button>
                 </div>
             @elseif ($isDescribing)
                 <div class="grid gap-3 sm:grid-cols-2">
                     <div class="sm:col-span-2">
-                        <label for="shelve-title" class="text-sm text-muted-foreground">Title</label>
+                        <label for="shelve-title" class="text-sm text-muted-foreground">{{ __('Title') }}</label>
                         <input id="shelve-title" wire:model="title" required maxlength="255" class="{{ $controlClasses }}" {{ field_error_bindings('title') }}>
                         <x-field-error name="title" class="mt-1" />
                     </div>
@@ -42,12 +42,12 @@
                 </div>
             @else
                 <div>
-                    <label for="shelve-search" class="text-sm text-muted-foreground">Which book</label>
-                    <input id="shelve-search" type="search" wire:model.live.debounce.300ms="titleSearch" autocomplete="off" placeholder="Title, author or ISBN" class="{{ $controlClasses }}" {{ field_error_bindings('titleSearch') }}>
+                    <label for="shelve-search" class="text-sm text-muted-foreground">{{ __('Which book') }}</label>
+                    <input id="shelve-search" type="search" wire:model.live.debounce.300ms="titleSearch" autocomplete="off" placeholder="{{ __('Title, author or ISBN') }}" class="{{ $controlClasses }}" {{ field_error_bindings('titleSearch') }}>
                     <x-field-error name="titleSearch" class="mt-1" />
                 </div>
                 @if ($matches->isNotEmpty())
-                    <ul class="divide-y border-y" aria-label="Books in the catalogue">
+                    <ul class="divide-y border-y" aria-label="{{ __('Books in the catalogue') }}">
                         @foreach ($matches as $match)
                             <li wire:key="shelve-title-{{ $match->id }}">
                                 <button type="button" wire:click="pickTitle({{ $match->id }})" class="flex min-h-11 w-full select-none flex-col items-start justify-center py-2 text-left hover:bg-muted">
@@ -65,11 +65,11 @@
 
             <div class="grid gap-3 sm:grid-cols-3">
                 <div>
-                    <label for="shelve-barcode" class="text-sm text-muted-foreground">Barcode of the first copy</label>
+                    <label for="shelve-barcode" class="text-sm text-muted-foreground">{{ __('Barcode of the first copy') }}</label>
                     <input id="shelve-barcode" wire:model.blur="barcode" required maxlength="60" autocomplete="off" class="{{ $controlClasses }} font-mono" {{ field_error_bindings('barcode') }}>
                 </div>
                 <div>
-                    <label for="shelve-copies" class="text-sm text-muted-foreground">How many copies</label>
+                    <label for="shelve-copies" class="text-sm text-muted-foreground">{{ __('How many copies') }}</label>
                     <input id="shelve-copies" type="number" inputmode="numeric" min="1" max="50" required wire:model.blur="copies" class="{{ $controlClasses }}" {{ field_error_bindings('copies') }}>
                 </div>
                 <div>
@@ -85,8 +85,8 @@
             @endif
 
             <div class="flex justify-end gap-2">
-                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stop">Cancel</april:button>
-                <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Add to the shelf</april:button>
+                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stop">{{ __('Cancel') }}</april:button>
+                <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Add to the shelf') }}</april:button>
             </div>
         </form>
     @endif

@@ -5,7 +5,7 @@
         <slot:content>
             <div class="mb-6 grid gap-4 rounded-lg border border-border bg-muted/20 p-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-end">
                 <div class="min-w-0">
-                    <april:label for="gradebook-academic-year">Academic year</april:label>
+                    <april:label for="gradebook-academic-year">{{ __('Academic year') }}</april:label>
                     <select id="gradebook-academic-year" wire:model.live="academicYearId" required class="h-10 w-full min-w-0 rounded-md border border-input bg-background px-3 text-sm">
                         @foreach ($academicYears as $availableAcademicYear)
                             <option value="{{ $availableAcademicYear->id }}" @selected($availableAcademicYear->id === (int) $academicYearId)>{{ $availableAcademicYear->name }}</option>
@@ -13,9 +13,9 @@
                     </select>
                 </div>
                 <div class="min-w-0">
-                    <april:label for="gradebook-academic-period">Period</april:label>
+                    <april:label for="gradebook-academic-period">{{ __('Period') }}</april:label>
                     <select id="gradebook-academic-period" wire:model.live="academicPeriodId" class="h-10 w-full min-w-0 rounded-md border border-input bg-background px-3 text-sm">
-                        <option value="">All periods</option>
+                        <option value="">{{ __('All periods') }}</option>
                         @foreach ($academicYear->topLevelPeriods as $availableAcademicPeriod)
                             <option value="{{ $availableAcademicPeriod->id }}" @selected($availableAcademicPeriod->id === (int) $academicPeriodId)>
                                 {{ $availableAcademicPeriod->displayName }} · {{ $availableAcademicPeriod->status->label() }}
@@ -24,13 +24,13 @@
                     </select>
                 </div>
             </div>
-            <p wire:loading class="mb-4 text-sm text-muted-foreground" role="status">Updating gradebooks…</p>
+            <p wire:loading class="mb-4 text-sm text-muted-foreground" role="status">{{ __('Updating gradebooks…') }}</p>
 
             @if ($courseOfferings->isEmpty())
                 <div class="space-y-3 py-6 text-center">
-                    <p class="font-medium">No gradebooks are available for this selection.</p>
-                    <p class="text-sm text-muted-foreground">Choose another year or period, or add subjects to this year first.</p>
-                    <april:button-link href="{{ route('course-offerings.index') }}" variant="outline">View subjects being taught</april:button-link>
+                    <p class="font-medium">{{ __('No gradebooks are available for this selection.') }}</p>
+                    <p class="text-sm text-muted-foreground">{{ __('Choose another year or period, or add subjects to this year first.') }}</p>
+                    <april:button-link href="{{ route('course-offerings.index') }}" variant="outline">{{ __('View subjects being taught') }}</april:button-link>
                 </div>
             @else
                 <div class="grid gap-3 md:hidden">
@@ -51,30 +51,30 @@
 
                             <dl class="mt-4 grid gap-3 border-t border-border pt-4 text-sm">
                                 <div>
-                                    <dt class="text-muted-foreground">Period</dt>
+                                    <dt class="text-muted-foreground">{{ __('Period') }}</dt>
                                     <dd class="mt-1 font-medium">{{ $courseOffering->academicPeriod->displayName }}</dd>
                                     <dd class="mt-1 text-muted-foreground">{{ $courseOffering->academicPeriod->status->label() }}</dd>
                                 </div>
                                 <div>
-                                    <dt class="text-muted-foreground">Sections</dt>
+                                    <dt class="text-muted-foreground">{{ __('Sections') }}</dt>
                                     <dd class="mt-1 break-words font-medium">{{ $courseOffering->cycleSections->isEmpty() ? school_roster_label($courseOffering->roster_mode) : $courseOffering->cycleSections->map(fn ($section) => $section->label ?? $section->name)->join(', ') }}</dd>
                                 </div>
                             </dl>
 
-                            <april:button-link href="{{ route('course-offerings.gradebook.show', $courseOffering) }}" variant="outline" class="mt-4 w-full justify-center" aria-label="Open the gradebook for {{ $courseOffering->subject->name }}, {{ $courseOffering->academicLevel->name }}">Open gradebook</april:button-link>
+                            <april:button-link href="{{ route('course-offerings.gradebook.show', $courseOffering) }}" variant="outline" class="mt-4 w-full justify-center" aria-label="Open the gradebook for {{ $courseOffering->subject->name }}, {{ $courseOffering->academicLevel->name }}">{{ __('Open gradebook') }}</april:button-link>
                         </article>
                     @endforeach
                 </div>
 
-                <div class="hidden overflow-x-auto rounded-md border border-border md:block" role="region" aria-label="Gradebook list" tabindex="0">
+                <div class="hidden overflow-x-auto rounded-md border border-border md:block" role="region" aria-label="{{ __('Gradebook list') }}" tabindex="0">
                     <table class="w-full min-w-[760px] align-middle text-sm">
                         <thead class="border-b border-border text-left text-muted-foreground">
                             <tr>
-                                <th scope="col" class="px-3 py-2">Subject</th>
-                                <th scope="col" class="px-3 py-2">Class</th>
-                                <th scope="col" class="px-3 py-2">Period</th>
-                                <th scope="col" class="px-3 py-2">Sections</th>
-                                <th scope="col" class="px-3 py-2">Status</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Subject') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Class') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Period') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Sections') }}</th>
+                                <th scope="col" class="px-3 py-2">{{ __('Status') }}</th>
                                 <th scope="col" class="px-3 py-2"></th>
                             </tr>
                         </thead>
@@ -95,7 +95,7 @@
                                     <td class="px-3 py-3 text-muted-foreground">{{ $courseOffering->cycleSections->isEmpty() ? school_roster_label($courseOffering->roster_mode) : $courseOffering->cycleSections->map(fn ($section) => $section->label ?? $section->name)->join(', ') }}</td>
                                     <td class="px-3 py-3"><april:badge>{{ $courseOffering->status->label() }}</april:badge></td>
                                     <td class="px-3 py-3 text-right">
-                                        <april:button-link href="{{ route('course-offerings.gradebook.show', $courseOffering) }}" variant="outline" size="sm" aria-label="Open the gradebook for {{ $courseOffering->subject->name }}, {{ $courseOffering->academicLevel->name }}">Open gradebook</april:button-link>
+                                        <april:button-link href="{{ route('course-offerings.gradebook.show', $courseOffering) }}" variant="outline" size="sm" aria-label="Open the gradebook for {{ $courseOffering->subject->name }}, {{ $courseOffering->academicLevel->name }}">{{ __('Open gradebook') }}</april:button-link>
                                     </td>
                                 </tr>
                             @endforeach

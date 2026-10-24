@@ -12,7 +12,7 @@
         <livewire:timetable-status-control :timetable="$timetable" />
         <april:button-link href="{{ route('timetables.show', $timetable) }}" variant="outline">
             <x-lucide-eye class="mr-2 size-4" />
-            View
+            {{ __('View') }}
         </april:button-link>
     </div>
 @endsection

@@ -36,7 +36,7 @@ $menuGroups[] = $currentGroup;
         class="border-r max-h-svh sticky top-0">
         <slot:header>
             <div class="flex min-w-0 flex-col gap-2 px-2 group-data-[collapsible=icon]:px-0">
-                <a href="{{route('home')}}" wire:navigate class="flex h-10 items-center gap-2" aria-label="Home">
+                <a href="{{route('home')}}" wire:navigate class="flex h-10 items-center gap-2" aria-label="{{ __('Home') }}">
                     <img src="{{asset(current_school()?->logoURL ?? config('app.logo'))}}" alt=""
                         class="h-8 w-8 rounded-md border object-cover">
                     <span class="truncate text-sm font-semibold">{{config('app.name')}}</span>
@@ -47,10 +47,10 @@ $menuGroups[] = $currentGroup;
                         {{-- April repeats the header for desktop and mobile. Wrap the control to avoid duplicate label IDs. --}}
                         <label class="flex min-w-0 flex-col gap-1">
                             <span class="px-2 text-xs font-medium text-sidebar-foreground/70">
-                                Working school
+                                {{ __('Working school') }}
                             </span>
                             <april:native-select class="h-11"
-                                aria-label="Working school" wire:change="switchSchool($event.target.value)" wire:loading.attr="disabled" wire:target="switchSchool">
+                                aria-label="{{ __('Working school') }}" wire:change="switchSchool($event.target.value)" wire:loading.attr="disabled" wire:target="switchSchool">
                                 @foreach ($schools as $school)
                                     <option value="{{ $school->id }}" @selected(current_school_id() === $school->id)>
                                         {{ $school->name }}
@@ -69,7 +69,7 @@ $menuGroups[] = $currentGroup;
 
         {{-- Apply the navigation landmark to April's slot wrapper and distinguish it from breadcrumbs. --}}
         <slot:content class="beautify-scrollbar" wire:navigate:scroll role="navigation"
-            aria-label="Main">
+            aria-label="{{ __('Main') }}">
             @foreach ($menuGroups as $group)
             @if (collect($group['items'])->contains(fn (array $menuItem): bool => $menuItem['visible'] ?? true))
             <april:sidebar-group>
@@ -159,7 +159,7 @@ $menuGroups[] = $currentGroup;
                         placeholder="{{ __('Search pages and features...') }}"
                         class="h-14 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
                         autocomplete="off" spellcheck="false" aria-label="{{ __('Search pages and features') }}">
-                    <kbd class="rounded border bg-muted px-2 py-1 font-mono text-xs text-muted-foreground">Esc</kbd>
+                    <kbd class="rounded border bg-muted px-2 py-1 font-mono text-xs text-muted-foreground">{{ __('Esc') }}</kbd>
                 </div>
 
                 <div x-ref="results" class="max-h-[60vh] overflow-y-auto overscroll-contain p-2 sm:max-h-[28rem]" role="listbox"
@@ -190,7 +190,7 @@ $menuGroups[] = $currentGroup;
 
                 <div class="hidden items-center justify-between gap-4 border-t px-4 py-2 text-xs text-muted-foreground sm:flex">
                     <span>{{ __('Navigate') }} <kbd class="font-mono">↑</kbd> <kbd class="font-mono">↓</kbd></span>
-                    <span>{{ __('Open') }} <kbd class="font-mono">Enter</kbd></span>
+                    <span>{{ __('Open') }} <kbd class="font-mono">{{ __('Enter') }}</kbd></span>
                 </div>
             </div>
         </div>

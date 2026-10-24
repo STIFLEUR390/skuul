@@ -22,16 +22,16 @@
     <div class="space-y-6">
         <april:card>
             <slot:title>{{ $studentRecord->user?->name ?? $studentRecord->admission_number }}</slot:title>
-            <slot:description>The school counts only the days it took a register. A day with no register does not count as an absence.</slot:description>
+            <slot:description>{{ __('The school counts only the days it took a register. A day with no register does not count as an absence.') }}</slot:description>
             <slot:content>
                 @if ($recorded === 0)
-                    <x-empty-state icon="lucide-calendar-off" title="No attendance recorded yet"
+                    <x-empty-state icon="lucide-calendar-off" title="{{ __('No attendance recorded yet') }}"
                         description="Once the school starts taking the register, the days appear here." />
                 @else
                     <div class="space-y-6">
                         <div>
                             <div class="flex flex-wrap items-baseline justify-between gap-2">
-                                <p class="text-sm text-muted-foreground">Attendance rate</p>
+                                <p class="text-sm text-muted-foreground">{{ __('Attendance rate') }}</p>
                                 <p class="text-sm text-muted-foreground">{{ $recorded }} {{ Str::plural('day', $recorded) }} recorded</p>
                             </div>
                             <p class="text-4xl font-semibold">{{ $rate === null ? '—' : $rate.'%' }}</p>

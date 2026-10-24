@@ -40,7 +40,7 @@
                                     <span class="text-sm font-medium text-foreground">
                                         {{ $option->setupAnswer() }}
                                         @if ($option === InstructionalModel::default())
-                                            <span class="ml-1 text-xs font-normal text-muted-foreground">Default</span>
+                                            <span class="ml-1 text-xs font-normal text-muted-foreground">{{ __('Default') }}</span>
                                         @endif
                                     </span>
                                     <span class="text-sm text-muted-foreground">{{ school_instructional_model_description($option) }}</span>
@@ -65,12 +65,12 @@
 
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
                     <div class="min-w-0 flex-1">
-                        <label for="instructional-model-reason" class="sr-only">Note</label>
+                        <label for="instructional-model-reason" class="sr-only">{{ __('Note') }}</label>
                         <input id="instructional-model-reason" wire:model="reason" maxlength="500" autocomplete="off"
                             placeholder="Note (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('reason') }}>
                         <x-field-error name="reason" class="mt-1" />
                     </div>
-                    <april:button type="submit" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">Save teaching setup</april:button>
+                    <april:button type="submit" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">{{ __('Save teaching setup') }}</april:button>
                 </div>
             </form>
         @else
@@ -79,7 +79,7 @@
                 <p class="mt-1 text-sm text-muted-foreground">{{ school_instructional_model_description($currentModel) }}</p>
             </div>
             @if ($isFutureCycle)
-                <p class="text-sm text-muted-foreground">Only a campus administrator can change this.</p>
+                <p class="text-sm text-muted-foreground">{{ __('Only a campus administrator can change this.') }}</p>
             @endif
         @endif
     </section>
@@ -87,16 +87,16 @@
     @if ($canMigrate)
         <section aria-labelledby="move-heading" x-data="{ open: @js($errors->hasAny(['moveTo', 'moveReason', 'confirmMove'])) }" class="flex flex-col gap-4">
             <div class="flex items-center justify-between gap-4 border-t pt-6">
-                <h2 id="move-heading" class="text-base font-semibold text-foreground">Move this cycle mid-year</h2>
+                <h2 id="move-heading" class="text-base font-semibold text-foreground">{{ __('Move this cycle mid-year') }}</h2>
                 <button type="button" x-on:click="open = !open" x-bind:aria-expanded="open" aria-controls="move-form"
                     class="inline-flex h-11 shrink-0 items-center gap-1 rounded-md border px-4 text-sm font-medium select-none hover:bg-muted">
-                    <span x-text="open ? 'Cancel' : 'Move'">Move</span>
+                    <span x-text="open ? 'Cancel' : 'Move'">{{ __('Move') }}</span>
                 </button>
             </div>
 
             <form id="move-form" wire:submit="migrate" x-show="open" x-cloak class="flex flex-col gap-4">
                 <fieldset>
-                    <legend class="mb-2 text-sm font-medium text-foreground">Move to</legend>
+                    <legend class="mb-2 text-sm font-medium text-foreground">{{ __('Move to') }}</legend>
                     <div class="divide-y rounded-lg border">
                         @foreach (InstructionalModel::cases() as $option)
                             @continue($option === $currentModel)
@@ -120,7 +120,7 @@
                 <x-field-error name="moveTo" />
 
                 <div class="flex flex-col gap-2">
-                    <label for="migrate-reason" class="text-sm font-medium">Why the cycle is moving</label>
+                    <label for="migrate-reason" class="text-sm font-medium">{{ __('Why the cycle is moving') }}</label>
                     <textarea id="migrate-reason" wire:model="moveReason" rows="3" maxlength="500"
                         class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('moveReason') }}></textarea>
                     <x-field-error name="moveReason" />
@@ -129,13 +129,13 @@
                 <div>
                     <label for="migrate-confirm" class="flex min-h-11 cursor-pointer items-center gap-3 text-sm select-none">
                         <input type="checkbox" id="migrate-confirm" wire:model="confirmMove" class="size-4 shrink-0 accent-destructive" {{ field_error_bindings('confirmMove') }}>
-                        New work uses the new answer. Existing arrangements stay.
+                        {{ __('New work uses the new answer. Existing arrangements stay.') }}
                     </label>
                     <x-field-error name="confirmMove" />
                 </div>
 
                 <div class="flex justify-end">
-                    <april:button type="submit" variant="destructive" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">Move this cycle</april:button>
+                    <april:button type="submit" variant="destructive" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">{{ __('Move this cycle') }}</april:button>
                 </div>
             </form>
         </section>
@@ -143,7 +143,7 @@
 
     @if ($migrations->isNotEmpty())
         <section aria-labelledby="moves-heading" class="flex flex-col gap-3">
-            <h2 id="moves-heading" class="text-base font-semibold text-foreground">Moves</h2>
+            <h2 id="moves-heading" class="text-base font-semibold text-foreground">{{ __('Moves') }}</h2>
             <ol class="divide-y border-y">
                 @foreach ($migrations as $migration)
                     <li wire:key="migration-{{ $migration->id }}" class="flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
@@ -165,10 +165,10 @@
     @endif
 
     <section aria-labelledby="exceptions-heading" class="flex flex-col gap-3">
-        <h2 id="exceptions-heading" class="text-base font-semibold text-foreground">Subjects taught differently</h2>
+        <h2 id="exceptions-heading" class="text-base font-semibold text-foreground">{{ __('Subjects taught differently') }}</h2>
 
         @if ($exceptions->isEmpty())
-            <p class="text-sm text-muted-foreground">None. Every subject follows the answer above.</p>
+            <p class="text-sm text-muted-foreground">{{ __('None. Every subject follows the answer above.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($exceptions as $exception)
@@ -178,7 +178,7 @@
                                 <span @class(['font-medium', 'text-foreground' => $exception->isRunning(), 'text-muted-foreground line-through' => !$exception->isRunning()])>{{ $exception->subject?->name }}</span>
                                 <span class="text-muted-foreground">{{ $exception->coverage() }} · {{ school_roster_label($exception->roster_mode) }}</span>
                                 @if (!$exception->isRunning())
-                                    <span class="text-xs text-muted-foreground">Taken back</span>
+                                    <span class="text-xs text-muted-foreground">{{ __('Taken back') }}</span>
                                 @endif
                             </p>
                             <p class="mt-1 text-sm text-muted-foreground">{{ $exception->reason }}</p>
@@ -189,7 +189,7 @@
                             <button type="button" wire:click="revokeException({{ $exception->id }})"
                                 wire:confirm="Take back the exception for {{ $exception->subject?->name ?? 'this subject' }}?"
                                 class="inline-flex h-11 shrink-0 items-center rounded-md px-3 text-sm font-medium text-muted-foreground select-none hover:bg-muted hover:text-foreground">
-                                Take back
+                                {{ __('Take back') }}
                             </button>
                         @endif
                     </li>
@@ -199,10 +199,10 @@
         <x-field-error name="exceptions" />
 
         @if ($canSet && $exceptionModes !== [] && $subjects->isNotEmpty())
-            <form wire:submit="grantException" class="flex flex-col gap-3 pt-2" aria-label="Add an exception">
+            <form wire:submit="grantException" class="flex flex-col gap-3 pt-2" aria-label="{{ __('Add an exception') }}">
                 <div class="grid gap-3 sm:grid-cols-3">
                     <div>
-                        <label for="exception-subject" class="sr-only">Subject</label>
+                        <label for="exception-subject" class="sr-only">{{ __('Subject') }}</label>
                         <select id="exception-subject" wire:model="exceptionSubjectId" class="{{ $controlClasses }}" {{ field_error_bindings('exceptionSubjectId') }}>
                             @foreach ($subjects as $subject)
                                 <option value="{{ $subject->id }}">{{ $subject->name }}</option>
@@ -210,7 +210,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="exception-mode" class="sr-only">How it is taught</label>
+                        <label for="exception-mode" class="sr-only">{{ __('How it is taught') }}</label>
                         <select id="exception-mode" wire:model="exceptionRosterMode" class="{{ $controlClasses }}" {{ field_error_bindings('exceptionRosterMode') }}>
                             @foreach ($exceptionModes as $mode)
                                 <option value="{{ $mode->value }}">{{ school_roster_label($mode) }}</option>
@@ -218,9 +218,9 @@
                         </select>
                     </div>
                     <div>
-                        <label for="exception-level" class="sr-only">Level</label>
+                        <label for="exception-level" class="sr-only">{{ __('Level') }}</label>
                         <select id="exception-level" wire:model="exceptionLevelId" class="{{ $controlClasses }}" {{ field_error_bindings('exceptionLevelId') }}>
-                            <option value="">Every level</option>
+                            <option value="">{{ __('Every level') }}</option>
                             @foreach ($academicLevels as $level)
                                 <option value="{{ $level->id }}">{{ $level->name }}</option>
                             @endforeach
@@ -233,12 +233,12 @@
 
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
                     <div class="min-w-0 flex-1">
-                        <label for="exception-reason" class="sr-only">Why</label>
+                        <label for="exception-reason" class="sr-only">{{ __('Why') }}</label>
                         <input id="exception-reason" wire:model="exceptionReason" maxlength="500" autocomplete="off"
-                            placeholder="Why this subject is taught differently" class="{{ $controlClasses }}" {{ field_error_bindings('exceptionReason') }}>
+                            placeholder="{{ __('Why this subject is taught differently') }}" class="{{ $controlClasses }}" {{ field_error_bindings('exceptionReason') }}>
                         <x-field-error name="exceptionReason" class="mt-1" />
                     </div>
-                    <april:button type="submit" variant="outline" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">Add exception</april:button>
+                    <april:button type="submit" variant="outline" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">{{ __('Add exception') }}</april:button>
                 </div>
             </form>
         @endif

@@ -10,7 +10,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('programs.index') }}" variant="outline">
         <x-lucide-arrow-left class="mr-2 size-4" />
-        Back to programmes
+        {{ __('Back to programmes') }}
     </april:button-link>
 @endsection
 

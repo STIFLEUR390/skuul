@@ -56,12 +56,12 @@
         @endif
 
         <div class="grid gap-4 sm:grid-cols-2">
-            <april:input-group label="Full name *" id="name" name="name" placeholder="Your full name" wire:model.live="state.name" />
-            <april:input-group label="Email *" id="email" name="email" placeholder="Your email address" wire:model.live="state.email" />
-            <april:input-group type="date" id="birthday" name="birthday" label="Date of birth" wire:model.live="state.birthday" />
+            <april:input-group label="{{ __('Full name *') }}" id="name" name="name" placeholder="{{ __('Your full name') }}" wire:model.live="state.name" />
+            <april:input-group label="{{ __('Email *') }}" id="email" name="email" placeholder="{{ __('Your email address') }}" wire:model.live="state.email" />
+            <april:input-group type="date" id="birthday" name="birthday" label="{{ __('Date of birth') }}" wire:model.live="state.birthday" />
 
             <div class="flex w-full flex-col gap-2">
-                <april:label for="gender">Gender</april:label>
+                <april:label for="gender">{{ __('Gender') }}</april:label>
                 <april:select id="gender" name="gender" wire:model.live="state.gender">
                 @php ($genders = ['', 'Male', 'Female', 'Non-binary', 'Prefer not to say'])
                 @foreach ($genders as $gender)
@@ -72,8 +72,8 @@
                 <x-field-error name="gender" />
             </div>
 
-            <april:input-group id="nationality" name="nationality" label="Nationality" placeholder="Your nationality" wire:model.live="state.nationality" />
-            <april:input-group id="phone" name="phone" type="tel" autocomplete="tel" label="Phone number" placeholder="Your phone number" wire:model.live="state.phone" />
+            <april:input-group id="nationality" name="nationality" label="{{ __('Nationality') }}" placeholder="{{ __('Your nationality') }}" wire:model.live="state.nationality" />
+            <april:input-group id="phone" name="phone" type="tel" autocomplete="tel" label="{{ __('Phone number') }}" placeholder="{{ __('Your phone number') }}" wire:model.live="state.phone" />
 
             <div class="flex flex-col gap-1 border-t pt-6 sm:col-span-2">
                 <h3 class="font-semibold">{{ __('Address') }}</h3>
@@ -97,10 +97,10 @@
                 })
             </script>
 
-            <april:input-group id="address" name="address" label="Address line 1" placeholder="Street address" autocomplete="street-address" wire:model.live="state.address" />
-            <april:input-group id="address_line_2" name="address_line_2" label="Address line 2" placeholder="Apartment, suite, unit (optional)" autocomplete="address-line2" wire:model.live="state.address_line_2" />
-            <april:input-group id="city" name="city" label="City" placeholder="Your city" autocomplete="address-level2" wire:model.live="state.city" />
-            <april:input-group id="postal_code" name="postal_code" label="Postal / ZIP code" placeholder="Postal or ZIP code" autocomplete="postal-code" wire:model.live="state.postal_code" />
+            <april:input-group id="address" name="address" label="{{ __('Address line 1') }}" placeholder="{{ __('Street address') }}" autocomplete="street-address" wire:model.live="state.address" />
+            <april:input-group id="address_line_2" name="address_line_2" label="{{ __('Address line 2') }}" placeholder="Apartment, suite, unit (optional)" autocomplete="address-line2" wire:model.live="state.address_line_2" />
+            <april:input-group id="city" name="city" label="{{ __('City') }}" placeholder="{{ __('Your city') }}" autocomplete="address-level2" wire:model.live="state.city" />
+            <april:input-group id="postal_code" name="postal_code" label="{{ __('Postal / ZIP code') }}" placeholder="{{ __('Postal or ZIP code') }}" autocomplete="postal-code" wire:model.live="state.postal_code" />
 
         </div>
     </x-slot>

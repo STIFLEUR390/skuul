@@ -2,7 +2,7 @@
     <section aria-labelledby="request-inbox-heading" class="space-y-4">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-                <h2 id="request-inbox-heading" class="text-lg font-semibold">Requests</h2>
+                <h2 id="request-inbox-heading" class="text-lg font-semibold">{{ __('Requests') }}</h2>
                 <p class="mt-1 text-sm text-muted-foreground">
                     {{ $waitingCount }} {{ \Illuminate\Support\Str::plural('request', $waitingCount) }} waiting for the school
                 </p>
@@ -10,9 +10,9 @@
 
             <div class="grid gap-3 sm:grid-cols-[minmax(10rem,1fr)_minmax(10rem,1fr)_auto] sm:items-end">
                 <div class="space-y-1.5">
-                    <label for="request-status-filter" class="text-sm font-medium">Status</label>
+                    <label for="request-status-filter" class="text-sm font-medium">{{ __('Status') }}</label>
                     <select id="request-status-filter" wire:model.live="status" class="h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-                        <option value="">All statuses</option>
+                        <option value="">{{ __('All statuses') }}</option>
                         @foreach ($statuses as $requestStatus)
                             <option wire:key="status-filter-{{ $requestStatus->value }}" value="{{ $requestStatus->value }}">{{ $requestStatus->label() }}</option>
                         @endforeach
@@ -20,9 +20,9 @@
                 </div>
 
                 <div class="space-y-1.5">
-                    <label for="request-type-filter" class="text-sm font-medium">Request type</label>
+                    <label for="request-type-filter" class="text-sm font-medium">{{ __('Request type') }}</label>
                     <select id="request-type-filter" wire:model.live="type" class="h-10 w-full rounded-md border border-input bg-background px-3 text-sm">
-                        <option value="">All types</option>
+                        <option value="">{{ __('All types') }}</option>
                         @foreach ($types as $requestType)
                             <option wire:key="type-filter-{{ $requestType->value }}" value="{{ $requestType->value }}">{{ $requestType->label() }}</option>
                         @endforeach
@@ -31,18 +31,18 @@
 
                 @if ($selectedStatus || $selectedType)
                     <april:button type="button" variant="outline" wire:click="clearFilters" wire:loading.attr="disabled">
-                        Clear filters
+                        {{ __('Clear filters') }}
                     </april:button>
                 @endif
             </div>
         </div>
 
-        <p wire:loading class="text-sm text-muted-foreground" role="status" aria-live="polite">Updating requests…</p>
+        <p wire:loading class="text-sm text-muted-foreground" role="status" aria-live="polite">{{ __('Updating requests…') }}</p>
     </section>
 
     <x-field-error name="status" />
 
-    <section aria-label="Family requests" class="space-y-4" wire:loading.class="opacity-60" wire:target="status,type,clearFilters,changeStatus">
+    <section aria-label="{{ __('Family requests') }}" class="space-y-4" wire:loading.class="opacity-60" wire:target="status,type,clearFilters,changeStatus">
         @forelse ($requests as $request)
             <article wire:key="portal-request-{{ $request->id }}" class="min-w-0 rounded-lg border bg-card p-4 sm:p-5">
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -55,15 +55,15 @@
 
                         <dl class="grid gap-x-6 gap-y-3 text-sm sm:grid-cols-3">
                             <div class="min-w-0">
-                                <dt class="text-muted-foreground">Student</dt>
+                                <dt class="text-muted-foreground">{{ __('Student') }}</dt>
                                 <dd class="mt-0.5 break-words font-medium">{{ $request->studentRecord->user->name }}</dd>
                             </div>
                             <div class="min-w-0">
-                                <dt class="text-muted-foreground">From family</dt>
+                                <dt class="text-muted-foreground">{{ __('From family') }}</dt>
                                 <dd class="mt-0.5 break-words font-medium">{{ $request->requestedBy->name }}</dd>
                             </div>
                             <div>
-                                <dt class="text-muted-foreground">Received</dt>
+                                <dt class="text-muted-foreground">{{ __('Received') }}</dt>
                                 <dd class="mt-0.5 font-medium">{{ school_time($request->created_at)?->format('M j, Y') }}</dd>
                             </div>
                         </dl>
@@ -74,7 +74,7 @@
 
                         @if ($request->response)
                             <div class="rounded-md bg-muted/50 px-3 py-2.5 text-sm">
-                                <p class="font-medium">School response</p>
+                                <p class="font-medium">{{ __('School response') }}</p>
                                 <p class="mt-1 whitespace-pre-line break-words leading-6 text-muted-foreground">{{ $request->response }}</p>
                                 @if ($request->answeredBy)
                                     <p class="mt-2 text-xs text-muted-foreground">{{ $request->answeredBy->name }}</p>
@@ -86,7 +86,7 @@
                     @if ($request->status->isOpen())
                         <form wire:submit="changeStatus({{ $request->id }})" class="grid w-full gap-3 border-t pt-4 lg:w-72 lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
                             <div class="space-y-1.5">
-                                <label for="request-{{ $request->id }}-status" class="text-sm font-medium">Move to</label>
+                                <label for="request-{{ $request->id }}-status" class="text-sm font-medium">{{ __('Move to') }}</label>
                                 <select id="request-{{ $request->id }}-status" wire:model.live="statusesByRequest.{{ $request->id }}" class="h-10 w-full rounded-md border border-input bg-background px-3 text-sm" {{ field_error_bindings('statusesByRequest.'.$request->id) }}>
                                     @foreach ($request->status->schoolChoices() as $requestStatus)
                                         <option wire:key="request-{{ $request->id }}-status-{{ $requestStatus->value }}" value="{{ $requestStatus->value }}" @selected(($statusesByRequest[$request->id] ?? $request->status->schoolChoices()[0]->value) === $requestStatus->value)>{{ $requestStatus->label() }}</option>
@@ -97,7 +97,7 @@
 
                             @if (($statusesByRequest[$request->id] ?? $request->status->value) === \App\Enums\PortalRequestStatus::Answered->value)
                                 <div class="space-y-1.5">
-                                    <label for="request-{{ $request->id }}-response" class="text-sm font-medium">Response</label>
+                                    <label for="request-{{ $request->id }}-response" class="text-sm font-medium">{{ __('Response') }}</label>
                                     <textarea id="request-{{ $request->id }}-response" wire:model="responsesByRequest.{{ $request->id }}" rows="3" maxlength="2000" class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm leading-5" {{ field_error_bindings('responsesByRequest.'.$request->id) }}></textarea>
                                     <x-field-error :name="'responsesByRequest.'.$request->id" />
                                 </div>
@@ -105,8 +105,8 @@
 
                             <div class="flex flex-wrap items-center gap-3">
                                 <april:button type="submit" wire:loading.attr="disabled" wire:target="changeStatus({{ $request->id }})">
-                                    <span wire:loading.remove wire:target="changeStatus({{ $request->id }})">Update request</span>
-                                    <span wire:loading wire:target="changeStatus({{ $request->id }})">Saving…</span>
+                                    <span wire:loading.remove wire:target="changeStatus({{ $request->id }})">{{ __('Update request') }}</span>
+                                    <span wire:loading wire:target="changeStatus({{ $request->id }})">{{ __('Saving…') }}</span>
                                 </april:button>
                             </div>
                         </form>
@@ -122,13 +122,13 @@
                     {{ $selectedStatus || $selectedType ? 'Try another status or request type.' : 'Family requests will appear here when they are sent.' }}
                 </p>
                 @if ($selectedStatus || $selectedType)
-                    <april:button class="mt-4" type="button" variant="outline" wire:click="clearFilters">Show all requests</april:button>
+                    <april:button class="mt-4" type="button" variant="outline" wire:click="clearFilters">{{ __('Show all requests') }}</april:button>
                 @endif
             </div>
         @endforelse
 
         @if ($requests->hasPages())
-            <nav aria-label="Request pages">{{ $requests->links() }}</nav>
+            <nav aria-label="{{ __('Request pages') }}">{{ $requests->links() }}</nav>
         @endif
     </section>
 

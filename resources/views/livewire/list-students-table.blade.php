@@ -1,7 +1,7 @@
 <div class="space-y-6">
     <x-display-validation-errors />
 
-    <div wire:loading class="text-sm text-muted-foreground">Updating students...</div>
+    <div wire:loading class="text-sm text-muted-foreground">{{ __('Updating students...') }}</div>
 
     <div wire:key="{{ $id }}-{{ $this->tableRevision }}">
         <april:data-table
@@ -17,11 +17,11 @@
             <slot:empty>
                 <div class="space-y-1">
                     @if ($readsAsGuardian)
-                        <p class="font-medium text-foreground">No learners linked to you here</p>
-                        <p>Ask the school office to link your children to your account.</p>
+                        <p class="font-medium text-foreground">{{ __('No learners linked to you here') }}</p>
+                        <p>{{ __('Ask the school office to link your children to your account.') }}</p>
                     @else
-                        <p class="font-medium text-foreground">No students yet</p>
-                        <p>Add the first student record for this school.</p>
+                        <p class="font-medium text-foreground">{{ __('No students yet') }}</p>
+                        <p>{{ __('Add the first student record for this school.') }}</p>
                     @endif
                 </div>
             </slot:empty>

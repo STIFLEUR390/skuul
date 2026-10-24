@@ -13,10 +13,10 @@
 
 @if (auth()->user()->hasRole(\App\Enums\Role::Student))
     <div class="flex flex-wrap items-center justify-between gap-3 border-y py-3">
-        <p class="font-medium">Your profile</p>
+        <p class="font-medium">{{ __('Your profile') }}</p>
         <april:button-link href="{{ route('students.print-profile', auth()->user()->id) }}" variant="outline">
             <x-lucide-download class="mr-2 size-4" />
-            Download profile
+            {{ __('Download profile') }}
         </april:button-link>
     </div>
 @endif

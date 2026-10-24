@@ -17,19 +17,19 @@
             <div class="mb-6 flex items-start gap-3 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4 text-sm text-blue-950 dark:text-blue-100">
                 <x-lucide-git-branch class="mt-0.5 size-5 shrink-0 text-blue-700 dark:text-blue-300" />
                 <div class="space-y-2">
-                    <p class="font-semibold">How to structure levels</p>
-                    <p>Use your school’s own names. The names below are only an example:</p>
+                    <p class="font-semibold">{{ __('How to structure levels') }}</p>
+                    <p>{{ __('Use your school’s own names. The names below are only an example:') }}</p>
                     <ol class="list-decimal space-y-1 pl-4">
-                        <li>Example group: create <strong>Kindergarten</strong> and leave <strong>Level group</strong> blank.</li>
-                        <li>Example levels: create <strong>KG 1</strong> and <strong>KG 2</strong>, choosing <strong>Kindergarten</strong> as their level group.</li>
-                        <li>Example section: in this year’s setup, add <strong>Blue</strong> under <strong>KG 1</strong>.</li>
+                        <li>{{ __('Example group: create') }} <strong>{{ __('Kindergarten') }}</strong> {{ __('and leave') }} <strong>{{ __('Level group') }}</strong> {{ __('blank.') }}</li>
+                        <li>{{ __('Example levels: create') }} <strong>KG 1</strong> {{ __('and') }} <strong>KG 2</strong>{{ __(', choosing') }} <strong>{{ __('Kindergarten') }}</strong> {{ __('as their level group.') }}</li>
+                        <li>{{ __('Example section: in this year’s setup, add') }} <strong>{{ __('Blue') }}</strong> {{ __('under') }} <strong>KG 1</strong>.</li>
                     </ol>
-                    <p>Without groups, create a standalone level such as <strong>Primary 4</strong> and leave <strong>Level group</strong> blank. This is also an example.</p>
+                    <p>{{ __('Without groups, create a standalone level such as') }} <strong>{{ __('Primary 4') }}</strong> {{ __('and leave') }} <strong>{{ __('Level group') }}</strong> {{ __('blank. This is also an example.') }}</p>
                 </div>
             </div>
             @if ($preselectedParent)
                 <div class="mb-5 rounded-md border bg-muted/30 p-3 text-sm">
-                    Adding a level under <span class="font-semibold">{{ $preselectedParent->name }}</span>. You can change the level group below.
+                    {{ __('Adding a level under') }} <span class="font-semibold">{{ $preselectedParent->name }}</span>{{ __('. You can change the level group below.') }}
                 </div>
             @endif
             <livewire:academic-level-form

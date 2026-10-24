@@ -10,24 +10,23 @@
     @can('create', App\Models\GraduationPlan::class)
         <april:button-link href="{{ route('graduation-plans.create') }}">
             <x-lucide-plus class="mr-2 size-4" />
-            Write a plan
+            {{ __('Write a plan') }}
         </april:button-link>
     @endcan
 @endsection
 
 @section('content')
     <april:card>
-        <slot:title>What a learner must finish</slot:title>
+        <slot:title>{{ __('What a learner must finish') }}</slot:title>
         <slot:description>
-            A plan lists what the school will accept before a learner graduates. Only a published result counts
-            towards it, so work still in the gradebook never moves a learner along.
+            {{ __('A plan lists what the school will accept before a learner graduates. Only a published result counts towards it, so work still in the gradebook never moves a learner along.') }}
         </slot:description>
         <slot:content>
             @if ($plans->isEmpty())
-                <x-empty-state icon="lucide-graduation-cap" title="No graduation plans yet"
+                <x-empty-state icon="lucide-graduation-cap" title="{{ __('No graduation plans yet') }}"
                     description="Write one to say which subjects a learner must pass, and how many credits they need.">
                     @can('create', App\Models\GraduationPlan::class)
-                        <april:button-link href="{{ route('graduation-plans.create') }}">Write the first plan</april:button-link>
+                        <april:button-link href="{{ route('graduation-plans.create') }}">{{ __('Write the first plan') }}</april:button-link>
                     @endcan
                 </x-empty-state>
             @else
@@ -42,27 +41,27 @@
                                     @endif
                                 </div>
                                 @unless ($plan->is_active)
-                                    <span class="shrink-0 whitespace-nowrap rounded-full border border-dashed px-2.5 py-0.5 text-xs text-muted-foreground">Closed</span>
+                                    <span class="shrink-0 whitespace-nowrap rounded-full border border-dashed px-2.5 py-0.5 text-xs text-muted-foreground">{{ __('Closed') }}</span>
                                 @endunless
                             </div>
                             <dl class="mt-4 grid grid-cols-2 gap-4 border-t pt-4 text-sm">
                                 <div>
-                                    <dt class="text-muted-foreground">Credits</dt>
+                                    <dt class="text-muted-foreground">{{ __('Credits') }}</dt>
                                     <dd class="mt-1 font-medium">{{ $plan->uses_credits ? $plan->required_credits.' needed' : 'Not counted' }}</dd>
                                 </div>
                                 <div>
-                                    <dt class="text-muted-foreground">Requirements</dt>
+                                    <dt class="text-muted-foreground">{{ __('Requirements') }}</dt>
                                     <dd class="mt-1 font-medium">{{ $plan->requirements_count }}</dd>
                                 </div>
                                 <div class="col-span-2">
-                                    <dt class="text-muted-foreground">For</dt>
+                                    <dt class="text-muted-foreground">{{ __('For') }}</dt>
                                     <dd class="mt-1 break-words font-medium">{{ $plan->cohort?->name ?? 'Every learner' }}</dd>
                                 </div>
                             </dl>
                             <april:button-link href="{{ route('graduation-plans.show', $plan) }}" variant="outline" size="sm" class="mt-4 w-full justify-center"
                                 aria-label="Open {{ $plan->name }}">
                                 <x-lucide-eye class="mr-1 size-4" />
-                                Open plan
+                                {{ __('Open plan') }}
                             </april:button-link>
                         </article>
                     @endforeach
@@ -72,11 +71,11 @@
                 <april:data-table>
                     <slot:header>
                         <april:data-table-row>
-                            <april:data-table-head>Plan</april:data-table-head>
-                            <april:data-table-head>Credits</april:data-table-head>
-                            <april:data-table-head>Requirements</april:data-table-head>
-                            <april:data-table-head>For</april:data-table-head>
-                            <april:data-table-head class="text-right">Actions</april:data-table-head>
+                            <april:data-table-head>{{ __('Plan') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Credits') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Requirements') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('For') }}</april:data-table-head>
+                            <april:data-table-head class="text-right">{{ __('Actions') }}</april:data-table-head>
                         </april:data-table-row>
                     </slot:header>
                     <slot:body>
@@ -98,12 +97,12 @@
                                 <april:data-table-cell class="text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         @unless ($plan->is_active)
-                                            <span class="whitespace-nowrap rounded-full border border-dashed px-2.5 py-0.5 text-xs text-muted-foreground">Closed</span>
+                                            <span class="whitespace-nowrap rounded-full border border-dashed px-2.5 py-0.5 text-xs text-muted-foreground">{{ __('Closed') }}</span>
                                         @endunless
                                         <april:button-link href="{{ route('graduation-plans.show', $plan) }}" variant="outline" size="sm"
                                             aria-label="Open {{ $plan->name }}">
                                             <x-lucide-eye class="mr-1 size-4" />
-                                            Open
+                                            {{ __('Open') }}
                                         </april:button-link>
                                     </div>
                                 </april:data-table-cell>

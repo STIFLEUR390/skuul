@@ -16,7 +16,7 @@
             <div class="flex items-center gap-2">
                 @if ($canPublish && !$event->is_published)
                     <april:button type="button" class="h-11 select-none" wire:click="publish" wire:loading.attr="disabled" wire:target="publish">
-                        <x-lucide-send class="mr-2 size-4" aria-hidden="true" />Publish
+                        <x-lucide-send class="mr-2 size-4" aria-hidden="true" />{{ __('Publish') }}
                     </april:button>
                 @endif
                 @if (($canPublish && $event->is_published) || $canRemove)
@@ -28,11 +28,11 @@
                         </slot:trigger>
                         <slot:content align="end">
                             @if ($canPublish && $event->is_published)
-                                <april:dropdown-menu-item wire:click="unpublish"><x-lucide-eye-off class="mr-2 size-4" />Make it a draft again</april:dropdown-menu-item>
+                                <april:dropdown-menu-item wire:click="unpublish"><x-lucide-eye-off class="mr-2 size-4" />{{ __('Make it a draft again') }}</april:dropdown-menu-item>
                             @endif
                             @if ($canRemove)
                                 <april:dropdown-menu-item class="text-destructive" wire:click="remove" wire:confirm="Remove {{ $event->title }} from the calendar?">
-                                    <x-lucide-trash-2 class="mr-2 size-4" />Remove
+                                    <x-lucide-trash-2 class="mr-2 size-4" />{{ __('Remove') }}
                                 </april:dropdown-menu-item>
                             @endif
                         </slot:content>
@@ -43,15 +43,15 @@
     @endif
 
     <form wire:submit="save" class="flex flex-col gap-8" aria-label="{{ $event === null ? 'Add a day' : 'Change '.$event->title }}">
-        <section class="flex flex-col gap-3" aria-label="What is on">
+        <section class="flex flex-col gap-3" aria-label="{{ __('What is on') }}">
             <div>
-                <label for="event-title" class="sr-only">Title</label>
-                <input id="event-title" wire:model="title" maxlength="255" required placeholder="Title, e.g. mid-term break" class="{{ $controlClasses }}" {{ field_error_bindings('title') }}>
+                <label for="event-title" class="sr-only">{{ __('Title') }}</label>
+                <input id="event-title" wire:model="title" maxlength="255" required placeholder="{{ __('Title, e.g. mid-term break') }}" class="{{ $controlClasses }}" {{ field_error_bindings('title') }}>
                 <x-field-error name="title" class="mt-1" />
             </div>
             <div class="grid gap-3 sm:grid-cols-2">
                 <div>
-                    <label for="event-type" class="sr-only">Kind of day</label>
+                    <label for="event-type" class="sr-only">{{ __('Kind of day') }}</label>
                     <select id="event-type" wire:model.live="type" class="{{ $controlClasses }}" {{ field_error_bindings('type') }}>
                         @foreach ($types as $eventType)
                             <option value="{{ $eventType->value }}">{{ $eventType->label() }}{{ $eventType->isTeachingDay() ? '' : ' — school shut' }}</option>
@@ -67,21 +67,21 @@
             </div>
             @if ($chosenType !== null && !$chosenType->isTeachingDay())
                 <p class="flex items-center gap-2 text-sm text-muted-foreground">
-                    <x-lucide-lock class="size-4" aria-hidden="true" />Once published, attendance and the timetable treat these days as shut.
+                    <x-lucide-lock class="size-4" aria-hidden="true" />{{ __('Once published, attendance and the timetable treat these days as shut.') }}
                 </p>
             @endif
 
             <label class="flex min-h-11 cursor-pointer items-center gap-3 text-sm select-none">
                 <input type="checkbox" wire:model.live="isAllDay" class="size-4 rounded border-input">
-                All day
+                {{ __('All day') }}
             </label>
             <div class="grid gap-3 sm:grid-cols-2">
                 <div>
-                    <label for="event-starts" class="text-sm text-muted-foreground">Starts</label>
+                    <label for="event-starts" class="text-sm text-muted-foreground">{{ __('Starts') }}</label>
                     <input type="{{ $isAllDay ? 'date' : 'datetime-local' }}" id="event-starts" wire:key="starts-{{ $isAllDay ? 'day' : 'time' }}" wire:model="startsAt" required class="{{ $controlClasses }} mt-1" {{ field_error_bindings('startsAt') }}>
                 </div>
                 <div>
-                    <label for="event-ends" class="text-sm text-muted-foreground">Ends</label>
+                    <label for="event-ends" class="text-sm text-muted-foreground">{{ __('Ends') }}</label>
                     <input type="{{ $isAllDay ? 'date' : 'datetime-local' }}" id="event-ends" wire:key="ends-{{ $isAllDay ? 'day' : 'time' }}" wire:model="endsAt" required class="{{ $controlClasses }} mt-1" {{ field_error_bindings('endsAt') }}>
                 </div>
             </div>
@@ -98,8 +98,8 @@
 
         <section class="flex flex-col gap-4" aria-labelledby="audience-heading">
             <div>
-                <h2 id="audience-heading" class="text-base font-semibold">Who it is for</h2>
-                <p class="text-sm text-muted-foreground">Name nobody and it is for the whole school.</p>
+                <h2 id="audience-heading" class="text-base font-semibold">{{ __('Who it is for') }}</h2>
+                <p class="text-sm text-muted-foreground">{{ __('Name nobody and it is for the whole school.') }}</p>
             </div>
 
             @if ($sections->isEmpty())
@@ -118,7 +118,7 @@
 
             <div class="flex flex-col gap-2">
                 @if ($chosenPeople->isNotEmpty())
-                    <ul class="flex flex-wrap gap-2" aria-label="People named">
+                    <ul class="flex flex-wrap gap-2" aria-label="{{ __('People named') }}">
                         @foreach ($chosenPeople as $person)
                             <li wire:key="person-{{ $person->id }}" class="flex min-h-11 items-center gap-1 rounded-md border pl-3 text-sm">
                                 {{ $person->name }}
@@ -129,13 +129,13 @@
                         @endforeach
                     </ul>
                 @endif
-                <label for="event-person" class="sr-only">Name a person</label>
-                <input id="event-person" type="search" wire:model.live.debounce.300ms="personSearch" autocomplete="off" placeholder="Name a person, e.g. for an appointment" class="{{ $controlClasses }}">
+                <label for="event-person" class="sr-only">{{ __('Name a person') }}</label>
+                <input id="event-person" type="search" wire:model.live.debounce.300ms="personSearch" autocomplete="off" placeholder="{{ __('Name a person, e.g. for an appointment') }}" class="{{ $controlClasses }}">
                 @if (mb_strlen(trim($personSearch)) >= 2)
                     @if ($matches->isEmpty())
-                        <p class="text-sm text-muted-foreground">Nobody in this school matches</p>
+                        <p class="text-sm text-muted-foreground">{{ __('Nobody in this school matches') }}</p>
                     @else
-                        <ul class="divide-y border-y" aria-label="Matching people">
+                        <ul class="divide-y border-y" aria-label="{{ __('Matching people') }}">
                             @foreach ($matches as $person)
                                 <li wire:key="match-{{ $person->id }}">
                                     <button type="button" wire:click="addPerson({{ $person->id }})" class="flex min-h-11 w-full items-center gap-2 px-1 text-left text-sm select-none hover:bg-muted/50">
@@ -151,7 +151,7 @@
         </section>
 
         <div class="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
-            <april:button-link href="{{ route('calendar-events.index', ['month' => \Illuminate\Support\Str::substr($startsAt, 0, 7)]) }}" variant="ghost" class="h-11 select-none">Cancel</april:button-link>
+            <april:button-link href="{{ route('calendar-events.index', ['month' => \Illuminate\Support\Str::substr($startsAt, 0, 7)]) }}" variant="ghost" class="h-11 select-none">{{ __('Cancel') }}</april:button-link>
             <april:button type="submit" :variant="$event !== null && !$event->is_published && $canPublish ? 'outline' : 'default'" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">
                 {{ $event === null ? 'Save as a draft' : 'Save' }}
             </april:button>

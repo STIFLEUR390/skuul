@@ -9,7 +9,7 @@
 @section('page_heading',  __('Custom timetable items'))
 
 @section('page_actions')
-    <x-resource-create-action :href="route('custom-timetable-items.create')" ability="create" :arguments="[\App\Models\CustomTimetableItem::class]">Add timetable item</x-resource-create-action>
+    <x-resource-create-action :href="route('custom-timetable-items.create')" ability="create" :arguments="[\App\Models\CustomTimetableItem::class]">{{ __('Add timetable item') }}</x-resource-create-action>
 @endsection
 
 @section('content', )

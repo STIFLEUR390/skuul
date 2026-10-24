@@ -10,7 +10,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('health-records.index') }}" variant="outline">
         <x-lucide-arrow-left class="mr-2 size-4" />
-        Back to health records
+        {{ __('Back to health records') }}
     </april:button-link>
 @endsection
 

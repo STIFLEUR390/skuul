@@ -47,16 +47,16 @@
 >
     <div class="sm:col-span-2">
         @if ($wire)
-            <label for="{{ $addressField }}" class="text-sm font-medium">Address *</label>
-            <input id="{{ $addressField }}" type="text" wire:model="{{ $errorKey($addressField) }}" placeholder="Enter street address" autocomplete="address-line1" required class="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings($errorKey($addressField)) }}>
+            <label for="{{ $addressField }}" class="text-sm font-medium">{{ __('Address *') }}</label>
+            <input id="{{ $addressField }}" type="text" wire:model="{{ $errorKey($addressField) }}" placeholder="{{ __('Enter street address') }}" autocomplete="address-line1" required class="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings($errorKey($addressField)) }}>
             <x-field-error :name="$errorKey($addressField)" class="mt-1" />
         @else
             <april:input-group
                 id="{{ $addressField }}"
                 name="{{ $addressField }}"
                 type="text"
-                placeholder="Enter street address"
-                label="Address *"
+                placeholder="{{ __('Enter street address') }}"
+                label="{{ __('Address *') }}"
                 value="{{ old($addressField, $address) }}"
                 autocomplete="address-line1"
                 required
@@ -68,11 +68,11 @@
     </div>
 
     <div class="flex w-full flex-col gap-2">
-        <april:label for="{{ $countryField }}">Country *</april:label>
+        <april:label for="{{ $countryField }}">{{ __('Country *') }}</april:label>
         <april:combobox
             name="{{ $countryField }}"
             value="{{ $countryValue }}"
-            placeholder="Search countries"
+            placeholder="{{ __('Search countries') }}"
             x-model="country"
             x-on:change="selectedValue = $event.detail.value; country = $event.detail.value; loadCountry(false)"
             required
@@ -88,8 +88,8 @@
                     <span aria-hidden="true" class="ml-2 text-muted-foreground">⌄</span>
                 </button>
             </slot:trigger>
-            <slot:empty>No matching country.</slot:empty>
-            <april:combobox-option value="">Select a country</april:combobox-option>
+            <slot:empty>{{ __('No matching country.') }}</slot:empty>
+            <april:combobox-option value="">{{ __('Select a country') }}</april:combobox-option>
             @foreach ($countries as $countryOption)
                 @php
                     $countryName = is_array($countryOption) ? $countryOption['name'] : $countryOption->name;
@@ -103,11 +103,11 @@
     </div>
 
     <div class="flex w-full flex-col gap-2">
-        <april:label for="{{ $stateField }}">State / Province *</april:label>
+        <april:label for="{{ $stateField }}">{{ __('State / Province *') }}</april:label>
         <april:combobox
             name="{{ $stateField }}"
             value="{{ old($stateField, $state) }}"
-            placeholder="Search states or provinces"
+            placeholder="{{ __('Search states or provinces') }}"
             x-model="state"
             x-on:change="selectedValue = $event.detail.value; state = $event.detail.value"
             required
@@ -125,7 +125,7 @@
                     <span aria-hidden="true" class="ml-2 text-muted-foreground">⌄</span>
                 </button>
             </slot:trigger>
-            <slot:empty>No matching state or province.</slot:empty>
+            <slot:empty>{{ __('No matching state or province.') }}</slot:empty>
             <template x-for="stateName in states" :key="stateName">
                 <div
                     data-slot="combobox-option"
@@ -148,11 +148,11 @@
     </div>
 
     <div class="flex w-full flex-col gap-2">
-        <april:label for="{{ $cityField }}">City *</april:label>
+        <april:label for="{{ $cityField }}">{{ __('City *') }}</april:label>
         <april:combobox
             name="{{ $cityField }}"
             value="{{ old($cityField, $city) }}"
-            placeholder="Start typing or choose a city"
+            placeholder="{{ __('Start typing or choose a city') }}"
             x-model="city"
             x-on:input="selectedValue = $event.target.value; city = $event.target.value"
             x-on:change="selectedValue = $event.detail.value; city = $event.detail.value"
@@ -170,7 +170,7 @@
                     <span aria-hidden="true" class="ml-2 text-muted-foreground">⌄</span>
                 </button>
             </slot:trigger>
-            <slot:empty>No matching city. You can keep the city you typed.</slot:empty>
+            <slot:empty>{{ __('No matching city. You can keep the city you typed.') }}</slot:empty>
             <template x-if="city && !cities.includes(city)">
                 <div
                     data-slot="combobox-option"
@@ -209,8 +209,8 @@
 
     @if ($wire)
         <div>
-            <label for="{{ $postalCodeField }}" class="text-sm font-medium">Postal / ZIP code *</label>
-            <input id="{{ $postalCodeField }}" type="text" wire:model="{{ $errorKey($postalCodeField) }}" placeholder="Enter postal or ZIP code" autocomplete="postal-code" required class="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings($errorKey($postalCodeField)) }}>
+            <label for="{{ $postalCodeField }}" class="text-sm font-medium">{{ __('Postal / ZIP code *') }}</label>
+            <input id="{{ $postalCodeField }}" type="text" wire:model="{{ $errorKey($postalCodeField) }}" placeholder="{{ __('Enter postal or ZIP code') }}" autocomplete="postal-code" required class="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings($errorKey($postalCodeField)) }}>
             <x-field-error :name="$errorKey($postalCodeField)" class="mt-1" />
         </div>
     @else
@@ -218,8 +218,8 @@
             id="{{ $postalCodeField }}"
             name="{{ $postalCodeField }}"
             type="text"
-            placeholder="Enter postal or ZIP code"
-            label="Postal / ZIP code *"
+            placeholder="{{ __('Enter postal or ZIP code') }}"
+            label="{{ __('Postal / ZIP code *') }}"
             value="{{ old($postalCodeField, $postalCode) }}"
             autocomplete="postal-code"
             required

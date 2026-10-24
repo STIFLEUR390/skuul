@@ -3,5 +3,5 @@
 @endphp
 <form wire:submit="save" autocomplete="off" class="max-w-3xl space-y-6">
     @include('livewire.partials.person-fields', ['photoUrl' => $parent->profile_photo_url])
-    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save,profilePhoto">Save changes</april:button>
+    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save,profilePhoto">{{ __('Save changes') }}</april:button>
 </form>

@@ -4,7 +4,7 @@
     @endphp
 
     <p class="text-sm text-muted-foreground">
-        A shared residence is one site whose houses belong to different campuses. Records, rooms, beds and staff stay with each campus.
+        {{ __('A shared residence is one site whose houses belong to different campuses. Records, rooms, beds and staff stay with each campus.') }}
     </p>
 
     @forelse ($residences as $residence)
@@ -23,7 +23,7 @@
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-sm font-medium">Campuses</h3>
+                    <h3 class="text-sm font-medium">{{ __('Campuses') }}</h3>
                     @if ($residence->schools->isNotEmpty())
                         <ul class="divide-y border-y">
                             @foreach ($residence->schools as $campus)
@@ -31,7 +31,7 @@
                                 <li wire:key="residence-{{ $residence->id }}-campus-{{ $campus->id }}" class="flex min-h-11 items-center gap-3 py-1">
                                     <p class="min-w-0 flex-1 truncate text-sm">{{ $campus->name }}</p>
                                     @if ($hasHouses)
-                                        <span class="text-xs text-muted-foreground">Has houses here</span>
+                                        <span class="text-xs text-muted-foreground">{{ __('Has houses here') }}</span>
                                     @else
                                         <april:dropdown-menu>
                                             <slot:trigger>
@@ -40,7 +40,7 @@
                                                 </april:button>
                                             </slot:trigger>
                                             <slot:content align="end">
-                                                <april:dropdown-menu-item wire:click="unlinkCampus({{ $residence->id }}, {{ $campus->id }})" wire:confirm="Stop {{ $campus->name }} using {{ $residence->name }}?"><x-lucide-unlink class="mr-2 size-4" />Stop using this residence</april:dropdown-menu-item>
+                                                <april:dropdown-menu-item wire:click="unlinkCampus({{ $residence->id }}, {{ $campus->id }})" wire:confirm="Stop {{ $campus->name }} using {{ $residence->name }}?"><x-lucide-unlink class="mr-2 size-4" />{{ __('Stop using this residence') }}</april:dropdown-menu-item>
                                             </slot:content>
                                         </april:dropdown-menu>
                                     @endif
@@ -51,7 +51,7 @@
                     @if ($campusesToLink->isNotEmpty())
                         <label for="campus-{{ $residence->id }}" class="sr-only">Link a campus to {{ $residence->name }}</label>
                         <select id="campus-{{ $residence->id }}" wire:change="linkCampus({{ $residence->id }}, $event.target.value)" wire:loading.attr="disabled" class="{{ $controlClasses }}">
-                            <option value="">Link a campus…</option>
+                            <option value="">{{ __('Link a campus…') }}</option>
                             @foreach ($campusesToLink as $campus)
                                 <option value="{{ $campus->id }}">{{ $campus->name }}</option>
                             @endforeach
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-sm font-medium">Houses</h3>
+                    <h3 class="text-sm font-medium">{{ __('Houses') }}</h3>
                     @if ($residence->dormitories->isNotEmpty())
                         <ul class="divide-y border-y">
                             @foreach ($residence->dormitories as $dormitory)
@@ -76,19 +76,19 @@
                                             </april:button>
                                         </slot:trigger>
                                         <slot:content align="end">
-                                            <april:dropdown-menu-item wire:click="detachHouse({{ $residence->id }}, {{ $dormitory->id }})" wire:confirm="Take {{ $dormitory->name }} out of {{ $residence->name }}? The house and its rooms stay."><x-lucide-log-out class="mr-2 size-4" />Take out of this residence</april:dropdown-menu-item>
+                                            <april:dropdown-menu-item wire:click="detachHouse({{ $residence->id }}, {{ $dormitory->id }})" wire:confirm="Take {{ $dormitory->name }} out of {{ $residence->name }}? The house and its rooms stay."><x-lucide-log-out class="mr-2 size-4" />{{ __('Take out of this residence') }}</april:dropdown-menu-item>
                                         </slot:content>
                                     </april:dropdown-menu>
                                 </li>
                             @endforeach
                         </ul>
                     @elseif ($residence->schools->isEmpty())
-                        <p class="text-sm text-muted-foreground">Link a campus first. Its houses can then go in.</p>
+                        <p class="text-sm text-muted-foreground">{{ __('Link a campus first. Its houses can then go in.') }}</p>
                     @endif
                     @if ($housesToAdd->isNotEmpty())
                         <label for="house-{{ $residence->id }}" class="sr-only">Add a house to {{ $residence->name }}</label>
                         <select id="house-{{ $residence->id }}" wire:change="attachHouse({{ $residence->id }}, $event.target.value)" wire:loading.attr="disabled" class="{{ $controlClasses }}">
-                            <option value="">Add a house…</option>
+                            <option value="">{{ __('Add a house…') }}</option>
                             @foreach ($housesToAdd as $dormitory)
                                 <option value="{{ $dormitory->id }}">{{ $dormitory->name }} · {{ $dormitory->school?->name }}</option>
                             @endforeach
@@ -98,25 +98,25 @@
             </div>
         </section>
     @empty
-        <p class="text-sm text-muted-foreground">No shared residence. Each campus uses its own houses.</p>
+        <p class="text-sm text-muted-foreground">{{ __('No shared residence. Each campus uses its own houses.') }}</p>
     @endforelse
 
-    <form wire:submit="createResidence" class="flex flex-col gap-3 border-t pt-6" aria-label="Add a shared residence">
-        <h2 class="text-base font-semibold">Add a shared residence</h2>
+    <form wire:submit="createResidence" class="flex flex-col gap-3 border-t pt-6" aria-label="{{ __('Add a shared residence') }}">
+        <h2 class="text-base font-semibold">{{ __('Add a shared residence') }}</h2>
         <div class="grid gap-3 sm:grid-cols-2">
             <div>
-                <label for="residence-name" class="text-sm text-muted-foreground">Name</label>
-                <input id="residence-name" wire:model="name" required maxlength="100" placeholder="North campus residence" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('name') }}>
+                <label for="residence-name" class="text-sm text-muted-foreground">{{ __('Name') }}</label>
+                <input id="residence-name" wire:model="name" required maxlength="100" placeholder="{{ __('North campus residence') }}" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('name') }}>
                 <x-field-error name="name" class="mt-1" />
             </div>
             <div>
                 <label for="residence-notes" class="text-sm text-muted-foreground">Notes (optional)</label>
-                <input id="residence-notes" wire:model="notes" maxlength="1000" placeholder="Shared by two campuses" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('notes') }}>
+                <input id="residence-notes" wire:model="notes" maxlength="1000" placeholder="{{ __('Shared by two campuses') }}" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('notes') }}>
                 <x-field-error name="notes" class="mt-1" />
             </div>
         </div>
         <div class="flex justify-end">
-            <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="createResidence">Add the residence</april:button>
+            <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="createResidence">{{ __('Add the residence') }}</april:button>
         </div>
     </form>
 </div>

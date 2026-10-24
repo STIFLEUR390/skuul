@@ -61,7 +61,7 @@
                     <span class="text-xs text-muted-foreground">{{ $academicLevel->code }}</span>
                 @endif
                 @if ($academicLevel->is_group)
-                    <span class="text-xs text-muted-foreground">Group</span>
+                    <span class="text-xs text-muted-foreground">{{ __('Group') }}</span>
                 @endif
                 @if ($academicLevel->status !== \App\Enums\AcademicStructureStatus::Active)
                     <x-academic-structure-status :status="$academicLevel->status" />
@@ -91,12 +91,12 @@
                         @endif
                         @if ($levelMenu['view'])
                             <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('academic-levels.show', $academicLevel) }}'">
-                                <x-lucide-eye class="mr-2 size-4" />View
+                                <x-lucide-eye class="mr-2 size-4" />{{ __('View') }}
                             </april:dropdown-menu-item>
                         @endif
                         @if ($levelMenu['edit'])
                             <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('academic-levels.edit', $academicLevel) }}'">
-                                <x-lucide-pencil class="mr-2 size-4" />Edit
+                                <x-lucide-pencil class="mr-2 size-4" />{{ __('Edit') }}
                             </april:dropdown-menu-item>
                         @endif
                         @if ($levelMenu['moveUp'] || $levelMenu['moveDown'])
@@ -104,18 +104,18 @@
                         @endif
                         @if ($levelMenu['moveUp'])
                             <april:dropdown-menu-item wire:click="moveLevel({{ $academicLevel->id }}, 'up')" aria-label="Move {{ $academicLevel->name }} up">
-                                <x-lucide-arrow-up class="mr-2 size-4" />Move up
+                                <x-lucide-arrow-up class="mr-2 size-4" />{{ __('Move up') }}
                             </april:dropdown-menu-item>
                         @endif
                         @if ($levelMenu['moveDown'])
                             <april:dropdown-menu-item wire:click="moveLevel({{ $academicLevel->id }}, 'down')" aria-label="Move {{ $academicLevel->name }} down">
-                                <x-lucide-arrow-down class="mr-2 size-4" />Move down
+                                <x-lucide-arrow-down class="mr-2 size-4" />{{ __('Move down') }}
                             </april:dropdown-menu-item>
                         @endif
                         @if ($levelMenu['delete'])
                             <april:dropdown-menu-separator />
                             <april:dropdown-menu-item class="text-destructive" wire:click="deleteLevel({{ $academicLevel->id }})" wire:confirm="Delete {{ $academicLevel->name }}? This only works when it has no child levels, sections, subjects, or teaching setup." aria-label="Delete {{ $academicLevel->name }}">
-                                <x-lucide-trash-2 class="mr-2 size-4" />Delete
+                                <x-lucide-trash-2 class="mr-2 size-4" />{{ __('Delete') }}
                             </april:dropdown-menu-item>
                         @endif
                     </slot:content>
@@ -188,17 +188,17 @@
                                     <slot:content class="w-48">
                                         @if ($sectionMenu['edit'])
                                             <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('academic-cycle-sections.edit', $section) }}'">
-                                                <x-lucide-pencil class="mr-2 size-4" />Edit
+                                                <x-lucide-pencil class="mr-2 size-4" />{{ __('Edit') }}
                                             </april:dropdown-menu-item>
                                         @endif
                                         @if ($sectionMenu['moveUp'])
                                             <april:dropdown-menu-item wire:click="moveSection({{ $section->id }}, 'up')" aria-label="Move {{ $section->name }} up">
-                                                <x-lucide-arrow-up class="mr-2 size-4" />Move up
+                                                <x-lucide-arrow-up class="mr-2 size-4" />{{ __('Move up') }}
                                             </april:dropdown-menu-item>
                                         @endif
                                         @if ($sectionMenu['moveDown'])
                                             <april:dropdown-menu-item wire:click="moveSection({{ $section->id }}, 'down')" aria-label="Move {{ $section->name }} down">
-                                                <x-lucide-arrow-down class="mr-2 size-4" />Move down
+                                                <x-lucide-arrow-down class="mr-2 size-4" />{{ __('Move down') }}
                                             </april:dropdown-menu-item>
                                         @endif
                                     </slot:content>
@@ -207,19 +207,19 @@
                         </div>
 
                         <div class="col-span-2 flex min-w-0 flex-wrap gap-x-4 gap-y-0.5 text-muted-foreground sm:contents">
-                            <span class="flex min-w-0 items-center gap-1.5" title="Class teacher">
+                            <span class="flex min-w-0 items-center gap-1.5" title="{{ __('Class teacher') }}">
                                 <x-lucide-user class="size-3.5 shrink-0" />
                                 @if ($section->homeroomTeacher)
                                     <span class="min-w-0 break-words text-foreground sm:truncate">{{ $section->homeroomTeacher->name }}</span>
                                 @else
-                                    <span>No teacher</span>
+                                    <span>{{ __('No teacher') }}</span>
                                 @endif
                             </span>
-                            <span class="flex items-center gap-1.5" title="Room">
+                            <span class="flex items-center gap-1.5" title="{{ __('Room') }}">
                                 <x-lucide-door-open class="size-3.5 shrink-0" />
                                 <span @class(['text-foreground' => filled($section->room)])>{{ $section->room ?: '—' }}</span>
                             </span>
-                            <span class="flex items-center gap-1.5 sm:justify-end" title="Capacity">
+                            <span class="flex items-center gap-1.5 sm:justify-end" title="{{ __('Capacity') }}">
                                 <x-lucide-users class="size-3.5 shrink-0" />
                                 <span @class(['tabular-nums', 'text-foreground' => $section->capacity !== null])>{{ $section->capacity ?? '—' }}</span>
                             </span>

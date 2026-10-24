@@ -8,7 +8,7 @@
 @section('page_heading',   __('Fees'))
 
 @section('page_actions')
-    <x-resource-create-action :href="route('fees.create')" ability="create" :arguments="[\App\Models\Fee::class]">Add fee</x-resource-create-action>
+    <x-resource-create-action :href="route('fees.create')" ability="create" :arguments="[\App\Models\Fee::class]">{{ __('Add fee') }}</x-resource-create-action>
 @endsection
 
 @section('content', )

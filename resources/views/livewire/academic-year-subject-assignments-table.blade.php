@@ -2,8 +2,8 @@
     <april:data-table id="{{ $id }}" :data="$data" :columns="$columns" :pagination="$pagination" :per-page-options="$perPageOptions" row-key="{{ $rowKey }}" :searchable="$searchable" @query-change="$wire.updateTable($event.detail)">
         <slot:empty>
             <div class="space-y-1">
-                <p class="font-medium text-foreground">No subjects in the school catalogue yet</p>
-                <p>Add a subject before assigning it to classes and reporting periods.</p>
+                <p class="font-medium text-foreground">{{ __('No subjects in the school catalogue yet') }}</p>
+                <p>{{ __('Add a subject before assigning it to classes and reporting periods.') }}</p>
             </div>
         </slot:empty>
         <slot:actions>

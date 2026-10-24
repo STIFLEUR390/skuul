@@ -27,9 +27,9 @@
             </select>
         </div>
         <div>
-            <label for="filter-status" class="text-sm text-muted-foreground">Status</label>
+            <label for="filter-status" class="text-sm text-muted-foreground">{{ __('Status') }}</label>
             <select id="filter-status" wire:model.live="status" class="{{ $controlClasses }}">
-                <option value="">Every status</option>
+                <option value="">{{ __('Every status') }}</option>
                 @foreach (\App\Enums\AcademicStructureStatus::cases() as $case)
                     <option value="{{ $case->value }}">{{ $case->label() }}</option>
                 @endforeach
@@ -43,7 +43,7 @@
         </div>
     @elseif ($academicCycleSections->isEmpty())
         <div class="flex flex-wrap items-center gap-3 text-sm">
-            <p class="text-muted-foreground">{{ $selectedYear ? $selectedYear->name.' has no '.$sectionWord.' that matches.' : 'No '.$sectionWord.' matches.' }} This school has <span class="tabular-nums">{{ $totalCount }}</span> in all.</p>
+            <p class="text-muted-foreground">{{ $selectedYear ? $selectedYear->name.' has no '.$sectionWord.' that matches.' : 'No '.$sectionWord.' matches.' }} This school has <span class="tabular-nums">{{ $totalCount }}</span> {{ __('in all.') }}</p>
             @if ($isFiltered)
                 <april:button type="button" variant="outline" class="h-11 select-none" wire:click="clearFilters">Show every {{ $sectionWord }}</april:button>
             @endif

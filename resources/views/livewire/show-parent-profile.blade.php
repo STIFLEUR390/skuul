@@ -3,14 +3,14 @@
 
     <section aria-labelledby="linked-learners-heading" class="flex flex-col gap-3">
         <div class="flex items-center justify-between gap-3">
-            <h2 id="linked-learners-heading" class="text-base font-semibold">Linked learners</h2>
+            <h2 id="linked-learners-heading" class="text-base font-semibold">{{ __('Linked learners') }}</h2>
             @can('update', [$parent, 'parent'])
-                <april:button-link href="{{ route('parents.assign-student', $parent) }}" variant="outline" class="h-11 select-none">Change linked learners</april:button-link>
+                <april:button-link href="{{ route('parents.assign-student', $parent) }}" variant="outline" class="h-11 select-none">{{ __('Change linked learners') }}</april:button-link>
             @endcan
         </div>
 
         @if ($children->isEmpty())
-            <p class="border-y py-4 text-sm text-muted-foreground">No learner at this school is linked yet.</p>
+            <p class="border-y py-4 text-sm text-muted-foreground">{{ __('No learner at this school is linked yet.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($children as $student)

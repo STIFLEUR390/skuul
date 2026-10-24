@@ -24,7 +24,7 @@
                 $yearOptions = $academicYears->contains('id', $academicYear->id) ? $academicYears : $academicYears->prepend($academicYear);
             @endphp
             <div class="flex flex-wrap items-center gap-2">
-                <span class="text-muted-foreground">Working</span>
+                <span class="text-muted-foreground">{{ __('Working') }}</span>
                 @if ($compact && $this->canChangeYear() && $yearOptions->count() > 1)
                     <label for="working-year" class="sr-only">Working {{ strtolower(school_term('academic_year', 'school year')) }}</label>
                     <select id="working-year" wire:model.live="workingYearId" wire:loading.attr="disabled" @class($selectClasses) {{ field_error_bindings('workingYearId') }}>

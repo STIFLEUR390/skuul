@@ -15,13 +15,13 @@
             <x-field-error name="academicCycleSectionId" class="mt-1" />
         </div>
         <div class="flex items-end">
-            <april:button type="submit" variant="outline" class="h-11 w-full select-none md:w-auto" wire:loading.attr="disabled" wire:target="loadStudents">Review learners</april:button>
+            <april:button type="submit" variant="outline" class="h-11 w-full select-none md:w-auto" wire:loading.attr="disabled" wire:target="loadStudents">{{ __('Review learners') }}</april:button>
         </div>
     </form>
 
     @if ($students !== [])
         <form wire:submit="graduate" class="space-y-4">
-            <h2 class="text-base font-semibold">Learners to graduate</h2>
+            <h2 class="text-base font-semibold">{{ __('Learners to graduate') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($students as $student)
                     <li wire:key="graduation-student-{{ $student['id'] }}">
@@ -36,10 +36,10 @@
             <x-field-error name="selectedStudentIds" />
             <div>
                 <label for="graduation-reason" class="text-sm text-muted-foreground">Note for the record (optional)</label>
-                <input id="graduation-reason" type="text" maxlength="255" wire:model="reason" placeholder="Completed the final year" class="{{ $controlClasses }}" {{ field_error_bindings('reason') }}>
+                <input id="graduation-reason" type="text" maxlength="255" wire:model="reason" placeholder="{{ __('Completed the final year') }}" class="{{ $controlClasses }}" {{ field_error_bindings('reason') }}>
                 <x-field-error name="reason" class="mt-1" />
             </div>
-            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="graduate" wire:confirm="Graduate the selected learners now? They leave the student lists.">Graduate selected learners</april:button>
+            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="graduate" wire:confirm="Graduate the selected learners now? They leave the student lists.">{{ __('Graduate selected learners') }}</april:button>
         </form>
     @endif
 </div>

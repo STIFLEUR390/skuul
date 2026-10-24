@@ -58,7 +58,7 @@
                         </div>
                         <div class="flex shrink-0 items-center gap-2">
                             @if ($isDraft && $canUpdate)
-                                <april:button type="button" class="h-11 select-none" wire:click="activate({{ $courseOffering->id }})" wire:loading.attr="disabled" wire:target="activate({{ $courseOffering->id }})">Activate</april:button>
+                                <april:button type="button" class="h-11 select-none" wire:click="activate({{ $courseOffering->id }})" wire:loading.attr="disabled" wire:target="activate({{ $courseOffering->id }})">{{ __('Activate') }}</april:button>
                             @else
                                 <span @class(['text-sm', 'text-muted-foreground' => $courseOffering->status !== \App\Enums\CourseOfferingStatus::Active])>{{ $courseOffering->status->label() }}</span>
                             @endif
@@ -71,13 +71,13 @@
                                     </slot:trigger>
                                     <slot:content align="end" class="w-52">
                                         @if ($canOpenGradebook)
-                                            <april:dropdown-menu-item href="{{ route('course-offerings.gradebook.show', $courseOffering) }}"><x-lucide-book-open class="mr-2 size-4" />Gradebook</april:dropdown-menu-item>
+                                            <april:dropdown-menu-item href="{{ route('course-offerings.gradebook.show', $courseOffering) }}"><x-lucide-book-open class="mr-2 size-4" />{{ __('Gradebook') }}</april:dropdown-menu-item>
                                         @endif
                                         @if ($canUpdate && !$isArchived)
-                                            <april:dropdown-menu-item href="{{ route('course-offerings.edit', $courseOffering) }}"><x-lucide-users class="mr-2 size-4" />Edit roster</april:dropdown-menu-item>
+                                            <april:dropdown-menu-item href="{{ route('course-offerings.edit', $courseOffering) }}"><x-lucide-users class="mr-2 size-4" />{{ __('Edit roster') }}</april:dropdown-menu-item>
                                         @endif
                                         @if ($canUpdate)
-                                            <april:dropdown-menu-item wire:click="startAssigning({{ $courseOffering->id }})"><x-lucide-user-plus class="mr-2 size-4" />Add teacher</april:dropdown-menu-item>
+                                            <april:dropdown-menu-item wire:click="startAssigning({{ $courseOffering->id }})"><x-lucide-user-plus class="mr-2 size-4" />{{ __('Add teacher') }}</april:dropdown-menu-item>
                                         @endif
                                     </slot:content>
                                 </april:dropdown-menu>
@@ -89,7 +89,7 @@
                         <form wire:submit="assignTeacher" class="flex flex-col gap-3" aria-label="Add a teacher to {{ $subjectName }}">
                             <div class="grid gap-3 sm:grid-cols-2">
                                 <div>
-                                    <label for="teacher-{{ $courseOffering->id }}" class="sr-only">Teacher</label>
+                                    <label for="teacher-{{ $courseOffering->id }}" class="sr-only">{{ __('Teacher') }}</label>
                                     <select id="teacher-{{ $courseOffering->id }}" wire:model="teacherId" class="{{ $controlClasses }}" {{ field_error_bindings('teacherId') }}>
                                         <option value="">{{ $teachers->isEmpty() ? 'No teachers' : 'Choose a teacher' }}</option>
                                         @foreach ($teachers as $teacher)
@@ -98,7 +98,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label for="teaching-role-{{ $courseOffering->id }}" class="sr-only">Role</label>
+                                    <label for="teaching-role-{{ $courseOffering->id }}" class="sr-only">{{ __('Role') }}</label>
                                     <select id="teaching-role-{{ $courseOffering->id }}" wire:model="role" class="{{ $controlClasses }}">
                                         @foreach ($roles as $teachingRole)
                                             <option value="{{ $teachingRole->value }}">{{ $teachingRole->label() }}</option>
@@ -109,8 +109,8 @@
                             <x-field-error name="teacherId" />
                             <x-field-error name="role" />
                             <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancelAssigning">Cancel</april:button>
-                                <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="assignTeacher">Add teacher</april:button>
+                                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancelAssigning">{{ __('Cancel') }}</april:button>
+                                <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="assignTeacher">{{ __('Add teacher') }}</april:button>
                             </div>
                         </form>
                     @endif

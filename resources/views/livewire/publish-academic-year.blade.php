@@ -2,5 +2,5 @@
     @error('setup')
         <p class="text-sm text-destructive" role="alert">{{ $message }}</p>
     @enderror
-    <april:button type="button" wire:click="publish" wire:loading.attr="disabled">Publish and finish setup</april:button>
+    <april:button type="button" wire:click="publish" wire:loading.attr="disabled">{{ __('Publish and finish setup') }}</april:button>
 </div>

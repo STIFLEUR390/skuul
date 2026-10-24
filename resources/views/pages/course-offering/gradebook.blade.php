@@ -41,7 +41,7 @@
 
         @if (!$gradebookAcceptsWrites)
             <div class="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm">
-                <p class="font-medium text-amber-900 dark:text-amber-100">This gradebook is read-only.</p>
+                <p class="font-medium text-amber-900 dark:text-amber-100">{{ __('This gradebook is read-only.') }}</p>
                 <p class="mt-1 text-amber-800 dark:text-amber-200">The {{ $courseOffering->academicPeriod->display_name }} period is {{ strtolower($courseOffering->academicPeriod->status->label()) }}. Existing marks and published results remain available, but assessment setup and mark entry are locked.</p>
             </div>
         @endif

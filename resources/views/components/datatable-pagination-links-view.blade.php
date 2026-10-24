@@ -1,10 +1,10 @@
 <div>
     @if ($paginator->hasPages())
-        <nav role="navigation" aria-label="Pagination Navigation" class="flex flex-wrap items-center justify-between gap-3">
+        <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}" class="flex flex-wrap items-center justify-between gap-3">
             <p class="text-sm text-muted-foreground">
-                Showing <span class="font-medium">{{ $paginator->firstItem() }}</span>
-                to <span class="font-medium">{{ $paginator->lastItem() }}</span>
-                of <span class="font-medium">{{ $paginator->total() }}</span> results
+                {{ __('Showing') }} <span class="font-medium">{{ $paginator->firstItem() }}</span>
+                {{ __('to') }} <span class="font-medium">{{ $paginator->lastItem() }}</span>
+                {{ __('of') }} <span class="font-medium">{{ $paginator->total() }}</span> {{ __('results') }}
             </p>
 
             <div class="flex items-center gap-1">

@@ -24,13 +24,13 @@
     <div class="mx-auto flex w-full max-w-4xl flex-col gap-10">
         <div class="flex flex-col gap-3 border-b pb-6 sm:flex-row sm:items-center sm:justify-between">
             <p class="text-sm text-muted-foreground">{{ $school->name }}</p>
-            <april:button-link href="{{ route('schools.setup', [$school, 'details']) }}" :variant="$setupChecklist['required_remaining'] > 0 ? 'default' : 'outline'" class="h-11">Continue guided setup</april:button-link>
+            <april:button-link href="{{ route('schools.setup', [$school, 'details']) }}" :variant="$setupChecklist['required_remaining'] > 0 ? 'default' : 'outline'" class="h-11">{{ __('Continue guided setup') }}</april:button-link>
         </div>
 
         <x-school-setup-checklist :checklist="$setupChecklist" />
 
         <section aria-labelledby="day-to-day-heading" class="flex flex-col gap-3">
-            <h2 id="day-to-day-heading" class="text-lg font-semibold">Day to day</h2>
+            <h2 id="day-to-day-heading" class="text-lg font-semibold">{{ __('Day to day') }}</h2>
             <ul class="grid gap-x-6 sm:grid-cols-2">
                 @foreach ($dayToDay as $area)
                     <li class="border-b">

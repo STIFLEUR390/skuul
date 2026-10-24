@@ -10,7 +10,7 @@
     @can('create', App\Models\Incident::class)
         <april:button-link href="{{ route('incidents.create') }}">
             <x-lucide-plus class="mr-2 size-4" />
-            Record a case
+            {{ __('Record a case') }}
         </april:button-link>
     @endcan
 @endsection

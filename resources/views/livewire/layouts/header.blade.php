@@ -3,7 +3,7 @@
     <div class="flex min-w-0 items-center gap-2">
         {{-- Prevent the mobile menu trigger from shrinking below its usable width. --}}
         <april:sidebar-trigger class="size-11 shrink-0 select-none" />
-        <a href="{{route('home')}}" class="flex shrink-0 items-center gap-3" aria-label="Home">
+        <a href="{{route('home')}}" class="flex shrink-0 items-center gap-3" aria-label="{{ __('Home') }}">
             {{-- The page layout supplies the h1; keep the product name as branding. --}}
             <span class="hidden text-sm font-semibold tracking-tight sm:block">{{config('app.name')}}</span>
         </a>
@@ -21,32 +21,32 @@
         <april:button variant="ghost" size="icon" class="hidden sm:inline-flex" type="button"
             @click="fullScreen = !fullScreen; fullScreen == true ? document.documentElement.requestFullscreen() : document.exitFullscreen()">
             <x-lucide-maximize class="size-4" />
-            <p class="sr-only">Full screen mode</p>
+            <p class="sr-only">{{ __('Full screen mode') }}</p>
         </april:button>
 
         <april:dropdown-menu>
             <slot:trigger>
-                <april:button aria-label="open theme selection" class="size-11 select-none justify-center" size="icon" variant="ghost"
+                <april:button aria-label="{{ __('open theme selection') }}" class="size-11 select-none justify-center" size="icon" variant="ghost"
                     type="button">
                     <x-lucide-sun class="h-4 w-4 dark:hidden" />
                     <x-lucide-moon class="hidden h-4 w-4 dark:block" />
                 </april:button>
             </slot:trigger>
             <slot:content class="w-40">
-                <april:dropdown-menu-item aria-label="Select light theme" size="sm" type="button"
+                <april:dropdown-menu-item aria-label="{{ __('Select light theme') }}" size="sm" type="button"
                     class="w-full justify-start focus-visible:outline-hidden" x-on:click="setTheme('light')">
                     <x-lucide-sun class="mr-2 h-4 w-4" />
-                    <p class="text-sm">Light</p>
+                    <p class="text-sm">{{ __('Light') }}</p>
                 </april:dropdown-menu-item>
-                <april:dropdown-menu-item aria-label="Select dark theme" size="sm" type="button"
+                <april:dropdown-menu-item aria-label="{{ __('Select dark theme') }}" size="sm" type="button"
                     class="w-full justify-start focus-visible:outline-hidden" x-on:click="setTheme('dark')">
                     <x-lucide-moon class="mr-2 h-4 w-4" />
-                    <p class="text-sm">Dark</p>
+                    <p class="text-sm">{{ __('Dark') }}</p>
                 </april:dropdown-menu-item>
-                <april:dropdown-menu-item aria-label="Set theme based on system preference" size="sm" type="button"
+                <april:dropdown-menu-item aria-label="{{ __('Set theme based on system preference') }}" size="sm" type="button"
                     class="w-full justify-start focus-visible:outline-hidden" x-on:click="setTheme('system')">
                     <x-lucide-monitor class="mr-2 h-4 w-4" />
-                    <p class="text-sm">System</p>
+                    <p class="text-sm">{{ __('System') }}</p>
                 </april:dropdown-menu-item>
             </slot:content>
         </april:dropdown-menu>
@@ -79,7 +79,7 @@
                     </p>
                     <form action="{{route('logout')}}" method="POST">
                         @csrf
-                        <april:dropdown-menu-item type="submit">Log out</april:dropdown-menu-item>
+                        <april:dropdown-menu-item type="submit">{{ __('Log out') }}</april:dropdown-menu-item>
                     </form>
                 </div>
             </slot:content>

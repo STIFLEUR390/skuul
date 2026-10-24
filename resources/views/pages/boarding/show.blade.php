@@ -10,7 +10,7 @@
 
 @section('page_actions')
     @if ($canManage)
-        <april:button-link href="{{ route('boarding-rolls.index') }}" variant="ghost">Boarding rolls</april:button-link>
+        <april:button-link href="{{ route('boarding-rolls.index') }}" variant="ghost">{{ __('Boarding rolls') }}</april:button-link>
         <april:dropdown-menu>
             <slot:trigger>
                 <april:button type="button" variant="outline" size="icon" class="size-11 select-none" aria-label="Actions for {{ $dormitory->name }}">
@@ -19,7 +19,7 @@
             </slot:trigger>
             <slot:content>
                 <april:dropdown-menu-item x-on:click="window.location.href = '{{ route('dormitories.edit', $dormitory->id) }}'">
-                    <x-lucide-pencil class="mr-2 size-4" />Change or close the house
+                    <x-lucide-pencil class="mr-2 size-4" />{{ __('Change or close the house') }}
                 </april:dropdown-menu-item>
             </slot:content>
         </april:dropdown-menu>

@@ -8,12 +8,12 @@
     <p class="text-sm text-muted-foreground">{{ $courseOffering->subject->name }} · {{ $courseOffering->academicYear->name }} · {{ $level->name }} · {{ $courseOffering->academicPeriod->display_name }}</p>
 
     <fieldset class="flex flex-col gap-3">
-        <legend class="mb-2 text-sm font-medium">Who attends</legend>
+        <legend class="mb-2 text-sm font-medium">{{ __('Who attends') }}</legend>
         @if ($level->is_group)
             <p class="text-sm">Everyone in the classes under {{ $level->name }}</p>
         @else
             <div>
-                <label for="roster-mode" class="sr-only">Who attends</label>
+                <label for="roster-mode" class="sr-only">{{ __('Who attends') }}</label>
                 <select id="roster-mode" wire:model.live="rosterMode" class="{{ $controlClasses }} sm:w-72" {{ field_error_bindings('rosterMode') }}>
                     @foreach ($rosterModes as $mode)
                         <option value="{{ $mode->value }}">{{ school_roster_label($mode) }}</option>
@@ -42,7 +42,7 @@
                 @if ($learners->isEmpty())
                     <p class="text-sm text-muted-foreground">No learners in {{ $level->name }} yet.</p>
                 @else
-                    <ul class="max-h-96 divide-y overflow-y-auto border-y" aria-label="Learners">
+                    <ul class="max-h-96 divide-y overflow-y-auto border-y" aria-label="{{ __('Learners') }}">
                         @foreach ($learners as $learner)
                             <li wire:key="learner-{{ $learner->id }}">
                                 <label class="flex min-h-11 cursor-pointer items-center gap-3 text-sm select-none">
@@ -61,5 +61,5 @@
         <x-field-error name="rosterMode" />
     </fieldset>
 
-    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Save roster</april:button>
+    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Save roster') }}</april:button>
 </form>

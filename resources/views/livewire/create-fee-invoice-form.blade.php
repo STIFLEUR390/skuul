@@ -1,22 +1,22 @@
-<form wire:submit="save" class="mx-auto flex w-full max-w-4xl flex-col gap-10" aria-label="Create fee invoices">
+<form wire:submit="save" class="mx-auto flex w-full max-w-4xl flex-col gap-10" aria-label="{{ __('Create fee invoices') }}">
     @php
         $controlClasses = 'h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
         $moneyInput = $controlClasses.' text-right tabular-nums';
         $studentCount = $students->count();
     @endphp
 
-    <section aria-label="Dates and note" class="flex flex-col gap-3">
+    <section aria-label="{{ __('Dates and note') }}" class="flex flex-col gap-3">
         <div class="grid gap-3 sm:grid-cols-[12rem_12rem_1fr]">
             <div>
-                <label for="issue-date" class="text-sm text-muted-foreground">Issued</label>
+                <label for="issue-date" class="text-sm text-muted-foreground">{{ __('Issued') }}</label>
                 <input type="date" id="issue-date" wire:model.live="issueDate" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('issueDate') }}>
             </div>
             <div>
-                <label for="due-date" class="text-sm text-muted-foreground">Due</label>
+                <label for="due-date" class="text-sm text-muted-foreground">{{ __('Due') }}</label>
                 <input type="date" id="due-date" wire:model="dueDate" min="{{ $issueDate }}" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('dueDate') }}>
             </div>
             <div>
-                <label for="invoice-note" class="text-sm text-muted-foreground">Note</label>
+                <label for="invoice-note" class="text-sm text-muted-foreground">{{ __('Note') }}</label>
                 <input id="invoice-note" wire:model="note" maxlength="10000" placeholder="Note (optional)" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('note') }}>
             </div>
         </div>
@@ -27,9 +27,9 @@
 
     <section aria-labelledby="invoice-students-heading" class="flex flex-col gap-3">
         <div class="flex items-center justify-between gap-4">
-            <h2 id="invoice-students-heading" class="text-base font-semibold">Students <span class="font-normal tabular-nums text-muted-foreground">{{ $studentCount }}</span></h2>
+            <h2 id="invoice-students-heading" class="text-base font-semibold">{{ __('Students') }} <span class="font-normal tabular-nums text-muted-foreground">{{ $studentCount }}</span></h2>
             @if ($studentCount > 1)
-                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="clearStudents">Clear</april:button>
+                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="clearStudents">{{ __('Clear') }}</april:button>
             @endif
         </div>
         <div class="grid gap-3 sm:grid-cols-[1fr_1fr_1fr_auto]">
@@ -53,21 +53,21 @@
                 </select>
             </div>
             <div>
-                <label for="invoice-student" class="sr-only">Student</label>
+                <label for="invoice-student" class="sr-only">{{ __('Student') }}</label>
                 <select id="invoice-student" wire:model="studentRecordId" class="{{ $controlClasses }}" @disabled($cycleSectionId === '')>
-                    <option value="">All students</option>
+                    <option value="">{{ __('All students') }}</option>
                     @foreach ($studentsToPick as $record)
                         <option value="{{ $record->id }}">{{ $record->user?->name ?? $record->admission_number }}</option>
                     @endforeach
                 </select>
             </div>
-            <april:button type="button" variant="outline" class="h-11 select-none" wire:click="addStudents" wire:loading.attr="disabled" wire:target="addStudents" :disabled="$levels->isEmpty()">Add</april:button>
+            <april:button type="button" variant="outline" class="h-11 select-none" wire:click="addStudents" wire:loading.attr="disabled" wire:target="addStudents" :disabled="$levels->isEmpty()">{{ __('Add') }}</april:button>
         </div>
         <x-field-error name="studentRecordIds" />
         <x-field-error name="studentRecordIds.*" />
 
         @if ($studentCount === 0)
-            <p class="text-sm text-muted-foreground">No students</p>
+            <p class="text-sm text-muted-foreground">{{ __('No students') }}</p>
         @else
             <ul class="max-h-80 divide-y overflow-y-auto border-y">
                 @foreach ($students as $record)
@@ -87,33 +87,33 @@
     </section>
 
     <section aria-labelledby="invoice-fees-heading" class="flex flex-col gap-3">
-        <h2 id="invoice-fees-heading" class="text-base font-semibold">Fees</h2>
+        <h2 id="invoice-fees-heading" class="text-base font-semibold">{{ __('Fees') }}</h2>
         <div class="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
             <div>
-                <label for="invoice-fee-category" class="sr-only">Fee category</label>
+                <label for="invoice-fee-category" class="sr-only">{{ __('Fee category') }}</label>
                 <select id="invoice-fee-category" wire:model.live="feeCategoryId" class="{{ $controlClasses }}">
                     @forelse ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @empty
-                        <option value="">No fee categories</option>
+                        <option value="">{{ __('No fee categories') }}</option>
                     @endforelse
                 </select>
             </div>
             <div>
-                <label for="invoice-fee" class="sr-only">Fee</label>
+                <label for="invoice-fee" class="sr-only">{{ __('Fee') }}</label>
                 <select id="invoice-fee" wire:model="feeId" class="{{ $controlClasses }}">
-                    <option value="">All fees in this category</option>
+                    <option value="">{{ __('All fees in this category') }}</option>
                     @foreach ($feesToPick as $fee)
                         <option value="{{ $fee->id }}">{{ $fee->name }}</option>
                     @endforeach
                 </select>
             </div>
-            <april:button type="button" variant="outline" class="h-11 select-none" wire:click="addFees" wire:loading.attr="disabled" wire:target="addFees" :disabled="$categories->isEmpty()">Add</april:button>
+            <april:button type="button" variant="outline" class="h-11 select-none" wire:click="addFees" wire:loading.attr="disabled" wire:target="addFees" :disabled="$categories->isEmpty()">{{ __('Add') }}</april:button>
         </div>
         <x-field-error name="lines" />
 
         @if ($lines === [])
-            <p class="text-sm text-muted-foreground">No fees</p>
+            <p class="text-sm text-muted-foreground">{{ __('No fees') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($lines as $feeId => $line)
@@ -127,15 +127,15 @@
                         </div>
                         <div class="grid grid-cols-3 gap-3">
                             <div>
-                                <label for="fee-{{ $feeId }}-amount" class="text-xs text-muted-foreground">Amount</label>
+                                <label for="fee-{{ $feeId }}-amount" class="text-xs text-muted-foreground">{{ __('Amount') }}</label>
                                 <input type="number" id="fee-{{ $feeId }}-amount" aria-label="Amount for {{ $feeName }}" min="1" step="1" wire:model.blur="lines.{{ $feeId }}.amount" class="{{ $moneyInput }} mt-1" {{ field_error_bindings('lines.'.$feeId.'.amount') }}>
                             </div>
                             <div>
-                                <label for="fee-{{ $feeId }}-waiver" class="text-xs text-muted-foreground">Waiver</label>
+                                <label for="fee-{{ $feeId }}-waiver" class="text-xs text-muted-foreground">{{ __('Waiver') }}</label>
                                 <input type="number" id="fee-{{ $feeId }}-waiver" aria-label="Waiver for {{ $feeName }}" min="0" step="1" wire:model.blur="lines.{{ $feeId }}.waiver" class="{{ $moneyInput }} mt-1" {{ field_error_bindings('lines.'.$feeId.'.waiver') }}>
                             </div>
                             <div>
-                                <label for="fee-{{ $feeId }}-fine" class="text-xs text-muted-foreground">Fine</label>
+                                <label for="fee-{{ $feeId }}-fine" class="text-xs text-muted-foreground">{{ __('Fine') }}</label>
                                 <input type="number" id="fee-{{ $feeId }}-fine" aria-label="Fine for {{ $feeName }}" min="0" step="1" wire:model.blur="lines.{{ $feeId }}.fine" class="{{ $moneyInput }} mt-1" {{ field_error_bindings('lines.'.$feeId.'.fine') }}>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
             {{ $studentCount }} {{ $studentCount === 1 ? 'invoice' : 'invoices' }} · {{ money_text($perInvoice) }} each
         </p>
         <div class="flex flex-col-reverse gap-3 sm:flex-row">
-            <april:button-link href="{{ route('fee-invoices.index') }}" variant="ghost" class="h-11 select-none">Cancel</april:button-link>
+            <april:button-link href="{{ route('fee-invoices.index') }}" variant="ghost" class="h-11 select-none">{{ __('Cancel') }}</april:button-link>
             <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">
                 {{ $studentCount > 1 ? 'Create '.$studentCount.' invoices' : 'Create invoice' }}
             </april:button>

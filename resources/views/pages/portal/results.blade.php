@@ -17,17 +17,17 @@
         <april:card>
             <slot:content>
                 @if ($results->isEmpty())
-                    <x-empty-state icon="lucide-graduation-cap" title="No approved results yet"
+                    <x-empty-state icon="lucide-graduation-cap" title="{{ __('No approved results yet') }}"
                         description="Results appear here when the school approves them." />
                 @else
                     <div class="overflow-x-auto beautify-scrollbar">
                         <table class="w-full text-sm">
                             <thead>
                                 <tr class="border-b text-left text-muted-foreground">
-                                    <th scope="col" class="py-2 pr-3 font-medium">Subject</th>
-                                    <th scope="col" class="py-2 pr-3 font-medium">Term</th>
-                                    <th scope="col" class="py-2 pr-3 text-right font-medium">Score</th>
-                                    <th scope="col" class="py-2 font-medium">Approved</th>
+                                    <th scope="col" class="py-2 pr-3 font-medium">{{ __('Subject') }}</th>
+                                    <th scope="col" class="py-2 pr-3 font-medium">{{ __('Term') }}</th>
+                                    <th scope="col" class="py-2 pr-3 text-right font-medium">{{ __('Score') }}</th>
+                                    <th scope="col" class="py-2 font-medium">{{ __('Approved') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y">

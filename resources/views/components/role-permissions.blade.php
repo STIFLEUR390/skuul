@@ -11,11 +11,11 @@
 @endphp
 
 <fieldset class="flex flex-col gap-3" {{ field_error_bindings($model) }}>
-    <legend class="text-base font-semibold">What the role may do</legend>
-    <p class="text-sm text-muted-foreground">Only what you can do yourself at this campus is listed.</p>
+    <legend class="text-base font-semibold">{{ __('What the role may do') }}</legend>
+    <p class="text-sm text-muted-foreground">{{ __('Only what you can do yourself at this campus is listed.') }}</p>
 
     @if ($groups->isEmpty())
-        <p class="text-sm text-muted-foreground">You hold nothing at this campus that you could put in a role.</p>
+        <p class="text-sm text-muted-foreground">{{ __('You hold nothing at this campus that you could put in a role.') }}</p>
     @else
         <div class="grid gap-x-6 gap-y-4 sm:grid-cols-2">
             @foreach ($groups as $subject => $permissions)

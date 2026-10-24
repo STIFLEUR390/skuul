@@ -9,7 +9,7 @@
                     <span>{{ str($role->name)->headline() }}</span>
                 @endforeach
                 @if ($user->can(\App\Enums\PlatformPermission::ManagePlatform))
-                    <span>Platform administrator</span>
+                    <span>{{ __('Platform administrator') }}</span>
                 @endif
             </p>
         </div>
@@ -36,7 +36,7 @@
     </dl>
 
     @unless ($showsContactDetails)
-        <p class="text-sm text-muted-foreground">This learner now attends another campus. That campus holds their contact details.</p>
+        <p class="text-sm text-muted-foreground">{{ __('This learner now attends another campus. That campus holds their contact details.') }}</p>
     @endunless
 </section>
 

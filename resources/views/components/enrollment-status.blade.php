@@ -16,5 +16,5 @@
 @if ($status !== null)
     <april:badge variant="{{ $variant }}">{{ $status->label() }}</april:badge>
 @else
-    <span class="text-sm text-muted-foreground">No enrollment</span>
+    <span class="text-sm text-muted-foreground">{{ __('No enrollment') }}</span>
 @endif

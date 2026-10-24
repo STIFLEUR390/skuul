@@ -7,11 +7,11 @@
         <div class="flex flex-wrap items-end justify-between gap-3">
             <div>
                 <h2 id="plans-heading" class="text-base font-semibold">{{ $academicYear?->name ?? 'No cycle yet' }}</h2>
-                <p class="text-sm text-muted-foreground">Each plan beside what the books say happened. Plans running over come first.</p>
+                <p class="text-sm text-muted-foreground">{{ __('Each plan beside what the books say happened. Plans running over come first.') }}</p>
             </div>
             @if ($academicYears->count() > 1)
                 <div class="w-full sm:w-56">
-                    <label for="academic_year_id" class="text-sm text-muted-foreground">Cycle</label>
+                    <label for="academic_year_id" class="text-sm text-muted-foreground">{{ __('Cycle') }}</label>
                     <select id="academic_year_id" wire:model.live="academicYearId" class="{{ $controlClasses }}">
                         @foreach ($academicYears as $cycle)
                             <option value="{{ $cycle->id }}" @selected($cycle->id === $academicYear?->id)>{{ $cycle->name }}</option>
@@ -22,7 +22,7 @@
         </div>
 
         @if ($rows->isEmpty())
-            <p class="text-sm text-muted-foreground">No budgets for this cycle yet.</p>
+            <p class="text-sm text-muted-foreground">{{ __('No budgets for this cycle yet.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($rows as $row)
@@ -50,8 +50,8 @@
                                     </april:button>
                                 </slot:trigger>
                                 <slot:content align="end">
-                                    <april:dropdown-menu-item wire:click="revise({{ $row->budget->id }})"><x-lucide-pencil class="mr-2 size-4" />Revise</april:dropdown-menu-item>
-                                    <april:dropdown-menu-item wire:click="remove({{ $row->budget->id }})" wire:confirm="Remove the budget for {{ $row->budget->account?->name ?? 'this account' }}? What was spent stays in the books."><x-lucide-trash-2 class="mr-2 size-4" />Remove</april:dropdown-menu-item>
+                                    <april:dropdown-menu-item wire:click="revise({{ $row->budget->id }})"><x-lucide-pencil class="mr-2 size-4" />{{ __('Revise') }}</april:dropdown-menu-item>
+                                    <april:dropdown-menu-item wire:click="remove({{ $row->budget->id }})" wire:confirm="Remove the budget for {{ $row->budget->account?->name ?? 'this account' }}? What was spent stays in the books."><x-lucide-trash-2 class="mr-2 size-4" />{{ __('Remove') }}</april:dropdown-menu-item>
                                 </slot:content>
                             </april:dropdown-menu>
                         @endif
@@ -63,14 +63,14 @@
 
     @if ($canWrite && $academicYear !== null)
         <section class="flex flex-col gap-3" aria-labelledby="write-heading">
-            <h2 id="write-heading" class="text-base font-semibold">Write or revise a plan</h2>
-            <p class="text-sm text-muted-foreground">The same account, stretch and narrowing revises the plan already there.</p>
-            <form wire:submit="save" class="flex flex-col gap-4" aria-label="Write a budget">
+            <h2 id="write-heading" class="text-base font-semibold">{{ __('Write or revise a plan') }}</h2>
+            <p class="text-sm text-muted-foreground">{{ __('The same account, stretch and narrowing revises the plan already there.') }}</p>
+            <form wire:submit="save" class="flex flex-col gap-4" aria-label="{{ __('Write a budget') }}">
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div>
-                        <label for="ledger_account_id" class="text-sm text-muted-foreground">Account</label>
+                        <label for="ledger_account_id" class="text-sm text-muted-foreground">{{ __('Account') }}</label>
                         <select id="ledger_account_id" wire:model="ledgerAccountId" required class="{{ $controlClasses }}" {{ field_error_bindings('ledgerAccountId') }}>
-                            <option value="">Choose an account</option>
+                            <option value="">{{ __('Choose an account') }}</option>
                             @foreach ($accounts as $account)
                                 <option value="{{ $account->id }}">{{ $account->code }} · {{ $account->name }}</option>
                             @endforeach
@@ -78,14 +78,14 @@
                         <x-field-error name="ledgerAccountId" class="mt-1" />
                     </div>
                     <div>
-                        <label for="amount" class="text-sm text-muted-foreground">Amount</label>
+                        <label for="amount" class="text-sm text-muted-foreground">{{ __('Amount') }}</label>
                         <input id="amount" type="number" inputmode="decimal" step="0.01" min="0" wire:model="amount" required class="{{ $controlClasses }}" {{ field_error_bindings('amount') }}>
                         <x-field-error name="amount" class="mt-1" />
                     </div>
                     <div>
-                        <label for="academic_period_id" class="text-sm text-muted-foreground">Covers</label>
+                        <label for="academic_period_id" class="text-sm text-muted-foreground">{{ __('Covers') }}</label>
                         <select id="academic_period_id" wire:model="academicPeriodId" class="{{ $controlClasses }}" {{ field_error_bindings('academicPeriodId') }}>
-                            <option value="">The whole year</option>
+                            <option value="">{{ __('The whole year') }}</option>
                             @foreach ($periods as $period)
                                 <option value="{{ $period->id }}">{{ $period->name }}</option>
                             @endforeach
@@ -95,7 +95,7 @@
                     <div>
                         <label for="program_id" class="text-sm text-muted-foreground">Programme (optional)</label>
                         <select id="program_id" wire:model="programId" class="{{ $controlClasses }}" {{ field_error_bindings('programId') }}>
-                            <option value="">Everything on this account</option>
+                            <option value="">{{ __('Everything on this account') }}</option>
                             @foreach ($programs as $program)
                                 <option value="{{ $program->id }}">{{ $program->name }}</option>
                             @endforeach
@@ -104,7 +104,7 @@
                     </div>
                     <div>
                         <label for="fund" class="text-sm text-muted-foreground">Fund (optional)</label>
-                        <input id="fund" wire:model="fund" maxlength="60" placeholder="Library fund" class="{{ $controlClasses }}" {{ field_error_bindings('fund') }}>
+                        <input id="fund" wire:model="fund" maxlength="60" placeholder="{{ __('Library fund') }}" class="{{ $controlClasses }}" {{ field_error_bindings('fund') }}>
                         <x-field-error name="fund" class="mt-1" />
                     </div>
                     <div>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Save the plan</april:button>
+                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Save the plan') }}</april:button>
                 </div>
             </form>
         </section>

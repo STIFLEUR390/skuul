@@ -10,7 +10,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('graduation-plans.index') }}" variant="outline">
         <x-lucide-arrow-left class="mr-2 size-4" />
-        Back to plans
+        {{ __('Back to plans') }}
     </april:button-link>
 @endsection
 

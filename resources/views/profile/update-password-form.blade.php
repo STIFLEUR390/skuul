@@ -13,9 +13,9 @@
         </x-action-message>
 
         <div class="grid gap-4">
-            <april:input-group id="current_password" type="password" wire:model="state.current_password" autocomplete="current-password" name="current_password" label="Current password" />
-            <april:input-group label="New password" name="password" id="password" type="password" wire:model="state.password" autocomplete="new-password" />
-            <april:input-group name="password_confirmation" label="Confirm new password" id="password_confirmation" type="password" wire:model="state.password_confirmation" autocomplete="new-password" />
+            <april:input-group id="current_password" type="password" wire:model="state.current_password" autocomplete="current-password" name="current_password" label="{{ __('Current password') }}" />
+            <april:input-group label="{{ __('New password') }}" name="password" id="password" type="password" wire:model="state.password" autocomplete="new-password" />
+            <april:input-group name="password_confirmation" label="{{ __('Confirm new password') }}" id="password_confirmation" type="password" wire:model="state.password_confirmation" autocomplete="new-password" />
         </div>
     </x-slot>
 

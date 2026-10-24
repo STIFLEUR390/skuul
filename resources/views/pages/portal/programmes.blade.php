@@ -26,11 +26,11 @@
                     @endif
                     <dl class="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
                         @if ($participation->schedule)
-                            <div><dt class="inline font-medium">Schedule:</dt> <dd class="inline">{{ $participation->schedule }}</dd></div>
+                            <div><dt class="inline font-medium">{{ __('Schedule:') }}</dt> <dd class="inline">{{ $participation->schedule }}</dd></div>
                         @endif
                         @if ($participation->starts_on || $participation->ends_on)
                             <div>
-                                <dt class="inline font-medium">Dates:</dt>
+                                <dt class="inline font-medium">{{ __('Dates:') }}</dt>
                                 <dd class="inline">{{ $participation->starts_on?->format('M j, Y') ?? 'Not set' }} – {{ $participation->ends_on?->format('M j, Y') ?? 'Not set' }}</dd>
                             </div>
                         @endif
@@ -40,7 +40,7 @@
         @empty
             <x-empty-state
                 icon="lucide-sparkles"
-                title="No club or activity places yet"
+                title="{{ __('No club or activity places yet') }}"
                 description="When the school records a place in a club or activity, it will appear here." />
         @endforelse
     </div>

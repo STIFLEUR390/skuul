@@ -10,7 +10,7 @@
     @can('create', App\Models\Program::class)
         <april:button-link href="{{ route('programs.create') }}">
             <x-lucide-plus class="mr-2 size-4" />
-            Open a programme
+            {{ __('Open a programme') }}
         </april:button-link>
     @endcan
 @endsection

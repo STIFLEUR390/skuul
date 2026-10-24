@@ -1,4 +1,4 @@
-<form wire:submit="save" class="flex flex-col gap-8" aria-label="Health record">
+<form wire:submit="save" class="flex flex-col gap-8" aria-label="{{ __('Health record') }}">
     @php
         $controlClasses = 'mt-1 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60';
         $fields = [
@@ -35,7 +35,7 @@
     @endif
 
     <section class="flex flex-col gap-4" aria-labelledby="emergency-heading">
-        <h2 id="emergency-heading" class="text-base font-semibold">In an emergency</h2>
+        <h2 id="emergency-heading" class="text-base font-semibold">{{ __('In an emergency') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
             @foreach ($fields as $field)
                 <div wire:key="field-{{ $field['name'] }}">
@@ -52,8 +52,8 @@
 
     <section class="flex flex-col gap-4" aria-labelledby="needs-heading">
         <div>
-            <h2 id="needs-heading" class="text-base font-semibold">What the school must know</h2>
-            <p class="text-sm text-muted-foreground">Write only what the school needs to keep the child safe.</p>
+            <h2 id="needs-heading" class="text-base font-semibold">{{ __('What the school must know') }}</h2>
+            <p class="text-sm text-muted-foreground">{{ __('Write only what the school needs to keep the child safe.') }}</p>
         </div>
         <div class="grid gap-4 lg:grid-cols-2">
             @foreach ($notes as $note)
@@ -71,9 +71,9 @@
 
     @if ($canWrite)
         <div class="flex justify-end">
-            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Save the record</april:button>
+            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Save the record') }}</april:button>
         </div>
     @else
-        <p class="text-sm text-muted-foreground">You may read this record but not change it.</p>
+        <p class="text-sm text-muted-foreground">{{ __('You may read this record but not change it.') }}</p>
     @endif
 </form>

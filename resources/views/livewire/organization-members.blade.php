@@ -1,9 +1,8 @@
 <div class="space-y-6">
     <april:card>
-        <slot:title>Give organization scope</slot:title>
+        <slot:title>{{ __('Give organization scope') }}</slot:title>
         <slot:description>
-            Organization scope opens the organization screens only. It does not open campus records, and it does not
-            change the schools a person already works in.
+            {{ __('Organization scope opens the organization screens only. It does not open campus records, and it does not change the schools a person already works in.') }}
         </slot:description>
         <slot:content>
             <form wire:submit="grant" class="flex flex-col gap-3 sm:flex-row sm:items-start">
@@ -13,26 +12,26 @@
                         wire:model="email"
                         id="member-email"
                         placeholder="person@example.com"
-                        aria-label="Email address"
+                        aria-label="{{ __('Email address') }}"
                         class="w-full" />
                     <x-field-error name="email" class="mt-1" />
                 </div>
                 <april:button type="submit">
                     <x-lucide-user-plus class="mr-2 size-4" />
-                    Give scope
+                    {{ __('Give scope') }}
                 </april:button>
             </form>
         </slot:content>
     </april:card>
 
     <april:card>
-        <slot:title>Organization administrators</slot:title>
+        <slot:title>{{ __('Organization administrators') }}</slot:title>
         <slot:description>{{ trans_choice('{1} :count person administers|[2,*] :count people administer', $activeMemberships->count()) }} {{ $organization->name }}.</slot:description>
         <slot:content class="space-y-4">
             @error('members')
                 <april:alert variant="destructive">
                     <slot:icon><x-lucide-ban class="size-4" /></slot:icon>
-                    <slot:title>Not done</slot:title>
+                    <slot:title>{{ __('Not done') }}</slot:title>
                     <slot:description>{{ $message }}</slot:description>
                 </april:alert>
             @enderror
@@ -50,9 +49,9 @@
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
                             @if ($membership->hasFullAuthority())
-                                <april:badge>Organization Administrator</april:badge>
+                                <april:badge>{{ __('Organization Administrator') }}</april:badge>
                             @else
-                                <april:badge variant="secondary">Delegated</april:badge>
+                                <april:badge variant="secondary">{{ __('Delegated') }}</april:badge>
                             @endif
                         </div>
                     </div>
@@ -68,20 +67,20 @@
                     <div class="mt-4 flex flex-wrap gap-2">
                         <april:button type="button" variant="outline" class="h-11 select-none" wire:click="edit({{ $membership->user_id }})">
                             <x-lucide-sliders-horizontal class="mr-2 size-3.5" />
-                            Permissions
+                            {{ __('Permissions') }}
                         </april:button>
 
                         @if ($confirmingRemovalUserId === $membership->user_id)
                             <april:button type="button" variant="destructive" class="h-11 select-none" wire:click="revoke({{ $membership->user_id }})">
-                                Confirm removal
+                                {{ __('Confirm removal') }}
                             </april:button>
                             <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="cancelRemoval">
-                                Cancel
+                                {{ __('Cancel') }}
                             </april:button>
                         @else
                             <april:button type="button" variant="outline" class="h-11 select-none" wire:click="confirmRemoval({{ $membership->user_id }})">
                                 <x-lucide-user-minus class="mr-2 size-3.5" />
-                                Remove scope
+                                {{ __('Remove scope') }}
                             </april:button>
                         @endif
                     </div>
@@ -99,8 +98,8 @@
                                     @disabled(!$this->holdsFullAuthority)
                                     class="mt-0.5 size-4 shrink-0 cursor-pointer accent-primary" />
                                 <span>
-                                    <span class="font-medium">Full authority</span>
-                                    <span class="block text-muted-foreground">Every organization permission, including future ones.</span>
+                                    <span class="font-medium">{{ __('Full authority') }}</span>
+                                    <span class="block text-muted-foreground">{{ __('Every organization permission, including future ones.') }}</span>
                                 </span>
                             </label>
 
@@ -122,7 +121,7 @@
                                         </label>
                                     @endforeach
                                     <p class="text-xs text-muted-foreground">
-                                        Every member keeps the read permission, so the organization screens still open.
+                                        {{ __('Every member keeps the read permission, so the organization screens still open.') }}
                                     </p>
                                 </div>
                             @endunless
@@ -130,22 +129,22 @@
                             <x-field-error name="draftPermissions" />
 
                             <div class="flex flex-wrap gap-2">
-                                <april:button type="button" class="h-11 select-none" wire:click="savePermissions">Save permissions</april:button>
-                                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopEditing">Cancel</april:button>
+                                <april:button type="button" class="h-11 select-none" wire:click="savePermissions">{{ __('Save permissions') }}</april:button>
+                                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopEditing">{{ __('Cancel') }}</april:button>
                             </div>
                         </div>
                     @endif
                 </div>
             @empty
-                <p class="text-muted-foreground">Nobody administers this organization yet.</p>
+                <p class="text-muted-foreground">{{ __('Nobody administers this organization yet.') }}</p>
             @endforelse
         </slot:content>
     </april:card>
 
     @if ($pastMemberships->isNotEmpty())
         <april:card>
-            <slot:title>Past administrators</slot:title>
-            <slot:description>Scope that was taken away. The record is kept so the history stays readable.</slot:description>
+            <slot:title>{{ __('Past administrators') }}</slot:title>
+            <slot:description>{{ __('Scope that was taken away. The record is kept so the history stays readable.') }}</slot:description>
             <slot:content class="space-y-2">
                 @foreach ($pastMemberships as $membership)
                     <div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3" wire:key="past-{{ $membership->id }}">

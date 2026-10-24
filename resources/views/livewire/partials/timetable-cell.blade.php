@@ -1,7 +1,7 @@
 
 @if ($cell['kind'] === null)
     @if ($cell['active'] ?? true)
-        <span class="block max-w-full truncate text-xs text-muted-foreground">Open time slot</span>
+        <span class="block max-w-full truncate text-xs text-muted-foreground">{{ __('Open time slot') }}</span>
     @else
         <span class="text-xs text-muted-foreground">&mdash;</span>
     @endif
@@ -13,7 +13,7 @@
             {{ implode(', ', $cell['teachers']) }}
         </span>
     @elseif ($cell['kind'] === 'break')
-        <span class="mt-1 block text-[0.7rem] leading-snug text-muted-foreground">No lesson</span>
+        <span class="mt-1 block text-[0.7rem] leading-snug text-muted-foreground">{{ __('No lesson') }}</span>
     @endif
 
     @if ($cell['audience_role'])

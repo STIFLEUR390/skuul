@@ -3,11 +3,11 @@
         $controlClasses = 'h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
     @endphp
 
-    <section aria-label="House summary" class="flex flex-col gap-4">
+    <section aria-label="{{ __('House summary') }}" class="flex flex-col gap-4">
         <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
             <span>{{ $dormitory->label }}</span>
             @if (!$dormitory->is_active)
-                <span class="font-medium text-foreground">· Archived</span>
+                <span class="font-medium text-foreground">{{ __('· Archived') }}</span>
             @endif
             @if ($dormitory->boardingResidence)
                 <span>· In {{ $dormitory->boardingResidence->name }}</span>
@@ -16,25 +16,25 @@
 
         <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-4" id="house-occupancy">
             <div>
-                <dt class="text-sm text-muted-foreground">Taken</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Taken') }}</dt>
                 <dd class="text-2xl font-semibold tabular-nums">{{ $occupancy['taken'] }} <span class="text-sm font-normal text-muted-foreground">of {{ $occupancy['beds'] }}</span></dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Free</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Free') }}</dt>
                 <dd class="text-2xl font-semibold tabular-nums">{{ $occupancy['free'] }}</dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Out of use</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Out of use') }}</dt>
                 <dd class="text-2xl font-semibold tabular-nums">{{ $occupancy['unavailable'] }}</dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Away tonight</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Away tonight') }}</dt>
                 <dd class="text-2xl font-semibold tabular-nums">{{ $occupancy['away'] }}</dd>
             </div>
         </dl>
 
         @if ($onDuty->isNotEmpty())
-            <p class="text-sm"><span class="text-muted-foreground">On duty:</span>
+            <p class="text-sm"><span class="text-muted-foreground">{{ __('On duty:') }}</span>
                 {{ $onDuty->map(fn ($duty) => $duty->user?->name.' ('.$duty->role->label().')')->join(', ') }}</p>
         @endif
 
@@ -45,7 +45,7 @@
 
     @if ($away->isNotEmpty())
         <section aria-labelledby="away-heading" class="flex flex-col gap-3">
-            <h2 id="away-heading" class="text-base font-semibold">Out tonight</h2>
+            <h2 id="away-heading" class="text-base font-semibold">{{ __('Out tonight') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($away as $leave)
                     <li wire:key="away-{{ $leave->id }}" class="flex flex-wrap justify-between gap-x-4 py-3 text-sm">
@@ -58,10 +58,10 @@
     @endif
 
     <section aria-labelledby="rooms-heading" class="flex flex-col gap-3">
-        <h2 id="rooms-heading" class="text-base font-semibold">Rooms</h2>
+        <h2 id="rooms-heading" class="text-base font-semibold">{{ __('Rooms') }}</h2>
 
         @if ($dormitory->rooms->isEmpty())
-            <p class="text-sm text-muted-foreground">No rooms yet.</p>
+            <p class="text-sm text-muted-foreground">{{ __('No rooms yet.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($dormitory->rooms as $room)
@@ -80,7 +80,7 @@
                                         <span class="text-sm text-muted-foreground">· {{ $room->floor }}</span>
                                     @endif
                                     @if (!$room->is_active)
-                                        <span class="text-sm text-muted-foreground">· Out of use</span>
+                                        <span class="text-sm text-muted-foreground">{{ __('· Out of use') }}</span>
                                     @endif
                                 </span>
                                 <span class="shrink-0 text-sm text-muted-foreground tabular-nums">{{ $taken }}/{{ $room->beds->count() }} taken @if ($free > 0) · {{ $free }} free @endif</span>
@@ -95,21 +95,21 @@
                         @if ($editingRoomId === $room->id)
                             <form wire:submit="saveRoom" class="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start" aria-label="Edit {{ $room->name }}">
                                 <div class="min-w-0 flex-1">
-                                    <label for="room-name" class="sr-only">Room name</label>
+                                    <label for="room-name" class="sr-only">{{ __('Room name') }}</label>
                                     <input id="room-name" wire:model="roomName" maxlength="60" class="{{ $controlClasses }}" {{ field_error_bindings('roomName') }}>
                                     <x-field-error name="roomName" class="mt-1" />
                                 </div>
                                 <div class="sm:w-40">
-                                    <label for="room-floor" class="sr-only">Floor</label>
-                                    <input id="room-floor" wire:model="roomFloor" maxlength="40" placeholder="Floor" class="{{ $controlClasses }}" {{ field_error_bindings('roomFloor') }}>
+                                    <label for="room-floor" class="sr-only">{{ __('Floor') }}</label>
+                                    <input id="room-floor" wire:model="roomFloor" maxlength="40" placeholder="{{ __('Floor') }}" class="{{ $controlClasses }}" {{ field_error_bindings('roomFloor') }}>
                                 </div>
                                 <label for="room-active" class="flex min-h-11 items-center gap-2 text-sm select-none">
                                     <input type="checkbox" id="room-active" wire:model="roomIsActive" {{ field_error_bindings('roomIsActive') }}>
-                                    In use
+                                    {{ __('In use') }}
                                 </label>
                                 <div class="flex gap-2">
-                                    <april:button type="button" variant="ghost" class="h-11" wire:click="cancelEditing">Cancel</april:button>
-                                    <april:button type="submit" variant="outline" class="h-11">Save</april:button>
+                                    <april:button type="button" variant="ghost" class="h-11" wire:click="cancelEditing">{{ __('Cancel') }}</april:button>
+                                    <april:button type="submit" variant="outline" class="h-11">{{ __('Save') }}</april:button>
                                 </div>
                             </form>
                             <x-field-error name="roomIsActive" class="mb-3" />
@@ -128,7 +128,7 @@
                                             @elseif ($bed->status !== App\Enums\DormitoryBedStatus::Available)
                                                 <span class="text-muted-foreground">· {{ $bed->status->label() }}@if ($bed->status_reason): {{ $bed->status_reason }}@endif</span>
                                             @else
-                                                <span class="text-muted-foreground">· Free</span>
+                                                <span class="text-muted-foreground">{{ __('· Free') }}</span>
                                             @endif
                                         </div>
                                         @if ($canManage)
@@ -140,11 +140,11 @@
                                                 </slot:trigger>
                                                 <slot:content>
                                                     <april:dropdown-menu-item wire:click="editBed({{ $bed->id }})">
-                                                        <x-lucide-pencil class="mr-2 size-4" />Edit bed
+                                                        <x-lucide-pencil class="mr-2 size-4" />{{ __('Edit bed') }}
                                                     </april:dropdown-menu-item>
                                                     @if ($place)
                                                         <april:dropdown-menu-item wire:click="startLeaving({{ $bed->id }})">
-                                                            <x-lucide-log-out class="mr-2 size-4" />End placement
+                                                            <x-lucide-log-out class="mr-2 size-4" />{{ __('End placement') }}
                                                         </april:dropdown-menu-item>
                                                     @endif
                                                 </slot:content>
@@ -156,12 +156,12 @@
                                         <form wire:submit="saveBed" class="mb-3 flex flex-col gap-3" aria-label="Edit {{ $bed->name }}">
                                             <div class="grid gap-3 sm:grid-cols-[1fr_12rem]">
                                                 <div>
-                                                    <label for="bed-name" class="sr-only">Bed name</label>
+                                                    <label for="bed-name" class="sr-only">{{ __('Bed name') }}</label>
                                                     <input id="bed-name" wire:model="bedName" maxlength="40" class="{{ $controlClasses }}" {{ field_error_bindings('bedName') }}>
                                                     <x-field-error name="bedName" class="mt-1" />
                                                 </div>
                                                 <div>
-                                                    <label for="bed-status" class="sr-only">Bed status</label>
+                                                    <label for="bed-status" class="sr-only">{{ __('Bed status') }}</label>
                                                     <select id="bed-status" wire:model="bedStatus" class="{{ $controlClasses }}" {{ field_error_bindings('bedStatus') }}>
                                                         @foreach (App\Enums\DormitoryBedStatus::cases() as $status)
                                                             <option value="{{ $status->value }}">{{ $status->label() }}</option>
@@ -171,11 +171,11 @@
                                             </div>
                                             <x-field-error name="bedStatus" />
                                             <div class="flex flex-col gap-3 sm:flex-row">
-                                                <label for="bed-reason" class="sr-only">Reason</label>
+                                                <label for="bed-reason" class="sr-only">{{ __('Reason') }}</label>
                                                 <input id="bed-reason" wire:model="bedStatusReason" maxlength="1000" placeholder="Reason (optional)" class="{{ $controlClasses }} sm:flex-1" {{ field_error_bindings('bedStatusReason') }}>
                                                 <div class="flex gap-2">
-                                                    <april:button type="button" variant="ghost" class="h-11" wire:click="cancelEditing">Cancel</april:button>
-                                                    <april:button type="submit" variant="outline" class="h-11">Save bed</april:button>
+                                                    <april:button type="button" variant="ghost" class="h-11" wire:click="cancelEditing">{{ __('Cancel') }}</april:button>
+                                                    <april:button type="submit" variant="outline" class="h-11">{{ __('Save bed') }}</april:button>
                                                 </div>
                                             </div>
                                         </form>
@@ -184,29 +184,29 @@
                                     @if ($leavingBedId === $bed->id)
                                         <form wire:submit="endPlacement" class="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start" aria-label="End the placement in {{ $bed->name }}">
                                             <div class="min-w-0 flex-1">
-                                                <label for="leave-reason" class="sr-only">Why they are leaving</label>
-                                                <input id="leave-reason" wire:model="leaveReason" maxlength="255" placeholder="Why they are leaving" class="{{ $controlClasses }}" {{ field_error_bindings('leaveReason') }}>
+                                                <label for="leave-reason" class="sr-only">{{ __('Why they are leaving') }}</label>
+                                                <input id="leave-reason" wire:model="leaveReason" maxlength="255" placeholder="{{ __('Why they are leaving') }}" class="{{ $controlClasses }}" {{ field_error_bindings('leaveReason') }}>
                                                 <x-field-error name="leaveReason" class="mt-1" />
                                             </div>
                                             <div class="flex gap-2">
-                                                <april:button type="button" variant="ghost" class="h-11" wire:click="cancelEditing">Cancel</april:button>
-                                                <april:button type="submit" variant="destructive" class="h-11">End placement</april:button>
+                                                <april:button type="button" variant="ghost" class="h-11" wire:click="cancelEditing">{{ __('Cancel') }}</april:button>
+                                                <april:button type="submit" variant="destructive" class="h-11">{{ __('End placement') }}</april:button>
                                             </div>
                                         </form>
                                     @endif
                                 </div>
                             @empty
-                                <p class="py-2 text-sm text-muted-foreground">No beds yet.</p>
+                                <p class="py-2 text-sm text-muted-foreground">{{ __('No beds yet.') }}</p>
                             @endforelse
 
                             @if ($canManage && $room->is_active)
                                 <form wire:submit="addBed({{ $room->id }})" class="flex gap-2 border-t pt-3" aria-label="Add a bed to {{ $room->name }}">
                                     <div class="min-w-0 flex-1">
-                                        <label for="new-bed-{{ $room->id }}" class="sr-only">Bed name</label>
+                                        <label for="new-bed-{{ $room->id }}" class="sr-only">{{ __('Bed name') }}</label>
                                         <input id="new-bed-{{ $room->id }}" wire:model="newBedNames.{{ $room->id }}" maxlength="40" placeholder="Bed {{ $room->beds->count() + 1 }}" class="{{ $controlClasses }}" {{ field_error_bindings('newBedNames.'.$room->id) }}>
                                         <x-field-error name="newBedNames.{{ $room->id }}" class="mt-1" />
                                     </div>
-                                    <april:button type="submit" variant="outline" class="h-11 shrink-0">Add bed</april:button>
+                                    <april:button type="submit" variant="outline" class="h-11 shrink-0">{{ __('Add bed') }}</april:button>
                                 </form>
                             @endif
                         </div>
@@ -216,30 +216,30 @@
         @endif
 
         @if ($canManage)
-            <form wire:submit="addRoom" class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-start" aria-label="Add a room">
+            <form wire:submit="addRoom" class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-start" aria-label="{{ __('Add a room') }}">
                 <div class="min-w-0 flex-1">
-                    <label for="new-room-name" class="sr-only">Room name</label>
-                    <input id="new-room-name" wire:model="newRoomName" maxlength="60" placeholder="New room name" class="{{ $controlClasses }}" {{ field_error_bindings('newRoomName') }}>
+                    <label for="new-room-name" class="sr-only">{{ __('Room name') }}</label>
+                    <input id="new-room-name" wire:model="newRoomName" maxlength="60" placeholder="{{ __('New room name') }}" class="{{ $controlClasses }}" {{ field_error_bindings('newRoomName') }}>
                     <x-field-error name="newRoomName" class="mt-1" />
                 </div>
                 <div class="sm:w-40">
-                    <label for="new-room-floor" class="sr-only">Floor</label>
-                    <input id="new-room-floor" wire:model="newRoomFloor" maxlength="40" placeholder="Floor" class="{{ $controlClasses }}" {{ field_error_bindings('newRoomFloor') }}>
+                    <label for="new-room-floor" class="sr-only">{{ __('Floor') }}</label>
+                    <input id="new-room-floor" wire:model="newRoomFloor" maxlength="40" placeholder="{{ __('Floor') }}" class="{{ $controlClasses }}" {{ field_error_bindings('newRoomFloor') }}>
                 </div>
-                <april:button type="submit" variant="outline" class="h-11 w-full sm:w-auto">Add room</april:button>
+                <april:button type="submit" variant="outline" class="h-11 w-full sm:w-auto">{{ __('Add room') }}</april:button>
             </form>
         @endif
     </section>
 
     @if ($canManage && $dormitory->is_active && $assignableBeds->isNotEmpty())
         <section aria-labelledby="place-heading" class="flex flex-col gap-3">
-            <h2 id="place-heading" class="text-base font-semibold">Give a learner a bed</h2>
+            <h2 id="place-heading" class="text-base font-semibold">{{ __('Give a learner a bed') }}</h2>
             <form wire:submit="place" class="flex flex-col gap-3">
                 <div class="grid gap-3 sm:grid-cols-2">
                     <div>
-                        <label for="place-learner" class="sr-only">Learner</label>
+                        <label for="place-learner" class="sr-only">{{ __('Learner') }}</label>
                         <select id="place-learner" wire:model="placeLearnerId" class="{{ $controlClasses }}" {{ field_error_bindings('placeLearnerId') }}>
-                            <option value="">Learner</option>
+                            <option value="">{{ __('Learner') }}</option>
                             @foreach ($learners as $learner)
                                 <option value="{{ $learner->id }}">{{ $learner->user?->name }} · {{ $learner->admission_number }}</option>
                             @endforeach
@@ -247,9 +247,9 @@
                         <x-field-error name="placeLearnerId" class="mt-1" />
                     </div>
                     <div>
-                        <label for="place-bed" class="sr-only">Bed</label>
+                        <label for="place-bed" class="sr-only">{{ __('Bed') }}</label>
                         <select id="place-bed" wire:model="placeBedId" class="{{ $controlClasses }}" {{ field_error_bindings('placeBedId') }}>
-                            <option value="">Bed</option>
+                            <option value="">{{ __('Bed') }}</option>
                             @foreach ($assignableBeds as $bed)
                                 <option value="{{ $bed->id }}">{{ $bed->room->name }} · {{ $bed->name }}</option>
                             @endforeach
@@ -259,10 +259,10 @@
                 </div>
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
                     <div class="min-w-0 flex-1">
-                        <label for="place-reason" class="sr-only">Note</label>
+                        <label for="place-reason" class="sr-only">{{ __('Note') }}</label>
                         <input id="place-reason" wire:model="placeReason" maxlength="255" placeholder="Note (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('placeReason') }}>
                     </div>
-                    <april:button type="submit" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">Give the bed</april:button>
+                    <april:button type="submit" class="h-11 w-full sm:w-auto" wire:loading.attr="disabled">{{ __('Give the bed') }}</april:button>
                 </div>
             </form>
         </section>

@@ -8,7 +8,7 @@
 @section('page_heading',   __('Teachers'))
 
 @section('page_actions')
-    <x-resource-create-action :href="route('teachers.create')" ability="create" :arguments="[\App\Models\User::class, 'teacher']">Add teacher</x-resource-create-action>
+    <x-resource-create-action :href="route('teachers.create')" ability="create" :arguments="[\App\Models\User::class, 'teacher']">{{ __('Add teacher') }}</x-resource-create-action>
 @endsection
 
 @section('content', )

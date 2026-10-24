@@ -3,7 +3,7 @@
         $controlClasses = 'mt-1 h-11 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60';
     @endphp
 
-    <form wire:submit="add" class="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end" aria-label="Link a learner">
+    <form wire:submit="add" class="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end" aria-label="{{ __('Link a learner') }}">
         <div>
             <label for="academic-cycle-section" class="text-sm text-muted-foreground">{{ school_term('section', 'Section') }}</label>
             <select id="academic-cycle-section" wire:model.live="academicCycleSectionId" class="{{ $controlClasses }}" {{ field_error_bindings('academicCycleSectionId') }}>
@@ -16,7 +16,7 @@
             <x-field-error name="academicCycleSectionId" class="mt-1" />
         </div>
         <div>
-            <label for="student" class="text-sm text-muted-foreground">Learner</label>
+            <label for="student" class="text-sm text-muted-foreground">{{ __('Learner') }}</label>
             <select id="student" wire:model="studentId" @disabled($students === []) class="{{ $controlClasses }}" {{ field_error_bindings('studentId') }}>
                 @forelse ($students as $student)
                     <option value="{{ $student['id'] }}">{{ $student['name'] }}@if ($student['admission_number']) · {{ $student['admission_number'] }}@endif</option>
@@ -26,15 +26,15 @@
             </select>
             <x-field-error name="studentId" class="mt-1" />
         </div>
-        <april:button type="submit" class="h-11 select-none" :disabled="$studentId === null" wire:loading.attr="disabled" wire:target="add">Link learner</april:button>
+        <april:button type="submit" class="h-11 select-none" :disabled="$studentId === null" wire:loading.attr="disabled" wire:target="add">{{ __('Link learner') }}</april:button>
     </form>
 
     <section aria-labelledby="linked-learners-heading">
-        <h2 id="linked-learners-heading" class="text-base font-semibold">Linked learners</h2>
-        <p class="text-sm text-muted-foreground">They can read these learners' records in the portal. Linking does not change a learner's class.</p>
+        <h2 id="linked-learners-heading" class="text-base font-semibold">{{ __('Linked learners') }}</h2>
+        <p class="text-sm text-muted-foreground">{{ __("They can read these learners' records in the portal. Linking does not change a learner's class.") }}</p>
 
         @if ($children === [])
-            <p class="mt-3 border-y py-4 text-sm text-muted-foreground">No learner at this school is linked yet.</p>
+            <p class="mt-3 border-y py-4 text-sm text-muted-foreground">{{ __('No learner at this school is linked yet.') }}</p>
         @else
             <ul class="mt-3 divide-y border-y">
                 @foreach ($children as $student)
@@ -47,7 +47,7 @@
                             wire:click="remove({{ $student['id'] }})"
                             wire:confirm="Unlink {{ $student['name'] }}? {{ $parent->name }} will no longer see their records."
                             wire:loading.attr="disabled" wire:target="remove">
-                            Unlink
+                            {{ __('Unlink') }}
                         </april:button>
                     </li>
                 @endforeach

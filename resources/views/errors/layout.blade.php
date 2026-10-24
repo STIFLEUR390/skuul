@@ -18,8 +18,8 @@
             </div>
             <div class="flex flex-col gap-3 sm:flex-row">
                 @section('actions')
-                    <a href="{{ url('/') }}" class="inline-flex h-11 select-none items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90">Go to the dashboard</a>
-                    <button type="button" onclick="history.back()" class="inline-flex h-11 select-none items-center justify-center rounded-md px-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Go back</button>
+                    <a href="{{ url('/') }}" class="inline-flex h-11 select-none items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90">{{ __('Go to the dashboard') }}</a>
+                    <button type="button" onclick="history.back()" class="inline-flex h-11 select-none items-center justify-center rounded-md px-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">{{ __('Go back') }}</button>
                 @show
             </div>
         </main>

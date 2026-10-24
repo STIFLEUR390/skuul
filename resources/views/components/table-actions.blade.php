@@ -68,9 +68,9 @@
     @elseif (count($items) > 1)
         <april:dropdown-menu x-teleport="body">
             <slot:trigger>
-                <april:button type="button" variant="outline" size="icon" class="size-11 select-none" aria-label="Row actions">
+                <april:button type="button" variant="outline" size="icon" class="size-11 select-none" aria-label="{{ __('Row actions') }}">
                     <x-lucide-ellipsis class="size-4" />
-                    <span class="sr-only">Row actions</span>
+                    <span class="sr-only">{{ __('Row actions') }}</span>
                 </april:button>
             </slot:trigger>
             <slot:content align="end" class="w-52">

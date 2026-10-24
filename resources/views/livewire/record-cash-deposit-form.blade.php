@@ -5,23 +5,23 @@
 
     <dl class="grid grid-cols-2 gap-4 border-y py-4">
         <div>
-            <dt class="text-sm text-muted-foreground">In the cash box</dt>
+            <dt class="text-sm text-muted-foreground">{{ __('In the cash box') }}</dt>
             <dd class="text-lg font-semibold tabular-nums">{{ money_text($cashBox) }}</dd>
         </div>
         <div>
-            <dt class="text-sm text-muted-foreground">Left after this deposit</dt>
+            <dt class="text-sm text-muted-foreground">{{ __('Left after this deposit') }}</dt>
             <dd class="text-lg font-semibold tabular-nums">{{ is_numeric($amount) ? money_text($cashBox - (float) $amount) : '—' }}</dd>
         </div>
     </dl>
 
-    <form wire:submit="save" class="flex flex-col gap-4" aria-label="Record cash deposit">
+    <form wire:submit="save" class="flex flex-col gap-4" aria-label="{{ __('Record cash deposit') }}">
         <div class="grid gap-3 sm:grid-cols-2">
             <div>
-                <label for="deposit-amount" class="text-sm text-muted-foreground">Amount</label>
+                <label for="deposit-amount" class="text-sm text-muted-foreground">{{ __('Amount') }}</label>
                 <input type="number" id="deposit-amount" wire:model.live.debounce.400ms="amount" step="0.01" min="0.01" required inputmode="decimal" placeholder="0.00" class="{{ $controlClasses }} mt-1 text-right tabular-nums" {{ field_error_bindings('amount') }}>
             </div>
             <div>
-                <label for="deposit-date" class="text-sm text-muted-foreground">Date</label>
+                <label for="deposit-date" class="text-sm text-muted-foreground">{{ __('Date') }}</label>
                 <input type="date" id="deposit-date" wire:model="depositDate" max="{{ school_today()->toDateString() }}" required class="{{ $controlClasses }} mt-1" {{ field_error_bindings('depositDate') }}>
             </div>
         </div>
@@ -31,7 +31,7 @@
         @if ($isAboveCashBox)
             <label class="flex min-h-11 cursor-pointer items-center gap-3 text-sm select-none">
                 <input type="checkbox" wire:model="confirmsMoreThanCashBox" class="size-4 rounded border-input">
-                The cash was counted and this amount is right
+                {{ __('The cash was counted and this amount is right') }}
             </label>
         @endif
 
@@ -48,8 +48,8 @@
         </div>
 
         <div class="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
-            <april:button-link href="{{ route('cash-deposits.index') }}" variant="ghost" class="h-11 select-none">Cancel</april:button-link>
-            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Record deposit</april:button>
+            <april:button-link href="{{ route('cash-deposits.index') }}" variant="ghost" class="h-11 select-none">{{ __('Cancel') }}</april:button-link>
+            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Record deposit') }}</april:button>
         </div>
     </form>
 </div>

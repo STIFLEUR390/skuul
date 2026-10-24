@@ -15,7 +15,7 @@
     <div class="record">
         <div class="record-title">
             <div>
-                <p class="eyebrow">Student record</p>
+                <p class="eyebrow">{{ __('Student record') }}</p>
                 <h2>{{ $student->name }}</h2>
                 <p class="muted">
                     {{ $studentRecord?->admission_number ?: 'No admission number' }}
@@ -28,59 +28,59 @@
         </div>
 
         <section>
-            <h3>Personal details</h3>
+            <h3>{{ __('Personal details') }}</h3>
             <table class="facts">
                 <tr>
-                    <th>Full name</th><td>{{ $student->name }}</td>
-                    <th>Gender</th><td>{{ $student->gender ? ucfirst($student->gender) : $dash }}</td>
+                    <th>{{ __('Full name') }}</th><td>{{ $student->name }}</td>
+                    <th>{{ __('Gender') }}</th><td>{{ $student->gender ? ucfirst($student->gender) : $dash }}</td>
                 </tr>
                 <tr>
-                    <th>Date of birth</th><td>{{ $student->birthday ? \Illuminate\Support\Carbon::parse($student->birthday)->format('j M Y') : $dash }}</td>
-                    <th>Nationality</th><td>{{ $student->nationality ? ucfirst($student->nationality) : $dash }}</td>
+                    <th>{{ __('Date of birth') }}</th><td>{{ $student->birthday ? \Illuminate\Support\Carbon::parse($student->birthday)->format('j M Y') : $dash }}</td>
+                    <th>{{ __('Nationality') }}</th><td>{{ $student->nationality ? ucfirst($student->nationality) : $dash }}</td>
                 </tr>
                 @if ($showsContactDetails)
                     <tr>
-                        <th>Email</th><td>{{ $student->email ?: $dash }}</td>
-                        <th>Phone</th><td>{{ $student->phone ?: $dash }}</td>
+                        <th>{{ __('Email') }}</th><td>{{ $student->email ?: $dash }}</td>
+                        <th>{{ __('Phone') }}</th><td>{{ $student->phone ?: $dash }}</td>
                     </tr>
                     <tr>
-                        <th>Address</th><td colspan="3">{{ $address ?: $dash }}</td>
+                        <th>{{ __('Address') }}</th><td colspan="3">{{ $address ?: $dash }}</td>
                     </tr>
                 @endif
             </table>
             @unless ($showsContactDetails)
-                <p class="muted">This learner now attends another campus. That campus holds their contact details.</p>
+                <p class="muted">{{ __('This learner now attends another campus. That campus holds their contact details.') }}</p>
             @endunless
         </section>
 
         <section>
-            <h3>Enrollment</h3>
+            <h3>{{ __('Enrollment') }}</h3>
             @if ($studentRecord)
                 <table class="facts">
                     <tr>
-                        <th>Admission number</th><td>{{ $studentRecord->admission_number ?: $dash }}</td>
-                        <th>Admitted</th><td>{{ $studentRecord->admission_date?->format('j M Y') ?? $dash }}</td>
+                        <th>{{ __('Admission number') }}</th><td>{{ $studentRecord->admission_number ?: $dash }}</td>
+                        <th>{{ __('Admitted') }}</th><td>{{ $studentRecord->admission_date?->format('j M Y') ?? $dash }}</td>
                     </tr>
                     <tr>
                         <th>{{ school_term('class_level', 'Class') }}</th><td>{{ $section?->academicLevel?->name ?? $dash }}</td>
                         <th>{{ school_term('section', 'Section') }}</th><td>{{ $section?->label ?? $section?->name ?? $dash }}</td>
                     </tr>
                     <tr>
-                        <th>Status</th><td colspan="3">{{ $studentRecord->status->label() }}</td>
+                        <th>{{ __('Status') }}</th><td colspan="3">{{ $studentRecord->status->label() }}</td>
                     </tr>
                 </table>
             @else
-                <p class="muted">Not enrolled in this school.</p>
+                <p class="muted">{{ __('Not enrolled in this school.') }}</p>
             @endif
         </section>
 
         <section>
-            <h3>Parents and guardians</h3>
+            <h3>{{ __('Parents and guardians') }}</h3>
             @if ($guardians->isEmpty())
-                <p class="muted">None recorded.</p>
+                <p class="muted">{{ __('None recorded.') }}</p>
             @else
                 <table class="list">
-                    <thead><tr><th>Name</th>@if ($showsContactDetails)<th>Phone</th><th>Email</th>@endif</tr></thead>
+                    <thead><tr><th>{{ __('Name') }}</th>@if ($showsContactDetails)<th>{{ __('Phone') }}</th><th>{{ __('Email') }}</th>@endif</tr></thead>
                     <tbody>
                         @foreach ($guardians as $guardian)
                             <tr>
@@ -98,12 +98,12 @@
 
         @if ($studentRecord)
             <section>
-                <h3>Placement history</h3>
+                <h3>{{ __('Placement history') }}</h3>
                 @if ($studentRecord->placements->isEmpty())
-                    <p class="muted">None recorded.</p>
+                    <p class="muted">{{ __('None recorded.') }}</p>
                 @else
                     <table class="list">
-                        <thead><tr><th>{{ school_term('academic_year', 'School year') }}</th><th>{{ school_term('class_level', 'Class') }}</th><th>{{ school_term('section', 'Section') }}</th><th>From</th></tr></thead>
+                        <thead><tr><th>{{ school_term('academic_year', 'School year') }}</th><th>{{ school_term('class_level', 'Class') }}</th><th>{{ school_term('section', 'Section') }}</th><th>{{ __('From') }}</th></tr></thead>
                         <tbody>
                             @foreach ($studentRecord->placements->sortByDesc('effective_on') as $placement)
                                 <tr>
@@ -119,12 +119,12 @@
             </section>
 
             <section>
-                <h3>Status history</h3>
+                <h3>{{ __('Status history') }}</h3>
                 @if ($studentRecord->statusChanges->isEmpty())
-                    <p class="muted">No changes.</p>
+                    <p class="muted">{{ __('No changes.') }}</p>
                 @else
                     <table class="list">
-                        <thead><tr><th>Change</th><th>Reason</th><th>By</th><th>From</th></tr></thead>
+                        <thead><tr><th>{{ __('Change') }}</th><th>{{ __('Reason') }}</th><th>{{ __('By') }}</th><th>{{ __('From') }}</th></tr></thead>
                         <tbody>
                             @foreach ($studentRecord->statusChanges->sortByDesc('effective_on') as $change)
                                 <tr>
@@ -143,7 +143,7 @@
         <footer class="record-footer">
             <div class="signature">
                 <span></span>
-                Signature and school stamp
+                {{ __('Signature and school stamp') }}
             </div>
             <p class="muted">Printed {{ school_now()->format('j M Y, H:i') }} by {{ auth()->user()->name }}</p>
         </footer>

@@ -24,7 +24,7 @@
         @endif
         @can('update', $academicLevel)
             @if ($academicLevel->isEditable())
-                <april:button-link href="{{ route('academic-levels.edit', $academicLevel) }}" variant="outline" class="h-11 select-none">Edit</april:button-link>
+                <april:button-link href="{{ route('academic-levels.edit', $academicLevel) }}" variant="outline" class="h-11 select-none">{{ __('Edit') }}</april:button-link>
             @endif
         @endcan
     </div>
@@ -36,11 +36,11 @@
 
         <dl class="grid grid-cols-2 gap-x-6 gap-y-4 border-y py-4 sm:grid-cols-4">
             <div>
-                <dt class="text-sm text-muted-foreground">Code</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Code') }}</dt>
                 <dd class="font-medium">{{ $academicLevel->code ?? '—' }}</dd>
             </div>
             <div>
-                <dt class="text-sm text-muted-foreground">Order</dt>
+                <dt class="text-sm text-muted-foreground">{{ __('Order') }}</dt>
                 <dd class="font-medium tabular-nums">{{ $academicLevel->position }}</dd>
             </div>
             <div>

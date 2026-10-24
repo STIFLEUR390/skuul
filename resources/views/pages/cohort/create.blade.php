@@ -10,7 +10,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('cohorts.index') }}" variant="outline">
         <x-lucide-arrow-left class="mr-2 size-4" />
-        Back to groups
+        {{ __('Back to groups') }}
     </april:button-link>
 @endsection
 

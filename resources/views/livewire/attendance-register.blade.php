@@ -7,7 +7,7 @@
     <x-field-error name="register" />
 
     <april:card>
-        <slot:title>Open a register</slot:title>
+        <slot:title>{{ __('Open a register') }}</slot:title>
         <slot:description>Choose {{ with_indefinite_article(strtolower(school_term('section', 'section'))) }} and a day.</slot:description>
         <slot:content>
             <div class="grid gap-4 md:grid-cols-[minmax(0,2fr)_minmax(12rem,1fr)] md:items-end">
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <april:label for="register-date">Day</april:label>
+                    <april:label for="register-date">{{ __('Day') }}</april:label>
                     <input id="register-date" type="date" wire:model.live="attendedOn" class="h-10 w-full rounded-md border border-input bg-background px-3 text-sm" {{ field_error_bindings('attendedOn') }}>
                     <x-field-error name="attendedOn" />
                 </div>
@@ -32,11 +32,11 @@
             @if ($section)
                 <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-4">
                     <april:button type="button" variant="outline" wire:click="moveDay(-1)">
-                        <x-lucide-chevron-left class="mr-1 size-4" /> Previous day
+                        <x-lucide-chevron-left class="mr-1 size-4" /> {{ __('Previous day') }}
                     </april:button>
-                    <april:button type="button" variant="outline" wire:click="goToToday">Today</april:button>
+                    <april:button type="button" variant="outline" wire:click="goToToday">{{ __('Today') }}</april:button>
                     <april:button type="button" variant="outline" wire:click="moveDay(1)" :disabled="$isTodayOrLater">
-                        Next day <x-lucide-chevron-right class="ml-1 size-4" />
+                        {{ __('Next day') }} <x-lucide-chevron-right class="ml-1 size-4" />
                     </april:button>
                     <span class="w-full text-sm text-muted-foreground sm:ml-auto sm:w-auto">{{ \Illuminate\Support\Carbon::parse($attendedOn)->format('l, j F Y') }}</span>
                 </div>
@@ -58,7 +58,7 @@
     @elseif (! $section)
         <april:card>
             <slot:content>
-                <x-empty-state icon="lucide-clipboard-list" title="No register open"
+                <x-empty-state icon="lucide-clipboard-list" title="{{ __('No register open') }}"
                     description="Choose {{ with_indefinite_article(strtolower(school_term('section', 'section'))) }} above to mark who attended." />
             </slot:content>
         </april:card>
@@ -76,7 +76,7 @@
             <slot:content>
                 <x-empty-state icon="lucide-users" title="Nobody attends this {{ strtolower(school_term('section', 'section')) }} yet"
                     description="Place a learner here first, then the register will list them.">
-                    <april:button-link href="{{ route('students.index') }}">Go to students</april:button-link>
+                    <april:button-link href="{{ route('students.index') }}">{{ __('Go to students') }}</april:button-link>
                 </x-empty-state>
             </slot:content>
         </april:card>
@@ -91,19 +91,19 @@
                 <slot:title>{{ $section->academicLevel?->name }} · {{ $section->label ?? $section->name }}</slot:title>
                 <slot:description>{{ $students->count() }} {{ Str::plural('learner', $students->count()) }} · {{ \Illuminate\Support\Carbon::parse($attendedOn)->format('j F Y') }}</slot:description>
                 <slot:content>
-                    <div class="flex flex-wrap items-center gap-2 border-b border-border pb-4" aria-live="polite" aria-label="Attendance totals">
-                        <april:badge variant="secondary">Present <span class="ml-1 font-bold">{{ $counts->get('present', 0) }}</span></april:badge>
-                        <april:badge variant="destructive">Absent <span class="ml-1 font-bold">{{ $counts->get('absent', 0) }}</span></april:badge>
-                        <april:badge variant="outline">Late <span class="ml-1 font-bold">{{ $counts->get('late', 0) }}</span></april:badge>
-                        <april:badge variant="outline">Excused <span class="ml-1 font-bold">{{ $counts->get('excused', 0) }}</span></april:badge>
-                        <april:badge variant="outline">Other <span class="ml-1 font-bold">{{ $otherCount }}</span></april:badge>
+                    <div class="flex flex-wrap items-center gap-2 border-b border-border pb-4" aria-live="polite" aria-label="{{ __('Attendance totals') }}">
+                        <april:badge variant="secondary">{{ __('Present') }} <span class="ml-1 font-bold">{{ $counts->get('present', 0) }}</span></april:badge>
+                        <april:badge variant="destructive">{{ __('Absent') }} <span class="ml-1 font-bold">{{ $counts->get('absent', 0) }}</span></april:badge>
+                        <april:badge variant="outline">{{ __('Late') }} <span class="ml-1 font-bold">{{ $counts->get('late', 0) }}</span></april:badge>
+                        <april:badge variant="outline">{{ __('Excused') }} <span class="ml-1 font-bold">{{ $counts->get('excused', 0) }}</span></april:badge>
+                        <april:badge variant="outline">{{ __('Other') }} <span class="ml-1 font-bold">{{ $otherCount }}</span></april:badge>
                     </div>
 
                     @if ($canTakeAttendance)
                         <div class="flex flex-wrap gap-2 py-4">
-                            <span class="mr-auto self-center text-sm text-muted-foreground">Quick mark</span>
-                            <april:button type="button" variant="outline" wire:click="markAll('present')">Mark everybody present</april:button>
-                            <april:button type="button" variant="outline" wire:click="markAll('absent')">Mark everybody absent</april:button>
+                            <span class="mr-auto self-center text-sm text-muted-foreground">{{ __('Quick mark') }}</span>
+                            <april:button type="button" variant="outline" wire:click="markAll('present')">{{ __('Mark everybody present') }}</april:button>
+                            <april:button type="button" variant="outline" wire:click="markAll('absent')">{{ __('Mark everybody absent') }}</april:button>
                         </div>
                     @endif
 
@@ -111,9 +111,9 @@
                         <table class="w-full text-left text-sm">
                             <thead>
                                 <tr class="border-b border-border text-muted-foreground">
-                                    <th scope="col" class="px-3 py-3 font-medium">Learner</th>
-                                    <th scope="col" class="px-3 py-3 font-medium">Admission number</th>
-                                    <th scope="col" class="w-60 px-3 py-3 font-medium">Attendance</th>
+                                    <th scope="col" class="px-3 py-3 font-medium">{{ __('Learner') }}</th>
+                                    <th scope="col" class="px-3 py-3 font-medium">{{ __('Admission number') }}</th>
+                                    <th scope="col" class="w-60 px-3 py-3 font-medium">{{ __('Attendance') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,7 +141,7 @@
                                     <p class="truncate font-medium">{{ $student->user?->name ?? 'Unnamed learner' }}</p>
                                     <span class="shrink-0 text-xs text-muted-foreground">{{ $student->admission_number ?? '—' }}</span>
                                 </div>
-                                <label for="attendance-mobile-{{ $student->id }}" class="text-xs font-medium text-muted-foreground">Attendance</label>
+                                <label for="attendance-mobile-{{ $student->id }}" class="text-xs font-medium text-muted-foreground">{{ __('Attendance') }}</label>
                                 <select id="attendance-mobile-{{ $student->id }}" wire:model.live="statusesByStudent.{{ $student->id }}" aria-label="Attendance for {{ $student->user?->name ?? $student->admission_number }}" class="h-10 w-full rounded-md border border-input bg-background px-3 text-sm" {{ ! $canTakeAttendance ? 'disabled' : '' }}>
                                     @foreach ($statuses as $status)
                                         <option value="{{ $status->value }}">{{ $status->label() }}</option>
@@ -159,8 +159,8 @@
                     <slot:footer>
                         <april:button type="submit" wire:loading.attr="disabled" wire:target="save">
                             <x-lucide-save class="mr-2 size-4" />
-                            <span wire:loading.remove wire:target="save">Save register</span>
-                            <span wire:loading wire:target="save">Saving…</span>
+                            <span wire:loading.remove wire:target="save">{{ __('Save register') }}</span>
+                            <span wire:loading wire:target="save">{{ __('Saving…') }}</span>
                         </april:button>
                     </slot:footer>
                 @endif

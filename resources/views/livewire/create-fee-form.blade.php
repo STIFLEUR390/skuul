@@ -1,17 +1,17 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-titile">Create Fee</h2>
+        <h2 class="card-titile">{{ __('Create Fee') }}</h2>
     </div>
     <div class="card-body">
         <form wire:submit="save" class="space-y-5 md:w-6/12">
             <x-display-validation-errors/>
-            <april:input-group id="name" wire:model="name" label="Name" placeholder="Fee Name" />
+            <april:input-group id="name" wire:model="name" label="{{ __('Name') }}" placeholder="{{ __('Fee Name') }}" />
             <div class="flex w-full flex-col gap-2">
-                <april:label for="description">Description</april:label>
-                <april:textarea id="description" wire:model="description" placeholder="Fee Description" />
+                <april:label for="description">{{ __('Description') }}</april:label>
+                <april:textarea id="description" wire:model="description" placeholder="{{ __('Fee Description') }}" />
             </div>
             <div class="flex w-full flex-col gap-2">
-                <april:label for="fee-category">Fee Category</april:label>
+                <april:label for="fee-category">{{ __('Fee Category') }}</april:label>
                 <april:select id="fee-category" wire:model="fee_category_id">
                 @foreach ($feeCategories as $feeCategory)
                     <option value="{{$feeCategory->id}}">{{$feeCategory->name}}</option>
@@ -22,8 +22,8 @@
             </div>
             <april:button type="submit" wire:loading.attr="disabled" class="w-full md:w-1/2">
                 <x-lucide-key class="mr-2 size-4" />
-                <span wire:loading.remove>Create</span>
-                <span wire:loading>Creating…</span>
+                <span wire:loading.remove>{{ __('Create') }}</span>
+                <span wire:loading>{{ __('Creating…') }}</span>
             </april:button>
         </form>
     </div>

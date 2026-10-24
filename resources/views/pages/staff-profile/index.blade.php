@@ -10,7 +10,7 @@
     @can('create', App\Models\StaffProfile::class)
         <april:button-link href="{{ route('staff-profiles.create') }}">
             <x-lucide-plus class="mr-2 size-4" />
-            Add an employment record
+            {{ __('Add an employment record') }}
         </april:button-link>
     @endcan
 @endsection

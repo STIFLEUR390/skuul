@@ -19,7 +19,7 @@
             @endif
             <slot:content>
                 @if ($timetable === null || $grid['rows'] === [])
-                    <x-empty-state icon="lucide-clock" title="No timetable yet"
+                    <x-empty-state icon="lucide-clock" title="{{ __('No timetable yet') }}"
                         description="The timetable appears here when the school publishes it." />
                 @else
                     @include('livewire.partials.timetable-grid', ['grid' => $grid])

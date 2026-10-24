@@ -5,11 +5,11 @@
 
     @if ($canPublish)
         <april:button type="button" class="h-11 select-none" wire:click="publish" wire:confirm="Publish this timetable? Published entries cannot be edited." wire:loading.attr="disabled" wire:target="publish">
-            <x-lucide-send class="mr-2 size-4" />Publish
+            <x-lucide-send class="mr-2 size-4" />{{ __('Publish') }}
         </april:button>
     @elseif ($canRevise)
         <april:button type="button" variant="outline" class="h-11 select-none" wire:click="revise" wire:loading.attr="disabled" wire:target="revise">
-            <x-lucide-copy-plus class="mr-2 size-4" />New revision
+            <x-lucide-copy-plus class="mr-2 size-4" />{{ __('New revision') }}
         </april:button>
     @endif
 </div>

@@ -13,31 +13,31 @@
         <section aria-labelledby="enrollment-heading" class="flex flex-col gap-4">
             <div class="flex items-center justify-between gap-3">
                 <div class="flex flex-wrap items-center gap-3">
-                    <h2 id="enrollment-heading" class="text-base font-semibold">Enrollment</h2>
+                    <h2 id="enrollment-heading" class="text-base font-semibold">{{ __('Enrollment') }}</h2>
                     <x-enrollment-status :enrollment="$studentRecord" />
                 </div>
 
                 @if ($canManageEnrollment && ($canChangeStatus || !$isClosed))
                     <april:dropdown-menu>
                         <slot:trigger>
-                            <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="Change the enrollment">
+                            <april:button type="button" variant="ghost" size="icon" class="size-11 select-none" aria-label="{{ __('Change the enrollment') }}">
                                 <x-lucide-ellipsis class="size-4" />
                             </april:button>
                         </slot:trigger>
                         <slot:content>
                             @if ($canChangeStatus)
                                 <april:dropdown-menu-item wire:click="$set('managing', 'status')">
-                                    <x-lucide-refresh-cw class="mr-2 size-4" />Change status
+                                    <x-lucide-refresh-cw class="mr-2 size-4" />{{ __('Change status') }}
                                 </april:dropdown-menu-item>
                             @endif
                             @unless ($isClosed)
                                 <april:dropdown-menu-item wire:click="$set('managing', 'placement')">
-                                    <x-lucide-arrow-right-left class="mr-2 size-4" />Change placement
+                                    <x-lucide-arrow-right-left class="mr-2 size-4" />{{ __('Change placement') }}
                                 </april:dropdown-menu-item>
                             @endunless
                             @if ($canMoveCampus)
                                 <april:dropdown-menu-item wire:click="$set('managing', 'campus')">
-                                    <x-lucide-building-2 class="mr-2 size-4" />Move to another campus
+                                    <x-lucide-building-2 class="mr-2 size-4" />{{ __('Move to another campus') }}
                                 </april:dropdown-menu-item>
                             @endif
                         </slot:content>
@@ -71,7 +71,7 @@
                     @if ($canManageEnrollment)
                         <april:button type="button" variant="outline" class="h-11 w-full select-none sm:w-auto" wire:click="cancelCampusMove"
                             wire:confirm="Take the campus move request back?" wire:loading.attr="disabled" wire:target="cancelCampusMove">
-                            Take the request back
+                            {{ __('Take the request back') }}
                         </april:button>
                     @endif
                 </div>
@@ -80,10 +80,10 @@
 
             @if ($canManageEnrollment && $managing === 'status')
                 <form wire:submit="changeStatus" class="flex flex-col gap-3" aria-labelledby="status-form-heading">
-                    <h3 id="status-form-heading" class="text-sm font-semibold">Change enrollment status</h3>
+                    <h3 id="status-form-heading" class="text-sm font-semibold">{{ __('Change enrollment status') }}</h3>
                     <div class="grid gap-3 sm:grid-cols-[12rem_10rem_1fr]">
                         <div>
-                            <label for="status-selection" class="mb-1.5 block text-sm font-medium">New status</label>
+                            <label for="status-selection" class="mb-1.5 block text-sm font-medium">{{ __('New status') }}</label>
                             <select id="status-selection" wire:model="statusSelection" class="{{ $controlClasses }}" {{ field_error_bindings('statusSelection') }}>
                                 @foreach ($statusOptions as $option)
                                     <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
@@ -91,20 +91,20 @@
                             </select>
                         </div>
                         <div>
-                            <label for="status-effective-on" class="mb-1.5 block text-sm font-medium">Effective on</label>
+                            <label for="status-effective-on" class="mb-1.5 block text-sm font-medium">{{ __('Effective on') }}</label>
                             <input type="date" id="status-effective-on" wire:model="statusEffectiveOn" max="{{ school_today()->toDateString() }}" class="{{ $controlClasses }}" {{ field_error_bindings('statusEffectiveOn') }}>
                         </div>
                         <div>
-                            <label for="status-reason" class="mb-1.5 block text-sm font-medium">Reason</label>
-                            <input id="status-reason" wire:model="statusReason" maxlength="500" placeholder="Optional" class="{{ $controlClasses }}" {{ field_error_bindings('statusReason') }}>
+                            <label for="status-reason" class="mb-1.5 block text-sm font-medium">{{ __('Reason') }}</label>
+                            <input id="status-reason" wire:model="statusReason" maxlength="500" placeholder="{{ __('Optional') }}" class="{{ $controlClasses }}" {{ field_error_bindings('statusReason') }}>
                         </div>
                     </div>
                     <x-field-error name="statusSelection" />
                     <x-field-error name="statusEffectiveOn" />
                     <x-field-error name="statusReason" />
                     <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="$set('managing', '')">Cancel</april:button>
-                        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="changeStatus">Save status</april:button>
+                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="$set('managing', '')">{{ __('Cancel') }}</april:button>
+                        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="changeStatus">{{ __('Save status') }}</april:button>
                     </div>
                 </form>
             @endif
@@ -131,29 +131,29 @@
                             </select>
                         </div>
                         <div>
-                            <label for="placement-effective-on" class="mb-1.5 block text-sm font-medium">Effective on</label>
+                            <label for="placement-effective-on" class="mb-1.5 block text-sm font-medium">{{ __('Effective on') }}</label>
                             <input type="date" id="placement-effective-on" wire:model="placementEffectiveOn" max="{{ school_today()->toDateString() }}" class="{{ $controlClasses }}" {{ field_error_bindings('placementEffectiveOn') }}>
                         </div>
                         <div>
-                            <label for="placement-reason" class="mb-1.5 block text-sm font-medium">Reason</label>
-                            <input id="placement-reason" wire:model="placementReason" maxlength="500" placeholder="Optional" class="{{ $controlClasses }}" {{ field_error_bindings('placementReason') }}>
+                            <label for="placement-reason" class="mb-1.5 block text-sm font-medium">{{ __('Reason') }}</label>
+                            <input id="placement-reason" wire:model="placementReason" maxlength="500" placeholder="{{ __('Optional') }}" class="{{ $controlClasses }}" {{ field_error_bindings('placementReason') }}>
                         </div>
                     </div>
                     <x-field-error name="placementCycleSectionId" />
                     <x-field-error name="placementEffectiveOn" />
                     <x-field-error name="placementReason" />
                     <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="$set('managing', '')">Cancel</april:button>
-                        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="changePlacement" :disabled="!$academicYear || $isClosed">Save placement</april:button>
+                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="$set('managing', '')">{{ __('Cancel') }}</april:button>
+                        <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="changePlacement" :disabled="!$academicYear || $isClosed">{{ __('Save placement') }}</april:button>
                     </div>
                 </form>
             @endif
 
             @if ($canManageEnrollment && $managing === 'campus' && $campusCycleSections !== [] && !$openCampusMoveRequest)
                 <form wire:submit="moveCampus" class="flex flex-col gap-3" aria-labelledby="campus-form-heading">
-                    <h3 id="campus-form-heading" class="text-sm font-semibold">Move to another campus</h3>
+                    <h3 id="campus-form-heading" class="text-sm font-semibold">{{ __('Move to another campus') }}</h3>
                     @unless ($movesCampusFreely)
-                        <p class="text-sm text-muted-foreground">The receiving campus has to agree.</p>
+                        <p class="text-sm text-muted-foreground">{{ __('The receiving campus has to agree.') }}</p>
                     @endunless
                     <div class="grid gap-3 sm:grid-cols-[1fr_10rem_1fr]">
                         <div>
@@ -166,19 +166,19 @@
                             </select>
                         </div>
                         <div>
-                            <label for="campus-effective-on" class="mb-1.5 block text-sm font-medium">Effective on</label>
+                            <label for="campus-effective-on" class="mb-1.5 block text-sm font-medium">{{ __('Effective on') }}</label>
                             <input type="date" id="campus-effective-on" wire:model="campusEffectiveOn" max="{{ school_today()->toDateString() }}" class="{{ $controlClasses }}" {{ field_error_bindings('campusEffectiveOn') }}>
                         </div>
                         <div>
-                            <label for="campus-reason" class="mb-1.5 block text-sm font-medium">Reason</label>
-                            <input id="campus-reason" wire:model="campusReason" maxlength="500" placeholder="Optional" class="{{ $controlClasses }}" {{ field_error_bindings('campusReason') }}>
+                            <label for="campus-reason" class="mb-1.5 block text-sm font-medium">{{ __('Reason') }}</label>
+                            <input id="campus-reason" wire:model="campusReason" maxlength="500" placeholder="{{ __('Optional') }}" class="{{ $controlClasses }}" {{ field_error_bindings('campusReason') }}>
                         </div>
                     </div>
                     <x-field-error name="campusCycleSectionId" />
                     <x-field-error name="campusEffectiveOn" />
                     <x-field-error name="campusReason" />
                     <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="$set('managing', '')">Cancel</april:button>
+                        <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="$set('managing', '')">{{ __('Cancel') }}</april:button>
                         <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="moveCampus" :disabled="$isClosed">{{ $movesCampusFreely ? 'Move campus' : 'Ask the other campus' }}</april:button>
                     </div>
                 </form>
@@ -187,7 +187,7 @@
 
         <div class="grid gap-10 lg:grid-cols-2">
             <section aria-labelledby="status-history-heading" class="flex flex-col gap-3">
-                <h2 id="status-history-heading" class="text-base font-semibold">Status history</h2>
+                <h2 id="status-history-heading" class="text-base font-semibold">{{ __('Status history') }}</h2>
                 @if ($studentRecord->statusChanges->isNotEmpty())
                     <ol class="divide-y border-y">
                         @foreach ($studentRecord->statusChanges->sortByDesc('effective_on') as $change)
@@ -203,12 +203,12 @@
                         @endforeach
                     </ol>
                 @else
-                    <p class="text-sm text-muted-foreground">No changes</p>
+                    <p class="text-sm text-muted-foreground">{{ __('No changes') }}</p>
                 @endif
             </section>
 
             <section aria-labelledby="placement-history-heading" class="flex flex-col gap-3">
-                <h2 id="placement-history-heading" class="text-base font-semibold">Placement history</h2>
+                <h2 id="placement-history-heading" class="text-base font-semibold">{{ __('Placement history') }}</h2>
                 @if ($studentRecord->placements->isNotEmpty())
                     <ol class="divide-y border-y">
                         @foreach ($studentRecord->placements->sortByDesc('effective_on') as $placement)
@@ -227,11 +227,11 @@
                         @endforeach
                     </ol>
                 @else
-                    <p class="text-sm text-muted-foreground">No placements</p>
+                    <p class="text-sm text-muted-foreground">{{ __('No placements') }}</p>
                 @endif
             </section>
         </div>
     @else
-        <p class="border-y py-4 text-sm text-muted-foreground">Not enrolled in this school.</p>
+        <p class="border-y py-4 text-sm text-muted-foreground">{{ __('Not enrolled in this school.') }}</p>
     @endif
 </div>

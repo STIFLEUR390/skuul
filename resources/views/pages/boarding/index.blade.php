@@ -8,15 +8,15 @@
 @section('page_heading', __('Boarding'))
 
 @section('page_actions')
-    <x-resource-create-action :href="route('dormitories.create')" ability="create" :arguments="[\App\Models\Dormitory::class]">Open a house</x-resource-create-action>
+    <x-resource-create-action :href="route('dormitories.create')" ability="create" :arguments="[\App\Models\Dormitory::class]">{{ __('Open a house') }}</x-resource-create-action>
 @endsection
 
 @section('content')
 <div class="mx-auto flex w-full max-w-5xl flex-col gap-6">
     <div>
-        <h2 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Houses</h2>
+        <h2 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{{ __('Houses') }}</h2>
         <p class="mt-1 text-sm text-muted-foreground">
-            A house holds as many boarders as it has beds, so nobody has to keep a capacity number up to date.
+            {{ __('A house holds as many boarders as it has beds, so nobody has to keep a capacity number up to date.') }}
         </p>
     </div>
 
@@ -25,9 +25,9 @@
             <span class="flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <x-lucide-bed-double class="size-6" />
             </span>
-            <p class="text-sm font-medium">No houses yet.</p>
+            <p class="text-sm font-medium">{{ __('No houses yet.') }}</p>
             <p class="max-w-sm text-sm text-muted-foreground">
-                Open one and say how many rooms it has. The beds are made for you.
+                {{ __('Open one and say how many rooms it has. The beds are made for you.') }}
             </p>
         </div>
     @else
@@ -43,7 +43,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             @if (!$dormitory->is_active)
-                                <april:badge variant="outline">Archived</april:badge>
+                                <april:badge variant="outline">{{ __('Archived') }}</april:badge>
                             @endif
                             <x-lucide-arrow-right class="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
                         </div>

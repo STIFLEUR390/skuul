@@ -12,19 +12,19 @@
     @endphp
 
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 class="text-base font-semibold">Invoices</h2>
+        <h2 class="text-base font-semibold">{{ __('Invoices') }}</h2>
         <div class="grid grid-cols-2 gap-3 sm:w-96">
             <div>
-                <label for="financial-period" class="sr-only">Financial period</label>
+                <label for="financial-period" class="sr-only">{{ __('Financial period') }}</label>
                 <select id="financial-period" wire:model.live="financialPeriodId" class="{{ $controlClasses }}">
-                    <option value="">All periods</option>
+                    <option value="">{{ __('All periods') }}</option>
                     @foreach ($financialPeriods as $financialPeriod)
                         <option value="{{ $financialPeriod->id }}">{{ $financialPeriod->name }}{{ $financialPeriod->isClosed() ? ' · Closed' : '' }}</option>
                     @endforeach
                 </select>
             </div>
             <div>
-                <label for="invoice-status" class="sr-only">Invoice status</label>
+                <label for="invoice-status" class="sr-only">{{ __('Invoice status') }}</label>
                 <select id="invoice-status" wire:model.live="status" class="{{ $controlClasses }}">
                     @foreach ($statuses as $invoiceStatus)
                         <option value="{{ $invoiceStatus }}">{{ ucfirst($invoiceStatus) }}</option>
@@ -46,7 +46,7 @@
             @query-change="$wire.updateTable($event.detail)"
         >
             <slot:empty>
-                <p>No invoices</p>
+                <p>{{ __('No invoices') }}</p>
             </slot:empty>
 
             <slot:cell-name>

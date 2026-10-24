@@ -6,7 +6,7 @@
     @include('livewire.partials.person-fields', ['photoUrl' => asset('application-images/user-profile-image.png')])
 
     <div class="grid gap-4 border-t pt-6 md:grid-cols-2">
-        <h2 class="text-base font-semibold md:col-span-2">Admission</h2>
+        <h2 class="text-base font-semibold md:col-span-2">{{ __('Admission') }}</h2>
         <div class="md:col-span-2">
             <label for="academic-cycle-section-id" class="text-sm text-muted-foreground">{{ school_term('section', 'Section') }}</label>
             <select id="academic-cycle-section-id" wire:model="academicCycleSectionId" class="{{ $controlClasses }}" {{ field_error_bindings('academicCycleSectionId') }}>
@@ -26,17 +26,17 @@
             @endif
         </div>
         <div>
-            <label for="admission-number" class="text-sm text-muted-foreground">Admission number</label>
-            <input id="admission-number" type="text" wire:model="admissionNumber" maxlength="100" placeholder="Made for you when left blank" class="{{ $controlClasses }}" {{ field_error_bindings('admissionNumber') }}>
+            <label for="admission-number" class="text-sm text-muted-foreground">{{ __('Admission number') }}</label>
+            <input id="admission-number" type="text" wire:model="admissionNumber" maxlength="100" placeholder="{{ __('Made for you when left blank') }}" class="{{ $controlClasses }}" {{ field_error_bindings('admissionNumber') }}>
             <x-field-error name="admissionNumber" class="mt-1" />
         </div>
         <div>
-            <label for="admission-date" class="text-sm text-muted-foreground">Date of admission</label>
+            <label for="admission-date" class="text-sm text-muted-foreground">{{ __('Date of admission') }}</label>
             <input id="admission-date" type="date" wire:model="admissionDate" max="{{ school_today()->toDateString() }}" class="{{ $controlClasses }}" {{ field_error_bindings('admissionDate') }}>
             <x-field-error name="admissionDate" class="mt-1" />
         </div>
     </div>
 
-    <p class="text-sm text-muted-foreground">They get an email with a link to set their own password.</p>
-    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save,profilePhoto">Admit learner</april:button>
+    <p class="text-sm text-muted-foreground">{{ __('They get an email with a link to set their own password.') }}</p>
+    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save,profilePhoto">{{ __('Admit learner') }}</april:button>
 </form>

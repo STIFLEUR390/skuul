@@ -5,7 +5,7 @@
 
     @if ($academicLevels->isEmpty())
         <div class="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
-            No reusable classes or grades match this view.
+            {{ __('No reusable classes or grades match this view.') }}
         </div>
     @else
         @error('delete')

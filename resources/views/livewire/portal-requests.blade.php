@@ -6,18 +6,18 @@
 
     <section aria-labelledby="ask-heading" class="flex flex-col gap-4">
         <div>
-            <h2 id="ask-heading" class="text-base font-semibold">Ask the school</h2>
+            <h2 id="ask-heading" class="text-base font-semibold">{{ __('Ask the school') }}</h2>
             <p class="text-sm text-muted-foreground">Send a message about {{ $learner }}. The school will read and answer it.</p>
         </div>
 
-        <form wire:submit="send" class="flex flex-col gap-3" aria-label="Ask the school">
+        <form wire:submit="send" class="flex flex-col gap-3" aria-label="{{ __('Ask the school') }}">
             <div class="grid gap-3 sm:grid-cols-[1fr_12rem]">
                 <div>
-                    <label for="request-subject" class="sr-only">What you need</label>
-                    <input id="request-subject" wire:model="subject" maxlength="255" required placeholder="What you need, e.g. a copy of last term's report" class="{{ $controlClasses }}" {{ field_error_bindings('subject') }}>
+                    <label for="request-subject" class="sr-only">{{ __('What you need') }}</label>
+                    <input id="request-subject" wire:model="subject" maxlength="255" required placeholder="{{ __("What you need, e.g. a copy of last term's report") }}" class="{{ $controlClasses }}" {{ field_error_bindings('subject') }}>
                 </div>
                 <div>
-                    <label for="request-type" class="sr-only">Kind of request</label>
+                    <label for="request-type" class="sr-only">{{ __('Kind of request') }}</label>
                     <select id="request-type" wire:model="type" class="{{ $controlClasses }}" {{ field_error_bindings('type') }}>
                         @foreach ($types as $requestType)
                             <option value="{{ $requestType->value }}">{{ $requestType->label() }}</option>
@@ -35,17 +35,17 @@
             <x-field-error name="message" />
             <div class="flex sm:justify-end">
                 <april:button type="submit" class="h-11 w-full select-none sm:w-auto" wire:loading.attr="disabled" wire:target="send">
-                    <x-lucide-send class="mr-2 size-4" aria-hidden="true" />Send
+                    <x-lucide-send class="mr-2 size-4" aria-hidden="true" />{{ __('Send') }}
                 </april:button>
             </div>
         </form>
     </section>
 
     <section aria-labelledby="asked-heading" class="flex flex-col gap-3">
-        <h2 id="asked-heading" class="text-base font-semibold">What you have asked for</h2>
+        <h2 id="asked-heading" class="text-base font-semibold">{{ __('What you have asked for') }}</h2>
 
         @if ($requests->isEmpty())
-            <p class="text-sm text-muted-foreground">You have not asked for anything yet</p>
+            <p class="text-sm text-muted-foreground">{{ __('You have not asked for anything yet') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($requests as $request)
@@ -66,7 +66,7 @@
                                     </slot:trigger>
                                     <slot:content align="end">
                                         <april:dropdown-menu-item class="text-destructive" wire:click="withdraw({{ $request->id }})" wire:confirm="Take back this request? The school will stop working on it.">
-                                            <x-lucide-undo-2 class="mr-2 size-4" />Take back
+                                            <x-lucide-undo-2 class="mr-2 size-4" />{{ __('Take back') }}
                                         </april:dropdown-menu-item>
                                     </slot:content>
                                 </april:dropdown-menu>

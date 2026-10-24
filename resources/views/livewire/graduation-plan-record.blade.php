@@ -21,20 +21,20 @@
             <h2 id="plan-heading" class="text-base font-semibold">{{ $plan->parent === null ? 'The plan' : 'The stage' }}</h2>
             @if ($canWrite && !$isEditing)
                 <april:button type="button" variant="outline" class="h-11 select-none" wire:click="startEditing">
-                    <x-lucide-pencil class="mr-2 size-4" aria-hidden="true" />Change
+                    <x-lucide-pencil class="mr-2 size-4" aria-hidden="true" />{{ __('Change') }}
                 </april:button>
             @endif
         </div>
 
         @if ($plan->parent !== null)
             <p class="text-sm text-muted-foreground">
-                A stage inside <a href="{{ route('graduation-plans.show', $plan->parent) }}" class="font-medium text-foreground underline underline-offset-4">{{ $plan->parent->name }}</a>.
+                {{ __('A stage inside') }} <a href="{{ route('graduation-plans.show', $plan->parent) }}" class="font-medium text-foreground underline underline-offset-4">{{ $plan->parent->name }}</a>.
             </p>
         @endif
 
         @if ($isEmpty)
             <p class="flex items-center gap-2 text-sm font-medium">
-                <x-lucide-circle-alert class="size-4 shrink-0" aria-hidden="true" />Asks for nothing yet, so no learner finishes it. Add a requirement or a stage below.
+                <x-lucide-circle-alert class="size-4 shrink-0" aria-hidden="true" />{{ __('Asks for nothing yet, so no learner finishes it. Add a requirement or a stage below.') }}
             </p>
         @elseif ($plan->completion_operator === 'at_least' && $plan->required_count > $countedItems)
             <p class="flex items-center gap-2 text-sm font-medium">
@@ -43,10 +43,10 @@
         @endif
 
         @if ($isEditing)
-            <form wire:submit="save" class="flex flex-col gap-3" aria-label="Change the plan">
+            <form wire:submit="save" class="flex flex-col gap-3" aria-label="{{ __('Change the plan') }}">
                 <div class="grid gap-3 sm:grid-cols-2">
                     <div>
-                        <label for="name" class="text-sm text-muted-foreground">Name</label>
+                        <label for="name" class="text-sm text-muted-foreground">{{ __('Name') }}</label>
                         <input id="name" wire:model="name" required maxlength="100" class="{{ $controlClasses }}" {{ field_error_bindings('name') }}>
                         <x-field-error name="name" class="mt-1" />
                     </div>
@@ -58,7 +58,7 @@
                 </div>
                 <label class="flex min-h-11 select-none items-center gap-3 text-sm">
                     <input type="checkbox" wire:model="isActive" class="size-4 rounded border-input">
-                    In use. A closed plan leaves the portal, and a closed stage stops counting.
+                    {{ __('In use. A closed plan leaves the portal, and a closed stage stops counting.') }}
                 </label>
                 @include('livewire.partials.graduation-rule-fields', [
                     'operatorProperty' => 'completionOperator',
@@ -69,30 +69,30 @@
                     'isCountingCredits' => $usesCredits,
                 ])
                 <div class="flex justify-end gap-2">
-                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopEditing">Cancel</april:button>
-                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Save</april:button>
+                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopEditing">{{ __('Cancel') }}</april:button>
+                    <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Save') }}</april:button>
                 </div>
             </form>
         @else
             <dl class="grid gap-x-6 gap-y-3 text-sm sm:grid-cols-4">
                 <div>
-                    <dt class="text-muted-foreground">Rule</dt>
+                    <dt class="text-muted-foreground">{{ __('Rule') }}</dt>
                     <dd>{{ $ruleLabel($plan->completion_operator, $plan->required_count, $plan->required_credits) }}{{ $plan->is_negated ? ' · must not be complete' : '' }}</dd>
                 </div>
                 <div>
-                    <dt class="text-muted-foreground">Credits</dt>
+                    <dt class="text-muted-foreground">{{ __('Credits') }}</dt>
                     <dd>{{ $plan->uses_credits ? $plan->required_credits.' needed' : '—' }}</dd>
                 </div>
                 <div>
-                    <dt class="text-muted-foreground">Who it is for</dt>
+                    <dt class="text-muted-foreground">{{ __('Who it is for') }}</dt>
                     <dd>{{ $plan->cohort?->name ?? 'Every learner' }}</dd>
                 </div>
                 <div>
-                    <dt class="text-muted-foreground">State</dt>
+                    <dt class="text-muted-foreground">{{ __('State') }}</dt>
                     <dd>{{ $plan->is_active ? 'In use' : 'Closed' }}</dd>
                 </div>
                 <div class="sm:col-span-4">
-                    <dt class="text-muted-foreground">What it is</dt>
+                    <dt class="text-muted-foreground">{{ __('What it is') }}</dt>
                     <dd>{{ $plan->description ?? '—' }}</dd>
                 </div>
             </dl>
@@ -100,25 +100,25 @@
     </section>
 
     <section class="flex flex-col gap-3" aria-labelledby="stages-heading">
-        <h2 id="stages-heading" class="text-base font-semibold">Stages</h2>
-        <p class="text-sm text-muted-foreground">Use stages for years or pathways. Each has its own rule.</p>
+        <h2 id="stages-heading" class="text-base font-semibold">{{ __('Stages') }}</h2>
+        <p class="text-sm text-muted-foreground">{{ __('Use stages for years or pathways. Each has its own rule.') }}</p>
 
         @if ($plan->children->isEmpty())
-            <p class="text-sm text-muted-foreground">No stage below this one.</p>
+            <p class="text-sm text-muted-foreground">{{ __('No stage below this one.') }}</p>
         @else
             @include('pages.graduation-plan.partials.stage-tree', ['stages' => $plan->children, 'depth' => 0])
         @endif
 
         @if ($canWrite)
-            <form wire:submit="addStage" class="flex flex-col gap-3" aria-label="Add a stage">
+            <form wire:submit="addStage" class="flex flex-col gap-3" aria-label="{{ __('Add a stage') }}">
                 <div class="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
                     <div>
-                        <label for="stage_name" class="text-sm text-muted-foreground">Class or pathway stage</label>
-                        <input id="stage_name" wire:model="stageName" required maxlength="100" placeholder="Primary 1" class="{{ $controlClasses }}" {{ field_error_bindings('stageName') }}>
+                        <label for="stage_name" class="text-sm text-muted-foreground">{{ __('Class or pathway stage') }}</label>
+                        <input id="stage_name" wire:model="stageName" required maxlength="100" placeholder="{{ __('Primary 1') }}" class="{{ $controlClasses }}" {{ field_error_bindings('stageName') }}>
                         <x-field-error name="stageName" class="mt-1" />
                     </div>
                     <april:button type="submit" variant="outline" class="h-11 select-none" wire:loading.attr="disabled" wire:target="addStage">
-                        <x-lucide-git-branch-plus class="mr-2 size-4" aria-hidden="true" />Add stage
+                        <x-lucide-git-branch-plus class="mr-2 size-4" aria-hidden="true" />{{ __('Add stage') }}
                     </april:button>
                 </div>
                 @include('livewire.partials.graduation-rule-fields', [
@@ -138,11 +138,11 @@
     </section>
 
     <section class="flex flex-col gap-3" aria-labelledby="requirements-heading">
-        <h2 id="requirements-heading" class="text-base font-semibold">What a learner must finish</h2>
-        <p class="text-sm text-muted-foreground">A requirement that names a subject is judged from the newest published result.</p>
+        <h2 id="requirements-heading" class="text-base font-semibold">{{ __('What a learner must finish') }}</h2>
+        <p class="text-sm text-muted-foreground">{{ __('A requirement that names a subject is judged from the newest published result.') }}</p>
 
         @if ($plan->requirements->isEmpty())
-            <p class="text-sm text-muted-foreground">Nothing yet.</p>
+            <p class="text-sm text-muted-foreground">{{ __('Nothing yet.') }}</p>
         @else
             <ul class="divide-y border-y">
                 @foreach ($plan->requirements as $requirement)
@@ -163,7 +163,7 @@
                                     </april:button>
                                 </slot:trigger>
                                 <slot:content align="end">
-                                    <april:dropdown-menu-item wire:click="removeRequirement({{ $requirement->id }})" wire:confirm="Remove {{ $requirement->description }}? Every learner excused from it loses the excusal."><x-lucide-trash-2 class="mr-2 size-4" />Remove</april:dropdown-menu-item>
+                                    <april:dropdown-menu-item wire:click="removeRequirement({{ $requirement->id }})" wire:confirm="Remove {{ $requirement->description }}? Every learner excused from it loses the excusal."><x-lucide-trash-2 class="mr-2 size-4" />{{ __('Remove') }}</april:dropdown-menu-item>
                                 </slot:content>
                             </april:dropdown-menu>
                         @endif
@@ -173,17 +173,17 @@
         @endif
 
         @if ($canWrite)
-            <form wire:submit="addRequirement" class="flex flex-col gap-3" aria-label="Add a requirement">
+            <form wire:submit="addRequirement" class="flex flex-col gap-3" aria-label="{{ __('Add a requirement') }}">
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                     <div class="sm:col-span-2">
-                        <label for="requirement_description" class="text-sm text-muted-foreground">Subject or requirement</label>
-                        <input id="requirement_description" wire:model="requirementDescription" required maxlength="255" placeholder="Pass mathematics" class="{{ $controlClasses }}" {{ field_error_bindings('requirementDescription') }}>
+                        <label for="requirement_description" class="text-sm text-muted-foreground">{{ __('Subject or requirement') }}</label>
+                        <input id="requirement_description" wire:model="requirementDescription" required maxlength="255" placeholder="{{ __('Pass mathematics') }}" class="{{ $controlClasses }}" {{ field_error_bindings('requirementDescription') }}>
                         <x-field-error name="requirementDescription" class="mt-1" />
                     </div>
                     <div>
                         <label for="requirement_subject_id" class="text-sm text-muted-foreground">Judged from (optional)</label>
                         <select id="requirement_subject_id" wire:model="requirementSubjectId" class="{{ $controlClasses }}" {{ field_error_bindings('requirementSubjectId') }}>
-                            <option value="">No subject</option>
+                            <option value="">{{ __('No subject') }}</option>
                             @foreach ($subjects as $subject)
                                 <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                             @endforeach
@@ -192,12 +192,12 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label for="requirement_pass_mark" class="text-sm text-muted-foreground">Pass mark %</label>
+                            <label for="requirement_pass_mark" class="text-sm text-muted-foreground">{{ __('Pass mark %') }}</label>
                             <input id="requirement_pass_mark" type="number" inputmode="decimal" min="0" max="100" step="0.01" wire:model="requirementPassMark" required class="{{ $controlClasses }}" {{ field_error_bindings('requirementPassMark') }}>
                             <x-field-error name="requirementPassMark" class="mt-1" />
                         </div>
                         <div>
-                            <label for="requirement_credits" class="text-sm text-muted-foreground">Credits</label>
+                            <label for="requirement_credits" class="text-sm text-muted-foreground">{{ __('Credits') }}</label>
                             <input id="requirement_credits" type="number" inputmode="numeric" min="0" max="100" wire:model="requirementCredits" required class="{{ $controlClasses }}" {{ field_error_bindings('requirementCredits') }}>
                             <x-field-error name="requirementCredits" class="mt-1" />
                         </div>
@@ -206,14 +206,14 @@
                 <div class="flex flex-wrap items-center gap-x-6">
                     <label class="flex min-h-11 select-none items-center gap-3 text-sm">
                         <input type="checkbox" wire:model="requirementIsRequired" class="size-4 rounded border-input">
-                        Required for graduation
+                        {{ __('Required for graduation') }}
                     </label>
                     <label class="flex min-h-11 select-none items-center gap-3 text-sm">
                         <input type="checkbox" wire:model="requirementIsNegated" class="size-4 rounded border-input">
                         Must not be passed (NOT)
                     </label>
                     <april:button type="submit" variant="outline" class="ml-auto h-11 select-none" wire:loading.attr="disabled" wire:target="addRequirement">
-                        <x-lucide-plus class="mr-2 size-4" aria-hidden="true" />Add this requirement
+                        <x-lucide-plus class="mr-2 size-4" aria-hidden="true" />{{ __('Add this requirement') }}
                     </april:button>
                 </div>
             </form>
@@ -221,11 +221,11 @@
     </section>
 
     <section class="flex flex-col gap-3" aria-labelledby="learner-heading">
-        <h2 id="learner-heading" class="text-base font-semibold">How far one learner is</h2>
+        <h2 id="learner-heading" class="text-base font-semibold">{{ __('How far one learner is') }}</h2>
         <div class="max-w-md">
-            <label for="learner_id" class="text-sm text-muted-foreground">Learner</label>
+            <label for="learner_id" class="text-sm text-muted-foreground">{{ __('Learner') }}</label>
             <select id="learner_id" wire:model.live="learnerId" class="{{ $controlClasses }}">
-                <option value="">Choose a learner</option>
+                <option value="">{{ __('Choose a learner') }}</option>
                 @foreach ($students as $student)
                     <option value="{{ $student->id }}">{{ $student->user?->name ?? '—' }} · {{ $student->admission_number }}</option>
                 @endforeach
@@ -261,10 +261,10 @@
                                     <form wire:submit="excuse({{ $line['requirement_id'] }})" class="flex w-full items-start gap-2 sm:w-auto" aria-label="Excuse from {{ $line['description'] }}">
                                         <div class="min-w-0 flex-1 sm:w-56">
                                             <label for="reason-{{ $line['requirement_id'] }}" class="sr-only">Why excuse them from {{ $line['description'] }}</label>
-                                            <input id="reason-{{ $line['requirement_id'] }}" wire:model="reasons.{{ $line['requirement_id'] }}" maxlength="500" placeholder="Why excuse them" class="{{ $controlClasses }} mt-0" {{ field_error_bindings('reasons.'.$line['requirement_id']) }}>
+                                            <input id="reason-{{ $line['requirement_id'] }}" wire:model="reasons.{{ $line['requirement_id'] }}" maxlength="500" placeholder="{{ __('Why excuse them') }}" class="{{ $controlClasses }} mt-0" {{ field_error_bindings('reasons.'.$line['requirement_id']) }}>
                                             <x-field-error :name="'reasons.'.$line['requirement_id']" class="mt-1" />
                                         </div>
-                                        <april:button type="submit" variant="outline" class="h-11 select-none">Excuse</april:button>
+                                        <april:button type="submit" variant="outline" class="h-11 select-none">{{ __('Excuse') }}</april:button>
                                     </form>
                                 @elseif ($canWrite)
                                     <april:dropdown-menu>
@@ -274,7 +274,7 @@
                                             </april:button>
                                         </slot:trigger>
                                         <slot:content align="end">
-                                            <april:dropdown-menu-item wire:click="takeBack({{ $exemption->id }})" wire:confirm="Take back the excusal for {{ $learner->user?->name ?? 'this learner' }}?"><x-lucide-undo-2 class="mr-2 size-4" />Take the excusal back</april:dropdown-menu-item>
+                                            <april:dropdown-menu-item wire:click="takeBack({{ $exemption->id }})" wire:confirm="Take back the excusal for {{ $learner->user?->name ?? 'this learner' }}?"><x-lucide-undo-2 class="mr-2 size-4" />{{ __('Take the excusal back') }}</april:dropdown-menu-item>
                                         </slot:content>
                                     </april:dropdown-menu>
                                 @endif
@@ -284,7 +284,7 @@
                 @endif
             </div>
         @else
-            <p class="text-sm text-muted-foreground">The plan is judged one learner at a time, from their published results.</p>
+            <p class="text-sm text-muted-foreground">{{ __('The plan is judged one learner at a time, from their published results.') }}</p>
         @endif
     </section>
 </div>

@@ -10,7 +10,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('incidents.index') }}" variant="ghost">
         <x-lucide-arrow-left class="mr-2 size-4" />
-        Cases
+        {{ __('Cases') }}
     </april:button-link>
 @endsection
 

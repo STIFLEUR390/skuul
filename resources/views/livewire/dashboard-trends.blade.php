@@ -7,7 +7,7 @@
     @if ($this->hasTrends())
         <section class="space-y-6" aria-labelledby="trends-overview">
             <div class="flex min-h-10 items-center border-b pb-2">
-                <h2 id="trends-overview" class="font-semibold">Trends</h2>
+                <h2 id="trends-overview" class="font-semibold">{{ __('Trends') }}</h2>
             </div>
 
             <div class="grid gap-x-10 gap-y-12 lg:grid-cols-2">
@@ -18,8 +18,8 @@
                     @endphp
                     <div class="min-w-0" id="trend-attendance">
                         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <h3 class="text-sm font-medium">Attendance</h3>
-                            <p class="text-sm text-muted-foreground">Last 4 weeks</p>
+                            <h3 class="text-sm font-medium">{{ __('Attendance') }}</h3>
+                            <p class="text-sm text-muted-foreground">{{ __('Last 4 weeks') }}</p>
                         </div>
                         <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
                             <span class="text-3xl font-semibold tabular-nums">{{ $attendance['recent'] === null ? '—' : $attendance['recent'].'%' }}</span>
@@ -34,7 +34,7 @@
                                 </span>
                             @endif
                         </p>
-                        <april:chart class="{{ $chartClass }} mt-4" label="Weekly attendance rate" :data="$attendanceWeeks" :config="['rate' => ['label' => 'Present %', 'color' => 'var(--chart-2)']]" xKey="week" type="area" height="200" :showLegend="false" />
+                        <april:chart class="{{ $chartClass }} mt-4" label="{{ __('Weekly attendance rate') }}" :data="$attendanceWeeks" :config="['rate' => ['label' => 'Present %', 'color' => 'var(--chart-2)']]" xKey="week" type="area" height="200" :showLegend="false" />
                     </div>
                 @endif
 
@@ -45,14 +45,14 @@
                     @endphp
                     <div class="min-w-0" id="trend-fees">
                         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <h3 class="text-sm font-medium">Fees collected</h3>
-                            <p class="text-sm text-muted-foreground">Last 6 months</p>
+                            <h3 class="text-sm font-medium">{{ __('Fees collected') }}</h3>
+                            <p class="text-sm text-muted-foreground">{{ __('Last 6 months') }}</p>
                         </div>
                         <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
                             <span class="text-3xl font-semibold tabular-nums">{{ money_text($collectedTotal) }}</span>
                             <span class="text-sm tabular-nums text-muted-foreground">of {{ money_text($billedTotal) }} billed</span>
                         </p>
-                        <april:chart class="{{ $chartClass }} mt-4" label="Fees billed and collected by month" :data="$fees" :config="['billed' => ['label' => 'Billed', 'color' => 'hsl(var(--muted-foreground) / 0.45)'], 'collected' => ['label' => 'Collected', 'color' => 'var(--chart-2)']]" xKey="month" type="bar" height="200" />
+                        <april:chart class="{{ $chartClass }} mt-4" label="{{ __('Fees billed and collected by month') }}" :data="$fees" :config="['billed' => ['label' => 'Billed', 'color' => 'hsl(var(--muted-foreground) / 0.45)'], 'collected' => ['label' => 'Collected', 'color' => 'var(--chart-2)']]" xKey="month" type="bar" height="200" />
                     </div>
                 @endif
 
@@ -64,8 +64,8 @@
                     @endphp
                     <div class="min-w-0" id="trend-owed">
                         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <h3 class="text-sm font-medium">Owed</h3>
-                            <p class="text-sm text-muted-foreground">By how late</p>
+                            <h3 class="text-sm font-medium">{{ __('Owed') }}</h3>
+                            <p class="text-sm text-muted-foreground">{{ __('By how late') }}</p>
                         </div>
                         <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
                             <span class="text-3xl font-semibold tabular-nums">{{ money_text($owedTotal) }}</span>
@@ -93,14 +93,14 @@
                     @endphp
                     <div class="min-w-0" id="trend-cash">
                         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <h3 class="text-sm font-medium">Money in and out</h3>
-                            <p class="text-sm text-muted-foreground">Last 6 months</p>
+                            <h3 class="text-sm font-medium">{{ __('Money in and out') }}</h3>
+                            <p class="text-sm text-muted-foreground">{{ __('Last 6 months') }}</p>
                         </div>
                         <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
                             <span @class(['text-3xl font-semibold tabular-nums', 'text-destructive' => $net < 0])>{{ $net < 0 ? '−' : '' }}{{ money_text(abs($net)) }}</span>
                             <span class="text-sm tabular-nums text-muted-foreground">{{ money_text($cashIn) }} in · {{ money_text($cashOut) }} out</span>
                         </p>
-                        <april:chart class="{{ $chartClass }} mt-4" label="Money received and spent by month" :data="$cash" :config="['received' => ['label' => 'In', 'color' => 'var(--chart-2)'], 'spent' => ['label' => 'Out', 'color' => 'var(--chart-5)']]" xKey="month" type="bar" height="200" />
+                        <april:chart class="{{ $chartClass }} mt-4" label="{{ __('Money received and spent by month') }}" :data="$cash" :config="['received' => ['label' => 'In', 'color' => 'var(--chart-2)'], 'spent' => ['label' => 'Out', 'color' => 'var(--chart-5)']]" xKey="month" type="bar" height="200" />
                     </div>
                 @endif
 
@@ -143,14 +143,14 @@
                     @endphp
                     <div class="min-w-0" id="trend-incidents">
                         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <h3 class="text-sm font-medium">Incidents</h3>
-                            <p class="text-sm text-muted-foreground">Last 8 weeks</p>
+                            <h3 class="text-sm font-medium">{{ __('Incidents') }}</h3>
+                            <p class="text-sm text-muted-foreground">{{ __('Last 8 weeks') }}</p>
                         </div>
                         <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
                             <span class="text-3xl font-semibold tabular-nums">{{ $thisWeek }}</span>
                             <span class="text-sm tabular-nums text-muted-foreground">this week · {{ $incidentWeeks->sum('incidents') }} in 8 weeks</span>
                         </p>
-                        <april:chart class="{{ $chartClass }} mt-4" label="Incidents per week" :data="$incidents" :config="['incidents' => ['label' => 'Incidents', 'color' => 'var(--chart-5)']]" xKey="week" type="bar" height="200" :showLegend="false" />
+                        <april:chart class="{{ $chartClass }} mt-4" label="{{ __('Incidents per week') }}" :data="$incidents" :config="['incidents' => ['label' => 'Incidents', 'color' => 'var(--chart-5)']]" xKey="week" type="bar" height="200" :showLegend="false" />
                     </div>
                 @endif
             </div>

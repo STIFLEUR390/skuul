@@ -5,15 +5,15 @@
     <div class="card-body">
         <form wire:submit="save" class="space-y-5 md:w-1/2">
             <x-display-validation-errors/>
-            <april:input-group id="name" wire:model="name" label="Name" placeholder="Fee Name" />
+            <april:input-group id="name" wire:model="name" label="{{ __('Name') }}" placeholder="{{ __('Fee Name') }}" />
             <div class="flex w-full flex-col gap-2">
-                <april:label for="description">Description</april:label>
-                <april:textarea id="description" wire:model="description" placeholder="Fee Description" />
+                <april:label for="description">{{ __('Description') }}</april:label>
+                <april:textarea id="description" wire:model="description" placeholder="{{ __('Fee Description') }}" />
             </div>
             <april:button type="submit" wire:loading.attr="disabled" class="w-full md:w-1/2">
                 <x-lucide-pencil class="mr-2 size-4" />
-                <span wire:loading.remove>Save changes</span>
-                <span wire:loading>Saving…</span>
+                <span wire:loading.remove>{{ __('Save changes') }}</span>
+                <span wire:loading>{{ __('Saving…') }}</span>
             </april:button>
         </form>
     </div>

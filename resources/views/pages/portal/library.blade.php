@@ -10,7 +10,7 @@
             <slot:description>{{ $studentRecord->school?->name }} · Books currently borrowed</slot:description>
             <slot:content>
                 @if ($loans->isEmpty())
-                    <p class="text-sm text-muted-foreground">There are no books on loan.</p>
+                    <p class="text-sm text-muted-foreground">{{ __('There are no books on loan.') }}</p>
                 @else
                     <div class="flex flex-col divide-y">
                         @foreach ($loans as $loan)
@@ -35,11 +35,11 @@
         </april:card>
 
         <april:card>
-            <slot:title>Library queue</slot:title>
-            <slot:description>Titles reserved for this learner.</slot:description>
+            <slot:title>{{ __('Library queue') }}</slot:title>
+            <slot:description>{{ __('Titles reserved for this learner.') }}</slot:description>
             <slot:content>
                 @if ($reservations->isEmpty())
-                    <p class="text-sm text-muted-foreground">There are no active reservations.</p>
+                    <p class="text-sm text-muted-foreground">{{ __('There are no active reservations.') }}</p>
                 @else
                     <div class="flex flex-col divide-y">
                         @foreach ($reservations as $reservation)

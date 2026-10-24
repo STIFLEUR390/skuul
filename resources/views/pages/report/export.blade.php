@@ -21,7 +21,7 @@
     <p class="built">Built {{ school_now()->format('j M Y, H:i') }} &middot; {{ trans_choice(':count row|:count rows', $rows->count(), ['count' => $rows->count()]) }}</p>
 
     @if ($rows->isEmpty())
-        <p class="empty">This report has nothing to show.</p>
+        <p class="empty">{{ __('This report has nothing to show.') }}</p>
     @else
         <table>
             <thead>

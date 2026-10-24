@@ -10,8 +10,8 @@
     <div class="space-y-6">
         @can('create', App\Models\ImportBatch::class)
             <april:card>
-                <slot:title>Import a file</slot:title>
-                <slot:description>The file is checked first and nothing is written. You read what each row will do, then you choose to write it.</slot:description>
+                <slot:title>{{ __('Import a file') }}</slot:title>
+                <slot:description>{{ __('The file is checked first and nothing is written. You read what each row will do, then you choose to write it.') }}</slot:description>
                 <slot:content>
                     @livewire('import-file-form')
                 </slot:content>
@@ -19,8 +19,8 @@
         @endcan
 
         <april:card>
-            <slot:title>What each file must hold</slot:title>
-            <slot:description>Name the columns on the first line. The order does not matter, and the names are read without regard to case.</slot:description>
+            <slot:title>{{ __('What each file must hold') }}</slot:title>
+            <slot:description>{{ __('Name the columns on the first line. The order does not matter, and the names are read without regard to case.') }}</slot:description>
             <slot:content>
                 <div class="grid gap-4 md:grid-cols-2">
                     @foreach ($imports as $import)
@@ -28,7 +28,7 @@
                             <p class="font-medium">{{ $import['title'] }}</p>
                             <dl class="mt-3 space-y-3 text-sm">
                                 <div>
-                                    <dt class="text-muted-foreground">Required columns</dt>
+                                    <dt class="text-muted-foreground">{{ __('Required columns') }}</dt>
                                     <dd class="mt-1 flex flex-wrap gap-1">
                                         @foreach ($import['required'] as $column)
                                             <code class="rounded bg-muted px-1.5 py-0.5 text-xs">{{ $column }}</code>
@@ -37,7 +37,7 @@
                                 </div>
                                 @if ($import['optional'] !== [])
                                     <div>
-                                        <dt class="text-muted-foreground">Optional columns</dt>
+                                        <dt class="text-muted-foreground">{{ __('Optional columns') }}</dt>
                                         <dd class="mt-1 flex flex-wrap gap-1">
                                             @foreach ($import['optional'] as $column)
                                                 <code class="rounded bg-muted px-1.5 py-0.5 text-xs">{{ $column }}</code>

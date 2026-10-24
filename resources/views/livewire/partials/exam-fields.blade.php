@@ -4,28 +4,28 @@
 @endphp
 <div class="grid gap-4 sm:grid-cols-2">
     <div class="sm:col-span-2">
-        <label for="name" class="text-sm text-muted-foreground">Name</label>
-        <input id="name" wire:model="name" required maxlength="255" placeholder="Mid-term exam" class="{{ $controlClasses }}" {{ field_error_bindings('name') }}>
+        <label for="name" class="text-sm text-muted-foreground">{{ __('Name') }}</label>
+        <input id="name" wire:model="name" required maxlength="255" placeholder="{{ __('Mid-term exam') }}" class="{{ $controlClasses }}" {{ field_error_bindings('name') }}>
         <x-field-error name="name" class="mt-1" />
     </div>
     <div class="sm:col-span-2">
-        <label for="academicPeriodId" class="text-sm text-muted-foreground">Reporting period</label>
+        <label for="academicPeriodId" class="text-sm text-muted-foreground">{{ __('Reporting period') }}</label>
         <select id="academicPeriodId" wire:model="academicPeriodId" required class="{{ $controlClasses }}" {{ field_error_bindings('academicPeriodId') }}>
             @forelse ($academicPeriods as $period)
                 <option value="{{ $period->id }}">{{ $period->displayName }}</option>
             @empty
-                <option value="">Create a reporting period first</option>
+                <option value="">{{ __('Create a reporting period first') }}</option>
             @endforelse
         </select>
         <x-field-error name="academicPeriodId" class="mt-1" />
     </div>
     <div>
-        <label for="startDate" class="text-sm text-muted-foreground">Starts on</label>
+        <label for="startDate" class="text-sm text-muted-foreground">{{ __('Starts on') }}</label>
         <input id="startDate" type="date" wire:model="startDate" required class="{{ $controlClasses }}" {{ field_error_bindings('startDate') }}>
         <x-field-error name="startDate" class="mt-1" />
     </div>
     <div>
-        <label for="stopDate" class="text-sm text-muted-foreground">Ends on</label>
+        <label for="stopDate" class="text-sm text-muted-foreground">{{ __('Ends on') }}</label>
         <input id="stopDate" type="date" wire:model="stopDate" required class="{{ $controlClasses }}" {{ field_error_bindings('stopDate') }}>
         <x-field-error name="stopDate" class="mt-1" />
     </div>

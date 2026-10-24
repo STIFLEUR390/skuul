@@ -8,7 +8,7 @@
 
     <div class="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-end">
         @can('view', $school)
-            <april:button-link href="{{ route('schools.show', $school) }}" variant="ghost" class="h-11 select-none">Cancel</april:button-link>
+            <april:button-link href="{{ route('schools.show', $school) }}" variant="ghost" class="h-11 select-none">{{ __('Cancel') }}</april:button-link>
         @endcan
         <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save, logo">{{ $setup ? 'Save and continue' : 'Save changes' }}</april:button>
     </div>

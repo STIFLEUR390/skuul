@@ -5,15 +5,15 @@
     @endphp
 
     <section class="flex flex-col gap-4" aria-labelledby="marks-heading">
-        <h2 id="marks-heading" class="text-base font-semibold">Marks</h2>
+        <h2 id="marks-heading" class="text-base font-semibold">{{ __('Marks') }}</h2>
 
         @if ($items->isEmpty())
-            <p class="text-sm text-muted-foreground">No assessments yet</p>
+            <p class="text-sm text-muted-foreground">{{ __('No assessments yet') }}</p>
         @elseif ($students->isEmpty())
             <p class="text-sm text-muted-foreground">No learners take this {{ strtolower(school_term('course', 'course')) }}</p>
         @else
             <div>
-                <label for="mark-sheet-assessment" class="sr-only">Assessment</label>
+                <label for="mark-sheet-assessment" class="sr-only">{{ __('Assessment') }}</label>
                 <select id="mark-sheet-assessment" wire:model.live="gradeItemId" class="{{ $controlClasses }}" {{ field_error_bindings('gradeItemId') }}>
                     @foreach ($items as $gradeItem)
                         <option value="{{ $gradeItem->id }}">{{ $gradeItem->name }} · {{ $gradeItem->entries_count }} of {{ $students->count() }} marked</option>
@@ -25,15 +25,15 @@
             @if ($item !== null)
                 <dl class="grid grid-cols-2 gap-4 border-y py-3 text-sm sm:grid-cols-3">
                     <div>
-                        <dt class="text-muted-foreground">Marked out of</dt>
+                        <dt class="text-muted-foreground">{{ __('Marked out of') }}</dt>
                         <dd class="font-medium">{{ $item->gradingScale?->name ?? ($item->max_points === null ? '—' : rtrim(rtrim(number_format($item->max_points, 2), '0'), '.')) }}</dd>
                     </div>
                     <div>
-                        <dt class="text-muted-foreground">Category</dt>
+                        <dt class="text-muted-foreground">{{ __('Category') }}</dt>
                         <dd class="font-medium">{{ $item->category?->name ?? '—' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-muted-foreground">Due</dt>
+                        <dt class="text-muted-foreground">{{ __('Due') }}</dt>
                         <dd class="font-medium">{{ $item->due_on?->format('j M Y') ?? '—' }}</dd>
                     </div>
                 </dl>
@@ -58,18 +58,18 @@
                                     <div class="flex w-full flex-col gap-1 sm:w-auto">
                                         <div class="grid grid-cols-[minmax(0,1fr)_9rem] gap-2 sm:w-[22rem]">
                                             @if ($item->type === \App\Enums\GradeItemType::Numeric)
-                                                <input type="number" wire:model="marks.{{ $student->id }}.points" min="0" step="0.01" @if ($item->max_points !== null) max="{{ $item->max_points }}" @endif inputmode="decimal" placeholder="Mark" @disabled($state !== null && !$state->needsPoints())
+                                                <input type="number" wire:model="marks.{{ $student->id }}.points" min="0" step="0.01" @if ($item->max_points !== null) max="{{ $item->max_points }}" @endif inputmode="decimal" placeholder="{{ __('Mark') }}" @disabled($state !== null && !$state->needsPoints())
                                                     aria-label="{{ $item->name }} mark for {{ $learnerName($student) }}" class="{{ $controlClasses }} text-right tabular-nums" {{ field_error_bindings('marks.'.$student->id) }}>
                                             @elseif ($item->type === \App\Enums\GradeItemType::Scale)
                                                 <select wire:model="marks.{{ $student->id }}.option" @disabled($state !== null && !$state->needsPoints())
                                                     aria-label="{{ $item->name }} grade for {{ $learnerName($student) }}" class="{{ $controlClasses }}" {{ field_error_bindings('marks.'.$student->id) }}>
-                                                    <option value="">Grade</option>
+                                                    <option value="">{{ __('Grade') }}</option>
                                                     @foreach ($item->gradingScale?->options ?? [] as $option)
                                                         <option value="{{ $option->id }}">{{ $option->label }}</option>
                                                     @endforeach
                                                 </select>
                                             @else
-                                                <input wire:model="marks.{{ $student->id }}.comment" maxlength="5000" placeholder="Comment"
+                                                <input wire:model="marks.{{ $student->id }}.comment" maxlength="5000" placeholder="{{ __('Comment') }}"
                                                     aria-label="{{ $item->name }} comment for {{ $learnerName($student) }}" class="{{ $controlClasses }}" {{ field_error_bindings('marks.'.$student->id) }}>
                                             @endif
                                             <select wire:model.live="marks.{{ $student->id }}.state" aria-label="State for {{ $learnerName($student) }}" class="{{ $controlClasses }}">
@@ -101,9 +101,9 @@
                         <div class="sticky bottom-0 z-10 flex flex-wrap items-center justify-end gap-3 border-t bg-background py-3">
                             @if ($changed !== [])
                                 <p class="mr-auto text-sm text-muted-foreground" aria-live="polite">{{ count($changed) }} not saved</p>
-                                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="discard">Put back</april:button>
+                                <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="discard">{{ __('Put back') }}</april:button>
                             @endif
-                            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">Save marks</april:button>
+                            <april:button type="submit" class="h-11 select-none" wire:loading.attr="disabled" wire:target="save">{{ __('Save marks') }}</april:button>
                         </div>
                     @endif
                 </form>
@@ -113,7 +113,7 @@
 
     @if ($students->isNotEmpty() && $items->isNotEmpty())
         <section class="flex flex-col gap-4" aria-labelledby="results-heading">
-            <h2 id="results-heading" class="text-base font-semibold">Results</h2>
+            <h2 id="results-heading" class="text-base font-semibold">{{ __('Results') }}</h2>
             <ul class="divide-y border-y">
                 @foreach ($students as $student)
                     @php
@@ -141,7 +141,7 @@
                             <p class="text-sm font-semibold tabular-nums">{{ $official?->percentage === null ? '—' : number_format($official->percentage, 2).'%' }}</p>
 
                             @if ($isWaiting && $canApprove && $latest->published_by !== auth()->id())
-                                <april:button type="button" variant="outline" class="h-11 select-none" wire:click="approveResult({{ $latest->id }})" wire:loading.attr="disabled" wire:target="approveResult">Approve</april:button>
+                                <april:button type="button" variant="outline" class="h-11 select-none" wire:click="approveResult({{ $latest->id }})" wire:loading.attr="disabled" wire:target="approveResult">{{ __('Approve') }}</april:button>
                             @endif
                             @if ($canSubmit || ($isWaiting && $canApprove))
                                 <april:dropdown-menu>
@@ -158,7 +158,7 @@
                                         @endif
                                         @if ($isWaiting && $canApprove)
                                             <april:dropdown-menu-item class="text-destructive" wire:click="startRejecting({{ $latest->id }})">
-                                                <x-lucide-undo-2 class="mr-2 size-4" />Send back
+                                                <x-lucide-undo-2 class="mr-2 size-4" />{{ __('Send back') }}
                                             </april:dropdown-menu-item>
                                         @endif
                                     </slot:content>
@@ -170,12 +170,12 @@
                             <form wire:submit="rejectResult" class="flex flex-col gap-2 sm:flex-row sm:items-start" aria-label="Send back the result for {{ $learnerName($student) }}">
                                 <div class="flex-1">
                                     <label for="reject-reason-{{ $latest->id }}" class="sr-only">Reason to send back the result for {{ $learnerName($student) }}</label>
-                                    <input id="reject-reason-{{ $latest->id }}" wire:model="rejectReason" maxlength="500" required placeholder="What must the teacher change?" class="{{ $controlClasses }}" {{ field_error_bindings('rejectReason') }}>
+                                    <input id="reject-reason-{{ $latest->id }}" wire:model="rejectReason" maxlength="500" required placeholder="{{ __('What must the teacher change?') }}" class="{{ $controlClasses }}" {{ field_error_bindings('rejectReason') }}>
                                     <x-field-error name="rejectReason" class="mt-1" />
                                 </div>
                                 <div class="flex gap-2">
-                                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopRejecting">Cancel</april:button>
-                                    <april:button type="submit" variant="destructive" class="h-11 select-none" wire:loading.attr="disabled" wire:target="rejectResult">Send back</april:button>
+                                    <april:button type="button" variant="ghost" class="h-11 select-none" wire:click="stopRejecting">{{ __('Cancel') }}</april:button>
+                                    <april:button type="submit" variant="destructive" class="h-11 select-none" wire:loading.attr="disabled" wire:target="rejectResult">{{ __('Send back') }}</april:button>
                                 </div>
                             </form>
                         @endif

@@ -4,11 +4,11 @@
     @endphp
 
     @if ($organization === null)
-        <p class="text-sm text-muted-foreground">One organization holds a school group, a district, or a single school. Campuses are added afterwards.</p>
+        <p class="text-sm text-muted-foreground">{{ __('One organization holds a school group, a district, or a single school. Campuses are added afterwards.') }}</p>
     @endif
 
     <div>
-        <label for="name" class="text-sm text-muted-foreground">Name</label>
+        <label for="name" class="text-sm text-muted-foreground">{{ __('Name') }}</label>
         <input id="name" wire:model="name" required maxlength="255" class="{{ $controlClasses }}" {{ field_error_bindings('name') }}>
         <x-field-error name="name" class="mt-1" />
     </div>

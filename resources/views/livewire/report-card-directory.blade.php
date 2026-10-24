@@ -2,14 +2,14 @@
     <x-display-validation-errors />
     @can('create', App\Models\ReportCardSnapshot::class)
         <april:card>
-            <slot:title>Publish a report card</slot:title>
+            <slot:title>{{ __('Publish a report card') }}</slot:title>
             <slot:description>Official record built from published results. Once issued, it stays unchanged; a correction creates a new revision.</slot:description>
             <slot:content>
                 <form wire:submit="publishReportCard" class="grid gap-4 lg:grid-cols-4 lg:items-end">
                     <div class="flex min-w-0 flex-col gap-2">
-                        <april:label for="report-card-student">Learner</april:label>
+                        <april:label for="report-card-student">{{ __('Learner') }}</april:label>
                         <april:native-select id="report-card-student" wire:model="student_record_id" required class="w-full min-w-0">
-                            <option value="">Choose a learner</option>
+                            <option value="">{{ __('Choose a learner') }}</option>
                             @foreach ($students as $student)
                                 <option value="{{ $student->id }}">{{ $student->user?->name ?? 'Unnamed' }} · {{ $student->admission_number }}</option>
                             @endforeach
@@ -29,15 +29,15 @@
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <april:label for="report-card-reason">Reason for a revision</april:label>
-                        <april:input id="report-card-reason" wire:model="reason" placeholder="Only needed when reissuing" />
+                        <april:label for="report-card-reason">{{ __('Reason for a revision') }}</april:label>
+                        <april:input id="report-card-reason" wire:model="reason" placeholder="{{ __('Only needed when reissuing') }}" />
                         <x-field-error name="reason" />
                     </div>
 
                     <april:button type="submit" wire:loading.attr="disabled">
                         <x-lucide-file-check class="mr-2 size-4" />
-                        <span wire:loading.remove>Publish</span>
-                        <span wire:loading>Publishing…</span>
+                        <span wire:loading.remove>{{ __('Publish') }}</span>
+                        <span wire:loading>{{ __('Publishing…') }}</span>
                     </april:button>
                 </form>
             </slot:content>
@@ -45,14 +45,14 @@
     @endcan
 
     <april:card>
-        <slot:title>Find a card</slot:title>
+        <slot:title>{{ __('Find a card') }}</slot:title>
         <slot:description>Search official cards by learner, academic year, or {{ school_term('period', 'period') }}.</slot:description>
         <slot:content>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-end">
                 <div class="flex flex-col gap-2">
-                    <april:label for="filter-student">Learner</april:label>
+                    <april:label for="filter-student">{{ __('Learner') }}</april:label>
                     <april:native-select id="filter-student" wire:model.live="studentRecordId" class="w-full min-w-0">
-                        <option value="">Every learner</option>
+                        <option value="">{{ __('Every learner') }}</option>
                         @foreach ($students as $student)
                             <option value="{{ $student->id }}">
                                 {{ $student->user?->name ?? 'Unnamed' }} · {{ $student->admission_number }}
@@ -62,9 +62,9 @@
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <april:label for="filter-academic-year">Academic year</april:label>
+                    <april:label for="filter-academic-year">{{ __('Academic year') }}</april:label>
                     <april:native-select id="filter-academic-year" wire:model.live="academicYearId" class="w-full min-w-0">
-                        <option value="">Every academic year</option>
+                        <option value="">{{ __('Every academic year') }}</option>
                         @foreach ($academicYears as $academicYear)
                             <option value="{{ $academicYear->id }}">
                                 {{ $academicYear->name }}
@@ -88,40 +88,40 @@
                 @if ($selectedStudent !== null || $selectedAcademicYear !== null || $selectedPeriod !== null)
                     <april:button type="button" variant="outline" wire:click="clearFilters" wire:loading.attr="disabled">
                         <x-lucide-x class="mr-2 size-4" />
-                        Clear filters
+                        {{ __('Clear filters') }}
                     </april:button>
                 @endif
             </div>
 
-            <p wire:loading class="mt-4 text-sm text-muted-foreground" role="status">Updating report cards…</p>
+            <p wire:loading class="mt-4 text-sm text-muted-foreground" role="status">{{ __('Updating report cards…') }}</p>
         </slot:content>
     </april:card>
 
     <april:card>
-        <slot:title>Published cards</slot:title>
-        <slot:description>Each version stays exactly as it was issued, even after a later correction.</slot:description>
+        <slot:title>{{ __('Published cards') }}</slot:title>
+        <slot:description>{{ __('Each version stays exactly as it was issued, even after a later correction.') }}</slot:description>
         <slot:content>
             @if ($reportCards->isEmpty())
                 @if ($selectedStudent !== null || $selectedAcademicYear !== null || $selectedPeriod !== null)
-                    <x-empty-state icon="lucide-search-x" title="Nothing matches this filter"
+                    <x-empty-state icon="lucide-search-x" title="{{ __('Nothing matches this filter') }}"
                         description="No report card was published for that learner, year, or period.">
-                        <april:button type="button" variant="outline" wire:click="clearFilters">Show every card</april:button>
+                        <april:button type="button" variant="outline" wire:click="clearFilters">{{ __('Show every card') }}</april:button>
                     </x-empty-state>
                 @else
-                    <x-empty-state icon="lucide-file-text" title="No report cards yet"
+                    <x-empty-state icon="lucide-file-text" title="{{ __('No report cards yet') }}"
                         description="Report cards appear here after a school publishes one." />
                 @endif
             @else
                 <april:data-table>
                     <slot:header>
                         <april:data-table-row>
-                            <april:data-table-head>Learner</april:data-table-head>
-                            <april:data-table-head>Academic year</april:data-table-head>
+                            <april:data-table-head>{{ __('Learner') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Academic year') }}</april:data-table-head>
                             <april:data-table-head>{{ school_term('period', 'Period') }}</april:data-table-head>
-                            <april:data-table-head>Average</april:data-table-head>
-                            <april:data-table-head>Revision</april:data-table-head>
-                            <april:data-table-head>Published</april:data-table-head>
-                            <april:data-table-head class="text-right">Actions</april:data-table-head>
+                            <april:data-table-head>{{ __('Average') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Revision') }}</april:data-table-head>
+                            <april:data-table-head>{{ __('Published') }}</april:data-table-head>
+                            <april:data-table-head class="text-right">{{ __('Actions') }}</april:data-table-head>
                         </april:data-table-row>
                     </slot:header>
                     <slot:body>
@@ -148,7 +148,7 @@
                                     <april:button-link href="{{ route('report-cards.show', $card) }}" variant="outline" size="sm"
                                         aria-label="View the report card for {{ $card->studentRecord->user?->name ?? $card->studentRecord->admission_number }}">
                                         <x-lucide-eye class="mr-1 size-4" />
-                                        View
+                                        {{ __('View') }}
                                     </april:button-link>
                                 </april:data-table-cell>
                             </april:data-table-row>

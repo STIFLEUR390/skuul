@@ -2,16 +2,16 @@
     <div class="flex flex-wrap items-center justify-between gap-3 rounded-lg border bg-muted/20 p-3">
         <div class="flex flex-wrap items-center gap-2">
             <button type="button" wire:click="goToCalendarToday" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">
-                Today
+                {{ __('Today') }}
             </button>
             <div class="flex items-center gap-1">
-                <button type="button" wire:click="previousCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background text-lg hover:bg-muted" aria-label="Previous period">‹</button>
-                <button type="button" wire:click="nextCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background text-lg hover:bg-muted" aria-label="Next period">›</button>
+                <button type="button" wire:click="previousCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background text-lg hover:bg-muted" aria-label="{{ __('Previous period') }}">‹</button>
+                <button type="button" wire:click="nextCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background text-lg hover:bg-muted" aria-label="{{ __('Next period') }}">›</button>
             </div>
             <span class="ml-1 text-sm font-semibold">{{ $this->calendarHeading() }}</span>
         </div>
 
-        <div class="flex rounded-md border bg-background p-1" role="group" aria-label="Calendar view">
+        <div class="flex rounded-md border bg-background p-1" role="group" aria-label="{{ __('Calendar view') }}">
             @foreach (['day' => 'Day', 'week' => 'Week', 'month' => 'Month'] as $view => $label)
                 <button type="button" wire:click="setCalendarView('{{ $view }}')" class="rounded px-3 py-1.5 text-sm {{ $calendarView === $view ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted' }}" aria-pressed="{{ $calendarView === $view ? 'true' : 'false' }}">
                     {{ $label }}
@@ -62,7 +62,7 @@
                                 @endif
                             </div>
                         @empty
-                            <p class="py-4 text-center text-xs text-muted-foreground">No events</p>
+                            <p class="py-4 text-center text-xs text-muted-foreground">{{ __('No events') }}</p>
                         @endforelse
                     </div>
                 </section>
@@ -86,7 +86,7 @@
                         <p class="text-sm text-muted-foreground">{{ $event['time'] }}</p>
                     </div>
                 @empty
-                    <p class="px-4 py-12 text-center text-sm text-muted-foreground">No events scheduled for this date.</p>
+                    <p class="px-4 py-12 text-center text-sm text-muted-foreground">{{ __('No events scheduled for this date.') }}</p>
                 @endforelse
             </div>
         </section>

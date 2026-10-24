@@ -61,12 +61,12 @@
         <april:dialog dismissable x-effect="open = $wire.confirmingLogout">
             <slot:content class="sm:max-w-md">
                 <april:dialog-header>
-                    <slot:title>Log Out Other Browser Sessions</slot:title>
+                    <slot:title>{{ __('Log Out Other Browser Sessions') }}</slot:title>
                     <slot:description>{{ __('Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.') }}</slot:description>
                 </april:dialog-header>
 
                 <div class="grid gap-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <april:input-group id="password-for-logout" name="password" type="password" placeholder="{{ __('Password') }}" label="Confirm Password to continue" x-ref="password" class="w-full" wire:model="password" wire:keydown.enter="logoutOtherBrowserSessions" />
+                    <april:input-group id="password-for-logout" name="password" type="password" placeholder="{{ __('Password') }}" label="{{ __('Confirm Password to continue') }}" x-ref="password" class="w-full" wire:model="password" wire:keydown.enter="logoutOtherBrowserSessions" />
                 </div>
 
                 <april:dialog-footer>

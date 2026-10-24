@@ -11,7 +11,7 @@
 @section('page_actions')
     <april:button-link href="{{ route('students.print-profile', $student) }}" variant="ghost">
         <x-lucide-printer class="mr-2 size-4" />
-        Print
+        {{ __('Print') }}
     </april:button-link>
 @endsection
 

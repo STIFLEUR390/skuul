@@ -1,7 +1,7 @@
 <div class="space-y-6">
     @error('timetable')
         <april:alert variant="destructive">
-            <slot:title>That change was refused</slot:title>
+            <slot:title>{{ __('That change was refused') }}</slot:title>
             <slot:description>{{ $message }}</slot:description>
         </april:alert>
     @enderror
@@ -28,7 +28,7 @@
     @endif
 
     <april:card>
-        <slot:title>Calendar</slot:title>
+        <slot:title>{{ __('Calendar') }}</slot:title>
         <slot:description>
             {{ $timetable->academicPeriod?->displayName ?? 'Academic period' }} ·
             recurring events follow the term dates automatically. Select a date to add a one-time slot, or select a slot to place an item.
@@ -37,9 +37,9 @@
             <div class="space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-3 rounded-md border bg-muted/20 p-3">
                     <div class="flex items-center gap-2">
-                        <button type="button" wire:click="goToCalendarToday" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">Today</button>
-                        <button type="button" wire:click="previousCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background hover:bg-muted" aria-label="Previous period">‹</button>
-                        <button type="button" wire:click="nextCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background hover:bg-muted" aria-label="Next period">›</button>
+                        <button type="button" wire:click="goToCalendarToday" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">{{ __('Today') }}</button>
+                        <button type="button" wire:click="previousCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background hover:bg-muted" aria-label="{{ __('Previous period') }}">‹</button>
+                        <button type="button" wire:click="nextCalendarPeriod" class="inline-flex size-9 items-center justify-center rounded-md border bg-background hover:bg-muted" aria-label="{{ __('Next period') }}">›</button>
                         <span class="ml-1 text-sm font-semibold">{{ $this->calendarHeading() }}</span>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -50,7 +50,7 @@
                         </div>
                         <button type="button" wire:click="openTimeSlotDialog" class="inline-flex h-9 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
                             <x-lucide-plus class="mr-2 size-4" />
-                            Add time slot
+                            {{ __('Add time slot') }}
                         </button>
                     </div>
                 </div>
@@ -58,12 +58,12 @@
                 @if ($calendarView === 'week')
                     <div class="flex flex-wrap items-center justify-between gap-3 rounded-md border border-dashed bg-muted/20 p-3">
                         <div>
-                            <p class="text-sm font-semibold">Week slots</p>
-                            <p class="text-sm text-muted-foreground">Create a recurring time slot, then place lessons or events in it.</p>
+                            <p class="text-sm font-semibold">{{ __('Week slots') }}</p>
+                            <p class="text-sm text-muted-foreground">{{ __('Create a recurring time slot, then place lessons or events in it.') }}</p>
                         </div>
                         <button type="button" wire:click="openTimeSlotDialog" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">
                             <x-lucide-plus class="mr-2 size-4" />
-                            Add recurring slot
+                            {{ __('Add recurring slot') }}
                         </button>
                     </div>
                     @include('livewire.partials.timetable-grid', [
@@ -74,12 +74,12 @@
                 @elseif ($calendarView === 'day')
                     <div class="flex flex-wrap items-center justify-between gap-3 rounded-md border border-dashed bg-muted/20 p-3">
                         <div>
-                            <p class="text-sm font-semibold">Day slots</p>
+                            <p class="text-sm font-semibold">{{ __('Day slots') }}</p>
                             <p class="text-sm text-muted-foreground">Add a one-time slot for {{ \Illuminate\Support\Carbon::parse($calendarDate)->format('j F Y') }}.</p>
                         </div>
                         <button type="button" wire:click="openTimeSlotDialog('{{ $calendarDate }}')" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">
                             <x-lucide-plus class="mr-2 size-4" />
-                            Add slot for this date
+                            {{ __('Add slot for this date') }}
                         </button>
                     </div>
                     <div class="space-y-2">
@@ -117,11 +117,11 @@
                 @endif
 
                 <div class="rounded-lg border border-dashed bg-muted/20 p-4">
-                    <p class="text-sm font-semibold">Add a time slot</p>
-                    <p class="text-sm text-muted-foreground">Click a date to create a one-time slot, or use the button above for a recurring slot.</p>
+                    <p class="text-sm font-semibold">{{ __('Add a time slot') }}</p>
+                    <p class="text-sm text-muted-foreground">{{ __('Click a date to create a one-time slot, or use the button above for a recurring slot.') }}</p>
                 </div>
 
-                <div wire:loading wire:target="addTimeSlot,assign,clearCell,removeTimeSlot" class="text-xs text-muted-foreground">Saving…</div>
+                <div wire:loading wire:target="addTimeSlot,assign,clearCell,removeTimeSlot" class="text-xs text-muted-foreground">{{ __('Saving…') }}</div>
             </div>
         </slot:content>
     </april:card>
@@ -129,19 +129,19 @@
     <april:dialog dismissable x-effect="open = $wire.showTimeSlotDialog" x-init="$watch('open', value => { if (!value && $wire.showTimeSlotDialog) $wire.closeTimeSlotDialog() })">
         <slot:content class="sm:max-w-2xl">
             <april:dialog-header>
-                <slot:title>Add a time slot</slot:title>
-                <slot:description>Create the row that holds lessons or events. Recurring slots stop at the term end.</slot:description>
+                <slot:title>{{ __('Add a time slot') }}</slot:title>
+                <slot:description>{{ __('Create the row that holds lessons or events. Recurring slots stop at the term end.') }}</slot:description>
             </april:dialog-header>
 
             <form wire:submit="addTimeSlot" class="space-y-5">
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div class="min-w-0 space-y-2">
-                        <april:label for="dialog-start-time">Starts</april:label>
+                        <april:label for="dialog-start-time">{{ __('Starts') }}</april:label>
                         <input type="time" id="dialog-start-time" wire:model="startTime" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('startTime') }}>
                         <x-field-error name="startTime" />
                     </div>
                     <div class="min-w-0 space-y-2">
-                        <april:label for="dialog-stop-time">Ends</april:label>
+                        <april:label for="dialog-stop-time">{{ __('Ends') }}</april:label>
                         <input type="time" id="dialog-stop-time" wire:model="stopTime" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('stopTime') }}>
                         <x-field-error name="stopTime" />
                     </div>
@@ -150,7 +150,7 @@
                 <div class="rounded-lg border bg-muted/20 p-4">
                     <div class="flex items-start justify-between gap-3">
                         <div>
-                            <p class="text-sm font-medium">Schedule</p>
+                            <p class="text-sm font-medium">{{ __('Schedule') }}</p>
                             <p class="mt-1 text-sm text-muted-foreground">{{ $this->slotDraftRuleLabel() }}</p>
                         </div>
                         <button type="button" wire:click="toggleRecurrenceOptions" class="inline-flex h-9 items-center rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted">
@@ -161,42 +161,42 @@
                     @if ($showRecurrenceOptions)
                         <div class="mt-4 grid gap-4 sm:grid-cols-2">
                             <div class="min-w-0 space-y-2">
-                                <april:label for="dialog-slot-recurrence">Repeat</april:label>
+                                <april:label for="dialog-slot-recurrence">{{ __('Repeat') }}</april:label>
                                 <select id="dialog-slot-recurrence" wire:model.live="slotRecurrence" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('slotRecurrence') }}>
                                     <option value="weekly">Every week(s)</option>
                                     <option value="monthly">Every month(s)</option>
-                                    <option value="one_time">One date only</option>
+                                    <option value="one_time">{{ __('One date only') }}</option>
                                 </select>
                                 <x-field-error name="slotRecurrence" />
                             </div>
                             @if ($slotRecurrence === 'one_time')
                                 <div class="min-w-0 space-y-2">
-                                    <april:label for="dialog-slot-occurs-on">Date</april:label>
+                                    <april:label for="dialog-slot-occurs-on">{{ __('Date') }}</april:label>
                                     <input type="date" id="dialog-slot-occurs-on" wire:model="slotOccursOn" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('slotOccursOn') }}>
                                     <x-field-error name="slotOccursOn" />
                                 </div>
                             @else
                                 <div class="min-w-0 space-y-2">
-                                    <april:label for="dialog-slot-recurrence-interval">Repeats every</april:label>
+                                    <april:label for="dialog-slot-recurrence-interval">{{ __('Repeats every') }}</april:label>
                                     <div class="flex items-center gap-2"><input type="number" id="dialog-slot-recurrence-interval" min="1" max="52" wire:model.number="slotRecurrenceInterval" class="flex h-10 w-20 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('slotRecurrenceInterval') }}><span class="text-sm text-muted-foreground">{{ $slotRecurrence === 'monthly' ? 'month(s)' : 'week(s)' }}</span></div>
                                     <x-field-error name="slotRecurrenceInterval" />
                                 </div>
                                 <div class="min-w-0 space-y-2">
-                                    <april:label for="dialog-slot-starts-on">Starts on</april:label>
+                                    <april:label for="dialog-slot-starts-on">{{ __('Starts on') }}</april:label>
                                     <input type="date" id="dialog-slot-starts-on" wire:model.live="slotStartsOn" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('slotStartsOn') }}>
                                     <x-field-error name="slotStartsOn" />
                                 </div>
                             @endif
                         </div>
                         @if ($slotRecurrence === 'weekly')
-                            <fieldset class="mt-4 space-y-2"><legend class="text-sm font-medium">On these weekdays</legend><div class="flex flex-wrap gap-2">@foreach ($weekdayMap as $weekdayName => $weekdayId)<label class="inline-flex cursor-pointer items-center gap-2 rounded-md border bg-background px-3 py-2 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary/10"><input type="checkbox" wire:model="slotWeekdayIds" value="{{ $weekdayId }}" class="size-4 rounded border-input text-primary-foreground focus:ring-primary" {{ field_error_bindings('slotWeekdayIds') }}>{{ $weekdayName }}</label>@endforeach</div><x-field-error name="slotWeekdayIds" /></fieldset>
+                            <fieldset class="mt-4 space-y-2"><legend class="text-sm font-medium">{{ __('On these weekdays') }}</legend><div class="flex flex-wrap gap-2">@foreach ($weekdayMap as $weekdayName => $weekdayId)<label class="inline-flex cursor-pointer items-center gap-2 rounded-md border bg-background px-3 py-2 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary/10"><input type="checkbox" wire:model="slotWeekdayIds" value="{{ $weekdayId }}" class="size-4 rounded border-input text-primary-foreground focus:ring-primary" {{ field_error_bindings('slotWeekdayIds') }}>{{ $weekdayName }}</label>@endforeach</div><x-field-error name="slotWeekdayIds" /></fieldset>
                         @endif
                     @endif
                 </div>
 
                 <april:dialog-footer>
-                    <april:button type="button" variant="outline" wire:click="closeTimeSlotDialog">Cancel</april:button>
-                    <april:button type="submit">Add time slot</april:button>
+                    <april:button type="button" variant="outline" wire:click="closeTimeSlotDialog">{{ __('Cancel') }}</april:button>
+                    <april:button type="submit">{{ __('Add time slot') }}</april:button>
                 </april:dialog-footer>
             </form>
         </slot:content>
@@ -207,21 +207,21 @@
             <slot:content class="sm:max-w-3xl">
                 <april:dialog-header>
                     <slot:title>{{ $this->selectedLabel }}</slot:title>
-                    <slot:description>Choose a subject or a school event for this time slot.</slot:description>
+                    <slot:description>{{ __('Choose a subject or a school event for this time slot.') }}</slot:description>
                 </april:dialog-header>
                 <div class="space-y-4">
                     <div class="flex flex-wrap items-end gap-3">
                         <div class="flex min-w-56 flex-1 flex-col gap-2">
-                            <april:label for="timetable-search">Find a subject or a break</april:label>
-                            <april:input id="timetable-search" wire:model.live.debounce.200ms="search" placeholder="Type to narrow the list" />
+                            <april:label for="timetable-search">{{ __('Find a subject or a break') }}</april:label>
+                            <april:input id="timetable-search" wire:model.live.debounce.200ms="search" placeholder="{{ __('Type to narrow the list') }}" />
                         </div>
                         @php ($places = $this->facilities())
                         @if ($places->isNotEmpty())
                             <div class="flex min-w-56 flex-col gap-2">
-                                <label for="timetable-facility" class="text-sm font-medium leading-none">Where</label>
+                                <label for="timetable-facility" class="text-sm font-medium leading-none">{{ __('Where') }}</label>
                                 <select id="timetable-facility" wire:model="facilityId"
                                     class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                                    <option value="">The section's own room</option>
+                                    <option value="">{{ __("The section's own room") }}</option>
                                     @foreach ($places as $place)
                                         <option value="{{ $place->id }}">{{ $place->name }}</option>
                                     @endforeach
@@ -230,13 +230,13 @@
                         @endif
                         <april:button type="button" variant="outline" wire:click="clearCell">
                             <x-lucide-eraser class="mr-2 size-4" />
-                            Leave it empty
+                            {{ __('Leave it empty') }}
                         </april:button>
                     </div>
 
                     <div class="grid gap-6 lg:grid-cols-2">
                         <div>
-                            <p class="text-sm font-medium">Subjects</p>
+                            <p class="text-sm font-medium">{{ __('Subjects') }}</p>
                             @if ($this->subjects->isEmpty())
                                 <p class="mt-2 text-sm text-muted-foreground">
                                     No subject is offered to this {{ strtolower(school_term('section', 'section')) }}{{ $search === '' ? '' : ' under that search' }}.
@@ -254,11 +254,11 @@
                         </div>
 
                         <div>
-                            <p class="text-sm font-medium">Not a lesson</p>
+                            <p class="text-sm font-medium">{{ __('Not a lesson') }}</p>
                             @if ($this->customItems->isEmpty())
                                 <p class="mt-2 text-sm text-muted-foreground">
-                                    Break, assembly, and registration are custom items.
-                                    <a class="underline" href="{{ route('custom-timetable-items.index') }}">Add one</a>.
+                                    {{ __('Break, assembly, and registration are custom items.') }}
+                                    <a class="underline" href="{{ route('custom-timetable-items.index') }}">{{ __('Add one') }}</a>.
                                 </p>
                             @else
                                 <div class="mt-2 flex flex-wrap gap-2">
@@ -278,11 +278,11 @@
     @endif
 
     <april:card>
-        <slot:title>Time slots</slot:title>
-        <slot:description>Weekly slots follow the term dates. One-date slots stay fixed and are flagged if the term moves.</slot:description>
+        <slot:title>{{ __('Time slots') }}</slot:title>
+        <slot:description>{{ __('Weekly slots follow the term dates. One-date slots stay fixed and are flagged if the term moves.') }}</slot:description>
         <slot:content>
             @if ($this->timeSlots->isEmpty())
-                <p class="text-sm text-muted-foreground">No time slots yet. Add one from the calendar above.</p>
+                <p class="text-sm text-muted-foreground">{{ __('No time slots yet. Add one from the calendar above.') }}</p>
             @else
                 <ul class="divide-y rounded-md border">
                     @foreach ($this->timeSlots as $slot)

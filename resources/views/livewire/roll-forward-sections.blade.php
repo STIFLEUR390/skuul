@@ -12,9 +12,9 @@
 
     <div class="grid gap-4 sm:grid-cols-2">
         <div>
-            <label for="source-year" class="text-sm text-muted-foreground">Copy from</label>
+            <label for="source-year" class="text-sm text-muted-foreground">{{ __('Copy from') }}</label>
             <select id="source-year" wire:model.live="sourceAcademicYearId" class="{{ $controlClasses }}" {{ field_error_bindings('sourceAcademicYearId') }}>
-                <option value="">Choose a school year</option>
+                <option value="">{{ __('Choose a school year') }}</option>
                 @foreach ($academicYears as $academicYear)
                     <option value="{{ $academicYear->id }}">{{ $academicYear->name }}</option>
                 @endforeach
@@ -22,9 +22,9 @@
             <x-field-error name="sourceAcademicYearId" class="mt-1" />
         </div>
         <div>
-            <label for="target-year" class="text-sm text-muted-foreground">Create in</label>
+            <label for="target-year" class="text-sm text-muted-foreground">{{ __('Create in') }}</label>
             <select id="target-year" wire:model.live="targetAcademicYearId" class="{{ $controlClasses }}" {{ field_error_bindings('targetAcademicYearId') }}>
-                <option value="">Choose a school year</option>
+                <option value="">{{ __('Choose a school year') }}</option>
                 @foreach ($academicYears as $academicYear)
                     <option value="{{ $academicYear->id }}">{{ $academicYear->name }}</option>
                 @endforeach
@@ -42,12 +42,12 @@
 
         @if ($copies->isNotEmpty())
             <section class="space-y-3">
-                <h2 class="text-base font-semibold">Will be created as drafts</h2>
+                <h2 class="text-base font-semibold">{{ __('Will be created as drafts') }}</h2>
                 <ul class="divide-y border-y">
                     @foreach ($copies as $copy)
                         <li wire:key="copy-{{ $copy->id }}" class="flex flex-col gap-1 py-3 text-sm sm:flex-row sm:items-center sm:gap-4">
                             <span class="min-w-0 flex-1 font-medium">{{ $copy->academicLevel->name }} · {{ $copy->label ?? $copy->name }}</span>
-                            <span class="text-muted-foreground">{{ collect([$copy->stream, $copy->shift, $copy->room])->filter()->join(' · ') ?: '—' }} · <span class="tabular-nums">{{ $copy->capacity ?? '—' }}</span> places</span>
+                            <span class="text-muted-foreground">{{ collect([$copy->stream, $copy->shift, $copy->room])->filter()->join(' · ') ?: '—' }} · <span class="tabular-nums">{{ $copy->capacity ?? '—' }}</span> {{ __('places') }}</span>
                         </li>
                     @endforeach
                 </ul>
@@ -63,7 +63,7 @@
 
         @if ($leftBehind->isNotEmpty())
             <section class="space-y-1 text-sm">
-                <h2 class="text-base font-semibold">Left behind</h2>
+                <h2 class="text-base font-semibold">{{ __('Left behind') }}</h2>
                 <p class="text-muted-foreground">{{ $leftBehind->map(fn ($section) => $section->academicLevel->name.' · '.$section->name)->join('; ') }}. The {{ $sectionWord }} is archived, or its {{ strtolower(school_term('class_level', 'class')) }} is archived or now holds other {{ strtolower(school_terms('class_level', 'Class')) }}.</p>
             </section>
         @endif

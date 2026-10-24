@@ -14,21 +14,21 @@
         <div class="mx-auto flex w-full max-w-3xl flex-col gap-6">
             <dl class="grid grid-cols-2 gap-4 border-y py-4 sm:grid-cols-4">
                 <div>
-                    <dt class="text-sm text-muted-foreground">Kind</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Kind') }}</dt>
                     <dd class="font-medium">{{ $event->type->label() }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-muted-foreground">Date</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Date') }}</dt>
                     <dd class="font-medium">
                         {{ $event->starts_at->format('j M Y') }}@if ($event->ends_at->toDateString() !== $event->starts_at->toDateString()) – {{ $event->ends_at->format('j M Y') }}@endif
                     </dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-muted-foreground">Time</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Time') }}</dt>
                     <dd class="font-medium">{{ $event->is_all_day ? 'All day' : $event->starts_at->format('H:i').' – '.$event->ends_at->format('H:i') }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-muted-foreground">Where</dt>
+                    <dt class="text-sm text-muted-foreground">{{ __('Where') }}</dt>
                     <dd class="font-medium">{{ $event->location ?? '—' }}</dd>
                 </div>
             </dl>

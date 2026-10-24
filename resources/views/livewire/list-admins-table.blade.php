@@ -1,7 +1,7 @@
 <div class="space-y-6">
     <april:card>
-        <slot:title>School administrators</slot:title>
-        <slot:description>People who can manage this school.</slot:description>
+        <slot:title>{{ __('School administrators') }}</slot:title>
+        <slot:description>{{ __('People who can manage this school.') }}</slot:description>
         <slot:content>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                 @foreach ([['label' => 'Total', 'value' => $totalAdmins, 'icon' => 'users', 'class' => 'bg-primary/10 text-primary-foreground'], ['label' => 'Active', 'value' => $activeAdmins, 'icon' => 'circle-check', 'class' => 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'], ['label' => 'Invited', 'value' => $invitedAdmins, 'icon' => 'mail', 'class' => 'bg-amber-500/10 text-amber-600 dark:text-amber-400'], ['label' => 'Suspended', 'value' => $suspendedAdmins, 'icon' => 'pause-circle', 'class' => 'bg-orange-500/10 text-orange-600 dark:text-orange-400'], ['label' => 'Archived', 'value' => $archivedAdmins, 'icon' => 'archive', 'class' => 'bg-muted text-muted-foreground']] as $stat)
@@ -11,12 +11,12 @@
         </slot:content>
     </april:card>
     <april:card>
-        <slot:title>Administrator directory</slot:title>
-        <slot:description>Search administrators in the current school.</slot:description>
+        <slot:title>{{ __('Administrator directory') }}</slot:title>
+        <slot:description>{{ __('Search administrators in the current school.') }}</slot:description>
         <slot:content>
             <div wire:key="{{ $id }}-{{ $this->tableRevision }}">
                 <april:data-table id="{{ $id }}" :data="$data" :columns="$columns" :pagination="$pagination" :per-page-options="$perPageOptions" row-key="{{ $rowKey }}" :searchable="$searchable" @query-change="$wire.updateTable($event.detail)">
-                    <slot:empty><div class="space-y-1"><p class="font-medium text-foreground">No administrators yet</p><p>Add the first administrator for this school.</p></div></slot:empty>
+                    <slot:empty><div class="space-y-1"><p class="font-medium text-foreground">{{ __('No administrators yet') }}</p><p>{{ __('Add the first administrator for this school.') }}</p></div></slot:empty>
                     <slot:cell-account-status><span class="capitalize" x-text="row.account_status ?? ''"></span></slot:cell-account-status>
                     <slot:actions>
     <x-table-actions :items="array_filter([
