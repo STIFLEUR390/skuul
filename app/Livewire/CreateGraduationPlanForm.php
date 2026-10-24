@@ -71,7 +71,7 @@ class CreateGraduationPlanForm extends Component
             return;
         }
 
-        session()->flash('success', 'The plan was written. Add what a learner must finish.');
+        session()->flash('success', __('The plan was written. Add what a learner must finish.'));
         $this->redirectRoute('graduation-plans.show', $plan);
     }
 

@@ -100,7 +100,7 @@ class HealthRecordForm extends Component
             foreach ($exception->fields() as $field) {
                 $now = (string) $current?->{$field};
                 $this->original[$field] = $now;
-                $this->addError("values.{$field}", 'Somebody else changed this while you worked. It now says: "'.($now === '' ? '—' : $now).'". Save again to keep yours.');
+                $this->addError("values.{$field}", __('Somebody else changed this while you worked. It now says: "').($now === '' ? '—' : $now).'". Save again to keep yours.');
             }
 
             return;

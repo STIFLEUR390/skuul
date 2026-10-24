@@ -36,7 +36,7 @@ class EditTimetableForm extends Component
 
         // Someone may have published the timetable while this page was open.
         if (!$this->timetable->acceptsChanges()) {
-            $this->addError('name', 'This timetable was published, so it can no longer be edited.');
+            $this->addError('name', __('This timetable was published, so it can no longer be edited.'));
 
             return;
         }
@@ -55,7 +55,7 @@ class EditTimetableForm extends Component
             'description' => $this->description === '' ? null : $this->description,
         ]);
 
-        session()->flash('success', 'The timetable was saved.');
+        session()->flash('success', __('The timetable was saved.'));
         $this->redirectRoute('timetables.show', $this->timetable);
     }
 

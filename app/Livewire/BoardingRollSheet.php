@@ -73,7 +73,7 @@ class BoardingRollSheet extends Component
 
         if ($this->roll->refresh()->isComplete()) {
             $this->readAnswers();
-            $this->addError('roll', 'Someone completed this roll while you worked on it. Nothing was saved.');
+            $this->addError('roll', __('Someone completed this roll while you worked on it. Nothing was saved.'));
 
             return false;
         }
@@ -113,7 +113,7 @@ class BoardingRollSheet extends Component
             if ($current !== $this->original[$entryId] && !in_array($entryId, $this->overwrites, true)) {
                 $this->original[$entryId] = $current;
                 $this->overwrites[] = $entryId;
-                $this->addError("answers.$entryId", 'Someone else recorded '.$this->describe($current).' since you opened the roll. Save again to replace it.');
+                $this->addError("answers.$entryId", __('Someone else recorded ').$this->describe($current).' since you opened the roll. Save again to replace it.');
 
                 continue;
             }

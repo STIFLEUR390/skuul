@@ -54,7 +54,7 @@ class CreateProgramForm extends Component
             return;
         }
 
-        session()->flash('success', 'The programme was opened.');
+        session()->flash('success', __('The programme was opened.'));
         $this->redirectRoute('programs.show', $program);
     }
 

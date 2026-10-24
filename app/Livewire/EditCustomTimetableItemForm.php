@@ -43,7 +43,7 @@ class EditCustomTimetableItemForm extends Component
             return;
         }
 
-        session()->flash('success', 'The item was renamed. Every timetable that holds it shows the new name.');
+        session()->flash('success', __('The item was renamed. Every timetable that holds it shows the new name.'));
         $this->redirectRoute('custom-timetable-items.index');
     }
 

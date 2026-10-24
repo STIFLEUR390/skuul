@@ -118,7 +118,7 @@ class StudentService
 
         if ($enrolledElsewhere) {
             throw ValidationException::withMessages([
-                'email' => 'This learner is enrolled at another school. Ask that school to move or transfer them.',
+                'email' => __('This learner is enrolled at another school. Ask that school to move or transfer them.'),
             ]);
         }
 

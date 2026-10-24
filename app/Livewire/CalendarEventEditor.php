@@ -189,7 +189,7 @@ class CalendarEventEditor extends Component
         });
 
         if ($this->event === null) {
-            session()->flash('success', 'Saved as a draft. Publish it when it is ready.');
+            session()->flash('success', __('Saved as a draft. Publish it when it is ready.'));
             $this->redirectRoute('calendar-events.edit', $event);
 
             return;
@@ -217,7 +217,7 @@ class CalendarEventEditor extends Component
         $month = $this->event->starts_at->format('Y-m');
         $this->event->delete();
 
-        session()->flash('success', 'Removed from the calendar.');
+        session()->flash('success', __('Removed from the calendar.'));
         $this->redirectRoute('calendar-events.index', ['month' => $month]);
     }
 

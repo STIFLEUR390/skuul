@@ -69,7 +69,7 @@ class TakeInvoicePayment extends Component
         $enrollment = $this->feeInvoice->studentRecord;
 
         if ($enrollment === null) {
-            $this->addError('amount', 'This invoice does not belong to an enrolled student.');
+            $this->addError('amount', __('This invoice does not belong to an enrolled student.'));
 
             return;
         }

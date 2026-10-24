@@ -79,7 +79,7 @@ class EditSchoolLanguage extends Component
         $profile = $school->operatingProfile()->updateOrCreate([], ['preset' => $this->preset, 'labels' => $this->labels]);
         $profile->forceFill(['setup_completed_at' => now()])->save();
 
-        session()->flash('success', 'School language updated.');
+        session()->flash('success', __('School language updated.'));
 
         $this->setup || $continue
             ? $this->redirectRoute('schools.setup', [$school, 'classes'])

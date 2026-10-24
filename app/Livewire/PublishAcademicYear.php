@@ -41,7 +41,7 @@ class PublishAcademicYear extends Component
             return;
         }
 
-        session()->flash('success', 'The academic year is ready. Its school calendar is now available.');
+        session()->flash('success', __('The academic year is ready. Its school calendar is now available.'));
 
         $this->redirectRoute('academic-years.show', $academicYear);
     }

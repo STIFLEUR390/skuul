@@ -41,7 +41,7 @@ class EditSubjectForm extends Component
 
         $subjects->updateSubject($this->subject, $validated);
 
-        session()->flash('success', 'Subject updated successfully');
+        session()->flash('success', __('Subject updated successfully'));
 
         $this->redirectRoute('subjects.index');
     }

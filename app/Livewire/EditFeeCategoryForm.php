@@ -41,7 +41,7 @@ class EditFeeCategoryForm extends Component
 
         $feeCategories->updateFeeCategory($this->feeCategory, $validated);
 
-        session()->flash('success', 'Fee Category Updated Successfully');
+        session()->flash('success', __('Fee Category Updated Successfully'));
 
         $this->redirectRoute('fee-categories.index');
     }

@@ -52,7 +52,7 @@ class RollOverSubjects extends Component
         [$source, $target] = [$this->source(), $this->target()];
 
         if ($source === null || $target === null) {
-            $this->addError('sourceAcademicYearId', 'Choose both school years.');
+            $this->addError('sourceAcademicYearId', __('Choose both school years.'));
 
             return;
         }

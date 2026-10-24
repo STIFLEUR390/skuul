@@ -105,7 +105,7 @@ class LibraryShelvingForm extends Component
         $title = $this->titleId === null ? null : LibraryTitle::forSchool()->find($this->titleId);
 
         if ($title === null && !$this->isDescribing) {
-            $this->addError('titleSearch', 'Find the book, or describe a new one.');
+            $this->addError('titleSearch', __('Find the book, or describe a new one.'));
 
             return;
         }

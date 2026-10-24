@@ -189,7 +189,7 @@ class ShowDormitory extends Component
         $place = BoardingPlace::query()->current()->where('dormitory_bed_id', $this->bed((int) $this->leavingBedId)->id)->first();
 
         if ($place === null) {
-            $this->addError('leaveReason', 'Nobody sleeps in this bed now.');
+            $this->addError('leaveReason', __('Nobody sleeps in this bed now.'));
 
             return;
         }

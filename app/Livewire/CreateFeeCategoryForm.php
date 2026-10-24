@@ -29,7 +29,7 @@ class CreateFeeCategoryForm extends Component
 
         $feeCategories->storeFeeCategory($validated);
 
-        session()->flash('success', 'Fee Category Successfully Created');
+        session()->flash('success', __('Fee Category Successfully Created'));
 
         $this->redirectRoute('fee-categories.index');
     }

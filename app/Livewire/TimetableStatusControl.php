@@ -33,7 +33,7 @@ class TimetableStatusControl extends Component
             return;
         }
 
-        session()->flash('success', 'Timetable published.');
+        session()->flash('success', __('Timetable published.'));
         $this->redirect(url()->previous(), navigate: false);
     }
 
@@ -49,7 +49,7 @@ class TimetableStatusControl extends Component
             return;
         }
 
-        session()->flash('success', 'New timetable revision created.');
+        session()->flash('success', __('New timetable revision created.'));
         $this->redirectRoute('timetables.manage', $draft);
     }
 

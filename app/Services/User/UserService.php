@@ -127,13 +127,13 @@ class UserService
         if (isset($record['email']) && mb_strtolower((string) $record['email']) !== mb_strtolower((string) $user->email)) {
             if ($user->belongsToAnotherSchool()) {
                 throw ValidationException::withMessages([
-                    'email' => 'This person also belongs to another school, so only they can change their email.',
+                    'email' => __('This person also belongs to another school, so only they can change their email.'),
                 ]);
             }
 
             if ($user->holdsPowerBeyond(current_school_id())) {
                 throw ValidationException::withMessages([
-                    'email' => 'This person has authority beyond this school, so only they can change their email.',
+                    'email' => __('This person has authority beyond this school, so only they can change their email.'),
                 ]);
             }
 
@@ -142,7 +142,7 @@ class UserService
 
             if ($actor instanceof User && $actor->id !== $user->id && $school !== null && $this->roleAuthority->holdsMoreThan($user, $actor, $school)) {
                 throw ValidationException::withMessages([
-                    'email' => 'This person holds more at this school than you do, so only they can change their email.',
+                    'email' => __('This person holds more at this school than you do, so only they can change their email.'),
                 ]);
             }
         }

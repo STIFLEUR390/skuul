@@ -16,7 +16,7 @@ class EnsureAcademicPeriodIsSet
     public function handle(Request $request, Closure $next)
     {
         if (current_academic_period_id() == null) {
-            session()->flash('danger', 'Please set the academic period before proceeding.');
+            session()->flash('danger', __('Please set the academic period before proceeding.'));
 
             $academicYear = current_academic_year();
 

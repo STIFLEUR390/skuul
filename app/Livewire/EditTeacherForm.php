@@ -48,7 +48,7 @@ class EditTeacherForm extends Component
             return;
         }
 
-        session()->flash('success', 'The changes were saved.');
+        session()->flash('success', __('The changes were saved.'));
         $this->redirectRoute('teachers.show', $this->teacher);
     }
 

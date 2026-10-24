@@ -42,7 +42,7 @@ class CreateFeeForm extends Component
 
         $fees->storeFee($validated);
 
-        session()->flash('success', 'Fee Created Successfully');
+        session()->flash('success', __('Fee Created Successfully'));
 
         $this->redirectRoute('fees.index');
     }

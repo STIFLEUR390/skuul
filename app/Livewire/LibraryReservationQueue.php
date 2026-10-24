@@ -57,13 +57,13 @@ class LibraryReservationQueue extends Component
         $borrower = User::query()->ofSchool()->find($userId);
 
         if ($title === null) {
-            $this->addError('titleId', 'Choose a title from the list.');
+            $this->addError('titleId', __('Choose a title from the list.'));
 
             return;
         }
 
         if ($borrower === null) {
-            $this->addError('borrowerSearch', 'This person does not belong to this campus.');
+            $this->addError('borrowerSearch', __('This person does not belong to this campus.'));
 
             return;
         }

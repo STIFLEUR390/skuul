@@ -78,7 +78,7 @@ class CreateSupportPlan extends Component
             return;
         }
 
-        session()->flash('success', 'The plan was opened.');
+        session()->flash('success', __('The plan was opened.'));
         $this->redirectRoute('support-plans.show', $plan);
     }
 

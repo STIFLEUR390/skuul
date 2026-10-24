@@ -127,7 +127,7 @@ class RecordExpenseForm extends Component
             return;
         }
 
-        session()->flash('success', 'Expense recorded.');
+        session()->flash('success', __('Expense recorded.'));
         $this->redirectRoute('expenses.index');
     }
 

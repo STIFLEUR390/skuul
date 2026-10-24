@@ -182,14 +182,14 @@ class AcademicCycleSectionForm extends Component
         }
 
         if ($this->schoolSetup) {
-            session()->flash('success', 'Section created for the year. Review it in the class setup.');
+            session()->flash('success', __('Section created for the year. Review it in the class setup.'));
             $this->redirectRoute('schools.setup', [current_school(), 'classes']);
 
             return;
         }
 
         if ($this->setup) {
-            session()->flash('success', 'Section created for the year. Review it in the setup tree.');
+            session()->flash('success', __('Section created for the year. Review it in the setup tree.'));
             $this->redirectRoute('academic-years.setup', [$yearId, 'structure']);
 
             return;

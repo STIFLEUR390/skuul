@@ -83,7 +83,7 @@ class PromoteStudents extends Component
         $this->selectedStudentIds = array_column($this->students, 'id');
 
         if ($this->students === []) {
-            $this->addError('sourceAcademicCycleSectionId', 'No active learners are in this section.');
+            $this->addError('sourceAcademicCycleSectionId', __('No active learners are in this section.'));
         }
     }
 

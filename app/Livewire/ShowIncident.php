@@ -129,7 +129,7 @@ class ShowIncident extends Component
         Gate::authorize('update', $this->incident);
 
         if (!$this->incident->status->isOpen()) {
-            $this->addError('actionType', 'This case is finished. Reopen it before you change its actions.');
+            $this->addError('actionType', __('This case is finished. Reopen it before you change its actions.'));
 
             return;
         }

@@ -60,7 +60,7 @@ class AcceptAccountInvitation
 
             if ($invitation === null) {
                 throw ValidationException::withMessages([
-                    'token' => 'This invitation link is not valid, or it expired. Ask your administrator to send a new one.',
+                    'token' => __('This invitation link is not valid, or it expired. Ask your administrator to send a new one.'),
                 ]);
             }
 
@@ -71,7 +71,7 @@ class AcceptAccountInvitation
 
             if (!in_array($previousStatus, [AccountStatus::Invited, AccountStatus::Active], true)) {
                 throw ValidationException::withMessages([
-                    'token' => 'This invitation link is not valid, or it expired. Ask your administrator to send a new one.',
+                    'token' => __('This invitation link is not valid, or it expired. Ask your administrator to send a new one.'),
                 ]);
             }
 

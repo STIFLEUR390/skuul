@@ -165,21 +165,21 @@ class AcademicLevelForm extends Component
     private function returnAfterCreating(AcademicLevel $created): void
     {
         if ($this->schoolSetup) {
-            session()->flash('success', 'Class created. Review it and create this year’s sections.');
+            session()->flash('success', __('Class created. Review it and create this year’s sections.'));
             $this->redirectRoute('schools.setup', [current_school(), 'classes']);
 
             return;
         }
 
         if ($this->setup && $this->academicYearId !== null) {
-            session()->flash('success', 'Class created. Continue by building this year’s classes.');
+            session()->flash('success', __('Class created. Continue by building this year’s classes.'));
             $this->redirectRoute('academic-years.setup', [$this->academicYearId, 'structure']);
 
             return;
         }
 
         if ($this->setup) {
-            session()->flash('success', 'Class created. Continue by setting up an academic year.');
+            session()->flash('success', __('Class created. Continue by setting up an academic year.'));
             $this->redirectRoute('schools.setup', [current_school(), 'academic-year']);
 
             return;

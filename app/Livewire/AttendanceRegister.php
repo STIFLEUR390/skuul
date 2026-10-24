@@ -71,7 +71,7 @@ class AttendanceRegister extends Component
         $this->feedback = null;
 
         if (!$this->isValidDate($this->attendedOn)) {
-            $this->addError('attendedOn', 'Choose a valid day.');
+            $this->addError('attendedOn', __('Choose a valid day.'));
 
             return;
         }
@@ -105,7 +105,7 @@ class AttendanceRegister extends Component
         $status = AttendanceStatus::tryFrom($status)?->value;
 
         if ($status === null) {
-            $this->addError('statusesByStudent', 'Choose a valid attendance status.');
+            $this->addError('statusesByStudent', __('Choose a valid attendance status.'));
 
             return;
         }
@@ -134,7 +134,7 @@ class AttendanceRegister extends Component
         $section = $this->selectedSection();
 
         if ($section === null) {
-            $this->addError('academicCycleSectionId', 'Choose a section in this school.');
+            $this->addError('academicCycleSectionId', __('Choose a section in this school.'));
 
             return;
         }
@@ -142,7 +142,7 @@ class AttendanceRegister extends Component
         $students = $this->register->students($section, Carbon::parse($validated['attendedOn']));
 
         if ($students->isEmpty()) {
-            $this->addError('register', 'There are no learners in this section to mark.');
+            $this->addError('register', __('There are no learners in this section to mark.'));
 
             return;
         }

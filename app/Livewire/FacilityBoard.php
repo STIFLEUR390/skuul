@@ -188,7 +188,7 @@ class FacilityBoard extends Component
         $facility = Facility::query()->inSchool()->find((int) $this->facilityId);
 
         if ($facility === null) {
-            $this->addError('facilityId', 'Choose something this campus shares.');
+            $this->addError('facilityId', __('Choose something this campus shares.'));
 
             return;
         }

@@ -84,7 +84,7 @@ class CreateNoticeForm extends Component
 
         // A stripped editor can hold markup with no words, such as an empty paragraph.
         if (trim(strip_tags($this->content)) === '') {
-            $this->addError('content', 'Write the message.');
+            $this->addError('content', __('Write the message.'));
 
             return;
         }
@@ -104,7 +104,7 @@ class CreateNoticeForm extends Component
             ],
         ]);
 
-        session()->flash('success', 'The notice was saved as a draft. Read it, then publish it.');
+        session()->flash('success', __('The notice was saved as a draft. Read it, then publish it.'));
         $this->redirectRoute('notices.show', $notice);
     }
 

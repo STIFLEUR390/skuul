@@ -64,7 +64,7 @@ class CreateSchoolForm extends Component
         $organization = $this->organizations()->firstWhere('id', (int) $this->organizationId);
 
         if ($organization === null) {
-            $this->addError('organizationId', 'Choose an organization you can add a campus to.');
+            $this->addError('organizationId', __('Choose an organization you can add a campus to.'));
 
             return;
         }
@@ -74,7 +74,7 @@ class CreateSchoolForm extends Component
         $school = $openCampus->open($organization, $this->schoolDetails(), auth()->user());
         school_context()->set($school, remember: false);
 
-        session()->flash('success', 'School created. Let’s set up the essentials.');
+        session()->flash('success', __('School created. Let’s set up the essentials.'));
         $this->redirectRoute('schools.setup', [$school, 'details']);
     }
 

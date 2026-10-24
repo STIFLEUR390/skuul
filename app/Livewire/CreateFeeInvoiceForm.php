@@ -96,7 +96,7 @@ class CreateFeeInvoiceForm extends Component
             ->all();
 
         if ($ids === []) {
-            $this->addError('studentRecordIds', 'No active students there.');
+            $this->addError('studentRecordIds', __('No active students there.'));
 
             return;
         }
@@ -165,7 +165,7 @@ class CreateFeeInvoiceForm extends Component
 
         foreach ($this->lines as $feeId => $line) {
             if ((int) ($line['waiver'] ?? 0) > (int) $line['amount']) {
-                $this->addError("lines.{$feeId}.waiver", 'The waiver cannot be more than the amount.');
+                $this->addError("lines.{$feeId}.waiver", __('The waiver cannot be more than the amount.'));
             }
         }
 

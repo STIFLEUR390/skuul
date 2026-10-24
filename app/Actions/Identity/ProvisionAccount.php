@@ -51,7 +51,7 @@ class ProvisionAccount
         // agreed to share it here.
         if ($isExistingPerson && !$user->isKnownToOrganization($school->organization_id)) {
             throw ValidationException::withMessages([
-                'email' => 'This email belongs to a person outside your organization, so it cannot be used here.',
+                'email' => __('This email belongs to a person outside your organization, so it cannot be used here.'),
             ]);
         }
 

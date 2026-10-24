@@ -98,7 +98,7 @@ class GradingScaleManager extends Component
         $id = $this->options[$index]['id'] ?? null;
 
         if ($id !== null && in_array($id, $this->recordedOptionIds, true)) {
-            $this->addError('options', 'A grade option already used in a learner record cannot be removed.');
+            $this->addError('options', __('A grade option already used in a learner record cannot be removed.'));
 
             return;
         }

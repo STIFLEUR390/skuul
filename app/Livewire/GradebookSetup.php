@@ -146,7 +146,7 @@ class GradebookSetup extends Component
             $highestMark = $item?->entries()->max('points');
 
             if ($highestMark !== null && (float) $highestMark > $attributes['max_points']) {
-                $this->addError('itemMaxPoints', 'A learner already has '.(float) $highestMark.'. The maximum cannot go below that.');
+                $this->addError('itemMaxPoints', __('A learner already has ').(float) $highestMark.'. The maximum cannot go below that.');
 
                 return;
             }

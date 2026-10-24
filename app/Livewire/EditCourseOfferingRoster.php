@@ -94,7 +94,7 @@ class EditCourseOfferingRoster extends Component
             return;
         }
 
-        session()->flash('success', 'Roster updated.');
+        session()->flash('success', __('Roster updated.'));
 
         $this->setup
             ? $this->redirectRoute('academic-years.setup', [$this->courseOffering->academic_year_id, 'subjects'])

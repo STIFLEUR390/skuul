@@ -77,7 +77,7 @@ class CreateStaffProfileForm extends Component
             return;
         }
 
-        session()->flash('success', 'The employment record was saved.');
+        session()->flash('success', __('The employment record was saved.'));
         $this->redirectRoute('staff-profiles.show', $profile);
     }
 

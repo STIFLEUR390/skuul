@@ -48,7 +48,7 @@ class EditAdminForm extends Component
             return;
         }
 
-        session()->flash('success', 'The changes were saved.');
+        session()->flash('success', __('The changes were saved.'));
         $this->redirectRoute('admins.show', $this->admin);
     }
 

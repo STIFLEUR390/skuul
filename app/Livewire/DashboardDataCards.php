@@ -146,7 +146,7 @@ class DashboardDataCards extends Component
             return;
         }
 
-        session()->flash('success', 'Your school is ready for daily work.');
+        session()->flash('success', __('Your school is ready for daily work.'));
         $this->redirectRoute('dashboard');
     }
 

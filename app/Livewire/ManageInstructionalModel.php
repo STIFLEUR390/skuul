@@ -85,7 +85,7 @@ class ManageInstructionalModel extends Component
         }
 
         if ($this->setup) {
-            session()->flash('success', 'Teaching approach saved. Now build this year’s classes.');
+            session()->flash('success', __('Teaching approach saved. Now build this year’s classes.'));
             $this->redirectRoute('academic-years.setup', [$this->academicYear, 'structure']);
 
             return;

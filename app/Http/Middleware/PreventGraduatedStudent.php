@@ -24,7 +24,7 @@ class PreventGraduatedStudent
         }
 
         if ($user->studentRecord?->isGraduated()) {
-            session()->flash('danger', 'You cannot access this resource because you have been marked as graduated');
+            session()->flash('danger', __('You cannot access this resource because you have been marked as graduated'));
 
             return redirect('dashboard');
         }

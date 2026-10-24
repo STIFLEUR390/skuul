@@ -64,7 +64,7 @@ class EditExamForm extends Component
         $period = $this->periods()->firstWhere('id', (int) $this->academicPeriodId);
 
         if ($period === null) {
-            $this->addError('academicPeriodId', 'Choose a reporting period of this school year that is still being planned.');
+            $this->addError('academicPeriodId', __('Choose a reporting period of this school year that is still being planned.'));
 
             return;
         }
@@ -90,7 +90,7 @@ class EditExamForm extends Component
             return;
         }
 
-        session()->flash('success', 'The exam was saved.');
+        session()->flash('success', __('The exam was saved.'));
         $this->redirectRoute('academic-years.show', $period->academic_year_id);
     }
 

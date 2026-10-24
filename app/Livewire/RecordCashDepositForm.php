@@ -64,7 +64,7 @@ class RecordCashDepositForm extends Component
 
         if ($amount > $cashBox && !$this->confirmsMoreThanCashBox) {
             $this->isAboveCashBox = true;
-            $this->addError('amount', 'The cash box holds '.money_text($cashBox).' in the books. Check the amount, or confirm below.');
+            $this->addError('amount', __('The cash box holds ').money_text($cashBox).' in the books. Check the amount, or confirm below.');
 
             return;
         }
@@ -83,7 +83,7 @@ class RecordCashDepositForm extends Component
             return;
         }
 
-        session()->flash('success', 'Cash deposit recorded.');
+        session()->flash('success', __('Cash deposit recorded.'));
         $this->redirectRoute('cash-deposits.index');
     }
 

@@ -39,7 +39,7 @@ class EditFeeForm extends Component
 
         $fees->updateFee($this->fee, $this->validate(UpdateFeeRequest::feeRules()));
 
-        session()->flash('success', 'Fee Updated Successfully');
+        session()->flash('success', __('Fee Updated Successfully'));
 
         $this->redirectRoute('fees.index');
     }

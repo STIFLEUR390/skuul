@@ -56,7 +56,7 @@ class ImportBatchActions extends Component
             return;
         }
 
-        session()->flash('success', 'The import was dropped.');
+        session()->flash('success', __('The import was dropped.'));
         $this->redirectRoute('imports.show', $this->batch);
     }
 

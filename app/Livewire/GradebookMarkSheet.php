@@ -84,7 +84,7 @@ class GradebookMarkSheet extends Component
     {
         if ($this->changedStudentIds() !== []) {
             $this->gradeItemId = $this->openItemId;
-            $this->addError('gradeItemId', 'Save these marks first, or put them back.');
+            $this->addError('gradeItemId', __('Save these marks first, or put them back.'));
 
             return;
         }
@@ -127,7 +127,7 @@ class GradebookMarkSheet extends Component
         $item = $this->selectedItem();
 
         if ($item === null || !$this->acceptsMarks()) {
-            $this->addError('sheet', 'This gradebook takes no marks now.');
+            $this->addError('sheet', __('This gradebook takes no marks now.'));
 
             return;
         }
@@ -168,7 +168,7 @@ class GradebookMarkSheet extends Component
             if ($current !== $this->original[$studentId] && !in_array($studentId, $this->overwrites, true)) {
                 $this->original[$studentId] = $current;
                 $this->overwrites[] = $studentId;
-                $this->addError("marks.$studentId", 'Someone else changed this to '.$this->describe($item, $current).' since you opened the sheet. Save again to replace it.');
+                $this->addError("marks.$studentId", __('Someone else changed this to ').$this->describe($item, $current).' since you opened the sheet. Save again to replace it.');
 
                 continue;
             }

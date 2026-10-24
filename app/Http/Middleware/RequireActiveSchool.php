@@ -33,7 +33,7 @@ class RequireActiveSchool
             abort(403, "You do not have access to any school. Contact your school's administrator.");
         }
 
-        session()->flash('danger', 'Please set your working school first.');
+        session()->flash('danger', __('Please set your working school first.'));
 
         return redirect()->route('schools.index');
     }

@@ -69,7 +69,7 @@ class SyllabusWorkflowControl extends Component
             return;
         }
 
-        session()->flash('success', 'A revised draft was created. Make the changes, then send it for review.');
+        session()->flash('success', __('A revised draft was created. Make the changes, then send it for review.'));
         $this->redirectRoute('syllabi.edit', $revision);
     }
 

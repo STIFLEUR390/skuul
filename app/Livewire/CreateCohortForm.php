@@ -54,7 +54,7 @@ class CreateCohortForm extends Component
             return;
         }
 
-        session()->flash('success', 'The group was made.');
+        session()->flash('success', __('The group was made.'));
         $this->redirectRoute('cohorts.show', $cohort);
     }
 

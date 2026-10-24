@@ -116,7 +116,7 @@ class CreateTimetableForm extends Component
     {
         if ($scope === 'schoolwide' && !auth()->user()->can('create schoolwide timetable')) {
             $this->scope = 'section';
-            $this->addError('scope', 'You do not have permission to create a schoolwide timetable.');
+            $this->addError('scope', __('You do not have permission to create a schoolwide timetable.'));
 
             return;
         }
@@ -286,7 +286,7 @@ class CreateTimetableForm extends Component
         $weekdayIds = array_values(array_unique(array_map('intval', $this->newEvent['weekday_ids'] ?: (array) $this->newEvent['weekday_id'])));
 
         if ($this->newEvent['recurrence'] === 'weekly' && $weekdayIds === []) {
-            $this->addError('newEvent.weekday_ids', 'Choose at least one weekday.');
+            $this->addError('newEvent.weekday_ids', __('Choose at least one weekday.'));
 
             return;
         }

@@ -143,7 +143,7 @@ class ShowStudentProfile extends Component
             ->first();
 
         if ($academicCycleSection === null) {
-            $this->addError('placementCycleSectionId', 'That section does not belong to the working '.strtolower(school_term('academic_year', 'school year')).'.');
+            $this->addError('placementCycleSectionId', __('That section does not belong to the working ').strtolower(school_term('academic_year', 'school year')).'.');
 
             return;
         }
@@ -200,7 +200,7 @@ class ShowStudentProfile extends Component
             ->first();
 
         if ($academicCycleSection === null) {
-            $this->addError('campusCycleSectionId', 'That section does not belong to a campus of this organization.');
+            $this->addError('campusCycleSectionId', __('That section does not belong to a campus of this organization.'));
 
             return;
         }
@@ -210,7 +210,7 @@ class ShowStudentProfile extends Component
         $movesFreely = $campusMoveAuthority->movesFreely($actor, $academicCycleSection->school);
 
         if (!$movesFreely && !$campusMoveAuthority->canRequest($actor, $this->studentRecord->school)) {
-            $this->addError('campusCycleSectionId', 'You cannot move a student to another campus.');
+            $this->addError('campusCycleSectionId', __('You cannot move a student to another campus.'));
 
             return;
         }
@@ -259,7 +259,7 @@ class ShowStudentProfile extends Component
         }
 
         if (!$campusMoveAuthority->canCancel(auth()->user(), $this->openCampusMoveRequest)) {
-            $this->addError('campusCycleSectionId', 'You cannot take this request back.');
+            $this->addError('campusCycleSectionId', __('You cannot take this request back.'));
 
             return;
         }

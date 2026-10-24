@@ -90,7 +90,7 @@ class SetAcademicPeriod extends Component
             return;
         }
 
-        session()->flash('success', 'Working '.strtolower(school_term('academic_year', 'school year')).' saved for you.');
+        session()->flash('success', __('Working ').strtolower(school_term('academic_year', 'school year')).' saved for you.');
 
         $this->redirect(request()->header('Referer') ?? route('dashboard'));
     }
@@ -118,7 +118,7 @@ class SetAcademicPeriod extends Component
             return;
         }
 
-        session()->flash('success', 'Working '.strtolower(school_term('period', 'term')).' saved for you.');
+        session()->flash('success', __('Working ').strtolower(school_term('period', 'term')).' saved for you.');
 
         $this->redirect(request()->header('Referer') ?? route('dashboard'));
     }

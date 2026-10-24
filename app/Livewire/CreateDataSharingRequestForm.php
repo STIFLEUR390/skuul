@@ -101,7 +101,7 @@ class CreateDataSharingRequestForm extends Component
             // guess never tells one school who attends another. Counting the
             // misses stops a person from walking through another school's roll.
             RateLimiter::hit($guessKey, 3600);
-            $this->addError('admissionNumber', 'That school holds no learner with that admission number.');
+            $this->addError('admissionNumber', __('That school holds no learner with that admission number.'));
 
             return;
         }
@@ -121,7 +121,7 @@ class CreateDataSharingRequestForm extends Component
             return;
         }
 
-        session()->flash('success', 'The request was sent to the school that holds the records.');
+        session()->flash('success', __('The request was sent to the school that holds the records.'));
         $this->redirectRoute('data-sharing-requests.show', $sharingRequest);
     }
 

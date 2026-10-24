@@ -85,7 +85,7 @@ class AssignStudentsToParent extends Component
             : User::query()->find($this->studentId);
 
         if ($learner === null) {
-            $this->addError('studentId', 'Choose a learner from the list.');
+            $this->addError('studentId', __('Choose a learner from the list.'));
 
             return;
         }

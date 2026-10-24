@@ -60,7 +60,7 @@ class LibraryLendingDesk extends Component
         $barcode = trim($this->barcode);
 
         if ($barcode === '') {
-            $this->addError('barcode', 'Scan or type the barcode.');
+            $this->addError('barcode', __('Scan or type the barcode.'));
 
             return;
         }
@@ -68,7 +68,7 @@ class LibraryLendingDesk extends Component
         $copy = LibraryCopy::query()->inSchool()->where('barcode', $barcode)->first();
 
         if ($copy === null) {
-            $this->addError('barcode', 'No copy on this campus has that barcode.');
+            $this->addError('barcode', __('No copy on this campus has that barcode.'));
 
             return;
         }
@@ -90,13 +90,13 @@ class LibraryLendingDesk extends Component
         $borrower = User::query()->ofSchool()->find($userId);
 
         if ($copy === null) {
-            $this->addError('barcode', 'Scan the copy again.');
+            $this->addError('barcode', __('Scan the copy again.'));
 
             return;
         }
 
         if ($borrower === null) {
-            $this->addError('borrowerSearch', 'This person does not belong to this campus.');
+            $this->addError('borrowerSearch', __('This person does not belong to this campus.'));
 
             return;
         }
@@ -167,7 +167,7 @@ class LibraryLendingDesk extends Component
         $title = $this->titlesOnTheShelf()->firstWhere('id', (int) $this->titleId);
 
         if ($section === null || $title === null) {
-            $this->addError('sectionId', 'Choose a class and a title from the lists.');
+            $this->addError('sectionId', __('Choose a class and a title from the lists.'));
 
             return;
         }

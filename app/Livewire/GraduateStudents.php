@@ -82,7 +82,7 @@ class GraduateStudents extends Component
         $this->selectedStudentIds = array_column($this->students, 'id');
 
         if ($this->students === []) {
-            $this->addError('academicCycleSectionId', 'No active learners are in this section.');
+            $this->addError('academicCycleSectionId', __('No active learners are in this section.'));
         }
     }
 

@@ -64,7 +64,7 @@ class TimetableCoverPanel extends Component
             return;
         }
 
-        session()->flash('success', 'Section timetable draft created from the published template.');
+        session()->flash('success', __('Section timetable draft created from the published template.'));
         $this->redirectRoute('timetables.manage', $override);
     }
 
@@ -86,13 +86,13 @@ class TimetableCoverPanel extends Component
         $teacher = $this->teachers()->firstWhere('id', (int) $this->teacherId);
 
         if ($slot === null) {
-            $this->addError('lesson', 'Choose a scheduled entry from this timetable.');
+            $this->addError('lesson', __('Choose a scheduled entry from this timetable.'));
 
             return;
         }
 
         if ($teacher === null) {
-            $this->addError('teacherId', 'The replacement must be an active teacher at this school.');
+            $this->addError('teacherId', __('The replacement must be an active teacher at this school.'));
 
             return;
         }

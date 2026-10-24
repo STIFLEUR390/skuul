@@ -195,7 +195,7 @@ class ShowStudentAccount extends Component
         $line = $this->invoice((int) $this->relievingInvoiceId)->feeInvoiceRecords->firstWhere('id', (int) $this->reliefLineId);
 
         if ($line === null) {
-            $this->addError('reliefLineId', 'Choose a fee on this invoice.');
+            $this->addError('reliefLineId', __('Choose a fee on this invoice.'));
 
             return;
         }
