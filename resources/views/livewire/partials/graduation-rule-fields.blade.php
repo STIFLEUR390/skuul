@@ -3,7 +3,7 @@
     $countsCredits = $operator === 'at_least_credits' || ($creditsToggleProperty !== null && $isCountingCredits);
 @endphp
 <details wire:ignore.self class="border-y py-1" @if ($operator !== 'all' || $countsCredits) open @endif>
-    <summary class="min-h-11 cursor-pointer select-none py-3 text-sm font-medium">Advanced rules (optional)</summary>
+    <summary class="min-h-11 cursor-pointer select-none py-3 text-sm font-medium">{{ __('Advanced rules (optional)') }}</summary>
     <div class="grid gap-3 pb-3 sm:grid-cols-2">
         <div>
             <label for="{{ $operatorProperty }}" class="text-sm text-muted-foreground">{{ __('How the items count') }}</label>

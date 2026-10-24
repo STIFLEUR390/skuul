@@ -25,17 +25,17 @@
                         <x-field-error name="title" class="mt-1" />
                     </div>
                     <div>
-                        <label for="shelve-authors" class="text-sm text-muted-foreground">Author (optional)</label>
+                        <label for="shelve-authors" class="text-sm text-muted-foreground">{{ __('Author (optional)') }}</label>
                         <input id="shelve-authors" wire:model="authors" maxlength="255" class="{{ $controlClasses }}" {{ field_error_bindings('authors') }}>
                         <x-field-error name="authors" class="mt-1" />
                     </div>
                     <div>
-                        <label for="shelve-isbn" class="text-sm text-muted-foreground">ISBN (optional)</label>
+                        <label for="shelve-isbn" class="text-sm text-muted-foreground">{{ __('ISBN (optional)') }}</label>
                         <input id="shelve-isbn" wire:model="isbn" maxlength="20" class="{{ $controlClasses }}" {{ field_error_bindings('isbn') }}>
                         <x-field-error name="isbn" class="mt-1" />
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="shelve-category" class="text-sm text-muted-foreground">Category (optional)</label>
+                        <label for="shelve-category" class="text-sm text-muted-foreground">{{ __('Category (optional)') }}</label>
                         <input id="shelve-category" wire:model="category" maxlength="80" class="{{ $controlClasses }}" {{ field_error_bindings('category') }}>
                         <x-field-error name="category" class="mt-1" />
                     </div>
@@ -73,7 +73,7 @@
                     <input id="shelve-copies" type="number" inputmode="numeric" min="1" max="50" required wire:model.blur="copies" class="{{ $controlClasses }}" {{ field_error_bindings('copies') }}>
                 </div>
                 <div>
-                    <label for="shelve-shelf-mark" class="text-sm text-muted-foreground">Shelf mark (optional)</label>
+                    <label for="shelve-shelf-mark" class="text-sm text-muted-foreground">{{ __('Shelf mark (optional)') }}</label>
                     <input id="shelve-shelf-mark" wire:model="shelfMark" maxlength="60" class="{{ $controlClasses }}" {{ field_error_bindings('shelfMark') }}>
                 </div>
             </div>

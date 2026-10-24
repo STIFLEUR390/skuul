@@ -36,12 +36,12 @@
         @endif
 
         <div>
-            <label for="deposit-reference" class="sr-only">Bank reference (optional)</label>
+            <label for="deposit-reference" class="sr-only">{{ __('Bank reference (optional)') }}</label>
             <input id="deposit-reference" wire:model="bankReference" maxlength="100" placeholder="Bank reference (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('bankReference') }}>
             <x-field-error name="bankReference" class="mt-1" />
         </div>
         <div>
-            <label for="deposit-note" class="sr-only">Note (optional)</label>
+            <label for="deposit-note" class="sr-only">{{ __('Note (optional)') }}</label>
             <textarea id="deposit-note" wire:model="note" rows="3" maxlength="2000" placeholder="Note (optional)"
                 class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('note') }}></textarea>
             <x-field-error name="note" />

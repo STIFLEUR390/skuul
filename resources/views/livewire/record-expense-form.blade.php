@@ -70,12 +70,12 @@
                     <x-field-error name="reference" class="mt-1" />
                 </div>
                 <div>
-                    <label for="expense-vendor" class="sr-only">Who was paid (optional)</label>
+                    <label for="expense-vendor" class="sr-only">{{ __('Who was paid (optional)') }}</label>
                     <input id="expense-vendor" wire:model="vendor" maxlength="150" placeholder="Who was paid (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('vendor') }}>
                     <x-field-error name="vendor" class="mt-1" />
                 </div>
                 <div>
-                    <label for="expense-program" class="sr-only">Programme (optional)</label>
+                    <label for="expense-program" class="sr-only">{{ __('Programme (optional)') }}</label>
                     <select id="expense-program" wire:model="programId" class="{{ $controlClasses }}" {{ field_error_bindings('programId') }}>
                         <option value="">{{ __('All programmes') }}</option>
                         @foreach ($programs as $program)
@@ -85,14 +85,14 @@
                     <x-field-error name="programId" class="mt-1" />
                 </div>
                 <div>
-                    <label for="expense-fund" class="sr-only">Fund or grant (optional)</label>
+                    <label for="expense-fund" class="sr-only">{{ __('Fund or grant (optional)') }}</label>
                     <input id="expense-fund" wire:model="fund" maxlength="60" placeholder="Fund or grant (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('fund') }}>
                     <x-field-error name="fund" class="mt-1" />
                 </div>
             </div>
 
             <div>
-                <label for="expense-note" class="sr-only">Note (optional)</label>
+                <label for="expense-note" class="sr-only">{{ __('Note (optional)') }}</label>
                 <textarea id="expense-note" wire:model="note" rows="3" maxlength="2000" placeholder="Note (optional)"
                     class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('note') }}></textarea>
                 <x-field-error name="note" />

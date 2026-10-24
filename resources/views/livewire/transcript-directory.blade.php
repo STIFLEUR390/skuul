@@ -3,7 +3,7 @@
     @can('create', App\Models\TranscriptSnapshot::class)
         <april:card>
             <slot:title>{{ __('Issue a transcript') }}</slot:title>
-            <slot:description>Lifetime record of a learner’s latest published results. Issued transcripts stay fixed; corrections create a new revision.</slot:description>
+            <slot:description>{{ __('Lifetime record of a learner’s latest published results. Issued transcripts stay fixed; corrections create a new revision.') }}</slot:description>
             <slot:content>
                 <form wire:submit="issueTranscript" class="grid gap-4 lg:grid-cols-4 lg:items-end">
                     <div class="flex min-w-0 flex-col gap-2">

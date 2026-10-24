@@ -40,13 +40,13 @@
                             <x-field-error name="destination" class="mt-1" />
                         </div>
                         <div>
-                            <label for="leave-contact" class="sr-only">Who the house can ring (optional)</label>
+                            <label for="leave-contact" class="sr-only">{{ __('Who the house can ring (optional)') }}</label>
                             <input id="leave-contact" wire:model="contact" maxlength="100" placeholder="Who the house can ring (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('contact') }}>
                             <x-field-error name="contact" class="mt-1" />
                         </div>
                     </div>
                     <div>
-                        <label for="leave-reason" class="sr-only">Reason (optional)</label>
+                        <label for="leave-reason" class="sr-only">{{ __('Reason (optional)') }}</label>
                         <input id="leave-reason" wire:model="reason" maxlength="1000" placeholder="Reason (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('reason') }}>
                         <x-field-error name="reason" class="mt-1" />
                     </div>

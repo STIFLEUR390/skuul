@@ -93,7 +93,7 @@
                         <x-field-error name="academicPeriodId" class="mt-1" />
                     </div>
                     <div>
-                        <label for="program_id" class="text-sm text-muted-foreground">Programme (optional)</label>
+                        <label for="program_id" class="text-sm text-muted-foreground">{{ __('Programme (optional)') }}</label>
                         <select id="program_id" wire:model="programId" class="{{ $controlClasses }}" {{ field_error_bindings('programId') }}>
                             <option value="">{{ __('Everything on this account') }}</option>
                             @foreach ($programs as $program)
@@ -103,12 +103,12 @@
                         <x-field-error name="programId" class="mt-1" />
                     </div>
                     <div>
-                        <label for="fund" class="text-sm text-muted-foreground">Fund (optional)</label>
+                        <label for="fund" class="text-sm text-muted-foreground">{{ __('Fund (optional)') }}</label>
                         <input id="fund" wire:model="fund" maxlength="60" placeholder="{{ __('Library fund') }}" class="{{ $controlClasses }}" {{ field_error_bindings('fund') }}>
                         <x-field-error name="fund" class="mt-1" />
                     </div>
                     <div>
-                        <label for="note" class="text-sm text-muted-foreground">Note (optional)</label>
+                        <label for="note" class="text-sm text-muted-foreground">{{ __('Note (optional)') }}</label>
                         <input id="note" wire:model="note" maxlength="1000" class="{{ $controlClasses }}" {{ field_error_bindings('note') }}>
                         <x-field-error name="note" class="mt-1" />
                     </div>

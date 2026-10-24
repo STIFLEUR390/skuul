@@ -31,7 +31,7 @@
     @endif
 
     <div>
-        <label for="house-notes" class="text-sm text-muted-foreground">Notes (optional)</label>
+        <label for="house-notes" class="text-sm text-muted-foreground">{{ __('Notes (optional)') }}</label>
         <textarea id="house-notes" wire:model="notes" rows="3" maxlength="1000" class="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('notes') }}></textarea>
         <x-field-error name="notes" class="mt-1" />
     </div>

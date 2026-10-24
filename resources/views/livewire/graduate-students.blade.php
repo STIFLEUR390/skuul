@@ -35,7 +35,7 @@
             </ul>
             <x-field-error name="selectedStudentIds" />
             <div>
-                <label for="graduation-reason" class="text-sm text-muted-foreground">Note for the record (optional)</label>
+                <label for="graduation-reason" class="text-sm text-muted-foreground">{{ __('Note for the record (optional)') }}</label>
                 <input id="graduation-reason" type="text" maxlength="255" wire:model="reason" placeholder="{{ __('Completed the final year') }}" class="{{ $controlClasses }}" {{ field_error_bindings('reason') }}>
                 <x-field-error name="reason" class="mt-1" />
             </div>

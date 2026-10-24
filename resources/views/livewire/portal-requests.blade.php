@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div>
-                <label for="request-message" class="sr-only">More detail (optional)</label>
+                <label for="request-message" class="sr-only">{{ __('More detail (optional)') }}</label>
                 <textarea id="request-message" wire:model="message" rows="3" maxlength="2000" placeholder="More detail (optional)"
                     class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('message') }}></textarea>
             </div>

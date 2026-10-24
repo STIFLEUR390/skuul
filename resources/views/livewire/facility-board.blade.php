@@ -73,12 +73,12 @@
                     <x-field-error name="kind" class="mt-1" />
                 </div>
                 <div>
-                    <label for="facility-capacity" class="text-sm text-muted-foreground">How many it holds (optional)</label>
+                    <label for="facility-capacity" class="text-sm text-muted-foreground">{{ __('How many it holds (optional)') }}</label>
                     <input id="facility-capacity" type="number" inputmode="numeric" min="1" wire:model="capacity" class="{{ $controlClasses }}" {{ field_error_bindings('capacity') }}>
                     <x-field-error name="capacity" class="mt-1" />
                 </div>
                 <div>
-                    <label for="facility-notes" class="text-sm text-muted-foreground">Notes (optional)</label>
+                    <label for="facility-notes" class="text-sm text-muted-foreground">{{ __('Notes (optional)') }}</label>
                     <input id="facility-notes" wire:model="notes" maxlength="1000" class="{{ $controlClasses }}" {{ field_error_bindings('notes') }}>
                     <x-field-error name="notes" class="mt-1" />
                 </div>

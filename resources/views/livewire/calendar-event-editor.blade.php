@@ -60,7 +60,7 @@
                     <x-field-error name="type" class="mt-1" />
                 </div>
                 <div>
-                    <label for="event-location" class="sr-only">Where (optional)</label>
+                    <label for="event-location" class="sr-only">{{ __('Where (optional)') }}</label>
                     <input id="event-location" wire:model="location" maxlength="255" placeholder="Where (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('location') }}>
                     <x-field-error name="location" class="mt-1" />
                 </div>
@@ -89,7 +89,7 @@
             <x-field-error name="endsAt" />
 
             <div>
-                <label for="event-description" class="sr-only">What it is (optional)</label>
+                <label for="event-description" class="sr-only">{{ __('What it is (optional)') }}</label>
                 <textarea id="event-description" wire:model="description" rows="3" maxlength="2000" placeholder="What it is (optional)"
                     class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('description') }}></textarea>
                 <x-field-error name="description" />

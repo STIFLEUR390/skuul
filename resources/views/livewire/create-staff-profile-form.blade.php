@@ -17,12 +17,12 @@
             <x-field-error name="userId" class="mt-1" />
         </div>
         <div>
-            <label for="job_title" class="text-sm text-muted-foreground">Job title (optional)</label>
+            <label for="job_title" class="text-sm text-muted-foreground">{{ __('Job title (optional)') }}</label>
             <input id="job_title" wire:model="jobTitle" maxlength="100" placeholder="{{ __('Teacher') }}" class="{{ $controlClasses }}" {{ field_error_bindings('jobTitle') }}>
             <x-field-error name="jobTitle" class="mt-1" />
         </div>
         <div>
-            <label for="department" class="text-sm text-muted-foreground">Department (optional)</label>
+            <label for="department" class="text-sm text-muted-foreground">{{ __('Department (optional)') }}</label>
             <input id="department" wire:model="department" maxlength="100" placeholder="{{ __('Science') }}" class="{{ $controlClasses }}" {{ field_error_bindings('department') }}>
             <x-field-error name="department" class="mt-1" />
         </div>
@@ -36,12 +36,12 @@
             <x-field-error name="employmentType" class="mt-1" />
         </div>
         <div>
-            <label for="staff_number" class="text-sm text-muted-foreground">Staff number (optional)</label>
+            <label for="staff_number" class="text-sm text-muted-foreground">{{ __('Staff number (optional)') }}</label>
             <input id="staff_number" wire:model="staffNumber" maxlength="30" autocomplete="off" class="{{ $controlClasses }}" {{ field_error_bindings('staffNumber') }}>
             <x-field-error name="staffNumber" class="mt-1" />
         </div>
         <div>
-            <label for="joined_on" class="text-sm text-muted-foreground">Joined on (optional)</label>
+            <label for="joined_on" class="text-sm text-muted-foreground">{{ __('Joined on (optional)') }}</label>
             <input type="date" id="joined_on" wire:model="joinedOn" class="{{ $controlClasses }}" {{ field_error_bindings('joinedOn') }}>
             <x-field-error name="joinedOn" class="mt-1" />
         </div>

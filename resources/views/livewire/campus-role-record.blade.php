@@ -40,7 +40,7 @@
         @if ($isEditing)
             <form wire:submit="save" class="flex flex-col gap-6" aria-label="{{ __('Change the role') }}">
                 <div>
-                    <label for="description" class="text-sm text-muted-foreground">What it is for (optional)</label>
+                    <label for="description" class="text-sm text-muted-foreground">{{ __('What it is for (optional)') }}</label>
                     <input id="description" wire:model="description" maxlength="255" class="{{ $controlClasses }}" {{ field_error_bindings('description') }}>
                     <x-field-error name="description" class="mt-1" />
                 </div>

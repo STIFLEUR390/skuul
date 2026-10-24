@@ -16,7 +16,7 @@
             <x-field-error name="cycleLengthDays" class="mt-1" />
         </div>
         <div class="md:col-span-2">
-            <label for="template-description" class="text-sm text-muted-foreground">Description (optional)</label>
+            <label for="template-description" class="text-sm text-muted-foreground">{{ __('Description (optional)') }}</label>
             <textarea id="template-description" wire:model="description" rows="3" maxlength="500" class="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('description') }}></textarea>
             <x-field-error name="description" class="mt-1" />
         </div>
@@ -40,12 +40,12 @@
         </ul>
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
-                <label for="template-generate-ahead" class="text-sm text-muted-foreground">Generate the next school year (weeks ahead)</label>
+                <label for="template-generate-ahead" class="text-sm text-muted-foreground">{{ __('Generate the next school year (weeks ahead)') }}</label>
                 <input id="template-generate-ahead" type="number" wire:model="generateAheadWeeks" required min="0" max="104" inputmode="numeric" class="{{ $controlClasses }} tabular-nums" {{ field_error_bindings('generateAheadWeeks') }}>
                 <x-field-error name="generateAheadWeeks" class="mt-1" />
             </div>
             <div>
-                <label for="template-remind" class="text-sm text-muted-foreground">Reminder lead time (days)</label>
+                <label for="template-remind" class="text-sm text-muted-foreground">{{ __('Reminder lead time (days)') }}</label>
                 <input id="template-remind" type="number" wire:model="remindDaysBefore" required min="0" max="90" inputmode="numeric" class="{{ $controlClasses }} tabular-nums" {{ field_error_bindings('remindDaysBefore') }}>
                 <x-field-error name="remindDaysBefore" class="mt-1" />
             </div>
@@ -74,7 +74,7 @@
                         @endif
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="period-{{ $index }}-label" class="text-sm text-muted-foreground">Local label (optional)</label>
+                        <label for="period-{{ $index }}-label" class="text-sm text-muted-foreground">{{ __('Local label (optional)') }}</label>
                         <input id="period-{{ $index }}-label" type="text" wire:model="periods.{{ $index }}.label" maxlength="100" autocomplete="off" class="{{ $controlClasses }}" {{ field_error_bindings("periods.$index.label") }}>
                     </div>
                     <div>

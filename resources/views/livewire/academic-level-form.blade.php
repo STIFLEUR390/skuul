@@ -26,7 +26,7 @@
 
     <div class="grid gap-4 md:grid-cols-2">
         <div>
-            <label for="level-code" class="text-sm text-muted-foreground">Short code (optional)</label>
+            <label for="level-code" class="text-sm text-muted-foreground">{{ __('Short code (optional)') }}</label>
             <input id="level-code" type="text" wire:model="code" maxlength="100" autocomplete="off" placeholder="P4" class="{{ $controlClasses }}" {{ field_error_bindings('code') }}>
             <x-field-error name="code" class="mt-1" />
         </div>
@@ -37,7 +37,7 @@
         </div>
         @unless ($isGroup)
             <div class="md:col-span-2">
-                <label for="level-parent" class="text-sm text-muted-foreground">Level group (optional)</label>
+                <label for="level-parent" class="text-sm text-muted-foreground">{{ __('Level group (optional)') }}</label>
                 <select id="level-parent" wire:model="parentId" aria-describedby="level-parent-hint" class="{{ $controlClasses }}" {{ field_error_bindings('parentId') }}>
                     <option value="">{{ __('No group. This is a standalone level.') }}</option>
                     @foreach ($parentOptions as $option)

@@ -113,7 +113,7 @@
                                 <p class="font-medium">
                                     Revision {{ $revision->revision }}
                                     @if ($revision->is($reportCardSnapshot))
-                                        <span class="ml-1 text-xs text-muted-foreground">(you are reading this one)</span>
+                                        <span class="ml-1 text-xs text-muted-foreground">{{ __('(you are reading this one)') }}</span>
                                     @endif
                                 </p>
                                 <p class="text-sm text-muted-foreground">

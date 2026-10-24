@@ -51,7 +51,7 @@
                         <x-field-error name="name" class="mt-1" />
                     </div>
                     <div>
-                        <label for="description" class="text-sm text-muted-foreground">What it is (optional)</label>
+                        <label for="description" class="text-sm text-muted-foreground">{{ __('What it is (optional)') }}</label>
                         <input id="description" wire:model="description" maxlength="1000" class="{{ $controlClasses }}" {{ field_error_bindings('description') }}>
                         <x-field-error name="description" class="mt-1" />
                     </div>
@@ -181,7 +181,7 @@
                         <x-field-error name="requirementDescription" class="mt-1" />
                     </div>
                     <div>
-                        <label for="requirement_subject_id" class="text-sm text-muted-foreground">Judged from (optional)</label>
+                        <label for="requirement_subject_id" class="text-sm text-muted-foreground">{{ __('Judged from (optional)') }}</label>
                         <select id="requirement_subject_id" wire:model="requirementSubjectId" class="{{ $controlClasses }}" {{ field_error_bindings('requirementSubjectId') }}>
                             <option value="">{{ __('No subject') }}</option>
                             @foreach ($subjects as $subject)

@@ -23,7 +23,7 @@
                         <x-field-error name="name" class="mt-1" />
                     </div>
                     <div>
-                        <label for="description" class="text-sm text-muted-foreground">What it is (optional)</label>
+                        <label for="description" class="text-sm text-muted-foreground">{{ __('What it is (optional)') }}</label>
                         <input id="description" wire:model="description" maxlength="1000" class="{{ $controlClasses }}" {{ field_error_bindings('description') }}>
                         <x-field-error name="description" class="mt-1" />
                     </div>
@@ -112,12 +112,12 @@
                     <x-field-error name="startsOn" class="mt-1" />
                 </div>
                 <div>
-                    <label for="schedule" class="text-sm text-muted-foreground">When it runs (optional)</label>
+                    <label for="schedule" class="text-sm text-muted-foreground">{{ __('When it runs (optional)') }}</label>
                     <input id="schedule" wire:model="schedule" maxlength="255" placeholder="{{ __('Tuesday, 15:30') }}" class="{{ $controlClasses }}" {{ field_error_bindings('schedule') }}>
                     <x-field-error name="schedule" class="mt-1" />
                 </div>
                 <div class="sm:col-span-2">
-                    <label for="staff_id" class="text-sm text-muted-foreground">Run by (optional)</label>
+                    <label for="staff_id" class="text-sm text-muted-foreground">{{ __('Run by (optional)') }}</label>
                     <select id="staff_id" wire:model="staffId" class="{{ $controlClasses }}" {{ field_error_bindings('staffId') }}>
                         <option value="">{{ __('Nobody yet') }}</option>
                         @foreach ($staff as $person)

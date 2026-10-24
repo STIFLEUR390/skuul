@@ -46,7 +46,7 @@
                 <x-field-error name="purpose" class="mt-1" />
             </div>
             <div>
-                <label for="expires_on" class="text-sm text-muted-foreground">Permission ends on (optional)</label>
+                <label for="expires_on" class="text-sm text-muted-foreground">{{ __('Permission ends on (optional)') }}</label>
                 <input type="date" id="expires_on" wire:model="expiresOn" min="{{ school_today()->toDateString() }}" class="{{ $controlClasses }}" {{ field_error_bindings('expiresOn') }}>
                 <x-field-error name="expiresOn" class="mt-1" />
             </div>

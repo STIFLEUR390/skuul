@@ -48,7 +48,7 @@
                     </div>
                 @endif
                 <div class="sm:col-span-2">
-                    <label for="scale-description" class="text-sm text-muted-foreground">When to use it (optional)</label>
+                    <label for="scale-description" class="text-sm text-muted-foreground">{{ __('When to use it (optional)') }}</label>
                     <input id="scale-description" wire:model="description" maxlength="5000" class="{{ $controlClasses }}" {{ field_error_bindings('description') }}>
                     <x-field-error name="description" class="mt-1" />
                 </div>

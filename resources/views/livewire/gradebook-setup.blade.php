@@ -87,7 +87,7 @@
                     <x-field-error name="templateName" class="mt-1" />
                 </div>
                 <div>
-                    <label for="template-description" class="sr-only">When to use it (optional)</label>
+                    <label for="template-description" class="sr-only">{{ __('When to use it (optional)') }}</label>
                     <input id="template-description" wire:model="templateDescription" maxlength="5000" placeholder="When to use it (optional)" class="{{ $controlClasses }}" {{ field_error_bindings('templateDescription') }}>
                     <x-field-error name="templateDescription" class="mt-1" />
                 </div>
@@ -181,7 +181,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="item-due" class="text-sm text-muted-foreground">Due (optional)</label>
+                    <label for="item-due" class="text-sm text-muted-foreground">{{ __('Due (optional)') }}</label>
                     <input id="item-due" type="date" wire:model="itemDueOn" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('itemDueOn') }}>
                 </div>
             </div>

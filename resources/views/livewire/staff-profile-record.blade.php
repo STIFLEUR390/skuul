@@ -147,17 +147,17 @@
                     <x-field-error name="credentialName" class="mt-1" />
                 </div>
                 <div>
-                    <label for="credential-issuer" class="text-sm text-muted-foreground">Issued by (optional)</label>
+                    <label for="credential-issuer" class="text-sm text-muted-foreground">{{ __('Issued by (optional)') }}</label>
                     <input id="credential-issuer" wire:model="credentialIssuer" maxlength="150" class="{{ $controlClasses }}" {{ field_error_bindings('credentialIssuer') }}>
                     <x-field-error name="credentialIssuer" class="mt-1" />
                 </div>
                 <div>
-                    <label for="credential-issued" class="text-sm text-muted-foreground">Issued on (optional)</label>
+                    <label for="credential-issued" class="text-sm text-muted-foreground">{{ __('Issued on (optional)') }}</label>
                     <input type="date" id="credential-issued" wire:model="credentialIssuedOn" class="{{ $controlClasses }}" {{ field_error_bindings('credentialIssuedOn') }}>
                     <x-field-error name="credentialIssuedOn" class="mt-1" />
                 </div>
                 <div>
-                    <label for="credential-expires" class="text-sm text-muted-foreground">Runs out on (optional)</label>
+                    <label for="credential-expires" class="text-sm text-muted-foreground">{{ __('Runs out on (optional)') }}</label>
                     <input type="date" id="credential-expires" wire:model="credentialExpiresOn" class="{{ $controlClasses }}" {{ field_error_bindings('credentialExpiresOn') }}>
                     <x-field-error name="credentialExpiresOn" class="mt-1" />
                 </div>

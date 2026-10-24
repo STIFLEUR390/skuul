@@ -19,7 +19,7 @@
             <x-field-error name="type" class="mt-1" />
         </div>
         <div class="sm:col-span-2">
-            <label for="description" class="text-sm text-muted-foreground">What it is (optional)</label>
+            <label for="description" class="text-sm text-muted-foreground">{{ __('What it is (optional)') }}</label>
             <textarea id="description" wire:model="description" rows="3" maxlength="1000" class="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" {{ field_error_bindings('description') }}></textarea>
             <x-field-error name="description" class="mt-1" />
         </div>

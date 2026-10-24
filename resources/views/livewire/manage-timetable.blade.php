@@ -163,8 +163,8 @@
                             <div class="min-w-0 space-y-2">
                                 <april:label for="dialog-slot-recurrence">{{ __('Repeat') }}</april:label>
                                 <select id="dialog-slot-recurrence" wire:model.live="slotRecurrence" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" {{ field_error_bindings('slotRecurrence') }}>
-                                    <option value="weekly">Every week(s)</option>
-                                    <option value="monthly">Every month(s)</option>
+                                    <option value="weekly">{{ __('Every week(s)') }}</option>
+                                    <option value="monthly">{{ __('Every month(s)') }}</option>
                                     <option value="one_time">{{ __('One date only') }}</option>
                                 </select>
                                 <x-field-error name="slotRecurrence" />

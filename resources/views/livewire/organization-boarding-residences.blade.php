@@ -110,7 +110,7 @@
                 <x-field-error name="name" class="mt-1" />
             </div>
             <div>
-                <label for="residence-notes" class="text-sm text-muted-foreground">Notes (optional)</label>
+                <label for="residence-notes" class="text-sm text-muted-foreground">{{ __('Notes (optional)') }}</label>
                 <input id="residence-notes" wire:model="notes" maxlength="1000" placeholder="{{ __('Shared by two campuses') }}" class="{{ $controlClasses }} mt-1" {{ field_error_bindings('notes') }}>
                 <x-field-error name="notes" class="mt-1" />
             </div>

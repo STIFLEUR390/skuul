@@ -1,6 +1,8 @@
 version: 1
 checksums:
   888296772dc84f25d3e9548929e85d5c:
+    (not%20used%20for%20SQLite): fb4e0218c0f7e4dbb74ae2c04501b6a4
+    (you%20are%20reading%20this%20one): 55bc6d888e301348dc7394c6aa9ad266
     "%2C%20choosing": cc4a1159c634ee52c963e5c931512758
     .%20The%20demo%20resets%20every%20hour%2C%20and%20deleting%20is%20turned%20off.: 02c3685a73b0c301219cb983e881879e
     .%20You%20can%20change%20the%20level%20group%20below.: eb7698561d4766ae007b08e172a96620
@@ -91,6 +93,7 @@ checksums:
     Add%20recurring%20slot: 88122bd2e3e0b46f2ec52beec6fa6152
     Add%20reporting%20period: b7ba036674d18a60f8962312adbdb35e
     Address: 5a9a8bc26f90d84c90105690a2eb23a1
+    Address%20(optional): c6056861aeddcf505c24501a6e45ff89
     Address%20*: 8291dea7f6759602298516e9e1b78176
     Addresses: 87b49e2ffcdbe3cc4bfd2d25cc75c096
     Address%20line%201: ef40a2ee374d665318cece506c439dce
@@ -135,6 +138,7 @@ checksums:
     Admit%20learner: 91ed8fb9a520ff0930d82b7d33e40736
     Admitted: cee57a180948fc82858ea6a2150ac010
     A%20draft%20is%20not%20on%20the%20calendar%20the%20school%20reads%2C%20and%20a%20draft%20closure%20does%20not%20shut%20the%20school.: d6ebbdaa15ef91abbbca49af5f176f33
+    Advanced%20rules%20(optional): 34d48c2f155e2d12344c594bca944abf
     A%20grade%20option%20already%20used%20in%20a%20learner%20record%20cannot%20be%20removed.: 30eaa5332afc1a2715c679299043ebf8
     A%20graduation%20year%2C%20a%20scholarship%20group%2C%20a%20club%2C%20or%20a%20watchlist.%20Past%20membership%20stays%20visible%20when%20somebody%20leaves.: 3a8a9c4c636d262182579646d49bdd96
     Agree: bfa92006bbf346342cd2e173b2fea9f2
@@ -142,6 +146,7 @@ checksums:
     A%20house%20holds%20as%20many%20boarders%20as%20it%20has%20beds%2C%20so%20nobody%20has%20to%20keep%20a%20capacity%20number%20up%20to%20date.: 9799953c254171016c808058bc82dd3f
     A%20later%20version%20exists: 52771d4c4dfcf095aa1e14e6769aaceb
     A%20learner%20already%20has: 75022b8df3f76527d7f5b3d6af3ae968
+    A%20learner%20already%20has%20: 3db5eec9474d879e02d8cade745e28d7
     A%20lesson%20for%20this%20class%20or%20section.: c5774041ba5f9091e107f1611973688e
     All%20classes: 885b492dbceb3887c6bc93850d9bf872
     All%20day: db637cf4dbd0ebc7e68964e90c492eaf
@@ -228,6 +233,7 @@ checksums:
     as%20their%20level%20group.: dd3ff3a6f338d2cbdfed2f7c250ae1ed
     A%20subject%20is%20the%20reusable%20name%20of%20what%20learners%20study%2C%20such%20as%20Mathematics%2C%20English%2C%20or%20Science.%20Later%2C%20add%20it%20to%20a%20class%20and%20reporting%20period%20for%20a%20specific%20school%20year.: b9dfaa3ec164e60ac0388668d3dc8f73
     A%20timetable%20needs%20an%20academic%20period%20with%20dates.: 2c437d0512f3b358079664a0b9f9cb52
+    Attachment%20(optional): d04c01132612e75f34c4b5ad7ed76d10
     Attendance: 1667c20473a66e2c54151e6cb8c72de2
     Attendance%20rate: d7a0492aec556e2ec6ca97872e3894b3
     Attendance%20rate%20over%20the%20last%20seven%20days: 8c5fbb1b11773271964b89b21acffd27
@@ -235,6 +241,7 @@ checksums:
     Attendance%20totals: c5b570f962909537cbdb53e18a5bfff3
     Authentication%20code: 66e2610863caaf1b9c367d03fe8f942f
     Author: 7f27e0a04693df3ce263cd7ef649665e
+    Author%20(optional): b16b2a1602f9693c24e11f941539f04c
     Automation: c1e18f4da59ffc01dc2d6faa3b5ef669
     Available%20pages%20and%20features: 8cdf2679d4ac0bcded70dc11fd7c1ebb
     Average: 8ebb872222898ed8785e5a9d77c5a2c3
@@ -259,6 +266,7 @@ checksums:
     Back%20to%20staff: c873d81757769f19cd4296af76a770e3
     Back%20to%20the%20library: f3d5689c918084d7d041939c28c56202
     Balance: f04637aac54ea31878fb253ecc55705d
+    Bank%20reference%20(optional): 17d07c1d9c61b7ad738bb0251c3fff9a
     Barcode: 92835184d4595295e7d7e26dfee26022
     Barcode%20of%20the%20first%20copy: 98f37c3f4a2c52cc6f1572ceee0e4ff9
     Basis: 2662aaa2ee3582c331131841237d560f
@@ -332,6 +340,7 @@ checksums:
     Catalogue: fc37cf1611d4e6fd0fd278e7418e3abc
     Categories: fd4e44f3b1b2bba9ca45f3aef963d042
     Category: 1b0340cd175aa5a2be745a0d54908466
+    Category%20(optional): 576c6c553d4cf4909f340305af183b37
     Category%2C%20e.g.%20classwork: 75f100ceca45c99b4969b5456b2661ea
     Category%20name: cbd957227fae6d91baec164eba889680
     Change: 1f9ca3fc28e932784fb96f97c9f95dc9
@@ -400,6 +409,7 @@ checksums:
     Choose%20the%20familiar%20words%20your%20school%20uses%20for%20the%20academic%20year%2C%20classes%2C%20sections%2C%20class%20teachers%2C%20terms%2C%20subjects%20and%20fees.%20You%20can%20customize%20them%20later.: 590fafa3c82b80f1a031ac4103c1a984
     Choose%20the%20fee: 3c87fce6bd7ea35912aefc970c03dee8
     Choose%20the%20kind%20of%20item.%20We%20will%20ask%20only%20for%20the%20details%20that%20apply.: 4aebf44cdf10f6470853c7148099bc87
+    Choose%20the%20language%20this%20account%20reads%20the%20interface%20in.%20It%20applies%20to%20you%20only.: e7496968a1d24c1e4de80c76d13a7918
     Choose%20the%20school%20context%20for%20your%20next%20action.: 959b1106761fb03d272ec567d7388f8c
     Choose%20the%20school%E2%80%99s%20language: 57b03c6c9405b518f52a74c8c5627ea8
     Choose%20the%20teaching%20approach: 850acb5370c2e26f84fb88525b8379a6
@@ -550,7 +560,9 @@ checksums:
     Delete: 8bcf303dd10a645b5baacb02b47d72c9
     Delete%20this%20draft: 04462eed8d86649575e47c3617c4e6f1
     Department: 041e99da53cc8758ae334f14ef04a89f
+    Department%20(optional): 680de27e4b895a0db84fbecaa9906329
     Description: e17686a22ffad04cc7bb70524ed4478b
+    Description%20(optional): 3a114a3e9a602e688b06faf4d5dcfbcb
     Details: 2a8bbb1bc386c059783f925aca2cc522
     Disable: 81b754fd7962e0bd9b6ba87f3972e7fc
     Dismiss%20notification: 637dbfb9588c3429450084d8de2a96e6
@@ -569,6 +581,7 @@ checksums:
     Draft%20the%20school%20year: 4ec4cd910fe03cf07e3974af2f096bd9
     Drop%20this%20import: 75f44351c301f55459e36cc63c087dad
     Due: 7b451f34dc0a3c192a817851d227e563
+    Due%20(optional): 4809afde8158333acc503901a0f69640
     Due%20date%20and%20note: ed54824abec0b7b27c3f11dbf1ddffc7
     e.g.%2020: 4d7a1bf5c945fb2c229b879a46317793
     e.g.%20Mandela%20House: 062ba5b49b8dfcef8c174550577146af
@@ -597,6 +610,7 @@ checksums:
     Eg%3A%20carried%20over%20to%20week%206: 0c58c9ecb4bec22199d1291935ae4d91
     Eg%3A%20Linear%20equations%20in%20one%20variable: eb30d4108a73c4775b9b40d87a8b3d4b
     Email: e7f34943a0c2fb849db1839ff6ef5cb5
+    Email%20(optional): 5b84d475e75dd7b7a76b49239a3a1a6b
     Email%20*: 00f48db7b8177806d7bdec49f5fe3a31
     Email%3A: f08eeb8e3d27821c749230891b2aee12
     Email%20address: 3ba3f099b1b9be6c35ad797da660cb9f
@@ -640,6 +654,7 @@ checksums:
     Every%20level: c166fd888765b20d9071fbfc7f7b14ac
     Every%20line%20the%20file%20held%2C%20and%20what%20the%20application%20found%20wrong%20with%20it.: 50ab3d182f990f6b2c317e9417b6498c
     Every%20member%20keeps%20the%20read%20permission%2C%20so%20the%20organization%20screens%20still%20open.: 6bb233fe1df3a2d9496ceac768fc48b6
+    Every%20month(s): 9bbca04ae5d3b4d82254ef78ae392e78
     Everyone%20in%20the%20group: b8ac64eb81222da999848a699b22dcbe
     Every%20organization%20permission%2C%20including%20future%20ones.: 6653b7d20e96e01d1a97377babd4c14b
     Every%20row: b1c640b030b29943ed9486a77852b89e
@@ -647,6 +662,7 @@ checksums:
     Every%20status: 88bb06f8251cba84c555dc9195cd26ce
     Everything%20is%20on%20the%20shelf: 52f11fb13a1f357801f3110540013582
     Everything%20on%20this%20account: 14ec8630b90a2a97cb52289719f72953
+    Every%20week(s): 2e44328d7e514cb8e5946bd9edc395eb
     Example%20group%3A%20create: 29170ffbf12c353c7427887d628706f7
     Example%20levels%3A%20create: 340faf023ecbf79c91309e46b6a3eb7b
     Example%20section%3A%20in%20this%20year%E2%80%99s%20setup%2C%20add: a389a25ef7be1dc4695ffca3fa2f2622
@@ -712,8 +728,11 @@ checksums:
     Full%20name: f45991923345e8322c9ff8cd6b7e2b16
     Full%20name%20*: 5e7d6f1bbd2a4c0e4c429d04e08c79cb
     Full%20screen%20mode: 5f60a3facae2bd617355a820470e9d91
+    Fund%20(optional): 90af4a9916baec0af579390d877ecf16
+    Fund%20or%20grant%20(optional): cbd3f3b0a7dcf1f87a25ad9352dfcf08
     Gender: 1f1b6ff22c68ce7e62817840206a3fd3
     Generate%20application%20key: a906e81ab0851ca4692355963dd1cc26
+    Generate%20the%20next%20school%20year%20(weeks%20ahead): 9885ddf3ba14311a89d0f184a5c24182
     Give: f371c78ab249855f20f167ca9d16e2e2
     Give%20a%20learner%20a%20bed: 3d2f870d0ef383133cbeba9e815c8feb
     Give%20a%20learner%20a%20place: 28f861c1818b87e66b947954af845c00
@@ -771,6 +790,7 @@ checksums:
     How%20it%20is%20taught: 1ac678e9492504a32e58e0714ffbc08f
     How%20many%20are%20needed: fb4b4ebe37d85f991012fc7badd31e7f
     How%20many%20copies: 9154ec7b3ab8370f58d8e389fdc33aad
+    How%20many%20it%20holds%20(optional): e936c91369f037fd43eb181ce4d8b49e
     How%20the%20course%20is%20assessed%2C%20from%20the%20gradebook%2C%20and%20the%20topics%20each%20assessment%20tests.: acd8509cb2a905044029ae3f1ca60a29
     How%20the%20items%20count: a43f5c7b48eefaee4f84caf768e2f53e
     How%20this%20campus%20lends: 6dd931f4af99dc525c9b749e56e304b2
@@ -801,17 +821,23 @@ checksums:
     Invoices: 2a9cab536b243f033848ec5dfd92b0a7
     Invoice%20status: 7faf566e615146ff80f3190fad2e0928
     Invoice%20summary: c853d81a4160982a00783127f0c86fe9
+    ISBN%20(optional): 0423db45eb5fce72bc1b235831d3472a
     Issue%20a%20transcript: ec6c7febc4374124da3f513b019acd4f
     Issued: ebf4c44ba3954903f33e1ad67a8b8231
     Issued%3A: a02eecdb552d10987b27038a0ec8df8a
+    Issued%20by%20(optional): 4abba86d37a6ea7acbf8f8da55ec2a54
+    Issued%20on%20(optional): 175c6c2685b9dc3da7677c2021ac4546
     Issued%20transcripts: 843b061337745bf150c60e99eef51490
     Issue%20transcript: 824d18d12f8b82a290451e53fd8e7b5a
     Issuing%E2%80%A6: 66bb4c30ac33dc77afddb134e3de7380
     It%20is%20saved%20as%20a%20draft.%20Nobody%20sees%20it%20until%20you%20publish%20it.: 346abe52b56951f5c99b750eb596fa8c
     Job: 3728b1c41b064196d56a9ef76b98a6a7
     Job%20title: 29f10f7e23657fa2902e038839e1081a
+    Job%20title%20(optional): 6b23781ce7ffba63f578b25431ef2bb7
     Joined: 23f25c607ede93b0610497ccc3b001ae
     Joined%20on: 2a8d86d06cc93a4e2266c6ffae866b83
+    Joined%20on%20(optional): 2024eb9b149966f24520b43714f82283
+    Judged%20from%20(optional): 1f349eb5163b451c3b8098eba72e9a98
     Keep%20it: e78d25ac1742a5f09886ee750707b509
     Keep%20your%20school%20community%20informed%20with%20current%20notices.: 55898a1dbb5bf57e9c23e605dd074975
     Kind: 0123e6ec1d5591e6af34906cc4904d58
@@ -826,6 +852,8 @@ checksums:
     Kinds%20of%20record: 99542f01d5e4b5a2030ed9a234667907
     Lagos: eb136da83a99332d2f306300708fffbe
     lagos.example.school: 2523c11fa54f681288771d33f01c4993
+    Language: 277fd1a41cc237a437cd1d5e4a80463b
+    Language%20updated.: e8d02acd485d4ac91703cda55486bb41
     Last%204%20weeks: 74a4d0b3e004bd219d5a8ba4d21bcc22
     Last%206%20months: 1be27ca36359a3a8131f2408827f0f69
     Last%208%20weeks: 1034cc410ac709f3d26d5d71670aa1c7
@@ -859,6 +887,7 @@ checksums:
     Lesson%20notes%20to%20review: 8923e5e682f11f4cbd5867e241b64fa6
     Level: 1e3bf31d5c6083e898dd3e3359fbb0c2
     Level%20group: 454800c223502cdaac846f13234a85d5
+    Level%20group%20(optional): 4af3cc86063c5e31f0e91df804c98aac
     Level%20group%20help: aba4dcb561677f5c3f6750f8e71d4844
     Level%20name: dbd2e422d7a4218fe783f8cf15a4caaf
     Level%20name%20help: b85155e7d029c9598b05a175a6a9ca12
@@ -866,6 +895,7 @@ checksums:
     Library%20fund: 28f8b213aba7f6c75bdbcc4de2a565b2
     Library%20queue: 7b4fc9ccbb953e9d4bd669a5aaea2b8a
     Licence: b115efa8544335dcd04181905d06d25b
+    Lifetime%20record%20of%20a%20learner%E2%80%99s%20latest%20published%20results.%20Issued%20transcripts%20stay%20fixed%3B%20corrections%20create%20a%20new%20revision.: 5b8df81266406ce3bfc7379214f673dd
     Light: bb78ea2c6edd8662676c81a8a13ecb93
     Line: b2083b10c8f7d21284e2892b97a5e8f1
     Link%20a%20campus%20first.%20Its%20houses%20can%20then%20go%20in.: c12c7f5402cca3b7fc7c9a91143b3f7c
@@ -875,6 +905,7 @@ checksums:
     Link%20learner: 63d54343fbd1235e2625aa9eea55ab4c
     Loading...: 82b4ea7ed1439094d7c4be13aaba9a66
     Loading%20organization%20dashboard: 40df443ab458def2c5fbf718a4221c91
+    Local%20label%20(optional): 5d7715f692632ab7a0a92b9651d43bfc
     Logged%20Out%20Of%20All%20Browsers.: 5fe316662bb577ae0d847d92c5728ce9
     Login: f4f219abeb5a465ecb1c7efaf50246de
     Log%20in: 9fb886eff8d1d67d8bb79f5c3f78edde
@@ -917,6 +948,7 @@ checksums:
     More%20actions: 443bd91d1d6563e0344b8323f75928bd
     More%20answers: 38afc0787029dfd3330720358ad19e78
     More%20at%20the%20desk: 37f65246174288383f1b8684eef6a059
+    More%20detail%20(optional): c261f6db27ae90cf82c78e0c5f99d74c
     More%20finance%20pages: bf2f03c519b28634616b4ef667476854
     More%20for%20the%20assessments: b07b5ceff90e243ffc845b2eeef0b602
     More%20for%20the%20library: 71bd3dcfe34d8e0c649ec54d6adc375c
@@ -1095,12 +1127,15 @@ checksums:
     Not%20chosen%20yet: 14e66465c6b57c5251b8454fd55ac1e0
     Not%20done: e7ebdad729fe243e05ea26cf34a0814d
     Note: e0337f202c911423275f834edeffc54b
+    Note%20(optional): bf8a0d659b805cc0e0452c1fb9e4577f
     No%20teacher: 6edd6b8e252761aec5a0e5ceeff0c6c9
     No%20teachers%20yet: e99ddee54fea2b67953604483d9d585c
+    Note%20for%20the%20record%20(optional): 0d46e33ab4f2ab0cf0414d340569e979
     No%20template%20exists%20yet.%20Start%20with%20the%20school%E2%80%99s%20actual%20terms%20or%20semesters%2C%20then%20add%20optional%20exam%20windows%20and%20holidays.: 4d68d8306ff438ed18461dce38eb9908
     Not%20enabled: 06a552fbdd9c4c7ecd65a9e86cf19b2b
     Not%20enrolled%20in%20this%20school.: e9f2252d63392a953fb8c5f0bb4f6d2d
     Notes: 93c7ef9bc767f51fbe360afcf6b1fecb
+    Notes%20(optional): c815ba73d9807dbdeba15ea38e99bc87
     Nothing%20has%20been%20handed%20over: 2667d21f12be15c8e08364867c9c2119
     Nothing%20held: 436f508157f449d3a738322e54854f8d
     Nothing%20is%20being%20kept%20back: 2a9210a0f4e6d7224cdc46e43615372f
@@ -1140,6 +1175,7 @@ checksums:
     Offer%20it%20for%20new%20assessments: 7c0e17b5ff76274ae461c32de158b3d6
     Offer%20place: 1294538378b456abe6a28df23b64a368
     Offer%20the%20role%20again%20before%20giving%20it%20to%20anybody%20new.: 5e52acc1388fadf13fe86e6d00a800e3
+    Official%20record%20built%20from%20published%20results.%20Once%20issued%2C%20it%20stays%20unchanged%3B%20a%20correction%20creates%20a%20new%20revision.: 74ce24e4be1872e5301c90c00f0d43c4
     Once%20published%2C%20attendance%20and%20the%20timetable%20treat%20these%20days%20as%20shut.: 198b9a8d443e4a20aaf7e21b71d01008
     On%20duty%3A: 4b68232679f474366dee7223bab0ded1
     One%20class%20section: 28cd1e66802af14894f9ad2be7f575cb
@@ -1256,12 +1292,14 @@ checksums:
     Period%20name: 51781db39897d9c309bd287e21dd84bc
     Periods%20a%20week: 8af3679f1c8d39e5a1b625aae5d16976
     Period%20type: c16a460f77efd4b7565bf3c8549e446f
+    Permission%20ends%20on%20(optional): ebe37a72d62167de5292f3a995e8d580
     Permissions: 2160be68b1d6b6577e64634e9feba2ed
     Person: b6e3064ca6b67285dc1ebb2590d6094f
     Person's%20nationality: 23370549976162bbe2b9208286acb618
     Personal%20details: aa7a00cefe2402936c6c6cee4ca3298e
     Person%20who%20works%20here: fdf4a3a8382d8a9f938dbef570b7f596
     Phone: b9537ee90fc5b0116942e0af29d926cc
+    Phone%20(optional): efe8d1330b6302fa9f9819472f390204
     Phone%20number: 3249becf06d2e11d04191093f47e6ade
     Placement%20history: 93a081c0c13a4348aaa973e2e31a849e
     places: 56a9c6e12940c30a025118da7c995bcf
@@ -1308,6 +1346,7 @@ checksums:
     Profile%20photo: 9b0d4ff8ea4383f8070aa9cea593b207
     Profile%20picture: d9b5e595877ffe2557486a987dd28274
     Programme: 6d9d88042dace62d58e4097bc890f9b8
+    Programme%20(optional): 5f0bdd7e3ad648f415a246ea1c4a1e46
     Programmes: 807260342f2414f6a4a0c6147e32b89e
     Promote%20learners: c2bc51bd8d4d2cb990aeb906115ab03a
     Promote%20Students: 77d53c7e47578fd7dcb280e50db31c77
@@ -1333,6 +1372,7 @@ checksums:
     Quick%20mark: f1812decbdb2a51eef9bc2d7b16e2d7b
     Read%20subjects: 2e57b53fbce272138eec4b73f02c1554
     Reason: 9b66f286b86dd0e87b1ac0604c9d1ced
+    Reason%20(optional): 6b48fb48390c10729f7d6169c2e1d840
     Reason%20for%20a%20revision: 492ed75f8c74327be030d275f8fd57f7
     Receipt: dafbe14c6e646d61ea80d6feb0f16c8d
     Received: fcf3cc658c8d4be28b865398d5efa4fc
@@ -1366,6 +1406,7 @@ checksums:
     Reload%20the%20page: 352b77f01d40cec3f61a2fda46674244
     Remember%20me: afc02ff1df56ecf8493e9e201592d764
     Remember%20your%20password%3F: 2b9774af9247013c2773bd0ddfd48de7
+    Reminder%20lead%20time%20(days): ac96f6609d580036c1b2a0025653e382
     Remove: dba2fe5fe9f83f8078c687f28cba4b52
     Removed%20from%20the%20calendar.: 78f745d98fed47287436296b66b10ab6
     Remove%20event: 80d27a4373bc3bcde0f6a5e15d443a8a
@@ -1435,8 +1476,10 @@ checksums:
     Rows: 8f41f34e6ca28221cf1ebd948af4c151
     Rule: 5b3477fee7a10f7883c68819c4e24fc4
     Run%20by: e390fe3ee0b7fad0d231febf87669038
+    Run%20by%20(optional): 6963bff59967aaccd93cdb840ab4312b
     Runs: 8d49d75b6db650c168fb8465270b90fd
     Runs%20out: 4dd4ac0dd9cec1c8e6c134d3d0e2c4b0
+    Runs%20out%20on%20(optional): 0909fde01968ef08e3d5d547bfc8f7e6
     Run%20the%20checks%20above%2C%20then%20reload%20this%20page%20to%20continue.: 9bf4d0a7a6ed8146b5e71f1a7662bac4
     Save: f7a2929f33bc420195e59ac5a8bcd454
     Save%20and%20continue%20to%20classes: 5380f85b4bb464f913cc919c1a9fb261
@@ -1563,6 +1606,8 @@ checksums:
     Shared%20by%20two%20campuses: fb650185b75eb7a1b775f66b1167b0e0
     Shared%20residences: 0b54063da55b63ae9a4d4d025055d8ed
     Share%20something%20new: 8641aa7a83b7dbd6adc6f525df2d9c55
+    Shelf%20mark%20(optional): a1fc64b8f04c6dede942bdd2682e2b3c
+    Short%20code%20(optional): bc03fa043391b8545d530c3ab1321188
     Short%20name: a82dd6972d96970e5e42a8c2319394f3
     Show: 16dfe5dc481240cd2819a6394f90df92
     Show%20all%20copies: 81564456ba816f98f00f0d5a2d12d974
@@ -1593,7 +1638,9 @@ checksums:
     Somebody%20with%20no%20hours%20listed%20is%20free%20all%20week.: a74e81f3c85977215dc0941e638b4be5
     Someone%20completed%20this%20roll%20while%20you%20worked%20on%20it.%20Nothing%20was%20saved.: 909bbfaad93caa155a214292f307656b
     Someone%20else%20changed%20this%20to: fee760374d0ca7bbd4dc8efbc1056f3c
+    Someone%20else%20changed%20this%20to%20: 2e1cd1d51753db8639ee563188f634db
     Someone%20else%20recorded: 1cf2423e9a6514ed89ec9f03619d4d18
+    Someone%20else%20recorded%20: 798b19136f2172b4bc199670150fa771
     Something%20that%20fills%20a%20period%20but%20is%20not%20a%20lesson%2C%20such%20as%20a%20break%20or%20assembly.: 5e70625974e0894d072301db3450a283
     Source%20revision: 03911f1edc95cc7ddd0a39d782346e88
     Speech%20day%20rehearsal: 318c1b5cce7efe4210372c87f3859df8
@@ -1604,6 +1651,7 @@ checksums:
     SQLite: 504207ca9bfd514b863dbcfae80c9879
     Staff%20absence: ec2bcf5c2f80e78b096450c947a2117e
     Staff%20number: 7dc99ea0abd07e70db1587db190c1c82
+    Staff%20number%20(optional): 39b8b9cfa28e585da19c1ab31b72414b
     Stage%20progress: f5583ad1c70df48e119e1878b38db838
     Stages: 567ef268f8f36f64f03916e2b66e8cb2
     Start: dbe56303d9a6d3fad1a8d4cbcc97f365
@@ -1713,6 +1761,7 @@ checksums:
     That%20school%20holds%20no%20learner%20with%20that%20admission%20number.: d77a75db97cacd57d595d1550a294e24
     That%20section%20does%20not%20belong%20to%20a%20campus%20of%20this%20organization.: 8c3659406438e18962aad0e6b4c507d7
     That%20section%20does%20not%20belong%20to%20the%20working: b6bac080b6319a197fd643caf1a752a6
+    That%20section%20does%20not%20belong%20to%20the%20working%20: bd49d5aabbea8c3beb4ac7d01dc93fbc
     The%20%3Aattribute%20must%20contain%20at%20least%20one%20letter.: 4f844011593b929a1cb9c0563f9b7601
     The%20%3Aattribute%20must%20contain%20at%20least%20one%20number.: bf6b5ff8762c30ed76865ef4c4e9a612
     The%20%3Aattribute%20must%20contain%20at%20least%20one%20symbol.: f6ac523879573ea2e8cddf2752ee89dd
@@ -1721,6 +1770,7 @@ checksums:
     The%20application%20relies%20on%20this%20role.%20It%20can%20be%20given%20out%2C%20but%20not%20rewritten.%20Copy%20it%20to%20change%20the%20copy.: de31504bea35d70d4bcea3c1ab5b360c
     The%20calendar%20and%20reporting%20period%20staff%20are%20working%20in.: ed1281865f90264532ea897f5bbbe3af
     The%20cash%20box%20holds: 5aabcd3914ceaf159438af175aaa8252
+    The%20cash%20box%20holds%20: 771e38bbc8d75042617051dafd589fbc
     The%20cash%20was%20counted%20and%20this%20amount%20is%20right: d34785a86b2512f2cac4bacaf9902c63
     The%20changes%20were%20saved.: 96853f9ada5175afbc9694f4699dad70
     The%20copy%20holds%20only%20what%20you%20can%20hand%20out%20yourself.: 35a5da71fd8d19b0579d8249bcec2e87
@@ -1859,6 +1909,7 @@ checksums:
     Update%20Password: 3026758bd494c4db468c1e4fe8f6ff89
     Update%20request: f649168d456e5ea52838ebd3e51ed89a
     Update%20the%20name%2C%20dates%2C%20or%20type%20before%20this%20period%20is%20closed.: 2d931e3858038bf4218ed2e2f40de5fd
+    Update%20your%20account's%20profile%20information%20and%20email%20address.: 40596182746adb724f0a2be4caa84c24
     Update%20your%20account%5C: 729263af07441585a2defe29bd9e2dbe
     Updating%20cases%E2%80%A6: 4dbc47fa12390b9b5f2c61fcd447375f
     Updating%20copies%E2%80%A6: a465ce74d2bd2f60a85d4edfa924a26a
@@ -1929,10 +1980,13 @@ checksums:
     What%20is%20on: c87d4c9da8a47f6016918a6f4d555bf2
     What%20is%20on%20this%20month: 17c711468cab84abc00357f5b506b801
     What%20is%20wrong: 06b1143560f3d1fb8862ec052f5d5bef
+    What%20it%20covers%20(optional): 517ec7770b0b285ba215fca95996a725
     What%20it%20hands%20out: a607fc2496cd82ab200bfc2ebad7c718
     What%20it%20holds: 9666fb40152cedcd4a234c45dff4985b
     What%20it%20is: 9f9b2fc83d3811466dfbaf62d46c5a78
+    What%20it%20is%20(optional): 53e71e28af1816e634aa6fb36e7d8a8d
     What%20it%20is%20for: 3a5c030cffec29bdd52087609d49b72f
+    What%20it%20is%20for%20(optional): a086e767a654d829671cb89902491ac2
     What%20kind: 335dcbb01bbfd12e48610feb993d7b22
     What%20must%20the%20teacher%20change%3F: 0c0526f74427945f62af771dcb495156
     What%20one%20late%20day%20costs: e06d2712cc0a47ee2687940b6796a830
@@ -1954,9 +2008,12 @@ checksums:
     What%20you%20need%2C%20e.g.%20a%20copy%20of%20last%20term's%20report: 18ff3099cdbcf3b61eb4defa255bd81e
     When: a40ad3eed1b75e76226290eeb9bb20cd
     When%20it%20is%20published%2C%20each%20reader%20also%20gets%20it%20by%20email%2C%20unless%20they%20turned%20notice%20email%20off.: 3a155f3cbcedf2de62e97c7ffc8a6951
+    When%20it%20runs%20(optional): 8848b812bde7630c48e0026919ee5446
     When%20it%20shows: 44085d96bfd4b564940b8ff1a8448b0a
     When%20the%20plan%20is%20ready: 9edb7a4b1414bd287434fad221fd0b5c
+    When%20to%20use%20it%20(optional): 04f23c2f1224ec3604f43251ced6a93b
     Where: 23aecda7d27f26121b057ec7f7327069
+    Where%20(optional): 13c10ac19743607a145d99db0b561b90
     Where%20each%20copy%20is%2C%20and%20who%20has%20it.: 37f06e43eb3a2747a96dd74ba8ce6dc4
     Where%20it%20is: fcff131d4a68211821563b3593f758ce
     Where%20they%20are%20going: 2d86479d2f3cc6c9a0dd408e5f89f2ae
@@ -1977,6 +2034,8 @@ checksums:
     Whole%20group: eee1536c2a7679de7f57fd0bd7409c87
     Who%20reads%20it: 24c63db002951da64a686c9c80634958
     Who%20takes%20it: 5fbcb82f44b568ab3c026ec5d5f96444
+    Who%20the%20house%20can%20ring%20(optional): 1c6240a494882617551360dd2077a715
+    Who%20was%20paid%20(optional): b2871b2d528ab00acc8ecb8c2501ee18
     Who%20works%20here: c697fd30f7dd02b890af11ca18414dc3
     Why: 452c83761ac189154e5a9fb4a1e8bb12
     Why%2C%20so%20the%20house%20can%20tell%20the%20family: fca10c7c244ea18efd5da937700f9895
@@ -1998,6 +2057,7 @@ checksums:
     Without%20one: 5aa38bf3a7d913f048b3b2d074d40b70
     Words%20your%20school%20uses: 43b0580ef4ee8d07c0f075727607d189
     Working: 3fb32ff075af7daafe4ecce361322026
+    Working%20: 416c8e32f1f7b287bf1a2123f637534e
     Working...: a15d40013dac5efeab3970c22fea0f63
     Working%20hours: 039c25b01878d1a19f94e2d86fec5c36
     Working%20now: c0a335ceb63c50904ecb6beda3b79c0b

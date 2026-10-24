@@ -3,7 +3,7 @@
     @can('create', App\Models\ReportCardSnapshot::class)
         <april:card>
             <slot:title>{{ __('Publish a report card') }}</slot:title>
-            <slot:description>Official record built from published results. Once issued, it stays unchanged; a correction creates a new revision.</slot:description>
+            <slot:description>{{ __('Official record built from published results. Once issued, it stays unchanged; a correction creates a new revision.') }}</slot:description>
             <slot:content>
                 <form wire:submit="publishReportCard" class="grid gap-4 lg:grid-cols-4 lg:items-end">
                     <div class="flex min-w-0 flex-col gap-2">

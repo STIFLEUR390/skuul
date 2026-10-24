@@ -19,18 +19,18 @@
         <x-field-error name="code" class="mt-1" />
     </div>
     <div>
-        <label for="address" class="text-sm text-muted-foreground">Address (optional)</label>
+        <label for="address" class="text-sm text-muted-foreground">{{ __('Address (optional)') }}</label>
         <input id="address" wire:model="address" maxlength="1000" autocomplete="street-address" class="{{ $controlClasses }}" {{ field_error_bindings('address') }}>
         <x-field-error name="address" class="mt-1" />
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
         <div>
-            <label for="email" class="text-sm text-muted-foreground">Email (optional)</label>
+            <label for="email" class="text-sm text-muted-foreground">{{ __('Email (optional)') }}</label>
             <input id="email" type="email" wire:model="email" maxlength="255" autocomplete="email" class="{{ $controlClasses }}" {{ field_error_bindings('email') }}>
             <x-field-error name="email" class="mt-1" />
         </div>
         <div>
-            <label for="phone" class="text-sm text-muted-foreground">Phone (optional)</label>
+            <label for="phone" class="text-sm text-muted-foreground">{{ __('Phone (optional)') }}</label>
             <input id="phone" type="tel" wire:model="phone" maxlength="50" autocomplete="tel" class="{{ $controlClasses }}" {{ field_error_bindings('phone') }}>
             <x-field-error name="phone" class="mt-1" />
         </div>

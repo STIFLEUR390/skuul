@@ -32,7 +32,7 @@
         </div>
 
         <div>
-            <label for="attachment" class="text-sm text-muted-foreground">Attachment (optional)</label>
+            <label for="attachment" class="text-sm text-muted-foreground">{{ __('Attachment (optional)') }}</label>
             <input id="attachment" type="file" wire:model="attachment" accept=".gif,.jpg,.jpeg,.png,.doc,.docx,.pdf"
                 class="{{ $controlClasses }} py-2 file:mr-3 file:border-0 file:bg-transparent file:text-sm file:font-medium" {{ field_error_bindings('attachment') }}>
             <p class="mt-1 text-xs text-muted-foreground">{{ __('PDF, Word, GIF, JPG or PNG, up to 10 MB.') }}</p>

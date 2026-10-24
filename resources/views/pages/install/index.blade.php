@@ -105,7 +105,7 @@
                                         <input id="database" name="database" value="{{ old('database', $databaseSettings['database']) }}" required class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
                                     </div>
                                     <div>
-                                        <label for="host" class="mb-2 block text-sm font-medium">{{ __('Host') }} <span class="font-normal text-muted-foreground">(not used for SQLite)</span></label>
+                                        <label for="host" class="mb-2 block text-sm font-medium">{{ __('Host') }} <span class="font-normal text-muted-foreground">{{ __('(not used for SQLite)') }}</span></label>
                                         <input id="host" name="host" value="{{ old('host', $databaseSettings['host']) }}" class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" autocomplete="off">
                                     </div>
                                     <div>
