@@ -1,0 +1,26 @@
+{
+  "version": 0,
+  "locale": {
+    "source": "en",
+    "targets": [
+      "fr"
+    ]
+  },
+  "buckets": {
+    "json": {
+      "include": [
+        "lang/[locale].json"
+      ],
+      "exclude": [
+        "lang/vendor/**"
+      ]
+    }
+  },
+  "$schema": "https://lingo.dev/schema/i18n.json",
+  "provider": {
+    "id": "openai",
+    "model": "opencode-go/deepseek-v4.1-flash",
+    "prompt": "You translate the values of a Laravel JSON language file for a school management application. Translate every value from {source} to {target}. Keep the JSON keys unchanged, keep placeholders such as :attribute and :count as they are, and keep any HTML markup intact. Reply with the translated JSON object only.",
+    "baseUrl": "http://localhost:10100/v1"
+  }
+}
