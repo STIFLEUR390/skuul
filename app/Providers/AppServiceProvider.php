@@ -30,6 +30,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -89,6 +90,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(100);
+
+        // A lazy load is a missing eager load. Fail loudly outside production
+        // so the N+1 never reaches a real school's slow connection.
+        Model::preventLazyLoading(!app()->isProduction());
 
         // Global roles use the reserved Spatie system team and grant only
         // permissions assigned to their role.
