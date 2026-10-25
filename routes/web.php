@@ -179,6 +179,7 @@ Route::middleware('auth', 'verified', 'App\Http\Middleware\EnsureAccountIsActive
         // Reports select their own period and do not require a working period.
         Route::get('reports', ['App\Http\Controllers\ReportController', 'index'])->name('reports.index');
         Route::get('report-cards', ['App\Http\Controllers\ReportCardController', 'index'])->name('report-cards.index');
+        Route::get('students/{studentRecord}/competencies', ['App\Http\Controllers\ReportCardController', 'competencies'])->name('competencies.assess');
         Route::get('report-cards/{reportCardSnapshot}', ['App\Http\Controllers\ReportCardController', 'show'])->name('report-cards.show');
         Route::get('transcripts', ['App\Http\Controllers\TranscriptController', 'index'])->name('transcripts.index');
 

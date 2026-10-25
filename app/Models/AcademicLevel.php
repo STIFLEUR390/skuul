@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AcademicStructureStatus;
+use App\Enums\AssessmentMode;
 use App\Traits\InSchool;
 use Database\Factories\AcademicLevelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +32,7 @@ class AcademicLevel extends Model
         'code',
         'position',
         'status',
+        'assessment_mode',
     ];
 
     /**
@@ -49,6 +51,7 @@ class AcademicLevel extends Model
         'is_group' => 'boolean',
         'position' => 'integer',
         'status' => AcademicStructureStatus::class,
+        'assessment_mode' => AssessmentMode::class,
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\AcademicStructureStatus;
+use App\Enums\AssessmentMode;
 use App\Enums\EducationSubsystem;
 use App\Enums\SchoolCategory;
 use App\Models\AcademicLevel;
@@ -84,6 +85,7 @@ class SeedCameroonStructure extends Command
                                 'parent_id' => $parent->id,
                                 'position' => ++$position,
                                 'status' => AcademicStructureStatus::Active,
+                                'assessment_mode' => self::assessmentMode($category),
                             ],
                         );
 
@@ -96,6 +98,19 @@ class SeedCameroonStructure extends Command
         $this->info("{$school->name}: {$created} classes in place.");
 
         return self::SUCCESS;
+    }
+
+    /**
+     * The way a category reports on its learners.
+     *
+     * Nursery and primary assess competencies; the rest mark subjects.
+     */
+    private static function assessmentMode(SchoolCategory $category): AssessmentMode
+    {
+        return match ($category) {
+            SchoolCategory::Nursery, SchoolCategory::Primary => AssessmentMode::Competency,
+            default => AssessmentMode::Marks,
+        };
     }
 
     /**

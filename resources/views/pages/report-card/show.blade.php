@@ -17,6 +17,8 @@
 @php
     $results = $reportCardSnapshot->payload['results'] ?? [];
     $summary = $reportCardSnapshot->payload['summary'] ?? [];
+    $domains = $reportCardSnapshot->payload['competencies'] ?? [];
+    $competencyMode = ($reportCardSnapshot->payload['assessment_mode'] ?? 'marks') === 'competency';
     $latestRevision = $revisions->max('revision');
     $isSuperseded = $reportCardSnapshot->revision < $latestRevision;
 @endphp
@@ -39,11 +41,17 @@
             <slot:content>
                 <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                     <div class="rounded-lg border p-4">
-                        <dt class="text-sm text-muted-foreground">{{ __('Overall') }}</dt>
+                        <dt class="text-sm text-muted-foreground">{{ $competencyMode ? __('Competencies assessed') : __('Overall') }}</dt>
                         <dd class="text-2xl font-semibold">
-                            {{ $summary['average_out_of_20'] === null ? '—' : \Illuminate\Support\Number::format($summary['average_out_of_20'], 2).'/20' }}
+                            @if ($competencyMode)
+                                {{ $summary['competencies_assessed'] ?? 0 }}
+                            @else
+                                {{ $summary['average_out_of_20'] === null ? '—' : \Illuminate\Support\Number::format($summary['average_out_of_20'], 2).'/20' }}
+                            @endif
                         </dd>
-                        <p class="mt-1 text-xs text-muted-foreground">{{ __('Weighted by coefficient across the subjects below') }}</p>
+                        <p class="mt-1 text-xs text-muted-foreground">
+                            {{ $competencyMode ? __('This level is assessed by competency, so no mark out of 20 is given.') : __('Weighted by coefficient across the subjects below') }}
+                        </p>
                     </div>
                     <div class="rounded-lg border p-4">
                         <dt class="text-sm text-muted-foreground">{{ school_term('period', 'Period') }}</dt>
@@ -72,10 +80,43 @@
         </april:card>
 
         <april:card>
-            <slot:title>{{ __('Subject results') }}</slot:title>
-            <slot:description>{{ __('Each row names the result version this card copied, so anyone can trace a mark back to its source.') }}</slot:description>
+            <slot:title>{{ $competencyMode ? __('Competency levels') : __('Subject results') }}</slot:title>
+            <slot:description>
+                {{ $competencyMode ? __('Each domain lists the competencies the teacher assessed, with the mastery level reached.') : __('Each row names the result version this card copied, so anyone can trace a mark back to its source.') }}
+            </slot:description>
             <slot:content>
-                @if ($results === [])
+                @if ($competencyMode)
+                    @if ($domains === [])
+                        <x-empty-state icon="lucide-list-checks" title="{{ __('No competency assessed') }}"
+                            description="The card was issued before any competency was assessed for the period." />
+                    @else
+                        <div class="space-y-6">
+                            @foreach ($domains as $domain)
+                                <div>
+                                    <h3 class="mb-2 font-semibold">{{ $domain['domain'] }}</h3>
+                                    <april:data-table>
+                                        <slot:header>
+                                            <april:data-table-row>
+                                                <april:data-table-head>{{ __('Competency') }}</april:data-table-head>
+                                                <april:data-table-head>{{ __('Mastery level') }}</april:data-table-head>
+                                                <april:data-table-head>{{ __('Teacher comment') }}</april:data-table-head>
+                                            </april:data-table-row>
+                                        </slot:header>
+                                        <slot:body>
+                                            @foreach ($domain['competencies'] as $competency)
+                                                <april:data-table-row>
+                                                    <april:data-table-cell class="font-medium">{{ $competency['name'] }}</april:data-table-cell>
+                                                    <april:data-table-cell>{{ __($competency['level_label']) }}</april:data-table-cell>
+                                                    <april:data-table-cell class="text-muted-foreground">{{ $competency['comment'] ?? '—' }}</april:data-table-cell>
+                                                </april:data-table-row>
+                                            @endforeach
+                                        </slot:body>
+                                    </april:data-table>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                @elseif ($results === [])
                     <x-empty-state icon="lucide-book-open" title="{{ __('No subject results on this card') }}"
                         description="The card was issued before any subject result was published for the period." />
                 @else

@@ -21,3 +21,8 @@ yarn-error.log
 .php-cs-fixer.cache
 _ide_helper.php
 i18n.cache
+
+# Local dev tooling, machine specific.
+/.lerd.yaml
+/.php-version
+/.codegraph

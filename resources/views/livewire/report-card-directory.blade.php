@@ -39,6 +39,13 @@
                         <span wire:loading.remove>{{ __('Publish') }}</span>
                         <span wire:loading>{{ __('Publishing…') }}</span>
                     </april:button>
+
+                    @if ($student_record_id)
+                        <april:button-link href="{{ route('competencies.assess', $student_record_id) }}" variant="outline">
+                            <x-lucide-list-checks class="mr-2 size-4" />
+                            {{ __('Assess competencies') }}
+                        </april:button-link>
+                    @endif
                 </form>
             </slot:content>
         </april:card>

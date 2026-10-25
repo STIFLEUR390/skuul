@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportCardSnapshot;
+use App\Models\StudentRecord;
 use Illuminate\View\View;
 
 class ReportCardController extends Controller
@@ -12,6 +13,16 @@ class ReportCardController extends Controller
         $this->authorize('viewAny', ReportCardSnapshot::class);
 
         return view('pages.report-card.index');
+    }
+
+    /**
+     * Record the mastery levels of a competency-assessed learner.
+     */
+    public function competencies(StudentRecord $studentRecord): View
+    {
+        $this->authorize('manage', $studentRecord);
+
+        return view('pages.report-card.assess', compact('studentRecord'));
     }
 
     public function show(ReportCardSnapshot $reportCardSnapshot): View

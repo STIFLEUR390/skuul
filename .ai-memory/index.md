@@ -55,6 +55,16 @@ lerd artisan test --compact tests/Feature/XxxTest.php
 - Les interruptions sont des `Holiday` à la racine (pas enfants d'un trimestre) et `isTeaching()` vaut `false` : aucune présence attendue.
 - **Manque connu** : le bulletin publie pour une seule période. Une moyenne de trimestre agrégeant les 2 séquences n'existe pas encore ; chaque séquence se publie séparément.
 
+## Bulletin par compétences (APC)
+
+- Le mode d'évaluation est porté par le **niveau**, pas par l'élève ni par l'école : `academic_levels.assessment_mode` (enum `App\Enums\AssessmentMode` : `marks` / `competency`). L'élève hérite du mode via sa section (`academic_cycle_sections.academic_level_id`).
+- Tables : `competency_domains` (école, `academic_level_id` optionnel = domaine propre au niveau, `name`/`name_en`, `position`), `competencies`, `competency_assessments` (unique élève + compétence + période).
+- `App\Enums\CompetencyLevel` : `acquired` (Acquis), `in_progress` (En cours), `not_acquired` (Non acquis).
+- `PublishReportCard` bascule tout seul : en mode compétences, `average_percentage = null`, `results = []`, bloc `competencies` groupé par domaine, bilan `competencies_assessed` ; publier sans aucune évaluation lève `InvalidValueException`.
+- Écran de saisie : route `competencies.assess` → `/dashboard/students/{student}/competencies`, Livewire `App\Livewire\AssessCompetencies`. Un niveau par compétence, commentaire libre, choix vide = suppression de la ligne. Permission : `update student` (aucune permission nouvelle).
+- **Piège test** : `Livewire::test(AssessCompetencies::class, ['studentRecord' => $student])` rend une page vide dans ce dépôt (le modèle passé en paramètre n'arrive pas dans `mount`) et le `GET` HTTP du même écran renvoie 403 ou 302 selon l'ordre des tests. L'écran n'est donc couvert par aucun test automatisé ; les tests du bulletin (`tests/Feature/CompetencyReportCardTest.php`) passent.
+- Aucun référentiel de domaines/compétences n'est seedé : chaque école les crée.
+
 ## Fichiers
 
 - `index.md` — ce fichier
