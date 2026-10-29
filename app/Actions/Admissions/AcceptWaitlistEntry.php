@@ -11,6 +11,7 @@ use App\Enums\EnrollmentStatus;
 use App\Enums\Role;
 use App\Exceptions\InvalidValueException;
 use App\Models\AdmissionWaitlistEntry;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Student\StudentService;
@@ -33,7 +34,7 @@ class AcceptWaitlistEntry
     public function accept(AdmissionWaitlistEntry $entry, ?User $actor = null): StudentRecord
     {
         return DB::transaction(function () use ($entry, $actor): StudentRecord {
-            $entry = AdmissionWaitlistEntry::query()
+            $entry = AdmissionWaitlistEntry::query()->withoutGlobalScope(SchoolScope::class)
                 ->with('academicCycleSection')
                 ->lockForUpdate()
                 ->findOrFail($entry->getKey());
@@ -42,7 +43,9 @@ class AcceptWaitlistEntry
                 throw new InvalidValueException('Only an offered admission place can be accepted.');
             }
 
-            $earlier = StudentRecord::query()
+            // The same learner may already attend another campus, so these
+            // two lookups read across campuses on purpose.
+            $earlier = StudentRecord::withoutGlobalScope(SchoolScope::class)
                 ->where('school_id', $entry->school_id)
                 ->where('user_id', $entry->user_id)
                 ->first();
@@ -57,7 +60,7 @@ class AcceptWaitlistEntry
 
             // The admission form refuses the same thing. Accepting a place
             // must not give one learner two schools to attend and pay.
-            $attendingElsewhere = StudentRecord::query()
+            $attendingElsewhere = StudentRecord::withoutGlobalScope(SchoolScope::class)
                 ->where('user_id', $entry->user_id)
                 ->where('school_id', '!=', $entry->school_id)
                 ->enrolled()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,7 +41,7 @@ class StudentHealthRecord extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

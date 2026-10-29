@@ -6,6 +6,7 @@ use App\Models\GraduationExemption;
 use App\Models\GraduationPlan;
 use App\Models\GraduationRequirement;
 use App\Models\ResultSnapshot;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 
 /**
@@ -86,7 +87,7 @@ class GraduationProgress
      */
     private function evaluatePlan(GraduationPlan $plan, StudentRecord $enrollment): array
     {
-        $requirements = $plan->requirements()->get();
+        $requirements = $plan->requirements()->with('subject')->get();
         $exempt = GraduationExemption::query()
             ->where('student_record_id', $enrollment->id)
             ->whereIn('graduation_requirement_id', $requirements->pluck('id'))
@@ -200,18 +201,23 @@ class GraduationProgress
 
         $subjectName = $requirement->subject?->name;
 
+        // A mark keeps counting after the learner moves: the snapshot names
+        // the subject it was earned under, whichever campus holds it.
         $snapshot = ResultSnapshot::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->approved()
             ->where('student_record_id', $enrollment->id)
-            ->whereHas('courseOffering', fn ($offering) => $offering->where(
+            ->whereHas('courseOffering', fn ($offering) => $offering->withoutGlobalScope(SchoolScope::class)->where(
                 fn ($sameSubject) => $sameSubject
                     ->where('subject_id', $requirement->subject_id)
                     ->when($subjectName !== null, fn ($named) => $named->orWhereHas(
                         'subject',
-                        fn ($subject) => $subject->whereRaw('LOWER(name) = ?', [mb_strtolower($subjectName)]),
+                        fn ($subject) => $subject->withoutGlobalScope(SchoolScope::class)->whereRaw('LOWER(name) = ?', [mb_strtolower($subjectName)]),
                     )),
             ))
-            ->with('courseOffering.academicYear')
+            ->with(['courseOffering' => fn ($offering) => $offering
+                ->withoutGlobalScope(SchoolScope::class)
+                ->with(['academicYear' => fn ($year) => $year->withoutGlobalScope(SchoolScope::class)])])
             ->get()
             ->sortByDesc(fn (ResultSnapshot $snapshot): string => sprintf(
                 '%s-%05d',

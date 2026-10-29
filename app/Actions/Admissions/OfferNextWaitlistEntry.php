@@ -7,6 +7,7 @@ use App\Enums\AdmissionWaitlistStatus;
 use App\Enums\AuditAction;
 use App\Models\AcademicCycleSection;
 use App\Models\AdmissionWaitlistEntry;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Academic\SectionSeats;
@@ -22,7 +23,7 @@ class OfferNextWaitlistEntry
     public function offer(AcademicCycleSection $academicCycleSection, ?User $actor = null): ?AdmissionWaitlistEntry
     {
         return DB::transaction(function () use ($academicCycleSection, $actor): ?AdmissionWaitlistEntry {
-            $section = AcademicCycleSection::query()->lockForUpdate()->findOrFail($academicCycleSection->getKey());
+            $section = AcademicCycleSection::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($academicCycleSection->getKey());
 
             // An open offer holds its seat, so one free seat is never offered
             // to two families. A section whose limit was lifted has room for

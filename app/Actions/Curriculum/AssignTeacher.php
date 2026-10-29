@@ -8,7 +8,9 @@ use App\Enums\Role;
 use App\Enums\TeachingRole;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
+use App\Models\AcademicYear;
 use App\Models\CourseOffering;
+use App\Models\Scopes\SchoolScope;
 use App\Models\TeachingAssignment;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -137,7 +139,11 @@ class AssignTeacher
             throw new InvalidValueException('The home group does not belong to this offering.');
         }
 
-        if ($courseOffering->academicYear->isClosed()) {
+        $academicYear = AcademicYear::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->findOrFail($courseOffering->academic_year_id);
+
+        if ($academicYear->isClosed()) {
             throw new InvalidValueException('The academic year is closed. Reopen it before you change teaching.');
         }
     }

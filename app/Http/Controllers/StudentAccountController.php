@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use Illuminate\View\View;
 
@@ -16,8 +17,14 @@ class StudentAccountController extends Controller
     /**
      * Show everything the school knows about one student's account.
      */
-    public function show(StudentRecord $studentRecord): View
+    public function show(string $studentRecord): View
     {
+        // A learner who moved campus keeps an account here, so the record is
+        // found by id and the account itself decides whether it belongs here.
+        $studentRecord = StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->findOrFail($studentRecord);
+
         abort_unless(
             auth()->user()?->can('read fee invoice') === true
                 && !auth()->user()->isPortalOnly()

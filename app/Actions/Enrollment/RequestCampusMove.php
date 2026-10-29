@@ -8,6 +8,7 @@ use App\Enums\CampusMoveStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\CampusMoveRequest;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -44,7 +45,11 @@ class RequestCampusMove
         return DB::transaction(function () use ($enrollment, $academicCycleSection, $actor, $reason, $effectiveOn): CampusMoveRequest {
             // Locking the enrollment makes two requests sent at the same moment
             // wait for each other, so the second one sees the first.
-            $enrollment = StudentRecord::query()->with('school')->lockForUpdate()->findOrFail($enrollment->getKey());
+            $enrollment = StudentRecord::query()->withoutGlobalScope(SchoolScope::class)
+                ->withoutGlobalScope(SchoolScope::class)
+                ->with('school')
+                ->lockForUpdate()
+                ->findOrFail($enrollment->getKey());
             $academicCycleSection->loadMissing('school');
 
             $this->failIfTheMoveCouldNeverBeMade($enrollment, $academicCycleSection);
@@ -86,14 +91,14 @@ class RequestCampusMove
     public function approve(CampusMoveRequest $request, ?User $actor = null, ?string $note = null): CampusMoveRequest
     {
         return DB::transaction(function () use ($request, $actor, $note): CampusMoveRequest {
-            $request = CampusMoveRequest::query()->lockForUpdate()->findOrFail($request->getKey());
+            $request = CampusMoveRequest::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($request->getKey());
 
             $this->failIfTheRequestCannotMoveTo($request, CampusMoveStatus::Approved);
             $this->failIfTheStudentLeftTheAskingCampus($request);
 
             $this->moveEnrollment->move(
-                enrollment: $request->studentRecord,
-                academicCycleSection: $request->academicCycleSection,
+                enrollment: $request->studentRecord()->withoutGlobalScope(SchoolScope::class)->firstOrFail(),
+                academicCycleSection: $request->academicCycleSection()->withoutGlobalScope(SchoolScope::class)->firstOrFail(),
                 actor: $actor,
                 reason: $request->reason,
                 // Approving early moves the learner now, so the move starts today.
@@ -147,7 +152,7 @@ class RequestCampusMove
         ?string $note,
     ): CampusMoveRequest {
         return DB::transaction(fn (): CampusMoveRequest => $this->writeDecision(
-            CampusMoveRequest::query()->lockForUpdate()->findOrFail($request->getKey()),
+            CampusMoveRequest::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($request->getKey()),
             $status,
             $actor,
             $note,
@@ -206,7 +211,9 @@ class RequestCampusMove
      */
     private function failIfTheStudentLeftTheAskingCampus(CampusMoveRequest $request): void
     {
-        if ($request->studentRecord->school_id !== $request->from_school_id) {
+        $enrollment = $request->studentRecord()->withoutGlobalScope(SchoolScope::class)->firstOrFail();
+
+        if ($enrollment->school_id !== $request->from_school_id) {
             throw new InvalidValueException('The student no longer attends the campus that asked. Reject this request, and ask their current campus to ask again.');
         }
     }
@@ -234,6 +241,7 @@ class RequestCampusMove
 
         $destination = $academicCycleSection->school;
         $numberTaken = $enrollment->admission_number !== null && StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->where('school_id', $destination->id)
             ->where('admission_number', $enrollment->admission_number)
             ->whereKeyNot($enrollment->getKey())

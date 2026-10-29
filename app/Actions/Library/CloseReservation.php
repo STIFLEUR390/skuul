@@ -7,6 +7,7 @@ use App\Enums\AuditAction;
 use App\Enums\LibraryReservationStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\LibraryReservation;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -83,7 +84,7 @@ class CloseReservation
     private function close(LibraryReservation $reservation, LibraryReservationStatus $status, ?User $actor): LibraryReservation
     {
         return DB::transaction(function () use ($reservation, $status, $actor): LibraryReservation {
-            $reservation = LibraryReservation::query()->lockForUpdate()->findOrFail($reservation->getKey());
+            $reservation = LibraryReservation::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($reservation->getKey());
 
             if (!$reservation->isOpen()) {
                 throw new InvalidValueException('This reservation has already ended.');

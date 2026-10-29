@@ -7,6 +7,7 @@ use App\Enums\Feature;
 use App\Enums\PortalArea;
 use App\Models\ParentRecord;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,9 +55,11 @@ class PortalAccess
         $ids = $this->childUserIds($person);
         $ids[] = $person->id;
 
+        // A family reads across campuses: the children may attend several, so
+        // the campus the person happens to work in must not narrow this.
         // An enrollment the upgrade could not place at a campus has no
         // school to open a portal for, so it is left out until staff place it.
-        return StudentRecord::query()
+        return StudentRecord::withoutGlobalScope(SchoolScope::class)
             ->whereIn('user_id', array_unique($ids))
             ->whereNotNull('school_id')
             ->whereIn('status', self::ReadableStatuses)
@@ -68,8 +71,14 @@ class PortalAccess
     /**
      * Check if the person may read this enrollment.
      */
-    public function canRead(User $person, StudentRecord $enrollment): bool
+    public function canRead(User $person, ?StudentRecord $enrollment): bool
     {
+        // A record outside the campus at hand resolves to nothing: refuse it
+        // rather than fall over.
+        if ($enrollment === null) {
+            return false;
+        }
+
         if (!in_array($enrollment->status, self::ReadableStatuses, true)) {
             return false;
         }

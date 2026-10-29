@@ -7,6 +7,7 @@ use App\Livewire\Layouts\Menu;
 use App\Livewire\SetSchool;
 use App\Models\AcademicYear;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use App\Services\School\SchoolContext;
 use App\Traits\FeatureTestTrait;
@@ -79,7 +80,7 @@ class SchoolContextTest extends TestCase
     public function test_a_member_cannot_switch_to_a_school_without_membership(): void
     {
         $home = $this->workingSchool();
-        $other = School::query()->findOrFail(School::factory()->create()->getKey());
+        $other = School::withoutGlobalScope(SchoolScope::class)->findOrFail(School::factory()->create()->getKey());
         $user = $this->memberOf($home);
 
         $this->actingAsMemberOf($home, $user);
@@ -184,6 +185,6 @@ class SchoolContextTest extends TestCase
 
         $this->authorized_user(['read academic year'])
             ->get("/dashboard/academic-years/$theirs->id")
-            ->assertForbidden();
+            ->assertNotFound();
     }
 }

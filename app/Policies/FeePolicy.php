@@ -14,11 +14,9 @@ class FeePolicy
         }
     }
 
-    public function view(User $user, Fee $fee)
+    public function view(User $user, Fee $fee): bool
     {
-        if ($user->can('read fee') && $fee->feeCategory->school_id == current_school_id()) {
-            return true;
-        }
+        return $user->can('read fee') && $this->isOfTheWorkingCampus($fee);
     }
 
     public function create(User $user)
@@ -28,18 +26,14 @@ class FeePolicy
         }
     }
 
-    public function update(User $user, Fee $fee)
+    public function update(User $user, Fee $fee): bool
     {
-        if ($user->can('update fee') && $fee->feeCategory->school_id == current_school_id()) {
-            return true;
-        }
+        return $user->can('update fee') && $this->isOfTheWorkingCampus($fee);
     }
 
-    public function delete(User $user, Fee $fee)
+    public function delete(User $user, Fee $fee): bool
     {
-        if ($user->can('delete fee') && $fee->feeCategory->school_id == current_school_id()) {
-            return true;
-        }
+        return $user->can('delete fee') && $this->isOfTheWorkingCampus($fee);
     }
 
     public function restore(User $user, Fee $fee)
@@ -50,5 +44,16 @@ class FeePolicy
     public function forceDelete(User $user, Fee $fee)
     {
         //
+    }
+
+    /**
+     * A fee belongs to a campus through its category, which the campus scope
+     * hides when it belongs elsewhere: no category means no access.
+     */
+    private function isOfTheWorkingCampus(Fee $fee): bool
+    {
+        $category = $fee->feeCategory;
+
+        return $category !== null && $category->school_id === current_school_id();
     }
 }

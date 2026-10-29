@@ -8,6 +8,7 @@ use App\Enums\EnrollmentStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\Cohort;
 use App\Models\CohortMember;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -72,7 +73,7 @@ class ChangeCohortMembership
     public function remove(CohortMember $member, CarbonInterface|string|null $leftOn = null, ?User $actor = null): CohortMember
     {
         return DB::transaction(function () use ($member, $leftOn, $actor): CohortMember {
-            $member = CohortMember::query()->lockForUpdate()->findOrFail($member->getKey());
+            $member = CohortMember::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($member->getKey());
 
             if ($member->left_on !== null) {
                 throw new InvalidValueException('This person already left the group.');
@@ -130,7 +131,7 @@ class ChangeCohortMembership
 
         try {
             return DB::transaction(function () use ($cohort, $holder, $joinedOn, $actor): CohortMember {
-                $cohort = Cohort::query()->lockForUpdate()->findOrFail($cohort->getKey());
+                $cohort = Cohort::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($cohort->getKey());
 
                 if (!$cohort->is_active) {
                     throw new InvalidValueException("{$cohort->name} is closed. Open it again before anybody joins.");

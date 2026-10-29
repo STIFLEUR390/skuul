@@ -26,6 +26,13 @@ class CampusRole extends SpatieRole
     use InSchool;
 
     /**
+     * Roles can belong to the platform (school_id is null) rather than to a
+     * campus, so the trait's campus-wide read scope would hide them from every
+     * role lookup Spatie makes. Overriding the trait's boot method opts out.
+     */
+    public static function bootInSchool(): void {}
+
+    /**
      * Limit the query to roles a campus still offers.
      *
      * @param  Builder<$this>  $query

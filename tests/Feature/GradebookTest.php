@@ -34,6 +34,7 @@ use App\Models\GradingScale;
 use App\Models\GradingScaleOption;
 use App\Models\ResultSnapshot;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\Subject;
 use App\Models\User;
@@ -133,7 +134,7 @@ class GradebookTest extends TestCase
     {
         $this->authorized_user(['read gradebook', 'update subject']);
         $school = $this->workingSchool();
-        $historicalYear = AcademicYear::query()->findOrFail(AcademicYear::factory()->create([
+        $historicalYear = AcademicYear::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicYear::factory()->create([
             'school_id' => $school->id,
             'start_year' => 2024,
             'stop_year' => 2025,
@@ -205,7 +206,7 @@ class GradebookTest extends TestCase
     {
         $this->authorized_user(['read gradebook', 'update subject']);
         $school = $this->workingSchool();
-        $historicalYear = AcademicYear::query()->findOrFail(AcademicYear::factory()->create([
+        $historicalYear = AcademicYear::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicYear::factory()->create([
             'school_id' => $school->id,
             'start_year' => 2024,
             'stop_year' => 2025,
@@ -267,9 +268,9 @@ class GradebookTest extends TestCase
     public function test_gradebook_history_cannot_be_selected_from_another_school(): void
     {
         $this->authorized_user(['read gradebook', 'update subject']);
-        $otherSchoolYear = AcademicYear::query()->findOrFail(AcademicYear::factory()->create([
+        $otherSchoolYear = AcademicYear::factory()->create([
             'school_id' => School::factory()->create()->getKey(),
-        ])->getKey());
+        ]);
 
         $this->get(route('gradebooks.index', ['academic_year_id' => $otherSchoolYear->id]))
             ->assertNotFound();
@@ -449,11 +450,11 @@ class GradebookTest extends TestCase
         $this->authorized_user([]);
         $courseOffering = $this->courseOffering();
         $item = $this->item(['max_points' => 10], $courseOffering);
-        $outsideCycleSection = AcademicCycleSection::query()->findOrFail(AcademicCycleSection::factory()->create([
+        $outsideCycleSection = AcademicCycleSection::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicCycleSection::factory()->create([
             'school_id' => $courseOffering->school_id,
             'academic_year_id' => $courseOffering->academic_year_id,
         ])->getKey());
-        $outsideEnrollment = StudentRecord::query()->findOrFail(StudentRecord::factory()->create([
+        $outsideEnrollment = StudentRecord::withoutGlobalScope(SchoolScope::class)->findOrFail(StudentRecord::factory()->create([
             'school_id' => $courseOffering->school_id,
             'academic_cycle_section_id' => $outsideCycleSection->id,
         ])->getKey());
@@ -589,8 +590,8 @@ class GradebookTest extends TestCase
         }
 
         $school = $this->workingSchool();
-        $academicYear = current_academic_year() ?? AcademicYear::query()->findOrFail(AcademicYear::factory()->create(['school_id' => $school->id])->getKey());
-        $academicPeriod = current_academic_period() ?? AcademicPeriod::query()->findOrFail(AcademicPeriod::factory()->create([
+        $academicYear = current_academic_year() ?? AcademicYear::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicYear::factory()->create(['school_id' => $school->id])->getKey());
+        $academicPeriod = current_academic_period() ?? AcademicPeriod::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicPeriod::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
         ])->getKey());

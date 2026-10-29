@@ -14,6 +14,7 @@ use App\Enums\EnrollmentStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\EnrollmentStatusChange;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Academic\SectionSeats;
@@ -57,7 +58,7 @@ class ChangeEnrollmentStatus
         return DB::transaction(function () use ($enrollment, $status, $actor, $reason, $effectiveOn, $into): StudentRecord {
             // Re-read the row under a lock. This makes retries idempotent even
             // when two requests attempt to change the same enrollment at once.
-            $enrollment = StudentRecord::query()
+            $enrollment = StudentRecord::query()->withoutGlobalScope(SchoolScope::class)
                 ->lockForUpdate()
                 ->findOrFail($enrollment->getKey());
             $current = $enrollment->status;
@@ -165,7 +166,9 @@ class ChangeEnrollmentStatus
      */
     private function refuseALearnerWhoNowAttendsElsewhere(StudentRecord $enrollment): void
     {
+        // The other enrollment belongs to another campus by definition.
         $open = StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->where('user_id', $enrollment->user_id)
             ->whereKeyNot($enrollment->getKey())
             ->enrolled()

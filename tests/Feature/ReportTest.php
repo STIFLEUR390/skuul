@@ -277,9 +277,10 @@ class ReportTest extends TestCase
         $this->authorized_user(['create report', 'read report', 'read fee invoice', 'read student']);
         $run = app(RequestReport::class)->request('class-list')->fresh();
 
+        // A report of another campus does not exist for this one.
         $this->authorized_user(['read report', 'read student'], School::factory()->create())
             ->get("/dashboard/reports/$run->id/download")
-            ->assertForbidden();
+            ->assertNotFound();
     }
 
     public function test_a_download_is_written_to_the_audit_log(): void

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CampusMoveStatus;
+use App\Models\Scopes\SchoolScope;
 use Database\Factories\CampusMoveRequestFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -89,7 +90,9 @@ class CampusMoveRequest extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        // A move names two campuses, and the learner is read from whichever of
+        // them is looking, so the campus scope must not hide them.
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**
@@ -119,7 +122,8 @@ class CampusMoveRequest extends Model
      */
     public function academicCycleSection(): BelongsTo
     {
-        return $this->belongsTo(AcademicCycleSection::class);
+        // The target section belongs to the campus receiving the learner.
+        return $this->belongsTo(AcademicCycleSection::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

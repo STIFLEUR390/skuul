@@ -15,6 +15,7 @@ use App\Models\AcademicYear;
 use App\Models\AuditEvent;
 use App\Models\CourseOffering;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;
 use App\Models\User;
@@ -89,10 +90,10 @@ class TeachingAssignmentTest extends TestCase
     {
         $this->authorized_user([]);
         $courseOffering = $this->courseOffering();
-        $otherSchool = School::query()->findOrFail(School::factory()->create()->getKey());
-        $year = AcademicYear::query()->findOrFail(AcademicYear::factory()->create(['school_id' => $otherSchool->id])->getKey());
-        $level = AcademicLevel::query()->findOrFail(AcademicLevel::factory()->create(['school_id' => $otherSchool->id])->getKey());
-        $cycleSection = AcademicCycleSection::query()->findOrFail(AcademicCycleSection::factory()->create([
+        $otherSchool = School::withoutGlobalScope(SchoolScope::class)->findOrFail(School::factory()->create()->getKey());
+        $year = AcademicYear::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicYear::factory()->create(['school_id' => $otherSchool->id])->getKey());
+        $level = AcademicLevel::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicLevel::factory()->create(['school_id' => $otherSchool->id])->getKey());
+        $cycleSection = AcademicCycleSection::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicCycleSection::factory()->create([
             'school_id' => $otherSchool->id,
             'academic_year_id' => $year->id,
             'academic_level_id' => $level->id,
@@ -116,7 +117,7 @@ class TeachingAssignmentTest extends TestCase
     public function test_a_teacher_of_another_school_is_refused(): void
     {
         $this->authorized_user([]);
-        $other = School::query()->findOrFail(School::factory()->create()->getKey());
+        $other = School::withoutGlobalScope(SchoolScope::class)->findOrFail(School::factory()->create()->getKey());
         $stranger = $this->memberOf($other);
         school_context()->set($other, remember: false);
         $stranger->assignRole(Role::Teacher->value);
@@ -194,10 +195,10 @@ class TeachingAssignmentTest extends TestCase
                 'school_id' => $this->workingSchool()->id,
                 'academic_year_id' => $academicYear->id,
             ]));
-        $academicLevel = AcademicLevel::query()->findOrFail(AcademicLevel::factory()->create([
+        $academicLevel = AcademicLevel::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicLevel::factory()->create([
             'school_id' => $this->workingSchool()->id,
         ])->getKey());
-        $subject = Subject::query()->findOrFail(Subject::factory()->create([
+        $subject = Subject::withoutGlobalScope(SchoolScope::class)->findOrFail(Subject::factory()->create([
             'school_id' => $this->workingSchool()->id,
         ])->getKey());
 
@@ -212,7 +213,7 @@ class TeachingAssignmentTest extends TestCase
 
     private function cycleSection(CourseOffering $courseOffering): AcademicCycleSection
     {
-        $cycleSection = AcademicCycleSection::query()->findOrFail(AcademicCycleSection::factory()->create([
+        $cycleSection = AcademicCycleSection::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicCycleSection::factory()->create([
             'school_id' => $courseOffering->school_id,
             'academic_year_id' => $courseOffering->academic_year_id,
             'academic_level_id' => $courseOffering->academic_level_id,

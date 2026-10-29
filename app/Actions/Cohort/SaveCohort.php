@@ -7,6 +7,7 @@ use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\Cohort;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +61,7 @@ class SaveCohort
         try {
             return DB::transaction(function () use ($cohort, $attributes, $actor): Cohort {
                 School::query()->lockForUpdate()->findOrFail($cohort->school_id);
-                $cohort = Cohort::query()->lockForUpdate()->findOrFail($cohort->getKey());
+                $cohort = Cohort::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($cohort->getKey());
                 $this->refuseATakenName($attributes['name'], $cohort);
 
                 $cohort->fill($attributes);

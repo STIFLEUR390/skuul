@@ -7,6 +7,7 @@ use App\Enums\EnrollmentStatus;
 use App\Enums\OrganizationMembershipStatus;
 use App\Enums\Role;
 use App\Enums\SchoolMembershipStatus;
+use App\Models\Scopes\SchoolScope;
 use App\Services\Authorization\SystemPermissionScope;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -455,7 +456,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function studentRecords(): HasMany
     {
-        return $this->hasMany(StudentRecord::class);
+        // Any school means any school: the campus scope would turn this into
+        // "the enrollments of the campus being worked in", which `studentRecord()`
+        // already answers.
+        return $this->hasMany(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

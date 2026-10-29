@@ -402,7 +402,7 @@ class CalendarEventScreenTest extends TestCase
             'ends_at' => now()->endOfDay(),
         ]);
 
-        $this->get(route('calendar-events.edit', $foreign))->assertForbidden();
+        $this->get(route('calendar-events.edit', $foreign))->assertNotFound();
         Livewire::test(CalendarEventEditor::class, ['event' => $foreign])->assertForbidden();
 
         $this->assertFalse($foreign->fresh()->is_published);

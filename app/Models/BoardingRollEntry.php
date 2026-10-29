@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BoardingRollEntryStatus;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Database\Factories\BoardingRollEntryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -57,7 +58,7 @@ class BoardingRollEntry extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

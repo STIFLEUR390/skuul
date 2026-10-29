@@ -9,6 +9,7 @@ use App\Enums\Role;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\AcademicLevel;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Student\StudentService;
@@ -215,6 +216,7 @@ class StudentImporter implements Importer
     private function refuseALearnerWhoAttendsElsewhere(?string $email): void
     {
         $elsewhere = StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->whereRelation('user', 'email', $email)
             ->where('school_id', '!=', current_school_id())
             ->enrolled()

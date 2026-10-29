@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AttendanceKind;
 use App\Enums\AttendanceStatus;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,7 +102,7 @@ class AttendanceRecord extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

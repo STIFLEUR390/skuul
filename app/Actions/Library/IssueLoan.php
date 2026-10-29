@@ -10,6 +10,7 @@ use App\Models\LibraryCopy;
 use App\Models\LibraryLendingRules;
 use App\Models\LibraryLoan;
 use App\Models\LibraryReservation;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class IssueLoan
         ?Carbon $issuedOn = null,
     ): LibraryLoan {
         return DB::transaction(function () use ($copy, $borrower, $actor, $issuedOn): LibraryLoan {
-            $copy = LibraryCopy::query()->lockForUpdate()->with('title')->findOrFail($copy->getKey());
+            $copy = LibraryCopy::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->with('title')->findOrFail($copy->getKey());
             $policy = LibraryLendingRules::forSchool($copy->school_id);
 
             $held = $this->heldCopyReservation($copy);

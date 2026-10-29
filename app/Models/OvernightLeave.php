@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OvernightLeaveStatus;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Database\Factories\OvernightLeaveFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -66,7 +67,7 @@ class OvernightLeave extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

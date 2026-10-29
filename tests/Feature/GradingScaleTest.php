@@ -15,6 +15,7 @@ use App\Models\GradeItem;
 use App\Models\GradingScale;
 use App\Models\GradingScaleOption;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\Subject;
 use App\Traits\FeatureTestTrait;
@@ -103,7 +104,7 @@ class GradingScaleTest extends TestCase
     public function test_a_scale_from_another_school_cannot_be_changed_or_deleted(): void
     {
         $this->authorized_user(['manage grading scale']);
-        $otherSchool = School::query()->findOrFail(School::factory()->create()->getKey());
+        $otherSchool = School::withoutGlobalScope(SchoolScope::class)->findOrFail(School::factory()->create()->getKey());
         $scale = GradingScale::factory()->create(['school_id' => $otherSchool->id, 'name' => 'Their scale']);
 
         Livewire::test(GradingScaleManager::class)->assertDontSee('Their scale');
@@ -218,8 +219,8 @@ class GradingScaleTest extends TestCase
     private function recordGradeWith(GradingScale $scale, GradingScaleOption $option): void
     {
         $school = $this->workingSchool();
-        $academicYear = current_academic_year() ?? AcademicYear::query()->findOrFail(AcademicYear::factory()->create(['school_id' => $school->id])->getKey());
-        $academicPeriod = current_academic_period() ?? AcademicPeriod::query()->findOrFail(AcademicPeriod::factory()->create([
+        $academicYear = current_academic_year() ?? AcademicYear::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicYear::factory()->create(['school_id' => $school->id])->getKey());
+        $academicPeriod = current_academic_period() ?? AcademicPeriod::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicPeriod::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
         ])->getKey());

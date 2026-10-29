@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CompetencyLevel;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,7 +25,7 @@ class CompetencyAssessment extends Model
     /** @return BelongsTo<StudentRecord, $this> */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /** @return BelongsTo<Competency, $this> */

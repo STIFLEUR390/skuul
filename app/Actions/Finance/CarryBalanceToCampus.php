@@ -9,6 +9,7 @@ use App\Models\FeeInvoice;
 use App\Models\LedgerAccount;
 use App\Models\LedgerLine;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentPayment;
 use App\Models\StudentRecord;
 use App\Models\User;
@@ -68,9 +69,9 @@ class CarryBalanceToCampus
      */
     public function carryToWhereTheyAttend(StudentRecord $enrollment, int $fromSchoolId, ?User $actor = null): array
     {
-        $attending = StudentRecord::query()->whereKey($enrollment->id)->value('school_id');
+        $attending = $this->attendingCampus($enrollment);
 
-        if ($attending === null || (int) $attending === $fromSchoolId) {
+        if ($attending === null || $attending === $fromSchoolId) {
             return [];
         }
 
@@ -96,10 +97,10 @@ class CarryBalanceToCampus
      */
     public function carryTakenBack(StudentPayment $payment, ?User $actor = null): array
     {
-        $enrollment = $payment->studentRecord;
-        $attending = StudentRecord::query()->whereKey($enrollment->id)->value('school_id');
+        $enrollment = $payment->studentRecord()->withoutGlobalScope(SchoolScope::class)->firstOrFail();
+        $attending = $this->attendingCampus($enrollment);
 
-        if ($attending === null || (int) $attending === $payment->school_id) {
+        if ($attending === null || $attending === $payment->school_id) {
             return [];
         }
 
@@ -321,5 +322,17 @@ class CarryBalanceToCampus
         $credit = (float) (clone $lines)->sum('credit');
 
         return round($account->type->normalBalance() === 'debit' ? $debit - $credit : $credit - $debit, 2);
+    }
+
+    /**
+     * The campus the learner attends today, whichever campus asks.
+     */
+    private function attendingCampus(StudentRecord $enrollment): ?int
+    {
+        $attending = StudentRecord::withoutGlobalScope(SchoolScope::class)
+            ->whereKey($enrollment->id)
+            ->value('school_id');
+
+        return $attending === null ? null : (int) $attending;
     }
 }

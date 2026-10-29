@@ -9,6 +9,7 @@ use App\Models\FinancialPeriod;
 use App\Models\LedgerAccount;
 use App\Models\LedgerLine;
 use App\Models\LedgerTransaction;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use App\Services\Finance\FinancialPeriodResolver;
 use Carbon\CarbonInterface;
@@ -62,7 +63,7 @@ class PostLedgerTransaction
             // A close that lands between the check above and this write must
             // not let the entry into a closed period. The shared lock makes a
             // close wait for entries already being written.
-            $period = FinancialPeriod::query()->whereKey($period->id)->sharedLock()->firstOrFail();
+            $period = FinancialPeriod::withoutGlobalScope(SchoolScope::class)->whereKey($period->id)->sharedLock()->firstOrFail();
 
             if (!$period->isOpen()) {
                 throw new InvalidValueException("Financial period {$period->name} is closed.");

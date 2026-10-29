@@ -22,6 +22,7 @@ use App\Models\AcademicYear;
 use App\Models\AdmissionWaitlistEntry;
 use App\Models\AuditEvent;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Traits\FeatureTestTrait;
@@ -291,7 +292,7 @@ class AdmissionsTest extends TestCase
             $this->assertStringContainsString('Hill Campus', $exception->getMessage());
         }
 
-        $this->assertSame(1, StudentRecord::query()->where('user_id', $candidate->id)->count());
+        $this->assertSame(1, StudentRecord::withoutGlobalScope(SchoolScope::class)->where('user_id', $candidate->id)->count());
         $this->assertSame(AdmissionWaitlistStatus::Offered, $offered->fresh()->status);
     }
 
@@ -314,7 +315,7 @@ class AdmissionsTest extends TestCase
             $this->assertSame('This candidate is enrolled at another school. Ask that school to move or transfer them.', $exception->getMessage());
         }
 
-        $this->assertSame(1, StudentRecord::query()->where('user_id', $candidate->id)->count());
+        $this->assertSame(1, StudentRecord::withoutGlobalScope(SchoolScope::class)->where('user_id', $candidate->id)->count());
     }
 
     public function test_a_member_of_staff_cannot_take_a_place(): void

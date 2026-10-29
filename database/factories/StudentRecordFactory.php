@@ -27,22 +27,22 @@ class StudentRecordFactory extends Factory
      */
     public function definition()
     {
-        $student = User::query()->findOrFail(User::factory()->create()->getKey());
-        $school = School::query()->first() ?? School::query()->findOrFail(School::factory()->create()->getKey());
+        $student = User::factory()->create();
+        $school = School::query()->first() ?? School::factory()->create();
         $academicYear = AcademicYear::query()->where('school_id', $school->id)->first()
-            ?? AcademicYear::query()->findOrFail(AcademicYear::factory()->create(['school_id' => $school->id])->getKey());
+            ?? AcademicYear::factory()->create(['school_id' => $school->id]);
         $academicLevel = AcademicLevel::query()->where('school_id', $school->id)->first()
-            ?? AcademicLevel::query()->findOrFail(AcademicLevel::factory()->create(['school_id' => $school->id])->getKey());
+            ?? AcademicLevel::factory()->create(['school_id' => $school->id]);
         $academicCycleSection = AcademicCycleSection::query()
             ->where('school_id', $school->id)
             ->where('academic_year_id', $academicYear->id)
             ->first()
-            ?? AcademicCycleSection::query()->findOrFail(AcademicCycleSection::factory()->create([
+            ?? AcademicCycleSection::factory()->create([
                 'school_id' => $school->id,
                 'academic_year_id' => $academicYear->id,
                 'academic_level_id' => $academicLevel->id,
                 'status' => AcademicStructureStatus::Active,
-            ])->getKey());
+            ]);
         $student->assignRole('student');
 
         return [

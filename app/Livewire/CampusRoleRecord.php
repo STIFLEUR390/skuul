@@ -8,6 +8,7 @@ use App\Enums\EnrollmentStatus;
 use App\Exceptions\InvalidValueException;
 use App\Livewire\Concerns\DispatchesStatusNotifications;
 use App\Models\CampusRole;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use App\Services\Authorization\RoleAuthority;
 use Illuminate\Database\Eloquent\Builder;
@@ -135,7 +136,7 @@ class CampusRoleRecord extends Component
         Gate::authorize('assign', $this->role);
 
         $this->validate([
-            'personId' => ['required', 'integer', Rule::in(User::ofSchool()->pluck('users.id')->all())],
+            'personId' => ['required', 'integer', Rule::in($this->assignablePeople()->pluck('id')->all())],
         ], [
             'personId.in' => 'That person does not work at this campus.',
         ], ['personId' => 'person']);
@@ -203,12 +204,27 @@ class CampusRoleRecord extends Component
             'isShared' => $this->role->school_id === null,
             'grantable' => $roleAuthority->grantableBy(auth()->user(), current_school()),
             'holders' => $holders,
-            'people' => User::ofSchool()
+            'people' => $this->assignablePeople()
                 ->whereNotIn('users.id', $holders->pluck('id'))
-                ->whereDoesntHave('studentRecords', fn (Builder $enrollments): Builder => $enrollments->whereIn('status', EnrollmentStatus::enrolled()))
-                ->orderBy('name')
                 ->get(['users.id', 'users.name', 'users.email']),
         ]);
+    }
+
+    /**
+     * The people of this campus a role can be handed to.
+     *
+     * A learner who moved away keeps a membership here but is still attending,
+     * so they are left out: the learner list is read across campuses.
+     *
+     * @return Builder<User>
+     */
+    private function assignablePeople(): Builder
+    {
+        return User::ofSchool()
+            ->whereDoesntHave('studentRecords', fn (Builder $enrollments): Builder => $enrollments
+                ->withoutGlobalScope(SchoolScope::class)
+                ->whereIn('status', EnrollmentStatus::enrolled()))
+            ->orderBy('name');
     }
 
     /**

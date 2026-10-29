@@ -14,6 +14,7 @@ use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -53,11 +54,15 @@ class MoveEnrollmentBetweenCampuses
         $academicCycleSectionId = $academicCycleSection->getKey();
 
         return DB::transaction(function () use ($enrollmentId, $academicCycleSectionId, $actor, $reason, $effectiveOn): StudentRecord {
+            // A move reads the campus the student leaves and the campus that
+            // receives them, so neither read is narrowed to one campus.
             $enrollment = StudentRecord::query()
+                ->withoutGlobalScope(SchoolScope::class)
                 ->with(['school', 'user'])
                 ->lockForUpdate()
                 ->findOrFail($enrollmentId);
             $academicCycleSection = AcademicCycleSection::query()
+                ->withoutGlobalScope(SchoolScope::class)
                 ->with('school')
                 ->lockForUpdate()
                 ->findOrFail($academicCycleSectionId);

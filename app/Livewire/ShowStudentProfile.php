@@ -11,8 +11,10 @@ use App\Enums\EnrollmentStatus;
 use App\Exceptions\InvalidValueException;
 use App\Livewire\Concerns\DispatchesStatusNotifications;
 use App\Models\AcademicCycleSection;
+use App\Models\AcademicLevel;
 use App\Models\CampusMoveRequest;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Authorization\CampusMoveAuthority;
@@ -384,16 +386,25 @@ class ShowStudentProfile extends Component
             return;
         }
 
-        $this->campusCycleSections = $this->openSiblingCycleSections($campusIds)
-            ->with(['academicLevel', 'school'])
+        $sections = $this->openSiblingCycleSections($campusIds)
+            ->with('school')
             ->orderBy('school_id')
             ->orderBy('position')
             ->orderBy('name')
-            ->get()
+            ->get();
+
+        // The levels belong to the sibling campuses, so they are read the same
+        // way the sections are: without the campus of this screen.
+        $levels = AcademicLevel::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->whereKey($sections->pluck('academic_level_id')->filter()->unique()->all())
+            ->pluck('name', 'id');
+
+        $this->campusCycleSections = $sections
             ->map(fn (AcademicCycleSection $cycleSection): array => [
                 'id' => $cycleSection->id,
-                'name' => $cycleSection->label ?? $cycleSection->name,
-                'level' => $cycleSection->academicLevel->name,
+                'name' => $cycleSection->displayName(),
+                'level' => $levels[$cycleSection->academic_level_id] ?? '',
                 'campus' => $cycleSection->school->name,
             ])
             ->all();

@@ -55,6 +55,9 @@ class CampusMoveRequestTest extends TestCase
 
         $this->assertSame(CampusMoveStatus::Requested, $request->status);
         $this->assertSame($source->id, $enrollment->fresh()->school_id, 'Asking must not move the student.');
+
+        school_context()->set($sibling, remember: false);
+
         $this->assertNotNull(AuditEvent::ofAction(AuditAction::CampusMoveRequested)->forSubject($request)->first());
     }
 
@@ -75,10 +78,10 @@ class CampusMoveRequestTest extends TestCase
         $this->assertSame($approver->id, $decided->decided_by);
         $this->assertSame($sibling->id, $moved->school_id);
         $this->assertSame($cycleSection->id, $moved->academic_cycle_section_id);
-        $this->assertSame(1, StudentRecord::query()->where('user_id', $enrollment->user_id)->count());
 
         school_context()->set($sibling, remember: false);
 
+        $this->assertSame(1, StudentRecord::query()->where('user_id', $enrollment->user_id)->count());
         $this->assertTrue($moved->user->hasRole(Role::Student));
     }
 
@@ -91,6 +94,8 @@ class CampusMoveRequestTest extends TestCase
         $approver = $this->campusAdministratorOf($sibling, [CampusMoveAuthority::ApprovePermission]);
 
         app(RequestCampusMove::class)->approve($request, $approver);
+
+        school_context()->set($sibling, remember: false);
 
         $placement = $enrollment->fresh()->currentPlacement;
 
@@ -135,6 +140,9 @@ class CampusMoveRequestTest extends TestCase
 
         $this->assertSame(CampusMoveStatus::Rejected, $decided->status);
         $this->assertSame($source->id, $enrollment->fresh()->school_id);
+
+        school_context()->set($sibling, remember: false);
+
         $this->assertNotNull(AuditEvent::ofAction(AuditAction::CampusMoveStatusChanged)->forSubject($request)->first());
     }
 

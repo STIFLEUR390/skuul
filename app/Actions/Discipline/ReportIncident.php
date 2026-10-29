@@ -13,6 +13,7 @@ use App\Models\Incident;
 use App\Models\IncidentAction;
 use App\Models\IncidentParticipant;
 use App\Models\IncidentStatusChange;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -108,7 +109,7 @@ class ReportIncident
         return DB::transaction(function () use ($incident, $status, $actor, $reason): Incident {
             // Two people may change it at once. Only the state read under
             // the lock decides, so the history never shows a skipped step.
-            $incident->setRawAttributes(Incident::query()->lockForUpdate()->findOrFail($incident->getKey())->getAttributes(), true);
+            $incident->setRawAttributes(Incident::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($incident->getKey())->getAttributes(), true);
             $current = $incident->status;
 
             if ($current === $status) {

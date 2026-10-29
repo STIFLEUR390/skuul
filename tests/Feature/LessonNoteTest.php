@@ -16,6 +16,7 @@ use App\Models\AcademicYear;
 use App\Models\AuditEvent;
 use App\Models\CourseOffering;
 use App\Models\LessonNote;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\SyllabusTopic;
@@ -325,7 +326,7 @@ class LessonNoteTest extends TestCase
         $academicYear = AcademicYear::factory()->create(['school_id' => $school->id]);
         $academicPeriod = AcademicPeriod::factory()->create(['school_id' => $school->id, 'academic_year_id' => $academicYear->getKey()]);
 
-        return CourseOffering::query()->findOrFail(CourseOffering::factory()->create([
+        return CourseOffering::withoutGlobalScope(SchoolScope::class)->findOrFail(CourseOffering::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->getKey(),
             'academic_period_id' => $academicPeriod->getKey(),

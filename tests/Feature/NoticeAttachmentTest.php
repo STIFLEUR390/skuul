@@ -131,18 +131,14 @@ class NoticeAttachmentTest extends TestCase
     public function test_a_notice_cannot_target_a_home_section_from_another_school(): void
     {
         $this->authorized_user(['create notice']);
-        $otherSchool = School::query()->findOrFail(School::factory()->create()->getKey());
-        $otherAcademicYear = AcademicYear::query()->findOrFail(AcademicYear::factory()->create([
-            'school_id' => $otherSchool->id,
-        ])->getKey());
-        $otherAcademicLevel = AcademicLevel::query()->findOrFail(AcademicLevel::factory()->create([
-            'school_id' => $otherSchool->id,
-        ])->getKey());
-        $otherSection = AcademicCycleSection::query()->findOrFail(AcademicCycleSection::factory()->create([
+        $otherSchool = School::factory()->create();
+        $otherAcademicYear = AcademicYear::factory()->create(['school_id' => $otherSchool->id]);
+        $otherAcademicLevel = AcademicLevel::factory()->create(['school_id' => $otherSchool->id]);
+        $otherSection = AcademicCycleSection::factory()->create([
             'school_id' => $otherSchool->id,
             'academic_year_id' => $otherAcademicYear->id,
             'academic_level_id' => $otherAcademicLevel->id,
-        ])->getKey());
+        ]);
 
         Livewire::test(CreateNoticeForm::class)
             ->set('title', 'Family guide')

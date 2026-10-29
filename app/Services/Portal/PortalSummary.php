@@ -14,6 +14,7 @@ use App\Models\NoticeRecipient;
 use App\Models\ReportCardSnapshot;
 use App\Models\ResultSnapshot;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\Timetable;
 use App\Models\TranscriptSnapshot;
@@ -222,7 +223,11 @@ class PortalSummary
             ->where('school_id', $enrollment->school_id)
             ->where('student_record_id', $enrollment->id)
             ->latest('id')
-            ->with('bed.room.dormitory')
+            ->with([
+                'bed' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class),
+                'bed.room' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class),
+                'bed.room.dormitory' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class),
+            ])
             ->first();
         $bed = $place?->bed;
         $room = $bed?->room;
@@ -231,7 +236,7 @@ class PortalSummary
             ? BoardingRollEntry::inSchool($enrollment->school_id)
                 ->where('student_record_id', $enrollment->id)
                 ->whereHas('roll', fn ($roll) => $roll->where('school_id', $enrollment->school_id)->whereDate('taken_on', '<=', school_today($enrollment->school_id)->toDateString()))
-                ->with('roll')
+                ->with(['roll' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class)])
                 ->latest('id')
                 ->first()
             : null;

@@ -35,6 +35,7 @@ use App\Models\LibraryLoan;
 use App\Models\LibraryReservation;
 use App\Models\LibraryTitle;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Services\Feature\FeatureManager;
 use App\Services\Finance\StudentLedger;
@@ -307,7 +308,7 @@ class LibraryTest extends TestCase
             ->assertHasErrors('borrowerSearch')
             ->assertSee('This person is already in the queue for this title.');
 
-        $this->assertSame(1, LibraryReservation::query()->count());
+        $this->assertSame(1, LibraryReservation::withoutGlobalScope(SchoolScope::class)->count());
     }
 
     public function test_the_queue_takes_nobody_and_nothing_from_another_campus(): void
@@ -335,7 +336,7 @@ class LibraryTest extends TestCase
         $this->assertThrows(fn () => Livewire::test(LibraryReservationQueue::class)
             ->call('takeOff', $foreignReservation->id), ModelNotFoundException::class);
 
-        $this->assertSame(1, LibraryReservation::query()->count());
+        $this->assertSame(1, LibraryReservation::withoutGlobalScope(SchoolScope::class)->count());
         $this->assertTrue($foreignReservation->fresh()->isOpen());
     }
 
@@ -733,7 +734,7 @@ class LibraryTest extends TestCase
         LibraryCopy::factory()->create(['school_id' => $elsewhere->id, 'library_title_id' => $copy->library_title_id]);
 
         $this->assertSame(1, LibraryCopy::inSchool()->count());
-        $this->assertSame(2, LibraryCopy::where('library_title_id', $copy->library_title_id)->count());
+        $this->assertSame(2, LibraryCopy::withoutGlobalScope(SchoolScope::class)->where('library_title_id', $copy->library_title_id)->count());
     }
 
     public function test_the_screens_are_hidden_until_the_school_turns_the_library_on(): void

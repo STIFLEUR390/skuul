@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EnrollmentStatus;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Carbon\Carbon;
 use DateTimeInterface;
@@ -77,6 +78,21 @@ class StudentRecord extends Model
         'status' => EnrollmentStatus::class,
         'is_primary' => 'boolean',
     ];
+
+    /**
+     * Resolve the enrollment a route names.
+     *
+     * The portal is a family view: a guardian opens the enrollment of a child
+     * whatever campus they now attend, so the campus scope cannot narrow it.
+     */
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        $query = request()->routeIs('portal.*')
+            ? static::withoutGlobalScope(SchoolScope::class)
+            : static::query();
+
+        return $query->where($field ?? $this->getRouteKeyName(), $value)->first();
+    }
 
     /**
      * Limit the query to learners who attend the campus or were taught there.
@@ -230,7 +246,9 @@ class StudentRecord extends Model
             ?? $this->placements()->value('academic_cycle_section_id')
             ?? $this->academic_cycle_section_id;
 
-        return $sectionId === null ? null : AcademicCycleSection::query()->find($sectionId);
+        // The section of that day may belong to the campus the learner has
+        // since left, so it is read without the campus of the screen.
+        return $sectionId === null ? null : AcademicCycleSection::query()->withoutGlobalScope(SchoolScope::class)->find($sectionId);
     }
 
     /**

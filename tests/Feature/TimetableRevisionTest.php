@@ -31,6 +31,7 @@ use App\Models\CalendarEvent;
 use App\Models\CourseOffering;
 use App\Models\Organization;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StaffProfile;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;
@@ -907,9 +908,9 @@ class TimetableRevisionTest extends TestCase
     private function timetableWithLesson(User $teacher, string $start, string $stop, ?AcademicPeriod $period = null): Timetable
     {
         $timetable = $this->timetable($period);
-        $schoolId = $timetable->academicCycleSection->school_id;
+        $cycleSection = AcademicCycleSection::withoutGlobalScope(SchoolScope::class)->findOrFail($timetable->academic_cycle_section_id);
+        $schoolId = $cycleSection->school_id;
         $subject = Subject::factory()->create(['school_id' => $schoolId]);
-        $cycleSection = $timetable->academicCycleSection;
         $courseOffering = CourseOffering::factory()->create([
             'school_id' => $schoolId,
             'academic_year_id' => $cycleSection->academic_year_id,

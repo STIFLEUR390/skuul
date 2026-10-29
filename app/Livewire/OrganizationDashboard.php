@@ -6,6 +6,7 @@ use App\Enums\AcademicPeriodStatus;
 use App\Models\Organization;
 use App\Models\School;
 use App\Models\SchoolMembership;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -56,14 +57,17 @@ class OrganizationDashboard extends Component
                 'academic_period_id',
             ])
             ->with([
-                'academicYear:id,school_id,start_year,stop_year,status',
-                'academicPeriod:id,school_id,academic_year_id,name,status',
+                'academicYear' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class)
+                    ->select('id', 'school_id', 'start_year', 'stop_year', 'status'),
+                'academicPeriod' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class)
+                    ->select('id', 'school_id', 'academic_year_id', 'name', 'status'),
             ])
             ->withCount([
                 'memberships as campus_access_count' => fn ($query) => $query->active(),
             ])
             ->addSelect([
                 'active_students_count' => StudentRecord::query()
+                    ->withoutGlobalScope(SchoolScope::class)
                     ->selectRaw('count(*)')
                     ->attending()
                     ->whereColumn(
@@ -77,6 +81,7 @@ class OrganizationDashboard extends Component
         $this->campusCount = $this->campuses->count();
         $this->activeStudents = (int) $this->campuses->sum('active_students_count');
         $this->campusAccessHolders = SchoolMembership::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->active()
             ->whereIn('school_id', $this->campuses->modelKeys())
             ->distinct()

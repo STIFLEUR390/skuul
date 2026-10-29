@@ -9,6 +9,7 @@ use App\Exceptions\InvalidValueException;
 use App\Models\GradeEntry;
 use App\Models\GradingScale;
 use App\Models\GradingScaleOption;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -59,7 +60,7 @@ class SaveGradingScale
         $this->refuseUnusableOptions($attributes);
 
         return DB::transaction(function () use ($scale, $attributes, $actor, $readAt): GradingScale {
-            $scale = GradingScale::query()->lockForUpdate()->findOrFail($scale->getKey());
+            $scale = GradingScale::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($scale->getKey());
 
             if ($readAt !== null && $scale->updated_at?->toIso8601String() !== $readAt) {
                 throw new InvalidValueException('Somebody else saved this scale while you worked on it. Open it again to see their changes.');
@@ -95,7 +96,7 @@ class SaveGradingScale
     public function delete(GradingScale $scale, User $actor): void
     {
         DB::transaction(function () use ($scale, $actor): void {
-            $scale = GradingScale::query()->lockForUpdate()->findOrFail($scale->getKey());
+            $scale = GradingScale::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($scale->getKey());
 
             if ($scale->gradeItems()->exists()) {
                 throw new InvalidValueException('This scale is used by an assessment. Stop offering it instead of deleting it.');

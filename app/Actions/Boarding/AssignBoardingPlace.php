@@ -12,6 +12,7 @@ use App\Models\Dormitory;
 use App\Models\DormitoryBed;
 use App\Models\OvernightLeave;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -40,7 +41,9 @@ class AssignBoardingPlace
         ?CarbonInterface $effectiveOn = null,
     ): BoardingPlace {
         return DB::transaction(function () use ($enrollment, $bed, $actor, $reason, $effectiveOn): BoardingPlace {
-            $bed = DormitoryBed::query()->lockForUpdate()->with('room')->findOrFail($bed->getKey());
+            // Reading the bed across campuses is what makes the "another
+            // campus" answer below possible instead of a bare not-found.
+            $bed = DormitoryBed::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->with('room')->findOrFail($bed->getKey());
 
             // Read the house under the lock that closing it takes, so a child
             // is never placed in a house that closed a moment ago.

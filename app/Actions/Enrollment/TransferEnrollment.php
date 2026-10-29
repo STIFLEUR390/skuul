@@ -9,6 +9,7 @@ use App\Enums\EnrollmentStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Student\StudentService;
@@ -55,8 +56,10 @@ class TransferEnrollment
         return DB::transaction(function () use ($enrollment, $destination, $academicCycleSection, $actor, $reason): StudentRecord {
             // A retry, or a second click at the same moment, waits here and
             // then finds the enrollment the first one opened.
-            $enrollment = StudentRecord::query()->lockForUpdate()->findOrFail($enrollment->getKey());
-            $successor = StudentRecord::query()->where('transferred_from_id', $enrollment->id)->with('school:id,name')->first();
+            // A transfer names two schools, so its reads are not narrowed to
+            // the one the request comes from.
+            $enrollment = StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($enrollment->getKey());
+            $successor = StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->where('transferred_from_id', $enrollment->id)->with('school:id,name')->first();
 
             if ($successor !== null && $successor->school_id === $destination->id) {
                 return $successor;
@@ -67,6 +70,7 @@ class TransferEnrollment
             }
 
             $alreadyThere = StudentRecord::query()
+                ->withoutGlobalScope(SchoolScope::class)
                 ->where('user_id', $enrollment->user_id)
                 ->where('school_id', $destination->id)
                 ->enrolled()

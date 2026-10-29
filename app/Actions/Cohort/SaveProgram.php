@@ -7,6 +7,7 @@ use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\Program;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,7 @@ class SaveProgram
         try {
             return DB::transaction(function () use ($program, $attributes, $actor): Program {
                 School::query()->lockForUpdate()->findOrFail($program->school_id);
-                $program = Program::query()->lockForUpdate()->findOrFail($program->getKey());
+                $program = Program::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($program->getKey());
                 $this->refuseATakenName($attributes['name'], $program);
 
                 $program->fill($attributes);

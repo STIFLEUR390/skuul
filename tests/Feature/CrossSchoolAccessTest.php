@@ -32,6 +32,7 @@ use App\Models\Notice;
 use App\Models\Program;
 use App\Models\Promotion;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StaffProfile;
 use App\Models\StudentHealthRecord;
 use App\Models\StudentRecord;
@@ -44,6 +45,7 @@ use App\Models\User;
 use App\Traits\FeatureTestTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\TestResponse;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -166,9 +168,9 @@ class CrossSchoolAccessTest extends TestCase
     #[DataProvider('schoolOwnedReadableResources')]
     public function test_a_record_of_another_school_cannot_be_read(string $key, string $uri, array $subjects): void
     {
-        $this->actAsFullyPermittedUser($subjects)
-            ->get($this->uriFor($uri, $key))
-            ->assertForbidden();
+        $this->assertRefused(
+            $this->actAsFullyPermittedUser($subjects)->get($this->uriFor($uri, $key))
+        );
     }
 
     /**
@@ -177,9 +179,9 @@ class CrossSchoolAccessTest extends TestCase
     #[DataProvider('schoolOwnedEditableResources')]
     public function test_a_record_of_another_school_cannot_be_edited(string $key, string $uri, array $subjects): void
     {
-        $this->actAsFullyPermittedUser($subjects)
-            ->get($this->uriFor($uri, $key).'/edit')
-            ->assertForbidden();
+        $this->assertRefused(
+            $this->actAsFullyPermittedUser($subjects)->get($this->uriFor($uri, $key).'/edit')
+        );
     }
 
     /**
@@ -188,9 +190,9 @@ class CrossSchoolAccessTest extends TestCase
     #[DataProvider('schoolOwnedUpdatableResources')]
     public function test_a_record_of_another_school_cannot_be_updated(string $key, string $uri, array $subjects): void
     {
-        $this->actAsFullyPermittedUser($subjects)
-            ->put($this->uriFor($uri, $key), [])
-            ->assertForbidden();
+        $this->assertRefused(
+            $this->actAsFullyPermittedUser($subjects)->put($this->uriFor($uri, $key), [])
+        );
     }
 
     /**
@@ -199,9 +201,9 @@ class CrossSchoolAccessTest extends TestCase
     #[DataProvider('schoolOwnedDeletableResources')]
     public function test_a_record_of_another_school_cannot_be_deleted(string $key, string $uri, array $subjects): void
     {
-        $this->actAsFullyPermittedUser($subjects)
-            ->delete($this->uriFor($uri, $key))
-            ->assertForbidden();
+        $this->assertRefused(
+            $this->actAsFullyPermittedUser($subjects)->delete($this->uriFor($uri, $key))
+        );
 
         $this->assertDatabaseHas(
             $this->records[$key]->getTable(),
@@ -252,11 +254,11 @@ class CrossSchoolAccessTest extends TestCase
     {
         $actor = $this->actAsFullyPermittedUser($subjects);
 
-        $actor->get($this->uriFor($uri, $key))->assertForbidden();
-        $actor->get($this->uriFor($uri, $key).'/edit')->assertForbidden();
+        $this->assertRefused($actor->get($this->uriFor($uri, $key)));
+        $this->assertRefused($actor->get($this->uriFor($uri, $key).'/edit'));
 
         if (!in_array($key, ['academicLevel', 'cycleSection'], true)) {
-            $actor->put($this->uriFor($uri, $key), [])->assertForbidden();
+            $this->assertRefused($actor->put($this->uriFor($uri, $key), []));
         }
     }
 
@@ -279,8 +281,8 @@ class CrossSchoolAccessTest extends TestCase
         $actor = $this->actAsFullyPermittedUser(['academic period']);
         $period = $this->records['academicPeriod'];
 
-        $actor->get("dashboard/academic-periods/$period->id/edit")->assertForbidden();
-        $actor->put("dashboard/academic-periods/$period->id", [])->assertForbidden();
+        $this->assertRefused($actor->get("dashboard/academic-periods/$period->id/edit"));
+        $this->assertRefused($actor->put("dashboard/academic-periods/$period->id", []));
     }
 
     public function test_an_exam_of_another_school_cannot_be_changed_through_its_form(): void
@@ -317,13 +319,30 @@ class CrossSchoolAccessTest extends TestCase
             ->assertNotFound();
     }
 
+    /**
+     * Assert the campus boundary refused the request.
+     *
+     * Reads are narrowed to the working campus, so a record of another campus
+     * often does not resolve at all: route model binding answers 404 before a
+     * policy is reached. Both answers refuse, and which one is used is not the
+     * subject here.
+     */
+    private function assertRefused(TestResponse $response): void
+    {
+        $this->assertContains(
+            $response->getStatusCode(),
+            [403, 404],
+            'The record of the other campus was reached.'
+        );
+    }
+
     public function test_a_promotion_of_another_school_cannot_be_read(): void
     {
         $promotion = $this->records['promotion'];
 
-        $this->authorized_user(['read promotion'])
-            ->get("dashboard/students/promotions/$promotion->id")
-            ->assertForbidden();
+        $this->assertRefused(
+            $this->authorized_user(['read promotion'])->get("dashboard/students/promotions/$promotion->id")
+        );
     }
 
     public function test_a_student_of_another_school_cannot_be_reached(): void
@@ -347,7 +366,9 @@ class CrossSchoolAccessTest extends TestCase
 
     public function test_a_record_of_the_newer_domains_is_out_of_reach(): void
     {
-        $enrollment = StudentRecord::where('school_id', $this->otherSchool->id)->firstOrFail();
+        $enrollment = StudentRecord::withoutGlobalScope(SchoolScope::class)
+            ->where('school_id', $this->otherSchool->id)
+            ->firstOrFail();
 
         $incident = Incident::create([
             'school_id' => $this->otherSchool->id,
@@ -380,12 +401,12 @@ class CrossSchoolAccessTest extends TestCase
             'read import', 'apply import',
         ]);
 
-        $actor->get(route('incidents.show', $incident))->assertForbidden();
-        $actor->get(route('support-plans.show', $plan))->assertForbidden();
-        $actor->get(route('staff-profiles.show', $staffProfile))->assertForbidden();
-        $actor->get(route('cohorts.show', $cohort))->assertForbidden();
-        $actor->get(route('programs.show', $program))->assertForbidden();
-        $actor->get(route('imports.show', $batch))->assertForbidden();
+        $this->assertRefused($actor->get(route('incidents.show', $incident)));
+        $this->assertRefused($actor->get(route('support-plans.show', $plan)));
+        $this->assertRefused($actor->get(route('staff-profiles.show', $staffProfile)));
+        $this->assertRefused($actor->get(route('cohorts.show', $cohort)));
+        $this->assertRefused($actor->get(route('programs.show', $program)));
+        $this->assertRefused($actor->get(route('imports.show', $batch)));
 
         // The health screens are keyed by the enrollment, which the working
         // school does not hold, so the page is simply not there.

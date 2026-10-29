@@ -7,6 +7,7 @@ use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\Facility;
 use App\Models\FacilityBooking;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use App\Services\Timetable\FacilityAvailability;
 use Illuminate\Support\Carbon;
@@ -51,7 +52,7 @@ class BookFacility
         }
 
         return DB::transaction(function () use ($facility, $from, $to, $purpose, $actor): FacilityBooking {
-            $facility = Facility::query()->lockForUpdate()->findOrFail($facility->getKey());
+            $facility = Facility::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($facility->getKey());
 
             // Read under the lock, so a booking cannot slip in while the
             // thing is being taken out of use.
@@ -99,7 +100,7 @@ class BookFacility
     public function cancel(FacilityBooking $booking, string $reason, ?User $actor = null): FacilityBooking
     {
         return DB::transaction(function () use ($booking, $reason, $actor): FacilityBooking {
-            $booking = FacilityBooking::query()->lockForUpdate()->findOrFail($booking->getKey());
+            $booking = FacilityBooking::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($booking->getKey());
 
             if (!$booking->isRunning()) {
                 throw new InvalidValueException('This booking was already given up.');

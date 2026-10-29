@@ -4,6 +4,7 @@ namespace App\Actions\Facility;
 
 use App\Models\Facility;
 use App\Models\FacilityBooking;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +27,7 @@ class ManageFacility
     public function retire(Facility $facility, ?User $actor = null): int
     {
         return DB::transaction(function () use ($facility, $actor): int {
-            $facility = Facility::query()->lockForUpdate()->findOrFail($facility->getKey());
+            $facility = Facility::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($facility->getKey());
 
             if (!$facility->is_active) {
                 return 0;

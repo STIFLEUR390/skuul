@@ -8,6 +8,7 @@ use App\Enums\TimetableStatus;
 use App\Exceptions\InvalidValueException;
 use App\Exceptions\TimetableConflictException;
 use App\Models\AcademicPeriod;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Timetable;
 use App\Models\User;
 use App\Services\Timetable\TimetableConflictChecker;
@@ -38,7 +39,7 @@ class PublishTimetable
             // revisions of one schedule, or two lessons in one room, cannot
             // both go live. The revision is then read as it stands now.
             AcademicPeriod::query()->whereKey($timetable->academic_period_id)->lockForUpdate()->first();
-            $timetable->setRawAttributes(Timetable::query()->lockForUpdate()->findOrFail($timetable->getKey())->getAttributes(), true);
+            $timetable->setRawAttributes(Timetable::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($timetable->getKey())->getAttributes(), true);
 
             if ($timetable->status === TimetableStatus::Published) {
                 return $timetable;

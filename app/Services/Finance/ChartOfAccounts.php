@@ -5,6 +5,7 @@ namespace App\Services\Finance;
 use App\Enums\LedgerAccountType;
 use App\Models\LedgerAccount;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use Illuminate\Support\Collection;
 
 /**
@@ -53,7 +54,9 @@ class ChartOfAccounts
         $accounts = collect();
 
         foreach (self::DEFAULTS as $purpose => $account) {
-            $accounts[$purpose] = LedgerAccount::firstOrCreate(
+            // The school is named in the lookup, so the campus scope would
+            // only hide the accounts the other campus already has.
+            $accounts[$purpose] = LedgerAccount::withoutGlobalScope(SchoolScope::class)->firstOrCreate(
                 ['school_id' => $schoolId, 'code' => $account['code']],
                 [
                     'name' => $account['name'],
@@ -73,7 +76,7 @@ class ChartOfAccounts
     {
         $schoolId = $school instanceof School ? $school->id : ($school ?? current_school_id());
 
-        $account = LedgerAccount::query()
+        $account = LedgerAccount::withoutGlobalScope(SchoolScope::class)
             ->where('school_id', $schoolId)
             ->forPurpose($purpose)
             ->first();

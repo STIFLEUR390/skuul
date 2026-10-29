@@ -14,6 +14,7 @@ use App\Models\AcademicLevel;
 use App\Models\AcademicPeriod;
 use App\Models\AcademicYear;
 use App\Models\CourseOffering;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\SyllabusTopic;
@@ -214,7 +215,7 @@ class SyllabusCoverageTest extends TestCase
             'ends_on' => '2026-12-18',
         ]);
 
-        return CourseOffering::query()->findOrFail(CourseOffering::factory()->create([
+        return CourseOffering::withoutGlobalScope(SchoolScope::class)->findOrFail(CourseOffering::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
             'academic_period_id' => $academicPeriod->id,

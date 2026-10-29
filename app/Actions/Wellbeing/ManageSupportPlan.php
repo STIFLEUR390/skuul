@@ -8,6 +8,7 @@ use App\Enums\EnrollmentStatus;
 use App\Enums\SupportCategory;
 use App\Enums\SupportPlanStatus;
 use App\Exceptions\InvalidValueException;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\SupportPlan;
 use App\Models\SupportPlanAction;
@@ -90,7 +91,7 @@ class ManageSupportPlan
         return DB::transaction(function () use ($plan, $status, $actor, $reason): SupportPlan {
             // Two people may change it at once. Only the state read under
             // the lock decides, so the history never shows a skipped step.
-            $plan->setRawAttributes(SupportPlan::query()->lockForUpdate()->findOrFail($plan->getKey())->getAttributes(), true);
+            $plan->setRawAttributes(SupportPlan::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($plan->getKey())->getAttributes(), true);
             $current = $plan->status;
 
             if ($current === $status) {

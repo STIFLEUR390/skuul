@@ -7,6 +7,7 @@ use App\Enums\AdmissionWaitlistStatus;
 use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\AdmissionWaitlistEntry;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class DeclineWaitlistEntry
     public function decline(AdmissionWaitlistEntry $entry, ?User $actor = null, ?string $reason = null): AdmissionWaitlistEntry
     {
         return DB::transaction(function () use ($entry, $actor, $reason): AdmissionWaitlistEntry {
-            $entry = AdmissionWaitlistEntry::query()->lockForUpdate()->findOrFail($entry->getKey());
+            $entry = AdmissionWaitlistEntry::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($entry->getKey());
 
             if (!$entry->isOpen()) {
                 throw new InvalidValueException('This admission waitlist entry has already been decided.');

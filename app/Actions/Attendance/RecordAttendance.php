@@ -11,6 +11,7 @@ use App\Models\AcademicCycleSection;
 use App\Models\AcademicPeriod;
 use App\Models\AttendanceChange;
 use App\Models\AttendanceRecord;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\Subject;
 use App\Models\User;
@@ -58,7 +59,10 @@ class RecordAttendance
         }
 
         return DB::transaction(function () use ($enrollment, $status, $day, $kind, $subject, $actor, $reason, $source, $term, $section): AttendanceRecord {
+            // The register of a day the learner spent at another campus
+            // belongs to that campus, so it is read across campuses.
             $record = AttendanceRecord::query()
+                ->withoutGlobalScope(SchoolScope::class)
                 ->lockForUpdate()
                 ->firstOrNew([
                     'student_record_id' => $enrollment->id,

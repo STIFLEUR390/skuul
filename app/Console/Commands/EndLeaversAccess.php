@@ -7,6 +7,7 @@ use App\Enums\SchoolMembershipStatus;
 use App\Enums\StaffStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\SchoolMembership;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StaffProfile;
 use Illuminate\Console\Command;
 
@@ -35,7 +36,9 @@ class EndLeaversAccess extends Command
 
         // Every campus counts its own day. The query takes a day more than
         // the server's date, so a campus already in tomorrow is not missed.
+        // The run sweeps every campus, so it must not be narrowed to one.
         $profiles = StaffProfile::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->where('status', StaffStatus::Left->value)
             ->whereDate('left_on', '<', today()->addDay())
             ->whereExists(fn ($membership) => $membership->from((new SchoolMembership)->getTable())

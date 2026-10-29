@@ -12,6 +12,7 @@ use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\Promotion;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Print\PrintService;
@@ -110,7 +111,9 @@ class StudentService
             ]);
         }
 
+        // The other enrollment belongs to another school by definition.
         $enrolledElsewhere = StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->whereRelation('user', 'email', $record['email'])
             ->where('school_id', '!=', current_school_id())
             ->enrolled()
@@ -324,7 +327,7 @@ class StudentService
                 ->findOrFail($promotion->source_academic_cycle_section_id);
 
             foreach ($students as $student) {
-                $enrollment = $student->allStudentRecords;
+                $enrollment = $student->studentRecord;
 
                 if ($enrollment === null
                     || $enrollment->status->isClosed()

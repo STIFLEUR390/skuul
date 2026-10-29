@@ -9,6 +9,7 @@ use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\AdmissionWaitlistEntry;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Academic\SectionSeats;
@@ -33,7 +34,7 @@ class JoinWaitlist
         int $priority = 0,
     ): AdmissionWaitlistEntry {
         return DB::transaction(function () use ($academicCycleSection, $candidate, $actor, $priority): AdmissionWaitlistEntry {
-            $section = AcademicCycleSection::query()
+            $section = AcademicCycleSection::query()->withoutGlobalScope(SchoolScope::class)
                 ->with('academicYear')
                 ->lockForUpdate()
                 ->findOrFail($academicCycleSection->getKey());

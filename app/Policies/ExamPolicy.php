@@ -20,7 +20,7 @@ class ExamPolicy
 
     public function view(User $user, Exam $exam)
     {
-        if ($user->can('read exam') && $exam->academicPeriod->school_id == current_school_id()) {
+        if ($user->can('read exam') && $exam->academicPeriod?->school_id == current_school_id()) {
             return true;
         }
     }
@@ -54,26 +54,26 @@ class ExamPolicy
             && $academicPeriod->academicYear?->status->acceptsExamPlanning() === true;
     }
 
-    public function update(User $user, Exam $exam)
+    public function update(User $user, Exam $exam): bool
     {
-        if ($user->can('update exam')
-            && $exam->academicPeriod->status->acceptsExamPlanning()
-            && $exam->academicPeriod->academicYear->status->acceptsExamPlanning()
-            && $exam->academicPeriod->school_id == current_school_id()
-        ) {
-            return true;
-        }
+        $academicPeriod = $exam->academicPeriod;
+
+        return $academicPeriod !== null
+            && $academicPeriod->school_id === current_school_id()
+            && $user->can('update exam')
+            && $academicPeriod->status->acceptsExamPlanning()
+            && $academicPeriod->academicYear?->status->acceptsExamPlanning() === true;
     }
 
-    public function delete(User $user, Exam $exam)
+    public function delete(User $user, Exam $exam): bool
     {
-        if ($user->can('delete exam')
-            && $exam->academicPeriod->isOpen()
-            && $exam->academicPeriod->academicYear->isOpen()
-            && $exam->academicPeriod->school_id == current_school_id()
-        ) {
-            return true;
-        }
+        $academicPeriod = $exam->academicPeriod;
+
+        return $academicPeriod !== null
+            && $academicPeriod->school_id === current_school_id()
+            && $user->can('delete exam')
+            && $academicPeriod->isOpen()
+            && $academicPeriod->academicYear?->isOpen() === true;
     }
 
     public function restore(User $user, Exam $exam)

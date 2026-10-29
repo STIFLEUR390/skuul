@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\DataCategory;
 use App\Enums\DataSharingStatus;
+use App\Models\Scopes\SchoolScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -133,7 +134,7 @@ class DataSharingRequest extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

@@ -20,6 +20,7 @@ use App\Models\AuditEvent;
 use App\Models\CourseOffering;
 use App\Models\CurriculumOutline;
 use App\Models\LessonNote;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\Subject;
 use App\Models\Syllabus;
@@ -255,7 +256,7 @@ class SyllabusTest extends TestCase
         $academicYear = AcademicYear::query()->findOrFail(
             AcademicYear::factory()->create(['school_id' => $school->id])->getKey(),
         );
-        $academicPeriod = AcademicPeriod::query()->findOrFail(AcademicPeriod::factory()->create([
+        $academicPeriod = AcademicPeriod::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicPeriod::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
         ])->getKey());
@@ -266,7 +267,7 @@ class SyllabusTest extends TestCase
             Subject::factory()->create(['school_id' => $school->id])->getKey(),
         );
 
-        return CourseOffering::query()->findOrFail(CourseOffering::factory()->create([
+        return CourseOffering::withoutGlobalScope(SchoolScope::class)->findOrFail(CourseOffering::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
             'academic_period_id' => $academicPeriod->id,

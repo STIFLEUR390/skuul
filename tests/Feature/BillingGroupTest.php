@@ -75,6 +75,9 @@ class BillingGroupTest extends TestCase
 
         $this->assertSame($destination->id, $moved->school_id);
         $this->assertSame(500.0, app(StudentLedger::class)->balance($moved));
+
+        school_context()->set($destination, remember: false);
+
         $this->assertNotNull(AuditEvent::ofAction(AuditAction::BalanceCarriedToCampus)->first());
     }
 
@@ -120,6 +123,9 @@ class BillingGroupTest extends TestCase
         $moved = $enrollment->fresh();
 
         $this->assertSame(0.0, app(StudentLedger::class)->balance($moved));
+
+        school_context()->set($destination, remember: false);
+
         $this->assertNull(AuditEvent::ofAction(AuditAction::BalanceCarriedToCampus)->first());
     }
 
@@ -226,6 +232,8 @@ class BillingGroupTest extends TestCase
         $this->assertSame(0.0, app(StudentLedger::class)->unappliedCredit($moved));
         $this->assertSame(0.0, round($chart->account('fees_receivable', $source->id)->balance(), 2));
         $this->assertSame(0.0, round($chart->account('fees_receivable', $destination->id)->balance(), 2));
+        school_context()->set($destination, remember: false);
+
         $this->assertSame($destination->id, $invoice->fresh()->school_id);
         $this->assertSame($destination->id, $invoice->fresh()->financialPeriod->school_id);
     }
@@ -509,7 +517,8 @@ class BillingGroupTest extends TestCase
             'issue_date' => now()->toDateString(),
             'due_date' => now()->toDateString(),
             'student_records' => [$enrollment->id],
-            'records' => [['fee_id' => $fee->id, 'amount' => $amount, 'waiver' => 0, 'fine' => 0]],
+            // Invoices are billed in minor units; the callers pass whole currency.
+            'records' => [['fee_id' => $fee->id, 'amount' => $amount * 100, 'waiver' => 0, 'fine' => 0]],
         ]);
 
         return FeeInvoice::where('user_id', $enrollment->user_id)->latest('id')->firstOrFail();

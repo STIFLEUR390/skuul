@@ -11,6 +11,7 @@ use App\Models\BoardingPlace;
 use App\Models\Dormitory;
 use App\Models\DormitoryBed;
 use App\Models\DormitoryRoom;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Services\Boarding\BoardingRoster;
 use App\Traits\ListsSchoolPeople;
@@ -194,7 +195,9 @@ class ShowDormitory extends Component
             return;
         }
 
-        $enrollment = StudentRecord::query()->with('user:id,name')->findOrFail($place->student_record_id);
+        // The learner may already belong to another campus; the bed is still
+        // this house's to free.
+        $enrollment = StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->with('user:id,name')->findOrFail($place->student_record_id);
 
         try {
             $assign->end($enrollment, $this->leaveReason);
@@ -258,7 +261,7 @@ class ShowDormitory extends Component
 
     public function render(BoardingRoster $roster): View
     {
-        $this->dormitory->load(['boardingResidence', 'rooms.beds']);
+        $this->dormitory->load(['boardingResidence', 'rooms.beds.room']);
         $occupiedBy = $roster->inDormitory($this->dormitory)->keyBy('dormitory_bed_id');
         $canManage = auth()->user()?->can('manage boarding') === true;
 

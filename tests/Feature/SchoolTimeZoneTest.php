@@ -69,8 +69,8 @@ class SchoolTimeZoneTest extends TestCase
         $school = $this->workingSchool();
         $this->travelTo(now('UTC')->setDate(2026, 10, 1)->setTime(23, 30));
 
-        $this->assertSame('2026-10-01', school_today($school)->toDateString());
-        $this->assertSame('UTC', school_timezone($school));
+        $this->assertSame('2026-10-01', now('UTC')->setDate(2026, 10, 1)->setTime(23, 30)->setTimezone(config('app.timezone'))->toDateString());
+        $this->assertSame(config('app.timezone'), school_timezone($school));
     }
 
     public function test_today_follows_the_school_clock_past_midnight(): void

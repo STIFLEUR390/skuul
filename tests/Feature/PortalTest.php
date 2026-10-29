@@ -583,9 +583,7 @@ class PortalTest extends TestCase
     public function test_a_family_keeps_official_documents_after_an_internal_campus_move(): void
     {
         $source = $this->workingSchool();
-        $destination = School::query()->findOrFail(
-            School::factory()->create(['organization_id' => $source->organization_id])->getKey(),
-        );
+        $destination = School::factory()->create(['organization_id' => $source->organization_id]);
         $documentArea = [PortalArea::Documents->value => true];
         features()->enable(Feature::Portal, $source->id, config: $documentArea);
         features()->enable(Feature::Portal, $destination->id, config: $documentArea);
@@ -617,20 +615,14 @@ class PortalTest extends TestCase
             'issued_at' => now(),
         ]);
 
-        $destinationYear = AcademicYear::query()->findOrFail(
-            AcademicYear::factory()->create(['school_id' => $destination->id])->getKey(),
-        );
-        $destinationLevel = AcademicLevel::query()->findOrFail(
-            AcademicLevel::factory()->create(['school_id' => $destination->id])->getKey(),
-        );
-        $destinationSection = AcademicCycleSection::query()->findOrFail(
-            AcademicCycleSection::factory()->create([
-                'school_id' => $destination->id,
-                'academic_year_id' => $destinationYear->id,
-                'academic_level_id' => $destinationLevel->id,
-                'status' => AcademicStructureStatus::Active,
-            ])->getKey(),
-        );
+        $destinationYear = AcademicYear::factory()->create(['school_id' => $destination->id]);
+        $destinationLevel = AcademicLevel::factory()->create(['school_id' => $destination->id]);
+        $destinationSection = AcademicCycleSection::factory()->create([
+            'school_id' => $destination->id,
+            'academic_year_id' => $destinationYear->id,
+            'academic_level_id' => $destinationLevel->id,
+            'status' => AcademicStructureStatus::Active,
+        ]);
         $movedEnrollment = app(MoveEnrollmentBetweenCampuses::class)->move(
             $enrollment,
             $destinationSection,

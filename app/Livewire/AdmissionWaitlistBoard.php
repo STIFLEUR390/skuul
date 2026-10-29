@@ -70,6 +70,8 @@ class AdmissionWaitlistBoard extends Component
             return;
         }
 
+        $offered->loadMissing('candidate');
+
         $this->notify("Offered a place to {$offered->candidate->name}.");
     }
 

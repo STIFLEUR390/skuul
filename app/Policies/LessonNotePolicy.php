@@ -22,7 +22,7 @@ class LessonNotePolicy
         if ($syllabus->status !== SyllabusStatus::Published
             || !$user->can('read syllabus')
             || $user->isPortalOnly()
-            || current_school_id() !== $syllabus->courseOffering->school_id
+            || current_school_id() !== $syllabus->courseOffering?->school_id
         ) {
             return false;
         }
@@ -54,7 +54,7 @@ class LessonNotePolicy
             && $lessonNote->status->isEditable()
             && $user->can('update syllabus')
             && !$user->isPortalOnly()
-            && current_school_id() === $lessonNote->courseOffering->school_id;
+            && current_school_id() === $lessonNote->courseOffering?->school_id;
     }
 
     /**
@@ -84,6 +84,6 @@ class LessonNotePolicy
             && $lessonNote->user_id !== $user->id
             && $user->can('approve syllabus')
             && !$user->isPortalOnly()
-            && current_school_id() === $lessonNote->courseOffering->school_id;
+            && current_school_id() === $lessonNote->courseOffering?->school_id;
     }
 }

@@ -19,6 +19,7 @@ use App\Models\AuditEvent;
 use App\Models\EnrollmentPlacement;
 use App\Models\Organization;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Traits\FeatureTestTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -208,7 +209,7 @@ class EnrollmentPlacementTest extends TestCase
         app(TransferEnrollment::class)->transfer($source, School::factory()->create());
 
         $this->assertSame(1, $source->fresh()->placements()->count());
-        $this->assertNotNull(AuditEvent::ofAction(AuditAction::EnrollmentTransferred)->first());
+        $this->assertNotNull(AuditEvent::withoutGlobalScope(SchoolScope::class)->ofAction(AuditAction::EnrollmentTransferred)->first());
     }
 
     public function test_a_move_between_campuses_keeps_one_enrollment(): void
@@ -224,7 +225,7 @@ class EnrollmentPlacementTest extends TestCase
             ->move($enrollment, $destinationSection, $actor, 'Family moved across town');
 
         $this->assertSame($enrollment->id, $moved->id);
-        $this->assertSame(1, StudentRecord::query()->where('user_id', $enrollment->user_id)->count());
+        $this->assertSame(1, StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->where('user_id', $enrollment->user_id)->count());
         $this->assertSame($sibling->id, $moved->school_id);
         $this->assertSame($destinationSection->id, $moved->academic_cycle_section_id);
         $this->assertSame(EnrollmentStatus::Active, $moved->status);
@@ -243,7 +244,7 @@ class EnrollmentPlacementTest extends TestCase
             ->move($enrollment, $this->cycleSection($sibling), reason: 'Campus move');
 
         $this->assertSame(2, $enrollment->fresh()->placements()->count());
-        $this->assertNotNull(AuditEvent::ofAction(AuditAction::EnrollmentCampusChanged)->first());
+        $this->assertNotNull(AuditEvent::withoutGlobalScope(SchoolScope::class)->ofAction(AuditAction::EnrollmentCampusChanged)->first());
     }
 
     public function test_a_move_between_campuses_gives_access_to_the_new_campus(): void

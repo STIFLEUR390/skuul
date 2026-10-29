@@ -7,6 +7,7 @@ use App\Enums\AuditAction;
 use App\Exceptions\InvalidValueException;
 use App\Models\BoardingResidence;
 use App\Models\Dormitory;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +27,8 @@ class AttachDormitoryToBoardingResidence
     {
         DB::transaction(function () use ($residence, $dormitory, $actor): void {
             $residence = BoardingResidence::query()->lockForUpdate()->findOrFail($residence->id);
-            $dormitory = Dormitory::query()->lockForUpdate()->findOrFail($dormitory->id);
+            // The house may sit at another campus; the checks below answer for it.
+            $dormitory = Dormitory::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($dormitory->id);
             $school = $dormitory->school()->firstOrFail();
 
             if ($school->organization_id !== $residence->organization_id) {
@@ -63,7 +65,8 @@ class AttachDormitoryToBoardingResidence
     public function detach(BoardingResidence $residence, Dormitory $dormitory, ?User $actor = null): void
     {
         DB::transaction(function () use ($residence, $dormitory, $actor): void {
-            $dormitory = Dormitory::query()->lockForUpdate()->findOrFail($dormitory->id);
+            // The house may sit at another campus; the checks below answer for it.
+            $dormitory = Dormitory::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($dormitory->id);
 
             if ($dormitory->boarding_residence_id !== $residence->id) {
                 return;

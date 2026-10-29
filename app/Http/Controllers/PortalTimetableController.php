@@ -33,6 +33,10 @@ class PortalTimetableController extends Controller
         abort_unless($this->access->canRead($request->user(), $studentRecord), 403);
         abort_unless($this->access->areaIsOpen(PortalArea::Timetable, $studentRecord->school_id), 404);
 
+        // The page belongs to the learner's campus: a guardian may be working
+        // at another one, which must not decide what the child's week holds.
+        school_context()->set($studentRecord->school, remember: false);
+
         $studentRecord->load('user', 'school:id,name');
         $timetable = $this->summary->timetable($studentRecord);
 

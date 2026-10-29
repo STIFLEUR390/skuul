@@ -10,6 +10,7 @@ use App\Livewire\Concerns\DispatchesStatusNotifications;
 use App\Models\BoardingResidence;
 use App\Models\Dormitory;
 use App\Models\Organization;
+use App\Models\Scopes\SchoolScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -167,6 +168,10 @@ class OrganizationBoardingResidences extends Component
      */
     private function houses(): Builder
     {
-        return Dormitory::query()->whereHas('school', fn (Builder $query): Builder => $query->where('organization_id', $this->organization->id));
+        // The houses of every campus of the organization, so the campus being
+        // worked in does not narrow the list.
+        return Dormitory::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->whereHas('school', fn (Builder $query): Builder => $query->where('organization_id', $this->organization->id));
     }
 }

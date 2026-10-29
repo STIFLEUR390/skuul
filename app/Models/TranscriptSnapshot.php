@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Database\Factories\TranscriptSnapshotFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,6 +36,8 @@ class TranscriptSnapshot extends Model
     /** @return BelongsTo<StudentRecord, $this> */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        // A transcript names the campus that issued it, and the learner may have
+        // moved to another campus since, so the campus scope must not hide them.
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 }

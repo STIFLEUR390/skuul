@@ -5,6 +5,7 @@ namespace App\Services\Finance;
 use App\Exceptions\InvalidValueException;
 use App\Models\FeeInvoice;
 use App\Models\FeeInvoiceRecord;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -28,7 +29,9 @@ class AllocationPlanner
         $invoiceTable = (new FeeInvoice)->getTable();
         $recordTable = (new FeeInvoiceRecord)->getTable();
 
-        return FeeInvoiceRecord::query()
+        // The campus is named in the closure below, so the outer scope would
+        // only hide the bills of the campus that is being paid.
+        return FeeInvoiceRecord::withoutGlobalScope(SchoolScope::class)
             ->isDue()
             ->whereHas('feeInvoice', function (Builder $invoice) use ($enrollment, $onlyInvoice, $schoolId): void {
                 $invoice->where('school_id', $schoolId)
@@ -112,7 +115,7 @@ class AllocationPlanner
             return [];
         }
 
-        $lines = FeeInvoiceRecord::query()
+        $lines = FeeInvoiceRecord::withoutGlobalScope(SchoolScope::class)
             ->whereKey(array_keys($plan))
             ->whereHas('feeInvoice', fn (Builder $invoice) => $invoice
                 ->where('school_id', $schoolId)

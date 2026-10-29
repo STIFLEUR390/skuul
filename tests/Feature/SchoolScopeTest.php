@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\AcademicYear;
+use App\Models\CampusRole;
 use App\Models\FeatureSetting;
 use App\Models\School;
 use App\Models\SchoolDomain;
 use App\Models\SchoolMembership;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\FeatureTestTrait;
 use App\Traits\InSchool;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +46,13 @@ class SchoolScopeTest extends TestCase
         FeatureSetting::class,
         SchoolDomain::class,
     ];
+
+    /**
+     * Roles can belong to the platform, so they turn the read scope off.
+     *
+     * @var array<int, class-string<Model>>
+     */
+    private const KEEPS_PLATFORM_ROWS = [CampusRole::class];
 
     public function test_every_school_owned_model_uses_the_school_scope(): void
     {
@@ -96,6 +105,79 @@ class SchoolScopeTest extends TestCase
         ]);
 
         $this->assertSame($other->id, $academicYear->school_id);
+    }
+
+    public function test_a_read_never_leaves_the_school_being_worked_in(): void
+    {
+        $school = $this->workingSchool();
+        $other = School::factory()->create();
+
+        $mine = AcademicYear::factory()->create(['school_id' => $school->id]);
+        $theirs = AcademicYear::factory()->create(['school_id' => $other->id]);
+
+        school_context()->set($school, remember: false);
+
+        $this->assertTrue(AcademicYear::query()->whereKey($mine->id)->exists());
+        $this->assertFalse(AcademicYear::query()->whereKey($theirs->id)->exists());
+    }
+
+    public function test_naming_another_school_reads_that_school(): void
+    {
+        $school = $this->workingSchool();
+        $other = School::factory()->create();
+
+        AcademicYear::factory()->create(['school_id' => $school->id]);
+        $theirs = AcademicYear::factory()->create(['school_id' => $other->id]);
+
+        school_context()->set($school, remember: false);
+
+        $this->assertFalse(AcademicYear::query()->whereKey($theirs->id)->exists());
+        $this->assertSame($other->id, AcademicYear::query()->inSchool($other)->whereKey($theirs->id)->value('school_id'));
+    }
+
+    public function test_a_read_without_a_working_school_is_not_narrowed(): void
+    {
+        $school = $this->workingSchool();
+        $other = School::factory()->create();
+
+        $mine = AcademicYear::factory()->create(['school_id' => $school->id]);
+        $theirs = AcademicYear::factory()->create(['school_id' => $other->id]);
+
+        school_context()->forget();
+
+        $this->assertTrue(AcademicYear::query()->whereKey($mine->id)->exists());
+        $this->assertTrue(AcademicYear::query()->whereKey($theirs->id)->exists());
+    }
+
+    public function test_every_school_owned_model_registers_the_global_scope(): void
+    {
+        $missing = [];
+
+        foreach ($this->modelClasses() as $class) {
+            $model = new $class;
+
+            if (!Schema::hasColumn($model->getTable(), 'school_id')) {
+                continue;
+            }
+
+            if (in_array($class, self::NAMES_ITS_OWN_SCHOOL, true)) {
+                continue;
+            }
+
+            if (in_array($class, self::KEEPS_PLATFORM_ROWS, true)) {
+                continue;
+            }
+
+            if (!array_key_exists(SchoolScope::class, $model->getGlobalScopes())) {
+                $missing[] = $class;
+            }
+        }
+
+        $this->assertSame(
+            [],
+            $missing,
+            'These models own a school_id but do not narrow their reads to the school: '.implode(', ', $missing)
+        );
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Exceptions\InvalidValueException;
 use App\Models\AcademicCycleSection;
 use App\Models\AcademicPeriod;
 use App\Models\EnrollmentPlacement;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Services\Academic\SectionSeats;
@@ -46,11 +47,15 @@ class ChangeEnrollmentPlacement
         return DB::transaction(function () use ($enrollmentId, $academicCycleSection, $academicPeriod, $actor, $reason, $effectiveOn): StudentRecord {
             // Serialize placement changes for one enrollment. This prevents
             // two retries from creating duplicate history rows.
+            // A placement can move a learner to another campus, so the reads
+            // are not narrowed to the campus the request comes from.
             $enrollment = StudentRecord::query()
+                ->withoutGlobalScope(SchoolScope::class)
                 ->lockForUpdate()
                 ->findOrFail($enrollmentId);
-            $academicCycleSection = AcademicCycleSection::query()
-                ->with('academicYear')
+            $academicCycleSection = AcademicCycleSection::query()->withoutGlobalScope(SchoolScope::class)
+                ->withoutGlobalScope(SchoolScope::class)
+                ->with(['academicYear' => fn ($query) => $query->withoutGlobalScope(SchoolScope::class)])
                 ->lockForUpdate()
                 ->findOrFail($academicCycleSection->getKey());
             $academicYear = $academicCycleSection->academicYear;

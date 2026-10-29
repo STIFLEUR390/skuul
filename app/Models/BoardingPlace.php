@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Database\Factories\BoardingPlaceFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -63,7 +64,7 @@ class BoardingPlace extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**
@@ -119,7 +120,10 @@ class BoardingPlace extends Model
      */
     public static function currentFor(StudentRecord $enrollment): ?self
     {
+        // The place a learner holds may sit in a house of the campus they have
+        // since left, so it is read across campuses.
         return self::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->where('student_record_id', $enrollment->id)
             ->orderByDesc('id')
             ->first();

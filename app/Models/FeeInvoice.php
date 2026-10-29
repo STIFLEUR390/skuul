@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Money;
+use App\Models\Scopes\SchoolScope;
 use App\Traits\InSchool;
 use Brick\Money\Money as BrickMoney;
 use Illuminate\Database\Eloquent\Builder;
@@ -70,7 +71,7 @@ class FeeInvoice extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

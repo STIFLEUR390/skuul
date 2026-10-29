@@ -8,6 +8,7 @@ use App\Enums\LeaveStatus;
 use App\Enums\LeaveType;
 use App\Enums\StaffStatus;
 use App\Exceptions\InvalidValueException;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StaffLeaveRequest;
 use App\Models\StaffLeaveStatusChange;
 use App\Models\StaffProfile;
@@ -55,7 +56,7 @@ class ManageStaffLeave
         return DB::transaction(function () use ($profile, $start, $end, $type, $reason, $actor): StaffLeaveRequest {
             // Two requests for one person wait for each other here, so the
             // second sees the first when it looks for a clash.
-            StaffProfile::query()->lockForUpdate()->findOrFail($profile->id);
+            StaffProfile::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($profile->id);
             $this->refuseAClash($profile, $start, $end);
 
             $request = StaffLeaveRequest::create([
@@ -93,7 +94,7 @@ class ManageStaffLeave
         $seen = $request->status;
 
         return DB::transaction(function () use ($request, $seen, $status, $actor, $reason): StaffLeaveRequest {
-            $request = StaffLeaveRequest::query()->lockForUpdate()->findOrFail($request->id);
+            $request = StaffLeaveRequest::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($request->id);
             $current = $request->status;
 
             if ($current === $status) {
@@ -184,7 +185,7 @@ class ManageStaffLeave
      */
     private function refuseCoverStillHeld(StaffLeaveRequest $request): void
     {
-        $teacher = $request->staffProfile()->with('user:id,name')->firstOrFail()->user;
+        $teacher = $request->staffProfile()->withoutGlobalScope(SchoolScope::class)->with('user:id,name')->firstOrFail()->user;
         $from = $request->starts_on->max(school_today());
 
         $lessons = TimetableSubstitution::query()

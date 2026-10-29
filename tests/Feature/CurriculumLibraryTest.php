@@ -13,6 +13,7 @@ use App\Models\CourseOffering;
 use App\Models\CurriculumOutline;
 use App\Models\CurriculumOutlineTopic;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\SyllabusTopic;
@@ -105,7 +106,7 @@ class CurriculumLibraryTest extends TestCase
     public function test_topics_are_not_copied_from_another_school(): void
     {
         $draft = $this->syllabus(SyllabusStatus::Draft);
-        $foreign = $this->outline($draft->courseOffering->subject_id, topics: 1, school: School::query()->findOrFail(School::factory()->create()->getKey()));
+        $foreign = $this->outline($draft->courseOffering->subject_id, topics: 1, school: School::withoutGlobalScope(SchoolScope::class)->findOrFail(School::factory()->create()->getKey()));
         $this->authorized_user(self::REVIEWER_PERMISSIONS);
 
         Livewire::test(SyllabusTopicImporter::class, ['syllabus' => $draft])

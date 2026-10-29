@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\FeeInvoice;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Livewire\Component;
 
@@ -20,7 +21,11 @@ class ListStudentFeeInvoices extends Component
     {
         $this->feeInvoices = FeeInvoice::query()
             ->ofSchool()
-            ->whereHas('studentRecord', fn ($enrollment) => $enrollment->where('user_id', $this->student->id))
+            // The enrollment may now belong to another campus, so it is read
+            // without this campus's scope: the bill stays with the campus.
+            ->whereHas('studentRecord', fn ($enrollment) => $enrollment
+                ->withoutGlobalScope(SchoolScope::class)
+                ->where('user_id', $this->student->id))
             ->with(['feeInvoiceRecords', 'allocations'])
             ->orderByDesc('due_date')
             ->get();

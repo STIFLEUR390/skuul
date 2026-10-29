@@ -9,6 +9,7 @@ use App\Enums\ParticipationStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\Program;
 use App\Models\ProgramParticipation;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -43,7 +44,7 @@ class ChangeProgramParticipation
         }
 
         return DB::transaction(function () use ($program, $enrollment, $startsOn, $staff, $schedule, $actor): ProgramParticipation {
-            $program = Program::query()->lockForUpdate()->findOrFail($program->getKey());
+            $program = Program::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($program->getKey());
             $this->refuseAClosedDoor($program, $enrollment);
 
             $running = $this->runningPlace($program, $enrollment);
@@ -89,7 +90,7 @@ class ChangeProgramParticipation
     ): ProgramParticipation {
         return DB::transaction(function () use ($participation, $status, $note, $seen, $actor): ProgramParticipation {
             $program = Program::query()->lockForUpdate()->findOrFail($participation->program_id);
-            $participation = ProgramParticipation::query()->lockForUpdate()->findOrFail($participation->getKey());
+            $participation = ProgramParticipation::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($participation->getKey());
             $current = $participation->status;
 
             if ($seen !== null && $current !== $seen) {
@@ -105,7 +106,7 @@ class ChangeProgramParticipation
             }
 
             if ($status->isRunning() && !$current->isRunning()) {
-                $enrollment = StudentRecord::query()->findOrFail($participation->student_record_id);
+                $enrollment = StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->findOrFail($participation->student_record_id);
                 $this->refuseAClosedDoor($program, $enrollment);
 
                 if ($this->runningPlace($program, $enrollment) !== null) {

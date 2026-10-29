@@ -10,6 +10,7 @@ use App\Enums\LeaveStatus;
 use App\Enums\StaffStatus;
 use App\Exceptions\InvalidValueException;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StaffAvailability;
 use App\Models\StaffCredential;
 use App\Models\StaffLeaveRequest;
@@ -48,7 +49,9 @@ class ManageStaffProfile
     {
         $schoolId = current_school_id();
 
-        if (StudentRecord::query()->where('user_id', $attributes['user_id'])->enrolled()->exists()) {
+        // A learner anywhere keeps the person a learner: the campus they left
+        // must not be able to hire them behind the move.
+        if (StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->where('user_id', $attributes['user_id'])->enrolled()->exists()) {
             throw new InvalidValueException('This person is still a learner. A learner cannot be made staff.');
         }
 
@@ -88,7 +91,7 @@ class ManageStaffProfile
     {
         try {
             return DB::transaction(function () use ($profile, $attributes, $actor): StaffProfile {
-                $profile = StaffProfile::query()->lockForUpdate()->findOrFail($profile->id);
+                $profile = StaffProfile::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($profile->id);
                 $this->refuseATakenStaffNumber($attributes['staff_number'] ?? null, $profile->school_id, $profile->id);
 
                 $isLeaving = $attributes['status'] === StaffStatus::Left->value;
@@ -212,7 +215,7 @@ class ManageStaffProfile
     public function addHours(StaffProfile $profile, int $dayOfWeek, string $startsAt, string $endsAt, ?User $actor = null): StaffAvailability
     {
         return DB::transaction(function () use ($profile, $dayOfWeek, $startsAt, $endsAt, $actor): StaffAvailability {
-            StaffProfile::query()->lockForUpdate()->findOrFail($profile->id);
+            StaffProfile::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($profile->id);
 
             $overlap = $profile->availabilities()
                 ->where('day_of_week', $dayOfWeek)

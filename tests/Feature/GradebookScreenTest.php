@@ -20,6 +20,7 @@ use App\Models\GradeCategory;
 use App\Models\GradeEntry;
 use App\Models\GradeItem;
 use App\Models\ResultSnapshot;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\Subject;
 use App\Models\User;
@@ -221,23 +222,23 @@ class GradebookScreenTest extends TestCase
     private function offeringAndEnrollment(): array
     {
         $school = $this->workingSchool();
-        $academicYear = current_academic_year() ?? AcademicYear::query()->findOrFail(AcademicYear::factory()->create([
+        $academicYear = current_academic_year() ?? AcademicYear::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicYear::factory()->create([
             'school_id' => $school->id,
         ])->getKey());
-        $academicPeriod = current_academic_period() ?? AcademicPeriod::query()->findOrFail(AcademicPeriod::factory()->create([
+        $academicPeriod = current_academic_period() ?? AcademicPeriod::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicPeriod::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
         ])->getKey());
-        $academicLevel = AcademicLevel::query()->findOrFail(AcademicLevel::factory()->create([
+        $academicLevel = AcademicLevel::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicLevel::factory()->create([
             'school_id' => $school->id,
         ])->getKey());
-        $cycleSection = AcademicCycleSection::query()->findOrFail(AcademicCycleSection::factory()->create([
+        $cycleSection = AcademicCycleSection::withoutGlobalScope(SchoolScope::class)->findOrFail(AcademicCycleSection::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
             'academic_level_id' => $academicLevel->id,
         ])->getKey());
-        $subject = Subject::query()->findOrFail(Subject::factory()->create(['school_id' => $school->id])->getKey());
-        $courseOffering = CourseOffering::query()->findOrFail(CourseOffering::factory()->create([
+        $subject = Subject::withoutGlobalScope(SchoolScope::class)->findOrFail(Subject::factory()->create(['school_id' => $school->id])->getKey());
+        $courseOffering = CourseOffering::withoutGlobalScope(SchoolScope::class)->findOrFail(CourseOffering::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->id,
             'academic_period_id' => $academicPeriod->id,

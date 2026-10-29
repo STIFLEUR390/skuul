@@ -9,6 +9,7 @@ use App\Models\GraduationExemption;
 use App\Models\GraduationPlan;
 use App\Models\GraduationRequirement;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -60,7 +61,7 @@ class ManageGraduationPlan
         $attributes = $this->settleTheRule($attributes);
 
         return $this->withNameLock(function () use ($plan, $attributes, $actor): GraduationPlan {
-            $plan = GraduationPlan::query()->lockForUpdate()->findOrFail($plan->getKey());
+            $plan = GraduationPlan::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($plan->getKey());
             $this->refuseATakenName($attributes['name'], $plan);
 
             $plan->fill($attributes);
@@ -89,7 +90,7 @@ class ManageGraduationPlan
         $attributes = $this->settleTheRule([...$attributes, 'uses_credits' => $attributes['completion_operator'] === 'at_least_credits']);
 
         return $this->withNameLock(function () use ($parent, $attributes, $actor): GraduationPlan {
-            $parent = GraduationPlan::query()->lockForUpdate()->findOrFail($parent->getKey());
+            $parent = GraduationPlan::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($parent->getKey());
             $this->refuseATakenName($attributes['name']);
 
             $stage = GraduationPlan::create([
@@ -127,7 +128,7 @@ class ManageGraduationPlan
     public function removeRequirement(GraduationRequirement $requirement, User $actor): void
     {
         DB::transaction(function () use ($requirement, $actor): void {
-            $requirement = GraduationRequirement::query()->lockForUpdate()->findOrFail($requirement->getKey());
+            $requirement = GraduationRequirement::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($requirement->getKey());
             $excused = $requirement->exemptions()->pluck('student_record_id')->all();
 
             $requirement->delete();
@@ -153,7 +154,7 @@ class ManageGraduationPlan
         }
 
         return DB::transaction(function () use ($requirement, $enrollment, $reason, $actor, $plan): GraduationExemption {
-            GraduationRequirement::query()->lockForUpdate()->findOrFail($requirement->getKey());
+            GraduationRequirement::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($requirement->getKey());
 
             $exemption = GraduationExemption::updateOrCreate(
                 ['graduation_requirement_id' => $requirement->id, 'student_record_id' => $enrollment->id],

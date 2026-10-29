@@ -286,7 +286,7 @@ class ImportScreenTest extends TestCase
 
         $this->authorized_user(['read import'], School::factory()->create());
 
-        $this->get(route('imports.show', $batch))->assertForbidden();
+        $this->get(route('imports.show', $batch))->assertNotFound();
     }
 
     /**

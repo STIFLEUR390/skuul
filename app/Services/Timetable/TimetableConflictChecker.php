@@ -3,11 +3,13 @@
 namespace App\Services\Timetable;
 
 use App\Enums\RosterMode;
+use App\Models\AcademicCycleSection;
 use App\Models\AcademicPeriod;
 use App\Models\Facility;
 use App\Models\FacilityBooking;
 use App\Models\School;
 use App\Models\SchoolMembership;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;
 use App\Models\Timetable;
@@ -73,7 +75,7 @@ class TimetableConflictChecker
     private function overlappingSlots(Timetable $timetable): array
     {
         $slots = $timetable->timeSlots()->get(['id', 'start_time', 'stop_time', 'recurrence', 'occurs_on', 'starts_on', 'recurrence_interval', 'recurrence_weekdays'])->values();
-        $period = $timetable->academicPeriod;
+        $period = $this->periodOf($timetable);
         $conflicts = [];
 
         foreach ($slots as $index => $slot) {
@@ -104,7 +106,7 @@ class TimetableConflictChecker
         $conflicts = [];
 
         foreach ($this->publishedAlongside($timetable) as $other) {
-            $window = $this->sharedDates($timetable->academicPeriod, $other->academicPeriod);
+            $window = $this->sharedDates($this->periodOf($timetable), $this->periodOf($other));
 
             foreach ($this->entriesOf($other) as $otherEntry) {
                 foreach ($entries as $entry) {
@@ -186,7 +188,7 @@ class TimetableConflictChecker
     {
         return SchoolMembership::query()
             ->active()
-            ->where('school_id', $timetable->academicPeriod->school_id)
+            ->where('school_id', $this->periodOf($timetable)?->school_id)
             ->whereIn('user_id', $teacherIds)
             ->pluck('user_id')
             ->all();
@@ -204,7 +206,7 @@ class TimetableConflictChecker
      */
     private function publishedAlongside(Timetable $timetable): Collection
     {
-        $period = $timetable->academicPeriod;
+        $period = $this->periodOf($timetable);
         $organizationId = $period->school->organization_id;
 
         return Timetable::query()
@@ -226,6 +228,23 @@ class TimetableConflictChecker
             })
             ->with('academicPeriod')
             ->get();
+    }
+
+    /**
+     * Get the period a timetable runs in.
+     *
+     * Another campus keeps its own periods, which the campus being worked in
+     * would otherwise hide.
+     */
+    private function periodOf(Timetable $timetable): ?AcademicPeriod
+    {
+        if ($timetable->academicPeriod === null) {
+            $timetable->setRelation('academicPeriod', AcademicPeriod::query()
+                ->withoutGlobalScope(SchoolScope::class)
+                ->find($timetable->academic_period_id));
+        }
+
+        return $timetable->academicPeriod;
     }
 
     /**
@@ -277,7 +296,7 @@ class TimetableConflictChecker
         foreach ($published as $other) {
             foreach ($this->entriesOf($other) as $otherEntry) {
                 foreach ($entries as $entry) {
-                    if ($entry['room'] === null || $entry['room'] !== $otherEntry['room'] || !$this->sameEntryOccurrence($entry, $otherEntry, $timetable->academicPeriod)) {
+                    if ($entry['room'] === null || $entry['room'] !== $otherEntry['room'] || !$this->sameEntryOccurrence($entry, $otherEntry, $this->periodOf($timetable))) {
                         continue;
                     }
 
@@ -308,7 +327,7 @@ class TimetableConflictChecker
             return [];
         }
 
-        $period = $timetable->academicPeriod;
+        $period = $this->periodOf($timetable);
         $bookings = FacilityBooking::query()
             ->running()
             ->whereIn('facility_id', $entries->pluck('facility_id')->unique())
@@ -352,13 +371,22 @@ class TimetableConflictChecker
      */
     private function entriesOf(Timetable $timetable): Collection
     {
-        $records = TimetableRecord::query()
-            ->whereIn('timetable_time_slot_id', $timetable->timeSlots()->pluck('id'))
+        // A timetable of another campus is read through its own slots, so the
+        // records answer for that campus rather than the one being worked in.
+        $slots = TimetableTimeSlot::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->where('timetable_id', $timetable->getKey())
             ->get();
 
-        $slots = $timetable->timeSlots()->get()->keyBy('id');
+        $records = TimetableRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->whereIn('timetable_time_slot_id', $slots->pluck('id'))
+            ->get();
+
+        $slots = $slots->keyBy('id');
         $subjectMorphClass = (new Subject)->getMorphClass();
         $subjects = Subject::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->whereKey(
                 $records
                     ->where('timetable_time_slot_weekdayable_type', $subjectMorphClass)
@@ -367,26 +395,34 @@ class TimetableConflictChecker
             )
             ->get()
             ->keyBy('id');
-        $cycleSection = $timetable->academicCycleSection;
-        $cycleSection?->loadMissing('academicLevel');
+        $cycleSection = AcademicCycleSection::query()
+            ->withoutGlobalScope(SchoolScope::class)
+            ->find($timetable->academic_cycle_section_id);
+        $timetable->setRelation('academicCycleSection', $cycleSection);
+        // The section and its level belong to the timetable's campus, which may
+        // not be the campus being worked in.
+        $cycleSection?->loadMissing(['academicLevel' => fn ($level) => $level->withoutGlobalScope(SchoolScope::class)]);
         $levelScopeIds = $cycleSection?->academicLevel?->hierarchyIds() ?? [];
         $facilityNames = Facility::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->whereKey($records->pluck('facility_id')->filter()->unique())
             ->pluck('name', 'id');
         $assignmentsBySubject = $cycleSection === null || $subjects->isEmpty()
             ? collect()
             : TeachingAssignment::query()
+                ->withoutGlobalScope(SchoolScope::class)
                 ->whereIn('subject_id', $subjects->keys())
                 ->where('academic_period_id', $timetable->academic_period_id)
                 ->runningOn()
                 ->whereHas('courseOffering', function ($query) use ($cycleSection, $levelScopeIds): void {
-                    $query->where(function ($offerings) use ($cycleSection, $levelScopeIds): void {
-                        $offerings->whereHas('cycleSections', fn ($sections) => $sections->whereKey($cycleSection->id))
-                            ->orWhere(function ($offerings) use ($levelScopeIds): void {
-                                $offerings->where('roster_mode', RosterMode::AcademicLevel)
-                                    ->whereIn('academic_level_id', $levelScopeIds);
-                            });
-                    });
+                    $query->withoutGlobalScope(SchoolScope::class)
+                        ->where(function ($offerings) use ($cycleSection, $levelScopeIds): void {
+                            $offerings->whereHas('cycleSections', fn ($sections) => $sections->withoutGlobalScope(SchoolScope::class)->whereKey($cycleSection->id))
+                                ->orWhere(function ($offerings) use ($levelScopeIds): void {
+                                    $offerings->where('roster_mode', RosterMode::AcademicLevel)
+                                        ->whereIn('academic_level_id', $levelScopeIds);
+                                });
+                        });
                 })
                 ->with('teacher:id,name')
                 ->get()

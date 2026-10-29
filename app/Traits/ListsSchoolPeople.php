@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Enums\EnrollmentStatus;
 use App\Enums\Role;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,8 +58,11 @@ trait ListsSchoolPeople
     {
         return User::query()
             ->ofSchool()
+            // The learner list is honest across campuses: somebody attending
+            // another school is still a learner, so the campus scope is lifted.
             ->whereDoesntHave('studentRecords', function (Builder $query): void {
-                $query->where('school_id', current_school_id())
+                $query->withoutGlobalScope(SchoolScope::class)
+                    ->where('school_id', current_school_id())
                     ->orWhereIn('status', EnrollmentStatus::enrolled());
             })
             ->orderBy('name')
@@ -85,7 +89,7 @@ trait ListsSchoolPeople
                 ->where('model_has_roles.model_type', (new User)->getMorphClass())
                 ->where('model_has_roles.school_id', current_school_id())
                 ->whereNotIn('roles.name', [Role::Student->value, Role::Parent->value]))
-            ->whereDoesntHave('studentRecords', fn (Builder $query) => $query->whereIn('status', EnrollmentStatus::enrolled()))
+            ->whereDoesntHave('studentRecords', fn (Builder $query) => $query->withoutGlobalScope(SchoolScope::class)->whereIn('status', EnrollmentStatus::enrolled()))
             ->orderBy('name')
             ->get(['id', 'name']);
     }

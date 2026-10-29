@@ -10,6 +10,7 @@ use App\Exceptions\InvalidValueException;
 use App\Models\LibraryCopy;
 use App\Models\LibraryLoan;
 use App\Models\LibraryReservation;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +34,7 @@ class WithdrawLibraryCopy
     public function withdraw(LibraryCopy $copy, ?User $actor = null): LibraryCopy
     {
         return DB::transaction(function () use ($copy, $actor): LibraryCopy {
-            $copy = LibraryCopy::query()->lockForUpdate()->with('title')->findOrFail($copy->getKey());
+            $copy = LibraryCopy::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->with('title')->findOrFail($copy->getKey());
 
             if (!$copy->status->isHeld()) {
                 throw new InvalidValueException('This copy is already out of the library.');

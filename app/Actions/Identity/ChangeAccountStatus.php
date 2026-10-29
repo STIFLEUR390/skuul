@@ -8,6 +8,7 @@ use App\Enums\PlatformPermission;
 use App\Events\AccountStatusChanged;
 use App\Exceptions\InvalidValueException;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use App\Services\Authorization\RoleAuthority;
 use App\Services\Authorization\SystemPermissionScope;
@@ -69,7 +70,7 @@ class ChangeAccountStatus
         return DB::transaction(function () use ($user, $status, $actor, $reason): User {
             // Held with the invitation it may revoke, so an invitation being
             // accepted at the same moment cannot open the account again.
-            $from = User::query()->lockForUpdate()->findOrFail($user->getKey())->account_status;
+            $from = User::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($user->getKey())->account_status;
 
             if ($from === $status) {
                 return $user;

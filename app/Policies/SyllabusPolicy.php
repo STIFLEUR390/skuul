@@ -25,7 +25,7 @@ class SyllabusPolicy
     {
         if (!$user->can('read syllabus')
             || $user->isParentPortalOnly()
-            || current_school_id() !== $syllabus->courseOffering->school_id
+            || current_school_id() !== $syllabus->courseOffering?->school_id
         ) {
             return false;
         }
@@ -57,7 +57,7 @@ class SyllabusPolicy
     {
         return $user->can('update syllabus')
             && !$user->isPortalOnly()
-            && current_school_id() === $syllabus->courseOffering->school_id
+            && current_school_id() === $syllabus->courseOffering?->school_id
             && ($user->can('approve syllabus') || $this->teaches($user, $syllabus->course_offering_id));
     }
 
@@ -123,7 +123,7 @@ class SyllabusPolicy
         if ($syllabus->status !== SyllabusStatus::Published
             || !$user->can('update syllabus')
             || $user->isPortalOnly()
-            || current_school_id() !== $syllabus->courseOffering->school_id
+            || current_school_id() !== $syllabus->courseOffering?->school_id
         ) {
             return false;
         }
@@ -155,7 +155,7 @@ class SyllabusPolicy
     {
         return $user->can('approve syllabus')
             && !$user->isPortalOnly()
-            && current_school_id() === $syllabus->courseOffering->school_id;
+            && current_school_id() === $syllabus->courseOffering?->school_id;
     }
 
     /**

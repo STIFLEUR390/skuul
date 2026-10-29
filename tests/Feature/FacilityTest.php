@@ -16,6 +16,7 @@ use App\Models\AuditEvent;
 use App\Models\Facility;
 use App\Models\FacilityBooking;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\Timetable;
 use App\Models\TimetableRecord;
@@ -164,7 +165,7 @@ class FacilityTest extends TestCase
         $this->assertThrows(fn () => Livewire::test(FacilityBoard::class)->call('retire', $elsewhere->id), ModelNotFoundException::class);
         $this->assertThrows(fn () => Livewire::test(FacilityBoard::class)->call('startGivingUp', $booking->id), ModelNotFoundException::class);
 
-        $this->assertSame(1, FacilityBooking::count());
+        $this->assertSame(1, FacilityBooking::withoutGlobalScope(SchoolScope::class)->count());
         $this->assertTrue($elsewhere->fresh()->is_active);
     }
 
@@ -234,7 +235,7 @@ class FacilityTest extends TestCase
             ->assertHasErrors('startsAt')
             ->assertSee('That time has passed. Choose a time still ahead.');
 
-        $this->assertSame(1, FacilityBooking::count());
+        $this->assertSame(1, FacilityBooking::withoutGlobalScope(SchoolScope::class)->count());
     }
 
     public function test_reading_the_catalogue_does_not_allow_booking(): void

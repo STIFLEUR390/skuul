@@ -10,6 +10,7 @@ use App\Models\AcademicPeriod;
 use App\Models\AcademicYear;
 use App\Models\CourseOffering;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\SyllabusTopic;
@@ -51,7 +52,7 @@ class SyllabusExportTest extends TestCase
     public function test_a_syllabus_of_another_school_cannot_be_printed(): void
     {
         $this->authorized_user(['read syllabus']);
-        $otherSchool = School::query()->findOrFail(School::factory()->create()->getKey());
+        $otherSchool = School::withoutGlobalScope(SchoolScope::class)->findOrFail(School::factory()->create()->getKey());
         $syllabus = $this->publishedSyllabus($this->courseOffering($otherSchool));
 
         $this->get(route('syllabi.print', $syllabus))->assertForbidden();
@@ -112,7 +113,7 @@ class SyllabusExportTest extends TestCase
 
     private function publishedSyllabus(CourseOffering $courseOffering): Syllabus
     {
-        return Syllabus::query()->findOrFail(Syllabus::factory()->create([
+        return Syllabus::withoutGlobalScope(SchoolScope::class)->findOrFail(Syllabus::factory()->create([
             'course_offering_id' => $courseOffering->id,
             'status' => SyllabusStatus::Published,
             'published_at' => now(),
@@ -125,7 +126,7 @@ class SyllabusExportTest extends TestCase
         $academicYear = AcademicYear::factory()->create(['school_id' => $school->id]);
         $academicPeriod = AcademicPeriod::factory()->create(['school_id' => $school->id, 'academic_year_id' => $academicYear->getKey()]);
 
-        return CourseOffering::query()->findOrFail(CourseOffering::factory()->create([
+        return CourseOffering::withoutGlobalScope(SchoolScope::class)->findOrFail(CourseOffering::factory()->create([
             'school_id' => $school->id,
             'academic_year_id' => $academicYear->getKey(),
             'academic_period_id' => $academicPeriod->getKey(),

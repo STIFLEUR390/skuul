@@ -7,10 +7,12 @@ use App\Actions\Organization\GrantOrganizationMembership;
 use App\Enums\AcademicPeriodStatus;
 use App\Livewire\CalendarTemplateCampuses;
 use App\Livewire\CalendarTemplateForm;
+use App\Models\AcademicPeriod;
 use App\Models\AcademicYear;
 use App\Models\CalendarTemplate;
 use App\Models\Organization;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\User;
 use App\Traits\FeatureTestTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -178,7 +180,7 @@ class CalendarTemplateManagementTest extends TestCase
         $year = AcademicYear::query()->where('school_id', $school->id)->where('start_year', 2030)->firstOrFail();
 
         $this->assertSame(AcademicPeriodStatus::Draft, $year->status);
-        $this->assertCount(2, $year->academicPeriods);
+        $this->assertCount(2, AcademicPeriod::withoutGlobalScope(SchoolScope::class)->where('academic_year_id', $year->id)->get());
     }
 
     public function test_an_organization_administrator_can_open_the_calendar_template_workspace(): void

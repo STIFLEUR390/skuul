@@ -116,7 +116,7 @@ class InstructionalModelTest extends TestCase
         $actor = $this->authorized_user(['manage school settings', 'update academic year', 'read academic year']);
         $theirs = $this->futureCycle(School::factory()->create());
 
-        $actor->get("dashboard/academic-years/$theirs->id/edit")->assertForbidden();
+        $actor->get("dashboard/academic-years/$theirs->id/edit")->assertNotFound();
 
         $this->teachingSetup($theirs)->assertForbidden();
 
@@ -317,7 +317,7 @@ class InstructionalModelTest extends TestCase
         $actor = $this->authorized_user(['manage school settings', 'read academic year']);
         $theirs = $this->futureCycle(School::factory()->create());
 
-        $actor->get("dashboard/academic-years/$theirs->id/instructional-model")->assertForbidden();
+        $actor->get("dashboard/academic-years/$theirs->id/instructional-model")->assertNotFound();
     }
 
     public function test_the_presets_say_which_rosters_an_offering_may_use(): void

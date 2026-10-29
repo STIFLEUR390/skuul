@@ -22,6 +22,7 @@ use App\Models\NoticeNotificationPreference;
 use App\Models\NoticeRecipient;
 use App\Models\ParentRecord;
 use App\Models\School;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Models\User;
 use App\Traits\FeatureTestTrait;
@@ -83,7 +84,7 @@ class NoticePublicationTest extends TestCase
             'school_id' => $this->workingSchool()->id,
             'status' => AcademicStructureStatus::Active,
         ]);
-        $student = StudentRecord::query()->findOrFail(StudentRecord::factory()->create([
+        $student = StudentRecord::withoutGlobalScope(SchoolScope::class)->findOrFail(StudentRecord::factory()->create([
             'school_id' => $this->workingSchool()->id,
             'academic_cycle_section_id' => $section->id,
         ])->getKey());

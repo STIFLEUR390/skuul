@@ -5,6 +5,7 @@ namespace App\Actions\Wellbeing;
 use App\Actions\Audit\RecordAuditEvent;
 use App\Enums\AuditAction;
 use App\Exceptions\StaleRecordException;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentHealthRecord;
 use App\Models\StudentRecord;
 use App\Models\User;
@@ -59,7 +60,7 @@ class RecordHealthInformation
         return DB::transaction(function () use ($enrollment, $values, $actor, $asRead): StudentHealthRecord {
             // The learner's row is locked, so two first saves cannot both
             // create a record for the same child.
-            StudentRecord::query()->lockForUpdate()->findOrFail($enrollment->getKey());
+            StudentRecord::query()->withoutGlobalScope(SchoolScope::class)->lockForUpdate()->findOrFail($enrollment->getKey());
 
             $record = StudentHealthRecord::query()->firstOrNew(['student_record_id' => $enrollment->id]);
 

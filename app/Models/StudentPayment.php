@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Money;
 use App\Contracts\PaymentChannel;
 use App\Exceptions\InvalidValueException;
+use App\Models\Scopes\SchoolScope;
 use App\Services\Finance\PaymentChannelRegistry;
 use App\Traits\InSchool;
 use Brick\Money\Money as BrickMoney;
@@ -107,7 +108,7 @@ class StudentPayment extends Model
      */
     public function studentRecord(): BelongsTo
     {
-        return $this->belongsTo(StudentRecord::class);
+        return $this->belongsTo(StudentRecord::class)->withoutGlobalScope(SchoolScope::class);
     }
 
     /**

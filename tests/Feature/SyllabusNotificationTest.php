@@ -13,6 +13,7 @@ use App\Models\AcademicPeriod;
 use App\Models\AcademicYear;
 use App\Models\CourseOffering;
 use App\Models\LessonNote;
+use App\Models\Scopes\SchoolScope;
 use App\Models\Subject;
 use App\Models\Syllabus;
 use App\Models\SyllabusTopic;
@@ -117,7 +118,7 @@ class SyllabusNotificationTest extends TestCase
 
     private function user(): User
     {
-        return User::query()->findOrFail(User::factory()->create()->getKey());
+        return User::withoutGlobalScope(SchoolScope::class)->findOrFail(User::factory()->create()->getKey());
     }
 
     private function assign(Syllabus $syllabus, User $teacher): void
