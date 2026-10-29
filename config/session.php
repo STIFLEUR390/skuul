@@ -201,4 +201,17 @@ return [
 
     'same_site' => 'lax',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Session Serialization
+    |--------------------------------------------------------------------------
+    |
+    | "json" keeps PHP objects out of the session, which closes the
+    | deserialization gadget chain if the application key ever leaks. Nothing
+    | this application stores is an object, so switching costs a re-login.
+    |
+    */
+
+    'serialization' => 'json',
+
 ];

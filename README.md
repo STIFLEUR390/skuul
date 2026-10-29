@@ -27,12 +27,21 @@ or updating a released version.
 > The destructive migrations cannot restore deleted data through rollback.
 > Read [Updating](https://skuul.org/current/getting-started/updating#breaking-upgrade-effects) before migrating an existing installation.
 
+> **Everyone signs in again after the upgrade.** Laravel 13 stores the session as
+> JSON instead of PHP, so active sessions are discarded once. Nothing this
+> application keeps in a session is a PHP object.
+
 ## Requirements
+
+This branch runs on Laravel 13 with Livewire 4. The committed locks resolve to
+Laravel 13.30, Livewire 4.4, Pest 5 and PHPUnit 13; every direct package in
+`composer.json` accepts this major version.
 
 - PHP 8.4.1 or later, as required by the locked packages. Sail uses PHP 8.5; CI tests PHP 8.4 and 8.5.
 - Composer 2.
 - Node.js 24 and npm, matching Sail and CI.
-- MySQL 8 and Redis.
+- MySQL 8, plus the Redis extension when a Redis store is configured (the default
+  cache, session and queue stores are file and database based).
 - Docker with Compose for local development with Sail.
 - MySQL client tools for the backup and restore commands.
 
