@@ -85,13 +85,13 @@ class ApplyStudentCredit
                 lines: [
                     [
                         'account' => $this->chart->account('unapplied_credits', $schoolId),
-                        'debit' => round($applied / 100, 2),
+                        'debit' => money_major($applied),
                         'student_record_id' => $enrollment->id,
                         'memo' => 'Credit used',
                     ],
                     [
                         'account' => $this->chart->account('fees_receivable', $schoolId),
-                        'credit' => round($applied / 100, 2),
+                        'credit' => money_major($applied),
                         'student_record_id' => $enrollment->id,
                         'memo' => 'Credit used',
                     ],
@@ -117,7 +117,7 @@ class ApplyStudentCredit
      */
     public function creditHeld(StudentRecord $enrollment, ?int $schoolId = null): int
     {
-        $inTheBooks = (int) round($this->ledger->unappliedCredit($enrollment, $schoolId) * 100);
+        $inTheBooks = money_minor($this->ledger->unappliedCredit($enrollment, $schoolId));
 
         $unusedPayments = StudentPayment::query()
             ->where('student_record_id', $enrollment->id)

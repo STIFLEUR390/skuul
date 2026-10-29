@@ -69,7 +69,9 @@ class SchoolTimeZoneTest extends TestCase
         $school = $this->workingSchool();
         $this->travelTo(now('UTC')->setDate(2026, 10, 1)->setTime(23, 30));
 
-        $this->assertSame('2026-10-01', now('UTC')->setDate(2026, 10, 1)->setTime(23, 30)->setTimezone(config('app.timezone'))->toDateString());
+        $serverDay = now('UTC')->setDate(2026, 10, 1)->setTime(23, 30)->setTimezone(config('app.timezone'))->toDateString();
+
+        $this->assertSame($serverDay, school_today($school)->toDateString());
         $this->assertSame(config('app.timezone'), school_timezone($school));
     }
 

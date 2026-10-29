@@ -65,7 +65,7 @@ class FeeInvoiceRecordTest extends TestCase
         $this->assertDatabaseHas('fee_invoice_records', [
             'fee_invoice_id' => $feeInvoiceRecord->fee_invoice_id,
             'fee_id' => $fee->id,
-            'amount' => 100_000,
+            'amount' => money_minor(1000),
         ]);
     }
 
@@ -97,8 +97,8 @@ class FeeInvoiceRecordTest extends TestCase
             ->assertHasNoErrors()
             ->assertSet('editingLineId', null);
 
-        $this->assertSame(45_000, $feeInvoiceRecord->fresh()->amount->getMinorAmount()->toInt());
-        $this->assertSame(2_000, $feeInvoiceRecord->fresh()->fine->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(450), $feeInvoiceRecord->fresh()->amount->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(20), $feeInvoiceRecord->fresh()->fine->getMinorAmount()->toInt());
     }
 
     /**
@@ -213,7 +213,7 @@ class FeeInvoiceRecordTest extends TestCase
 
         $this->payAgainst($feeInvoiceRecord, '10');
 
-        $this->assertSame(1000, $feeInvoiceRecord->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(10), $feeInvoiceRecord->fresh()->paid->getMinorAmount()->toInt());
     }
 
     /**

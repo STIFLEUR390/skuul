@@ -72,7 +72,7 @@ class RelieveStudentFees
             $line = FeeInvoiceRecord::query()->whereKey($line->getKey())->lockForUpdate()->firstOrFail();
 
             $owedOnLine = $line->outstanding->getMinorAmount()->toInt();
-            $owedAtCampus = (int) round($this->ledger->balance($enrollment, $invoice->school_id) * 100);
+            $owedAtCampus = money_minor($this->ledger->balance($enrollment, $invoice->school_id));
 
             if ($amount > min($owedOnLine, $owedAtCampus)) {
                 throw new InvalidValueException('That is more than is still owed on this fee.');
@@ -83,7 +83,7 @@ class RelieveStudentFees
 
             $transaction = $this->relieve(
                 $enrollment,
-                round($amount / 100, 2),
+                money_major($amount),
                 $writeOff ? 'bad_debt' : 'scholarships',
                 ($writeOff ? 'Write-off' : 'Waiver').": $reason",
                 $invoice,

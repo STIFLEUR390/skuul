@@ -89,14 +89,14 @@ class ReceivePayment
             // entry behind it and neither one can exist without the other.
             $transaction = $this->post->record(
                 enrollment: $enrollment,
-                amount: round($amount / 100, 2),
+                amount: money_major($amount),
                 into: $channel->accountPurpose(),
                 description: $note ?? 'Payment received',
                 source: $source,
                 actor: $actor,
                 date: $receivedOn,
                 reference: $reference,
-                applied: round($applied / 100, 2),
+                applied: money_major($applied),
                 schoolId: $schoolId,
             );
 

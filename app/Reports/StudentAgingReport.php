@@ -5,6 +5,7 @@ namespace App\Reports;
 use App\Contracts\Report;
 use App\Enums\EnrollmentStatus;
 use App\Models\FeeInvoice;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Traits\ReadsFinanceWindow;
 use Illuminate\Support\Collection;
@@ -93,7 +94,10 @@ class StudentAgingReport implements Report
             ->get();
 
         // A learner who moved on can still owe this campus for its own bills.
-        $movedAway = StudentRecord::query()
+        $movedAway = // The learners this campus still holds money for now sit elsewhere, so the
+        // campus they sit on may not narrow this read.
+        StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->where(fn ($elsewhere) => $elsewhere->whereNull('school_id')->orWhere('school_id', '!=', $schoolId))
             ->whereIn('id', FeeInvoice::query()->ofSchool($schoolId)->select('student_record_id'))
             ->with('user')

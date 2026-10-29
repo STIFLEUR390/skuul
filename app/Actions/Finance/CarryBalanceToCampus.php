@@ -115,11 +115,13 @@ class CarryBalanceToCampus
             return [];
         }
 
+        $allocatedToThatCampus = money_major((float) $payment->allocations()
+            ->whereHas('feeInvoice', fn ($invoice) => $invoice->where('school_id', $to->id))
+            ->sum('amount'));
+
         $owed = round(min(
             max(0.0, $this->balanceOf('fees_receivable', $enrollment, $from)),
-            $payment->allocations()
-                ->whereHas('feeInvoice', fn ($invoice) => $invoice->where('school_id', $to->id))
-                ->sum('amount') / 100,
+            $allocatedToThatCampus,
         ), 2);
         $credit = round(min(
             max(0.0, -$this->balanceOf('unapplied_credits', $enrollment, $from)),

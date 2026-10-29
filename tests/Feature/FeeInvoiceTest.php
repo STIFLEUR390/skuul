@@ -193,7 +193,7 @@ class FeeInvoiceTest extends TestCase
             ->assertHasNoErrors();
 
         $line = FeeInvoice::query()->where('student_record_id', $first->id)->sole()->feeInvoiceRecords()->sole();
-        $this->assertSame(2_500_000_000, $line->fresh()->amount->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(25_000_000), $line->fresh()->amount->getMinorAmount()->toInt());
 
         Livewire::test(CreateFeeInvoiceForm::class)
             ->set('studentRecordIds', [$first->id])

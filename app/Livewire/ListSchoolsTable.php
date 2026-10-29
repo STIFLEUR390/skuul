@@ -16,7 +16,8 @@ class ListSchoolsTable extends DataTableComponent
 
     protected function builder(): Builder
     {
-        return School::query()->orderBy('name');
+        // The policy asks each campus for its organization, so it comes along.
+        return School::query()->with('organization')->orderBy('name');
     }
 
     /** @return array<int, Column> */

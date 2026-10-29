@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Livewire\Concerns\DispatchesStatusNotifications;
 use App\Models\LibraryCopy;
 use App\Models\LibraryLendingRules;
-use Brick\Money\Money as BrickMoney;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -59,8 +58,8 @@ class LibraryLendingRulesForm extends Component
             'holdDays' => ['required', 'integer', 'min:1', 'max:30'],
             'learnerLimit' => ['required', 'integer', 'min:1', 'max:100'],
             'staffLimit' => ['required', 'integer', 'min:1', 'max:200'],
-            'finePerDay' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:100000'],
-            'fineCap' => ['nullable', 'numeric', 'decimal:0,2', 'min:0.01', 'max:10000000'],
+            'finePerDay' => ['required', 'numeric', 'decimal:0,'.money_scale(), 'min:0', 'max:100000'],
+            'fineCap' => ['nullable', 'numeric', 'decimal:0,'.money_scale(), 'min:0.01', 'max:10000000'],
         ], [], [
             'loanDays' => 'days a loan lasts',
             'renewalsAllowed' => 'renewals allowed',
@@ -79,8 +78,8 @@ class LibraryLendingRulesForm extends Component
             'hold_days' => (int) $this->holdDays,
             'learner_limit' => (int) $this->learnerLimit,
             'staff_limit' => (int) $this->staffLimit,
-            'fine_per_day' => BrickMoney::of($this->finePerDay, config('app.currency'))->getMinorAmount()->toInt(),
-            'fine_cap' => $this->fineCap === '' ? null : BrickMoney::of($this->fineCap, config('app.currency'))->getMinorAmount()->toInt(),
+            'fine_per_day' => money_minor($this->finePerDay),
+            'fine_cap' => $this->fineCap === '' ? null : money_minor($this->fineCap),
             'updated_by' => auth()->id(),
         ]], ['school_id'], ['loan_days', 'renewals_allowed', 'hold_days', 'learner_limit', 'staff_limit', 'fine_per_day', 'fine_cap', 'updated_by']);
 

@@ -74,7 +74,7 @@ class DemoFinanceTest extends TestCase
         $invoice = FeeInvoice::query()->where('student_record_id', $enrollment->id)->oldest('id')->firstOrFail();
 
         $this->assertSame(145.0, app(StudentLedger::class)->balance($enrollment));
-        $this->assertSame(11_000, $invoice->balance->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(110), $invoice->balance->getMinorAmount()->toInt());
 
         $this->actingAs($this->demo->schoolAdmin)
             ->get(route('fee-invoices.pay', ['fee_invoice' => $invoice]))
@@ -84,6 +84,6 @@ class DemoFinanceTest extends TestCase
         $this->actingAs($this->demo->demoParent)
             ->get(route('portal.invoices.index', $enrollment))
             ->assertOk()
-            ->assertSee('145.00');
+            ->assertSee(money_text(145));
     }
 }

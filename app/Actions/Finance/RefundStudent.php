@@ -61,7 +61,7 @@ class RefundStudent
         }
 
         $channel = $this->channels->get($method);
-        $major = round($amount / 100, 2);
+        $major = money_major($amount);
 
         return DB::transaction(function () use ($enrollment, $amount, $major, $reason, $method, $channel, $reference, $refundedOn, $actor, $schoolId): StudentPayment {
             // Every change to a learner's money locks their record first, so

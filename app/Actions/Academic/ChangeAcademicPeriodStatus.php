@@ -104,6 +104,10 @@ class ChangeAcademicPeriodStatus
             return;
         }
 
+        // The guards below read the calendar around this period; loading it here
+        // keeps the action usable on a period nobody remembered to eager load.
+        $period->loadMissing(['academicYear', 'parent']);
+
         if ($period->academicYear?->isClosed()) {
             throw new InvalidValueException('Reopen the academic year before you reopen this period.');
         }

@@ -64,7 +64,7 @@ class BringInvoiceIntoTheBooks
 
             $transaction = $this->chargeStudent->charge(
                 enrollment: $enrollment,
-                amount: round($owed / 100, 2),
+                amount: money_major($owed),
                 description: "Invoice $invoice->name brought into the books",
                 source: $invoice,
                 actor: $actor,

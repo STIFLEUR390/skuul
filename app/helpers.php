@@ -11,6 +11,7 @@ use App\Services\Curriculum\InstructionalModelResolver;
 use App\Services\Feature\FeatureManager;
 use App\Services\School\SchoolContext;
 use Brick\Math\RoundingMode;
+use Brick\Money\Currency;
 use Brick\Money\Money as BrickMoney;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
@@ -319,6 +320,53 @@ if (!function_exists('money_text')) {
         );
 
         return $money->formatToLocale(app()->getLocale());
+    }
+}
+
+if (!function_exists('money_minor')) {
+    /**
+     * Read major currency units as the integer minor units the Money casts store.
+     * 250000 stays 250000 in a currency without cents, and becomes 25000000 in one with.
+     */
+    function money_minor(BrickMoney|float|int|string|null $amount, ?string $currency = null): int
+    {
+        if ($amount instanceof BrickMoney) {
+            return $amount->getMinorAmount()->toInt();
+        }
+
+        return BrickMoney::of(
+            is_float($amount) ? sprintf('%.4F', $amount) : ($amount ?? 0),
+            $currency ?? config('app.currency'),
+            roundingMode: RoundingMode::HalfUp,
+        )->getMinorAmount()->toInt();
+    }
+}
+
+if (!function_exists('money_major')) {
+    /**
+     * Read integer minor units as the decimal major units the books keep.
+     * The reverse of money_minor(), for going from a stored amount to a ledger row.
+     */
+    function money_major(BrickMoney|float|int|string|null $amount, ?string $currency = null): float
+    {
+        if ($amount instanceof BrickMoney) {
+            return $amount->getAmount()->toFloat();
+        }
+
+        return BrickMoney::ofMinor(
+            $amount ?? 0,
+            $currency ?? config('app.currency'),
+        )->getAmount()->toFloat();
+    }
+}
+
+if (!function_exists('money_scale')) {
+    /**
+     * How many decimals the currency in use accepts: 0 for FCFA, 2 for a currency with cents.
+     */
+    function money_scale(?string $currency = null): int
+    {
+        return Currency::of($currency ?? config('app.currency'))->getDefaultFractionDigits();
     }
 }
 

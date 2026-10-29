@@ -174,14 +174,14 @@ class Finance implements DemoPart
         $enrollment = $this->enrollment($student);
 
         if ($student->is($this->demo->demoStudent)) {
-            $this->pay($enrollment, $invoice, 15_000, 'cash', null, 'Paid at the front office', $receivedOn);
+            $this->pay($enrollment, $invoice, money_minor(150), 'cash', null, 'Paid at the front office', $receivedOn);
 
             return;
         }
 
         match ($index % 4) {
             0 => $this->pay($enrollment, $invoice, $owedInCents, 'bank_transfer', 'ACH-'.(240_100 + $index), 'Fall fees paid in full', $receivedOn),
-            1 => $this->pay($enrollment, $invoice, 10_000, 'card', 'AUTH-'.(581_200 + $index * 7), 'First installment', $receivedOn),
+            1 => $this->pay($enrollment, $invoice, money_minor(100), 'card', 'AUTH-'.(581_200 + $index * 7), 'First installment', $receivedOn),
             3 => $this->pay($enrollment, $invoice, $owedInCents, 'card', 'AUTH-'.(581_200 + $index * 7), 'Fall fees paid in full', $receivedOn),
             default => null,
         };
@@ -219,7 +219,7 @@ class Finance implements DemoPart
 
         app(RecordExpense::class)->record(
             $account,
-            2350.50,
+            2350,
             'Uniforms for the fall sports teams',
             'card',
             $this->notBeforeTheYear($this->today->copy()->subDays(9)),

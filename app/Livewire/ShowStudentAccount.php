@@ -183,7 +183,7 @@ class ShowStudentAccount extends Component
 
         $this->validate([
             'reliefLineId' => ['required', 'integer'],
-            'reliefAmount' => ['required', 'decimal:0,2', 'min:0.01', 'max:100000000'],
+            'reliefAmount' => ['required', 'decimal:0,'.money_scale(), 'min:0.01', 'max:100000000'],
             'reliefKind' => ['required', Rule::in(['waiver', 'write_off'])],
             'reliefReason' => ['required', 'string', 'min:5', 'max:500'],
         ], [
@@ -203,7 +203,7 @@ class ShowStudentAccount extends Component
         try {
             $this->recordOnce('fee-relief', fn () => $relief->relieveLine(
                 line: $line,
-                amount: BrickMoney::of($this->reliefAmount, config('app.currency'))->getMinorAmount()->toInt(),
+                amount: money_minor($this->reliefAmount),
                 writeOff: $this->reliefKind === 'write_off',
                 reason: $this->reliefReason,
                 actor: auth()->user(),

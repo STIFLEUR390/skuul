@@ -33,6 +33,6 @@ class PaymentIntent
      */
     public function majorAmount(): string
     {
-        return number_format($this->amount / 100, 2, '.', '');
+        return number_format(money_major($this->amount), 2, '.', '');
     }
 }

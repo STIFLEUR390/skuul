@@ -41,9 +41,9 @@ class FeeInvoiceController extends Controller
         return view('pages.fee.fee-invoice.index', [
             'period' => $period,
             'summary' => [
-                'outstanding' => $outstanding / 100,
+                'outstanding' => money_major($outstanding),
                 'overdue' => $overdue,
-                'received' => $received / 100,
+                'received' => money_major($received),
                 'spent' => $spent,
             ],
         ]);

@@ -227,13 +227,15 @@ class RoleAuthority
             $registrar->setPermissionsTeamId($school->id);
             $person->unsetRelation('roles')->unsetRelation('permissions');
 
+            // Asked for as a query, so a policy reached from a view never
+            // lazy loads a relation the caller did not know it needed.
             /** @var \Illuminate\Database\Eloquent\Collection<int, CampusRole> $roles */
-            $roles = $person->roles;
+            $roles = $person->roles()->get();
 
             $staffPower = $roles
                 ->reject(fn (CampusRole $role): bool => in_array($role->name, [Role::Student->value, Role::Parent->value], true))
-                ->flatMap(fn (CampusRole $role) => $role->permissions->pluck('name'))
-                ->merge($person->permissions->pluck('name'))
+                ->flatMap(fn (CampusRole $role) => $role->permissions()->get()->pluck('name'))
+                ->merge($person->permissions()->get()->pluck('name'))
                 ->unique()
                 ->all();
         } finally {

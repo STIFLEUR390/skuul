@@ -20,7 +20,7 @@ class SharedTouchTargetTest extends TestCase
     {
         return [
             'sidebar trigger' => ['livewire/layouts/header.blade.php', '<april:sidebar-trigger class="size-11'],
-            'theme menu' => ['livewire/layouts/header.blade.php', 'aria-label="open theme selection" class="size-11'],
+            'theme menu' => ['livewire/layouts/header.blade.php', "aria-label=\"{{ __('open theme selection') }}\" class=\"size-11"],
             'profile menu' => ['livewire/layouts/header.blade.php', 'class="ml-1 flex h-11'],
             'working year and term bar' => ['livewire/set-academic-period.blade.php', "'h-11 text-xs sm:h-8' => \$compact"],
             'working year and term page' => ['livewire/set-academic-period.blade.php', "'h-11 text-sm' => !\$compact"],

@@ -49,7 +49,7 @@ class BringInvoicesIntoTheBooks extends Command
                 }
             });
 
-        $this->info("$brought invoices put in the books, ".money_text($total / 100).' in all.');
+        $this->info("$brought invoices put in the books, ".money_text(money_major($total)).' in all.');
 
         return self::SUCCESS;
     }

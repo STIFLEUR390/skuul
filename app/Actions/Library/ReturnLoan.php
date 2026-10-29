@@ -118,7 +118,7 @@ class ReturnLoan
 
         $this->charge->charge(
             enrollment: $enrollment,
-            amount: round($fine / 100, 2),
+            amount: money_major($fine),
             description: 'Library fine',
             source: $loan,
             actor: $actor,

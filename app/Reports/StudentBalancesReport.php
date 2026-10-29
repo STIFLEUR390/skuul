@@ -5,6 +5,7 @@ namespace App\Reports;
 use App\Contracts\Report;
 use App\Enums\EnrollmentStatus;
 use App\Models\LedgerLine;
+use App\Models\Scopes\SchoolScope;
 use App\Models\StudentRecord;
 use App\Services\Finance\ChartOfAccounts;
 use App\Services\Finance\StudentLedger;
@@ -112,7 +113,10 @@ class StudentBalancesReport implements Report
 
         $rows = collect();
 
+        // The learners this campus still holds money for now sit elsewhere, so the
+        // campus they sit on may not narrow this read.
         StudentRecord::query()
+            ->withoutGlobalScope(SchoolScope::class)
             ->where(fn ($elsewhere) => $elsewhere->whereNull('school_id')->orWhere('school_id', '!=', $schoolId))
             ->whereIn('id', LedgerLine::query()->select('student_record_id')->whereIn('ledger_account_id', $accountIds))
             ->with(['user', 'school'])

@@ -111,8 +111,8 @@ class SchoolTrends
 
             return [
                 'month' => $month->translatedFormat('M'),
-                'billed' => (int) ($billed[$key] ?? 0) / 100,
-                'collected' => (int) ($collected[$key] ?? 0) / 100,
+                'billed' => money_major((int) ($billed[$key] ?? 0)),
+                'collected' => money_major((int) ($collected[$key] ?? 0)),
             ];
         })->all();
     }
@@ -148,7 +148,7 @@ class SchoolTrends
             'late90plus' => 'Over 90 days late',
         ])->map(fn (string $label, string $bucket): array => [
             'label' => $label,
-            'owed' => (int) ($totals[$bucket] ?? 0) / 100,
+            'owed' => money_major((int) ($totals[$bucket] ?? 0)),
         ])->values()->all();
     }
 
@@ -183,7 +183,7 @@ class SchoolTrends
 
             return [
                 'month' => $firstMonth->addMonths($offset)->translatedFormat('M'),
-                'received' => (int) ($received[$key] ?? 0) / 100,
+                'received' => money_major((int) ($received[$key] ?? 0)),
                 'spent' => round((float) ($spent[$key] ?? 0), 2),
             ];
         })->all();

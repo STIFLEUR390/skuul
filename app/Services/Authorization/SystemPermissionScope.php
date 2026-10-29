@@ -82,7 +82,14 @@ class SystemPermissionScope
 
         return $this->permissionsByUser[$userId] = $this->withinUserScope(
             $user,
-            fn (): array => $user->getAllPermissions()->pluck('name')->all(),
+            function () use ($user): array {
+                // Spatie reads these off the model itself, which a screen that
+                // forbids lazy loading would otherwise see as a violation.
+                $user->unsetRelation('roles')->unsetRelation('permissions');
+                $user->load(['roles', 'permissions']);
+
+                return $user->getAllPermissions()->pluck('name')->all();
+            },
         );
     }
 

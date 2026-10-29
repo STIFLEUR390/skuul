@@ -102,7 +102,7 @@ class BillingGroupTest extends TestCase
     {
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        app(ReceivePayment::class)->receive($enrollment, 20000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
 
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
 
@@ -158,7 +158,7 @@ class BillingGroupTest extends TestCase
     {
         [$source, $destination] = $this->twoCampuses();
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        app(ReceivePayment::class)->receive($enrollment, 20000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
 
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $moved = $enrollment->fresh();
@@ -178,18 +178,18 @@ class BillingGroupTest extends TestCase
     {
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        app(ReceivePayment::class)->receive($enrollment, 20000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
 
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
 
-        $this->assertSame(20000, app(ApplyStudentCredit::class)->creditHeld($enrollment->fresh()));
+        $this->assertSame(money_minor(200), app(ApplyStudentCredit::class)->creditHeld($enrollment->fresh()));
     }
 
     public function test_joining_a_group_later_does_not_pull_credit_across(): void
     {
         [$source, $destination, $organization] = $this->twoCampusesAndOrganization();
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        app(ReceivePayment::class)->receive($enrollment, 20000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
 
         $group = BillingGroup::factory()->create(['organization_id' => $organization->id]);
@@ -198,20 +198,20 @@ class BillingGroupTest extends TestCase
 
         $credit = app(ApplyStudentCredit::class);
         $this->assertSame(0, $credit->creditHeld($enrollment->fresh()));
-        $this->assertSame(20000, $credit->creditHeld($enrollment->fresh(), $source->id));
+        $this->assertSame(money_minor(200), $credit->creditHeld($enrollment->fresh(), $source->id));
     }
 
     public function test_leaving_a_group_later_keeps_carried_credit_where_it_was_carried(): void
     {
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        app(ReceivePayment::class)->receive($enrollment, 20000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
 
         $source->forceFill(['billing_group_id' => null])->save();
 
         $credit = app(ApplyStudentCredit::class);
-        $this->assertSame(20000, $credit->creditHeld($enrollment->fresh()));
+        $this->assertSame(money_minor(200), $credit->creditHeld($enrollment->fresh()));
         $this->assertSame(0, $credit->creditHeld($enrollment->fresh(), $source->id));
     }
 
@@ -224,10 +224,10 @@ class BillingGroupTest extends TestCase
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $moved = $enrollment->fresh();
 
-        app(ReceivePayment::class)->receive($moved, 10_000);
+        app(ReceivePayment::class)->receive($moved, money_minor(100));
 
         $chart = app(ChartOfAccounts::class);
-        $this->assertSame(10_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(100), $invoice->fresh()->paid->getMinorAmount()->toInt());
         $this->assertSame(0.0, app(StudentLedger::class)->balance($moved));
         $this->assertSame(0.0, app(StudentLedger::class)->unappliedCredit($moved));
         $this->assertSame(0.0, round($chart->account('fees_receivable', $source->id)->balance(), 2));
@@ -247,15 +247,15 @@ class BillingGroupTest extends TestCase
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
 
         $this->assertSame($source->id, $invoice->fresh()->school_id);
-        app(ReceivePayment::class)->receive($enrollment->fresh(), 10_000, schoolId: $source->id);
-        $this->assertSame(10_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        app(ReceivePayment::class)->receive($enrollment->fresh(), money_minor(100), schoolId: $source->id);
+        $this->assertSame(money_minor(100), $invoice->fresh()->paid->getMinorAmount()->toInt());
     }
 
     public function test_a_bounced_payment_taken_back_at_the_old_campus_takes_back_the_carried_credit(): void
     {
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 20_000, schoolId: $source->id);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(200), schoolId: $source->id);
 
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $moved = $enrollment->fresh();
@@ -274,7 +274,7 @@ class BillingGroupTest extends TestCase
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
         $invoice = $this->invoiceAt($source, $enrollment, 100);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 4_000, schoolId: $source->id);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(40), schoolId: $source->id);
 
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         app(ReversePayment::class)->reverse($payment, 'Recorded against the wrong child');
@@ -289,7 +289,7 @@ class BillingGroupTest extends TestCase
     {
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 20_000, schoolId: $source->id);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(200), schoolId: $source->id);
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $source->forceFill(['billing_group_id' => null])->save();
 
@@ -310,7 +310,7 @@ class BillingGroupTest extends TestCase
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
         $invoice = $this->invoiceAt($source, $enrollment, 100);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 4_000, schoolId: $source->id);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(40), schoolId: $source->id);
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $source->forceFill(['billing_group_id' => null])->save();
 
@@ -331,7 +331,7 @@ class BillingGroupTest extends TestCase
         [$source, $destination] = $this->twoCampuses(sharing: true);
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
         $invoice = $this->invoiceAt($source, $enrollment, 100);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 30_000, schoolId: $source->id);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(300), schoolId: $source->id);
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $source->forceFill(['billing_group_id' => null])->save();
 
@@ -352,7 +352,7 @@ class BillingGroupTest extends TestCase
         $enrollment = StudentRecord::factory()->create(['school_id' => $source->id]);
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $source->forceFill(['billing_group_id' => null])->save();
-        $payment = app(ReceivePayment::class)->receive($enrollment->fresh(), 5_000, schoolId: $source->id);
+        $payment = app(ReceivePayment::class)->receive($enrollment->fresh(), money_minor(50), schoolId: $source->id);
 
         app(ReversePayment::class)->reverse($payment, 'Recorded against the wrong child');
 
@@ -369,7 +369,7 @@ class BillingGroupTest extends TestCase
 
         app(MoveEnrollmentBetweenCampuses::class)->move($enrollment, $this->cycleSection($destination));
         $moved = $enrollment->fresh();
-        app(ReceivePayment::class)->receive($moved, 5_000, schoolId: $source->id);
+        app(ReceivePayment::class)->receive($moved, money_minor(50), schoolId: $source->id);
 
         $this->assertSame(50.0, app(StudentLedger::class)->unappliedCredit($moved));
         $this->assertSame(0.0, app(StudentLedger::class)->unappliedCredit($moved, $source->id));
@@ -517,8 +517,8 @@ class BillingGroupTest extends TestCase
             'issue_date' => now()->toDateString(),
             'due_date' => now()->toDateString(),
             'student_records' => [$enrollment->id],
-            // Invoices are billed in minor units; the callers pass whole currency.
-            'records' => [['fee_id' => $fee->id, 'amount' => $amount * 100, 'waiver' => 0, 'fine' => 0]],
+            // The callers pass whole currency; the cast wants it in major units.
+            'records' => [['fee_id' => $fee->id, 'amount' => $amount, 'waiver' => 0, 'fine' => 0]],
         ]);
 
         return FeeInvoice::where('user_id', $enrollment->user_id)->latest('id')->firstOrFail();

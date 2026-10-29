@@ -96,7 +96,7 @@ class FinanceReportTest extends TestCase
         $this->cycle();
         $enrollment = $this->enrollment();
         $this->invoiceFor($enrollment, 300);
-        app(ReceivePayment::class)->receive($enrollment, 20_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
 
         $rows = app(ReportRegistry::class)->get('cash-and-bank')->rows($this->parameters());
         $cash = $rows->first(fn (array $row): bool => $row[0] === 'Cash');
@@ -132,7 +132,7 @@ class FinanceReportTest extends TestCase
         $this->cycle();
         $enrollment = $this->enrollment();
         $this->invoiceFor($enrollment, 100, now()->subDays(45));
-        app(ReceivePayment::class)->receive($enrollment, 10_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(100));
 
         $rows = app(ReportRegistry::class)->get('student-aging')->rows($this->parameters());
 
@@ -169,7 +169,7 @@ class FinanceReportTest extends TestCase
         $this->cycle();
         $enrollment = $this->enrollment();
         $this->invoiceFor($enrollment, 250);
-        app(ReceivePayment::class)->receive($enrollment, 10_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(100));
 
         $row = app(ReportRegistry::class)->get('income-by-fee-type')->rows($this->parameters())
             ->firstWhere(1, 'Tuition');
@@ -276,13 +276,13 @@ class FinanceReportTest extends TestCase
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, 300);
 
-        app(ReceivePayment::class)->receive($enrollment, 35_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(350));
         $this->assertSame(0.0, $invoice->fresh()->balance->getAmount()->toFloat());
         $this->assertSame(50.0, app(StudentLedger::class)->unappliedCredit($enrollment));
 
         app(RecordExpense::class)->record($chart->account('operating_expenses'), 40, 'Chalk', 'cash', now());
         app(RecordCashDeposit::class)->record(200, now());
-        app(RefundStudent::class)->refund($enrollment, 5_000, 'Family asked for the extra back');
+        app(RefundStudent::class)->refund($enrollment, money_minor(50), 'Family asked for the extra back');
 
         $rows = app(ReportRegistry::class)->get('cash-and-bank')->rows($this->parameters());
         $cash = $rows->first(fn (array $row): bool => $row[0] === 'Cash');

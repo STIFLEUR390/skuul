@@ -559,7 +559,7 @@ class LibraryTest extends TestCase
         // Six days late at fifty a day.
         $this->assertSame(6, $returned->daysLate());
         $this->assertSame(30_000, $returned->fine_charged);
-        $this->assertSame(300.0, app(StudentLedger::class)->balance($enrollment->fresh()));
+        $this->assertSame(money_major(30_000), app(StudentLedger::class)->balance($enrollment->fresh()));
     }
 
     public function test_a_book_lost_for_a_term_costs_no_more_than_the_campus_cap(): void
@@ -585,7 +585,7 @@ class LibraryTest extends TestCase
         // Six days at fifty would be three hundred. The cap is two hundred.
         $this->assertSame(6, $returned->daysLate());
         $this->assertSame(20_000, $returned->fine_charged);
-        $this->assertSame(200.0, app(StudentLedger::class)->balance($enrollment->fresh()));
+        $this->assertSame(money_major(20_000), app(StudentLedger::class)->balance($enrollment->fresh()));
     }
 
     public function test_a_fine_under_the_cap_is_charged_in_full(): void
@@ -618,7 +618,7 @@ class LibraryTest extends TestCase
 
         $this->assertSame(30_000, $returned->fine_charged);
         $moved = $enrollment->fresh();
-        $this->assertSame(300.0, app(StudentLedger::class)->balance($moved, $library->id));
+        $this->assertSame(money_major(30_000), app(StudentLedger::class)->balance($moved, $library->id));
         $this->assertSame(0.0, app(StudentLedger::class)->balance($moved));
 
         $this->authorized_user(['read fee invoice']);
@@ -962,7 +962,7 @@ class LibraryTest extends TestCase
         } catch (InvalidValueException) {
         }
 
-        $this->assertSame(300.0, app(StudentLedger::class)->balance($enrollment->fresh()));
+        $this->assertSame(money_major(30_000), app(StudentLedger::class)->balance($enrollment->fresh()));
     }
 
     public function test_a_stale_loan_is_not_renewed_past_the_limit(): void
@@ -1043,19 +1043,19 @@ class LibraryTest extends TestCase
             ->set('staffLimit', '20')
             ->set('renewalsAllowed', '0')
             ->set('holdDays', '5')
-            ->set('finePerDay', '25.50')
+            ->set('finePerDay', '25')
             ->call('save')
             ->assertHasNoErrors()
             ->assertDispatched('status-message', type: 'success');
 
         $rules = LibraryLendingRules::forSchool();
         $this->assertSame(7, $rules->loan_days);
-        $this->assertSame(2_550, $rules->fine_per_day);
+        $this->assertSame(money_minor(25), $rules->fine_per_day);
         $this->assertSame(5, $rules->hold_days);
 
         Livewire::test(LibraryLendingRulesForm::class)
             ->assertSet('loanDays', '7')
-            ->assertSet('finePerDay', '25.50')
+            ->assertSet('finePerDay', '25')
             ->set('holdDays', '6')
             ->call('save');
 
@@ -1081,10 +1081,10 @@ class LibraryTest extends TestCase
             ->call('save')
             ->assertHasNoErrors();
 
-        $this->assertSame(15_000, LibraryLendingRules::forSchool()->fine_cap);
+        $this->assertSame(money_minor(150), LibraryLendingRules::forSchool()->fine_cap);
 
         Livewire::test(LibraryLendingRulesForm::class)
-            ->assertSet('fineCap', '150.00')
+            ->assertSet('fineCap', '150')
             ->set('fineCap', '')
             ->call('save')
             ->assertHasNoErrors();

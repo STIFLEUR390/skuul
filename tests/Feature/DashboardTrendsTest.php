@@ -77,8 +77,8 @@ class DashboardTrendsTest extends TestCase
         $fees = app(SchoolTrends::class)->feesByMonth($this->today);
 
         $this->assertCount(6, $fees);
-        $this->assertSame(['month' => 'Sep', 'billed' => 450, 'collected' => 300], $fees[5]);
-        $this->assertSame(['month' => 'Apr', 'billed' => 0, 'collected' => 0], $fees[0]);
+        $this->assertSame(['month' => 'Sep', 'billed' => 450.0, 'collected' => 300.0], $fees[5]);
+        $this->assertSame(['month' => 'Apr', 'billed' => 0.0, 'collected' => 0.0], $fees[0]);
     }
 
     /**
@@ -102,11 +102,11 @@ class DashboardTrendsTest extends TestCase
         $owed = app(SchoolTrends::class)->owedByLateness($this->today);
 
         $this->assertSame([
-            ['label' => 'Not due yet', 'owed' => 100],
-            ['label' => '1–30 days late', 'owed' => 200],
-            ['label' => '31–60 days late', 'owed' => 0],
-            ['label' => '61–90 days late', 'owed' => 50],
-            ['label' => 'Over 90 days late', 'owed' => 40],
+            ['label' => 'Not due yet', 'owed' => 100.0],
+            ['label' => '1–30 days late', 'owed' => 200.0],
+            ['label' => '31–60 days late', 'owed' => 0.0],
+            ['label' => '61–90 days late', 'owed' => 50.0],
+            ['label' => 'Over 90 days late', 'owed' => 40.0],
         ], $owed);
     }
 
@@ -121,8 +121,8 @@ class DashboardTrendsTest extends TestCase
         $cash = app(SchoolTrends::class)->cashByMonth($this->today);
 
         $this->assertCount(6, $cash);
-        $this->assertSame(['month' => 'Sep', 'received' => 300, 'spent' => 120.5], $cash[5]);
-        $this->assertSame(['month' => 'Jun', 'received' => 0, 'spent' => 40.0], $cash[2]);
+        $this->assertSame(['month' => 'Sep', 'received' => 300.0, 'spent' => 120.5], $cash[5]);
+        $this->assertSame(['month' => 'Jun', 'received' => 0.0, 'spent' => 40.0], $cash[2]);
     }
 
     public function test_money_in_and_out_needs_both_invoice_and_expense_access(): void

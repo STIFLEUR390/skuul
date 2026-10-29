@@ -18,6 +18,12 @@
     <env name="BCRYPT_ROUNDS" value="4" force="true"/>
     <env name="CACHE_DRIVER" value="array" force="true"/>
     <env name="DATABASE_URL" value="" force="true"/>
+    <env name="DB_CONNECTION" value="mysql" force="true"/>
+    <env name="DB_HOST" value="lerd-mysql" force="true"/>
+    <env name="DB_PORT" value="3306" force="true"/>
+    <env name="DB_DATABASE" value="testing" force="true"/>
+    <env name="DB_USERNAME" value="root" force="true"/>
+    <env name="DB_PASSWORD" value="lerd" force="true"/>
     <env name="CHECK_EMAIL_DOMAINS" value="false" force="true"/>
     <env name="MAIL_MAILER" value="array" force="true"/>
     <env name="QUEUE_CONNECTION" value="sync" force="true"/>
@@ -31,6 +37,12 @@
     <server name="BCRYPT_ROUNDS" value="4"/>
     <server name="CACHE_DRIVER" value="array"/>
     <server name="DATABASE_URL" value=""/>
+    <server name="DB_CONNECTION" value="mysql"/>
+    <server name="DB_HOST" value="lerd-mysql"/>
+    <server name="DB_PORT" value="3306"/>
+    <server name="DB_DATABASE" value="testing"/>
+    <server name="DB_USERNAME" value="root"/>
+    <server name="DB_PASSWORD" value="lerd"/>
     <server name="CHECK_EMAIL_DOMAINS" value="false"/>
     <server name="MAIL_MAILER" value="array"/>
     <server name="QUEUE_CONNECTION" value="sync"/>

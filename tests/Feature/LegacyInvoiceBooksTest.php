@@ -30,7 +30,7 @@ class LegacyInvoiceBooksTest extends TestCase
         app(ReceivePayment::class)->receive($enrollment, 2_500, onlyInvoice: $invoice->id);
 
         $this->assertNotNull($invoice->fresh()->ledger_transaction_id);
-        $this->assertSame(75.0, app(StudentLedger::class)->balance($enrollment));
+        $this->assertSame(money_major(7_500), app(StudentLedger::class)->balance($enrollment));
         $this->assertSame(7_500, $invoice->fresh()->balance->getMinorAmount()->toInt());
     }
 
@@ -42,7 +42,7 @@ class LegacyInvoiceBooksTest extends TestCase
 
         app(ReceivePayment::class)->receive($enrollment, 1_000, onlyInvoice: $invoice->id);
 
-        $this->assertSame(50.0, app(StudentLedger::class)->balance($enrollment));
+        $this->assertSame(money_major(5_000), app(StudentLedger::class)->balance($enrollment));
         $this->assertSame(5_000, $invoice->fresh()->balance->getMinorAmount()->toInt());
     }
 
@@ -58,7 +58,7 @@ class LegacyInvoiceBooksTest extends TestCase
         $this->artisan('skuul:bring-invoices-into-books')->assertSuccessful();
         $this->artisan('skuul:bring-invoices-into-books')->expectsOutputToContain('0 invoices')->assertSuccessful();
 
-        $this->assertSame(100.0, app(StudentLedger::class)->balance($enrollment));
+        $this->assertSame(money_major(10_000), app(StudentLedger::class)->balance($enrollment));
         $this->assertNull($orphan->fresh()->ledger_transaction_id);
     }
 
@@ -72,7 +72,7 @@ class LegacyInvoiceBooksTest extends TestCase
         $this->artisan('skuul:bring-invoices-into-books')->assertSuccessful();
 
         $owedOnBills = $first->fresh()->balance->plus($second->fresh()->balance)->getMinorAmount()->toInt();
-        $this->assertSame($owedOnBills, (int) round(app(StudentLedger::class)->balance($enrollment) * 100));
+        $this->assertSame($owedOnBills, money_minor(app(StudentLedger::class)->balance($enrollment)));
     }
 
     private function enrollment(): StudentRecord
@@ -98,7 +98,7 @@ class LegacyInvoiceBooksTest extends TestCase
 
         $invoice->feeInvoiceRecords()->create([
             'fee_id' => Fee::factory()->create()->id,
-            'amount' => $amount / 100,
+            'amount' => money_major($amount),
             'waiver' => 0,
             'fine' => 0,
         ]);

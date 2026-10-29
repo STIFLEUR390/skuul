@@ -52,10 +52,10 @@ class StudentPaymentTest extends TestCase
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 300], ['amount' => 200]]);
 
-        app(ReceivePayment::class)->receive($enrollment, 30_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(300));
 
         $lines = $invoice->feeInvoiceRecords()->orderBy('id')->get();
-        $this->assertSame(30_000, $lines[0]->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(300), $lines[0]->paid->getMinorAmount()->toInt());
         $this->assertSame(0, $lines[1]->paid->getMinorAmount()->toInt());
         $this->assertTrue($lines[0]->outstanding->isZero());
     }
@@ -67,11 +67,11 @@ class StudentPaymentTest extends TestCase
         $first = $this->invoiceFor($enrollment, [['amount' => 100]], now()->subMonth());
         $second = $this->invoiceFor($enrollment, [['amount' => 100]], now());
 
-        $payment = app(ReceivePayment::class)->receive($enrollment, 15_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(150));
 
         $this->assertSame(2, $payment->allocations()->count());
-        $this->assertSame(10_000, $first->fresh()->paid->getMinorAmount()->toInt());
-        $this->assertSame(5_000, $second->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(100), $first->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(50), $second->fresh()->paid->getMinorAmount()->toInt());
     }
 
     public function test_money_above_what_is_owed_is_held_as_credit(): void
@@ -80,10 +80,10 @@ class StudentPaymentTest extends TestCase
         $enrollment = $this->enrollment();
         $this->invoiceFor($enrollment, [['amount' => 100]]);
 
-        $payment = app(ReceivePayment::class)->receive($enrollment, 15_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(150));
 
-        $this->assertSame(5_000, $payment->unallocated()->getMinorAmount()->toInt());
-        $this->assertSame(5_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(50), $payment->unallocated()->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(50), app(ApplyStudentCredit::class)->creditHeld($enrollment));
         $this->assertSame(50.0, app(StudentLedger::class)->unappliedCredit($enrollment));
         $this->assertSame(0.0, app(StudentLedger::class)->balance($enrollment));
     }
@@ -92,14 +92,14 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 20_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
         $invoice = $this->invoiceFor($enrollment, [['amount' => 150]]);
 
         $applied = app(ApplyStudentCredit::class)->apply($enrollment);
 
-        $this->assertSame(15_000, $applied);
-        $this->assertSame(15_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
-        $this->assertSame(5_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(150), $applied);
+        $this->assertSame(money_minor(150), $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(50), app(ApplyStudentCredit::class)->creditHeld($enrollment));
         $this->assertSame(0.0, app(StudentLedger::class)->balance($enrollment));
     }
 
@@ -112,7 +112,7 @@ class StudentPaymentTest extends TestCase
 
         $this->expectException(InvalidValueException::class);
 
-        app(ReceivePayment::class)->receive($enrollment, 20_000, allocations: [$line->id => 20_000]);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200), allocations: [$line->id => money_minor(200)]);
     }
 
     public function test_a_payment_cannot_settle_another_student_s_fee(): void
@@ -124,7 +124,7 @@ class StudentPaymentTest extends TestCase
 
         $this->expectException(InvalidValueException::class);
 
-        app(ReceivePayment::class)->receive($enrollment, 10_000, allocations: [$line->id => 10_000]);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(100), allocations: [$line->id => money_minor(100)]);
     }
 
     /**
@@ -158,7 +158,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user(['read fee invoice', 'update fee invoice']);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 10_000, reference: 'BANK-777');
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(100), reference: 'BANK-777');
 
         $this->get(route('fee-invoices.show', $invoice))
             ->assertSuccessful()
@@ -197,7 +197,7 @@ class StudentPaymentTest extends TestCase
 
         $this->assertTrue(FeeInvoice::isDue()->whereKey($invoice->id)->exists());
 
-        app(ReceivePayment::class)->receive($enrollment, 10_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(100));
 
         $this->assertFalse(FeeInvoice::isDue()->whereKey($invoice->id)->exists());
         $this->assertTrue(FeeInvoice::isPaid()->whereKey($invoice->id)->exists());
@@ -207,7 +207,7 @@ class StudentPaymentTest extends TestCase
     public function test_a_payment_cannot_be_changed_or_deleted(): void
     {
         $this->authorized_user([]);
-        $payment = app(ReceivePayment::class)->receive($this->enrollment(), 5_000);
+        $payment = app(ReceivePayment::class)->receive($this->enrollment(), money_minor(50));
 
         $this->expectException(RuntimeException::class);
 
@@ -219,7 +219,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 10_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(100));
 
         app(ReversePayment::class)->reverse($payment, 'The cheque bounced');
 
@@ -233,7 +233,7 @@ class StudentPaymentTest extends TestCase
     public function test_a_payment_cannot_be_taken_back_twice(): void
     {
         $this->authorized_user([]);
-        $payment = app(ReceivePayment::class)->receive($this->enrollment(), 5_000);
+        $payment = app(ReceivePayment::class)->receive($this->enrollment(), money_minor(50));
         app(ReversePayment::class)->reverse($payment, 'Wrong student');
 
         $this->expectException(InvalidValueException::class);
@@ -246,18 +246,18 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
         $sibling = $this->enrollment();
-        $first = app(ReceivePayment::class)->receive($enrollment, 5_000, reference: 'TRF-1');
+        $first = app(ReceivePayment::class)->receive($enrollment, money_minor(50), reference: 'TRF-1');
 
         try {
-            app(ReceivePayment::class)->receive($enrollment, 5_000, reference: ' trf-1 ');
+            app(ReceivePayment::class)->receive($enrollment, money_minor(50), reference: ' trf-1 ');
             $this->fail('The same transfer was recorded twice.');
         } catch (InvalidValueException $exception) {
             $this->assertStringContainsString('TRF-1', $exception->getMessage());
         }
 
-        app(ReceivePayment::class)->receive($sibling, 5_000, reference: 'TRF-1');
+        app(ReceivePayment::class)->receive($sibling, money_minor(50), reference: 'TRF-1');
         app(ReversePayment::class)->reverse($first, 'Keyed against the wrong fee');
-        app(ReceivePayment::class)->receive($enrollment, 5_000, reference: 'TRF-1');
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50), reference: 'TRF-1');
 
         $this->assertSame(4, StudentPayment::query()->count());
     }
@@ -266,10 +266,10 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
-        app(RefundStudent::class)->refund($enrollment, 5_000, 'Overpaid', reference: 'TRF-9');
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
+        app(RefundStudent::class)->refund($enrollment, money_minor(50), 'Overpaid', reference: 'TRF-9');
 
-        $payment = app(ReceivePayment::class)->receive($enrollment, 5_000, reference: 'TRF-9');
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(50), reference: 'TRF-9');
 
         $this->assertSame('TRF-9', $payment->reference);
     }
@@ -278,7 +278,7 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
-        $payment = app(ReceivePayment::class)->receive($enrollment, 5_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         app(ReversePayment::class)->reverse($payment, 'Paid by the wrong family');
 
@@ -290,23 +290,23 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         $this->expectException(InvalidValueException::class);
 
-        app(RefundStudent::class)->refund($enrollment, 8_000, 'The family asked for it back');
+        app(RefundStudent::class)->refund($enrollment, money_minor(80), 'The family asked for it back');
     }
 
     public function test_a_refund_lowers_the_credit_and_the_books(): void
     {
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
-        $refund = app(RefundStudent::class)->refund($enrollment, 2_000, 'The family asked for it back');
+        $refund = app(RefundStudent::class)->refund($enrollment, money_minor(20), 'The family asked for it back');
 
-        $this->assertSame(-2_000, $refund->amount->getMinorAmount()->toInt());
-        $this->assertSame(3_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(-money_minor(20), $refund->amount->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(30), app(ApplyStudentCredit::class)->creditHeld($enrollment));
         $this->assertSame(30.0, app(StudentLedger::class)->unappliedCredit($enrollment));
         $this->assertNotNull(AuditEvent::ofAction(AuditAction::StudentRefunded)->first());
     }
@@ -315,11 +315,11 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         $this->expectException(InvalidValueException::class);
 
-        app(RefundStudent::class)->refund($enrollment, 1_000, '  ');
+        app(RefundStudent::class)->refund($enrollment, money_minor(10), '  ');
     }
 
     public function test_pressing_take_payment_twice_records_one_payment(): void
@@ -336,7 +336,7 @@ class StudentPaymentTest extends TestCase
             ->assertRedirect(route('fee-invoices.show', $invoice->id));
 
         $this->assertSame(1, StudentPayment::where('student_record_id', $enrollment->id)->count());
-        $this->assertSame(4_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(40), $invoice->fresh()->paid->getMinorAmount()->toInt());
     }
 
     public function test_the_payment_form_names_every_field(): void
@@ -372,7 +372,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user(['read fee invoice', 'update fee invoice']);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        app(ReceivePayment::class)->receive($enrollment, 1_000, reference: 'BANK-1');
+        app(ReceivePayment::class)->receive($enrollment, money_minor(10), reference: 'BANK-1');
 
         Livewire::test(TakeInvoicePayment::class, ['feeInvoice' => $invoice])
             ->set('amount', '40')
@@ -405,7 +405,7 @@ class StudentPaymentTest extends TestCase
             ->assertHasNoErrors()
             ->assertRedirect(route('fee-invoices.show', $invoice->id));
 
-        $this->assertSame(6_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(60), $invoice->fresh()->paid->getMinorAmount()->toInt());
         $this->assertSame(1, StudentPayment::where('student_record_id', $enrollment->id)->count());
         $this->assertNotNull(AuditEvent::ofAction(AuditAction::PaymentReceived)->first());
     }
@@ -426,7 +426,7 @@ class StudentPaymentTest extends TestCase
 
         $payment = StudentPayment::where('student_record_id', $enrollment->id)->sole();
         $this->assertSame($this->workingSchool()->id, $payment->school_id);
-        $this->assertSame(6_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(60), $invoice->fresh()->paid->getMinorAmount()->toInt());
         $owed = app(StudentLedger::class)->balancesByCampus($enrollment->fresh())->sole();
         $this->assertSame($this->workingSchool()->id, $owed['school']->id);
         $this->assertSame(40.0, $owed['balance']);
@@ -466,7 +466,7 @@ class StudentPaymentTest extends TestCase
             ->assertRedirect(route('fee-invoices.show', $invoice->id));
 
         $this->assertSame(0, $lines[0]->fresh()->paid->getMinorAmount()->toInt());
-        $this->assertSame(4_000, $lines[1]->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(40), $lines[1]->fresh()->paid->getMinorAmount()->toInt());
     }
 
     public function test_large_sums_owed_get_a_full_row_on_a_phone(): void
@@ -503,14 +503,14 @@ class StudentPaymentTest extends TestCase
             ->call('save')
             ->assertHasNoErrors();
 
-        $this->assertSame(2_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(20), $invoice->fresh()->paid->getMinorAmount()->toInt());
     }
 
     public function test_money_given_back_by_cheque_needs_its_number(): void
     {
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
             ->set('isRefunding', true)
@@ -520,7 +520,7 @@ class StudentPaymentTest extends TestCase
             ->call('refund')
             ->assertHasErrors(['refundReference' => 'required']);
 
-        $this->assertSame(5_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(50), app(ApplyStudentCredit::class)->creditHeld($enrollment));
     }
 
     public function test_the_screen_refuses_a_way_to_pay_the_school_does_not_take(): void
@@ -589,7 +589,7 @@ class StudentPaymentTest extends TestCase
         $actor = $this->authorized_user(['read fee invoice', 'update fee invoice']);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        app(ReceivePayment::class)->receive($enrollment, 12_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(120));
 
         $actor->get(route('student-accounts.show', $enrollment->id))
             ->assertOk()
@@ -606,7 +606,7 @@ class StudentPaymentTest extends TestCase
     {
         $actor = $this->authorized_user(['read fee invoice', 'update fee invoice']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
             ->set('isRefunding', true)
@@ -615,14 +615,14 @@ class StudentPaymentTest extends TestCase
             ->call('refund')
             ->assertForbidden();
 
-        $this->assertSame(5_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(50), app(ApplyStudentCredit::class)->creditHeld($enrollment));
     }
 
     public function test_the_account_screen_gives_held_money_back(): void
     {
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
             ->call('$set', 'isRefunding', true)
@@ -642,7 +642,7 @@ class StudentPaymentTest extends TestCase
             ->assertHasNoErrors()
             ->assertSet('isRefunding', false);
 
-        $this->assertSame(3_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(30), app(ApplyStudentCredit::class)->creditHeld($enrollment));
     }
 
     public function test_the_account_screen_takes_a_payment_back_with_a_reason(): void
@@ -650,7 +650,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 4_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(40));
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
             ->call('startReversing', $payment->id)
@@ -672,7 +672,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user(['read fee invoice']);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        $payment = app(ReceivePayment::class)->receive($enrollment, 12_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(120));
 
         Livewire::test(ShowFeeInvoice::class, ['feeInvoice' => $invoice])
             ->assertSee('of '.$payment->amount->formatToLocale(app()->getLocale()).' received')
@@ -704,7 +704,7 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 10_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(100));
 
         $screen = Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment]);
         $firstKey = $screen->get('recordKey');
@@ -723,14 +723,14 @@ class StudentPaymentTest extends TestCase
             ->call('refund');
 
         $this->assertSame(1, StudentPayment::where('student_record_id', $enrollment->id)->where('amount', '<', 0)->count());
-        $this->assertSame(8_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(80), app(ApplyStudentCredit::class)->creditHeld($enrollment));
     }
 
     public function test_a_second_refund_on_the_same_screen_is_its_own_refund(): void
     {
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 10_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(100));
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
             ->set('refundAmount', '20')
@@ -741,14 +741,14 @@ class StudentPaymentTest extends TestCase
             ->call('refund')
             ->assertHasNoErrors();
 
-        $this->assertSame(5_000, app(ApplyStudentCredit::class)->creditHeld($enrollment));
+        $this->assertSame(money_minor(50), app(ApplyStudentCredit::class)->creditHeld($enrollment));
     }
 
     public function test_a_campus_cannot_take_back_a_payment_another_campus_took(): void
     {
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
-        $payment = app(ReceivePayment::class)->receive($enrollment, 4_000);
+        $payment = app(ReceivePayment::class)->receive($enrollment, money_minor(40));
         StudentPayment::query()->whereKey($payment->id)->toBase()->update(['school_id' => School::factory()->create()->id]);
 
         $screen = Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
@@ -767,7 +767,7 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 20_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(200));
         $enrollment->forceFill(['school_id' => School::factory()->create()->id])->save();
 
         $this->get(route('student-accounts.show', $enrollment->id))->assertOk();
@@ -782,7 +782,7 @@ class StudentPaymentTest extends TestCase
 
         $refund = StudentPayment::query()->where('amount', '<', 0)->sole();
         $this->assertSame($this->workingSchool()->id, $refund->school_id);
-        $this->assertSame(15_000, app(ApplyStudentCredit::class)->creditHeld($enrollment, $this->workingSchool()->id));
+        $this->assertSame(money_minor(150), app(ApplyStudentCredit::class)->creditHeld($enrollment, $this->workingSchool()->id));
     }
 
     public function test_a_school_that_never_billed_the_learner_sees_no_account(): void
@@ -799,7 +799,7 @@ class StudentPaymentTest extends TestCase
     {
         $this->authorized_user(['read fee invoice', 'update fee invoice']);
         $enrollment = $this->enrollment();
-        app(ReceivePayment::class)->receive($enrollment, 3_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(30));
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
@@ -807,7 +807,7 @@ class StudentPaymentTest extends TestCase
             ->call('applyCredit')
             ->assertHasNoErrors();
 
-        $this->assertSame(3_000, $invoice->fresh()->paid->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(30), $invoice->fresh()->paid->getMinorAmount()->toInt());
         $this->assertSame(0, app(ApplyStudentCredit::class)->creditHeld($enrollment));
     }
 
@@ -838,7 +838,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user([]);
         $enrollment = $this->enrollment();
         $this->invoiceFor($enrollment, [['amount' => 100]]);
-        app(ReceivePayment::class)->receive($enrollment, 5_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(50));
 
         $this->expectException(RuntimeException::class);
 
@@ -850,7 +850,7 @@ class StudentPaymentTest extends TestCase
         $this->authorized_user(['read fee invoice', 'refund student payment']);
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
-        app(ReceivePayment::class)->receive($enrollment, 3_000);
+        app(ReceivePayment::class)->receive($enrollment, money_minor(30));
         $line = $invoice->feeInvoiceRecords()->sole();
 
         Livewire::test(ShowStudentAccount::class, ['enrollment' => $enrollment])
@@ -871,12 +871,12 @@ class StudentPaymentTest extends TestCase
             ->assertHasNoErrors()
             ->assertSet('relievingInvoiceId', null);
 
-        $this->assertSame(5_000, $line->fresh()->waiver->getMinorAmount()->toInt());
-        $this->assertSame(2_000, $invoice->fresh()->balance->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(50), $line->fresh()->waiver->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(20), $invoice->fresh()->balance->getMinorAmount()->toInt());
         $this->assertSame(20.0, app(StudentLedger::class)->balance($enrollment->fresh()));
         $this->assertSame(50.0, app(ChartOfAccounts::class)->account('scholarships')->balance());
         $event = AuditEvent::ofAction(AuditAction::FeesRelieved)->forSubject($invoice)->sole();
-        $this->assertSame(5_000, $event->context['amount']);
+        $this->assertSame(money_minor(50), $event->context['amount']);
     }
 
     public function test_a_write_off_goes_to_bad_debt_and_settles_the_invoice(): void
@@ -885,7 +885,7 @@ class StudentPaymentTest extends TestCase
         $enrollment = $this->enrollment();
         $invoice = $this->invoiceFor($enrollment, [['amount' => 100]]);
 
-        app(RelieveStudentFees::class)->relieveLine($invoice->feeInvoiceRecords()->sole(), 10_000, writeOff: true, reason: 'The family cannot be reached');
+        app(RelieveStudentFees::class)->relieveLine($invoice->feeInvoiceRecords()->sole(), money_minor(100), writeOff: true, reason: 'The family cannot be reached');
 
         $chart = app(ChartOfAccounts::class);
         $this->assertTrue($invoice->fresh()->isSettled());
@@ -918,7 +918,7 @@ class StudentPaymentTest extends TestCase
         $screen->call('relieve');
 
         $this->assertNotSame($key, $screen->get('recordKey'));
-        $this->assertSame(1_000, $invoice->feeInvoiceRecords()->sole()->waiver->getMinorAmount()->toInt());
+        $this->assertSame(money_minor(10), $invoice->feeInvoiceRecords()->sole()->waiver->getMinorAmount()->toInt());
     }
 
     public function test_only_a_named_person_can_waive_a_fee(): void
@@ -958,7 +958,7 @@ class StudentPaymentTest extends TestCase
         app(RelieveStudentFees::class)->waive($enrollment, 80, 'Waived off the invoice by hand');
 
         $this->expectExceptionMessage('That is more than is still owed on this fee.');
-        app(RelieveStudentFees::class)->relieveLine($invoice->feeInvoiceRecords()->sole(), 3_000, writeOff: false, reason: 'Second waiver');
+        app(RelieveStudentFees::class)->relieveLine($invoice->feeInvoiceRecords()->sole(), money_minor(30), writeOff: false, reason: 'Second waiver');
     }
 
     /**

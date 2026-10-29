@@ -78,6 +78,7 @@ class Syllabus extends Model
      */
     public function teachingWeekOn(?CarbonInterface $date = null): ?int
     {
+        $this->loadMissing('courseOffering.academicPeriod');
         $period = $this->courseOffering?->academicPeriod;
         $date = ($date ?? now())->copy()->startOfDay();
 

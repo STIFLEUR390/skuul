@@ -118,7 +118,7 @@ class FeeInvoiceService
         // major units.
         $records = $feeInvoice->feeInvoiceRecords();
         $minor = (int) $records->sum('amount') + (int) $records->clone()->sum('fine') - (int) $records->clone()->sum('waiver');
-        $amount = round($minor / 100, 2);
+        $amount = money_major($minor);
 
         if ($amount <= 0) {
             return;
